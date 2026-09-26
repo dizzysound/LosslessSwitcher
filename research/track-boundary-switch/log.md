@@ -54,3 +54,31 @@ research/typecheck/check.sh (compile all app sources without Xcode),
 research/typecheck/make_dev_app.sh (ad-hoc "LosslessSwitcher Dev.app", bundle id
 com.dizzysound.LosslessSwitcher.dev), then live_test.sh / natural_test.sh. Quit the installed
 LosslessSwitcher first so the two don't fight over the device.
+
+## Round 2 (2026-09-26 16:20): "pauses a little late, resumes before the rate settles, esp. 192k"
+Changes: precompiled AppleScripts, rate from Music's `sample rate` (file header only when bit depth
+matters), post-settle hold 0.5 s (<=96k) / 1.0 s (>96k).
+Pause latency now 62-144 ms (was 87-227). One run showed "not resuming: Music reports playing"; that
+was live_test.sh playing the next track during Ventura's 7 s start-up, not Music self-resuming.
+Spacing raised to 16 s.
+
+### lockprobe (MT 48): what the device reports after a rate change
+Silent IOProc running, every value polled at 5 ms (lockprobe.swift):
+| Switch | nominal+physical updated | DeviceIsRunning again | ActualSampleRate stable |
+|---|---|---|---|
+| 48k -> 96k | 58 ms | 1101 ms | ~1.8 s (96001.2) |
+| 96k -> 192k | 63 ms | 1673 ms | ~2.2-3.2 s (192002.2) |
+ClockIsStable ('cstb') = 1 throughout; latency, clock source unchanged; safety offset changes with rate.
+=> The nominal/physical check passes ~60 ms after the switch and is not a readiness signal.
+The device is really back when it is running again, and its measured rate (ActualSampleRate,
+AudioTimeStamp rate scalar) has stopped moving. Reading those needs the device running, so the
+switcher must run a silent IOProc while Music is paused.
+
+Probe gotchas: stdout to a pipe lost output (use setvbuf line buffering); runs started while Music
+was paused exited 133 (trap) before printing, cause not found yet; runs while Music played worked.
+
+### Next
+1. Readiness = own silent IOProc, then wait for DeviceIsRunning and ActualSampleRate within a
+   tolerance and stable over ~250 ms, then stop the IOProc and resume.
+2. Short / Normal / Long extra gap setting on top (the owner's suggestion), for DACs whose lock
+   lags what the HAL reports.
