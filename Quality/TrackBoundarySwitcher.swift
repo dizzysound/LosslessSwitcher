@@ -13,6 +13,7 @@
 //
 
 import AudioToolbox
+import Combine
 import CoreAudio
 import Foundation
 import SimplyCoreAudio
@@ -60,6 +61,7 @@ class TrackBoundarySwitcher {
     // Own queue: the regular detection path's AppleScript calls can block for seconds while Music is busy.
     private let queue = DispatchQueue(label: "trackBoundaryQueue", qos: .userInitiated)
     private var observer: NSObjectProtocol?
+    private var toggleCancellable: AnyCancellable?
     private var lastPersistentID: Int64? // main thread only
     // Compiled once and only used on `queue`: compiling on every track change delayed the pause.
     private let scripts = MusicPlayer.CompiledScripts()
@@ -69,11 +71,18 @@ class TrackBoundarySwitcher {
         observer = DistributedNotificationCenter.default().addObserver(forName: NSNotification.Name("com.apple.Music.playerInfo"), object: nil, queue: .main) { [weak self] note in
             self?.playerInfoDidChange(note.userInfo ?? [:])
         }
-        // A track already playing at launch sends no notification; switch it without pausing.
-        queue.async { [weak self] in
-            guard Defaults.shared.userPreferPauseWhileSwitching else { return }
-            self?.switchCurrentTrack(pauseMusic: false, persistentID: nil, received: Date())
-        }
+        // currentTrackKind is only maintained while the toggle is on, and a track already playing
+        // sends no notification. So whenever the toggle turns on (including at launch), look up the
+        // current track and switch it without pausing.
+        toggleCancellable = Defaults.shared.$userPreferPauseWhileSwitching
+            .removeDuplicates()
+            .filter { $0 }
+            .sink { [weak self] _ in
+                Self.setCurrentTrackKind(.unknown)
+                self?.queue.async {
+                    self?.switchCurrentTrack(pauseMusic: false, persistentID: nil, received: Date())
+                }
+            }
     }
 
     deinit {
@@ -134,7 +143,7 @@ class TrackBoundarySwitcher {
         }
 
         guard pauseMusic, let persistentID else {
-            outputDevices.apply(format, device: device, force: true)
+            outputDevices.applySerialized(format, device: device, force: true)
             return
         }
 
@@ -143,19 +152,28 @@ class TrackBoundarySwitcher {
         defer { setWait(.idle) }
         guard scripts.pause() else {
             print("[TrackBoundary] could not pause Music; switching during playback")
-            outputDevices.apply(format, device: device, force: true)
+            outputDevices.applySerialized(format, device: device, force: true)
             return
         }
         print("[TrackBoundary] paused \(persistentID) \(Self.ms(since: received)) after track start, switching to \(format.mSampleRate) Hz / \(format.mBitsPerChannel) bit")
 
         // With Music paused nothing runs the device, and only a running device reports its clock.
         let keepAlive = SilentOutput(device: device.id)
-        outputDevices.apply(format, device: device, force: true)
+        outputDevices.applySerialized(format, device: device, force: true)
 
         let switched = Date()
-        let ready = DeviceFormat.waitUntilReady(device.id, format: format, checkBitDepth: checkBitDepth,
+        let ready: Bool
+        if let keepAlive {
+            ready = DeviceFormat.waitUntilReady(device.id, format: format, checkBitDepth: checkBitDepth,
                                                 cancelled: { [unowned self] in isCancelled },
-                                                stalled: { keepAlive?.restart() })
+                                                stalled: { keepAlive.restart() })
+        } else {
+            // e.g. another app has the device in hog mode: nothing runs it while Music is paused, so it
+            // can never report running. Fall back to the format change plus the gap.
+            print("[TrackBoundary] no silent output; waiting for the format change only")
+            ready = DeviceFormat.waitUntilFormatMatches(device.id, format: format, checkBitDepth: checkBitDepth,
+                                                        cancelled: { [unowned self] in isCancelled })
+        }
         if isCancelled {
             print("[TrackBoundary] user took over while waiting; not resuming")
             keepAlive?.stop()
@@ -255,6 +273,19 @@ enum DeviceFormat {
     static let stallAfter: TimeInterval = 2.5
     static let stallStopped: TimeInterval = 0.25
     static let stallRestartInterval: TimeInterval = 1.5
+
+    static func waitUntilFormatMatches(_ device: AudioObjectID, format: AudioStreamBasicDescription, checkBitDepth: Bool,
+                                       timeout: TimeInterval = TrackBoundarySwitcher.readyTimeout,
+                                       cancelled: () -> Bool = { false }) -> Bool {
+        let deadline = Date().addingTimeInterval(timeout)
+        while Date() < deadline, !cancelled() {
+            if matches(device, format: format, checkBitDepth: checkBitDepth) {
+                return true
+            }
+            Thread.sleep(forTimeInterval: 0.01)
+        }
+        return false
+    }
 
     /// Needs the device running (see SilentOutput) to ever return true.
     static func waitUntilReady(_ device: AudioObjectID, format: AudioStreamBasicDescription, checkBitDepth: Bool,

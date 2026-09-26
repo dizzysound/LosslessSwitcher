@@ -162,3 +162,15 @@ timeouts (before: 3/5 live_test runs timed out on 44.1k -> 96k). The stall recur
 Skyfall): "device keeps stopping (6 starts); restarting silent output" -> "ready after 7 starts,
 1 keep-alive restarts", ready 4358 ms after the switch. One rescue observed; not yet proof that the
 restart (rather than the device) ended the stall.
+
+## Round 8 (2026-09-26 18:05): review fixes (PR #227)
+1. The switcher's device changes now go through OutputDevices.applySerialized (processQueue.sync),
+   and switchLatestSampleRate re-checks currentTrackKind right before applying, so a stale stream
+   rate can't land in the middle of the switcher's wait.
+2. If SilentOutput can't start (e.g. another app hogs the device), wait for the format change only,
+   then the gap, instead of a certain 8 s timeout. Not exercised.
+3. currentTrackKind is refreshed whenever the toggle turns on (Combine sink, also fires at launch).
+   Tested: Skyfall 96k playing, MT 48 forced to 48k, launch -> 96k within 6 s, Music kept playing.
+Regression live_test.sh: 4/4 resumed. New stall variant: Skyfall "ready after 51 starts, 0 keep-alive
+restarts", 6372 ms. The device flapped fast enough never to be stopped for 0.25 s, so the restart
+never fired; it settled by itself. Open: also restart on a high start count?
