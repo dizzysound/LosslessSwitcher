@@ -5,6 +5,7 @@
 //  Created by Vincent Neo on 18/6/25.
 //
 
+import Combine
 import Observation
 import SwiftUI
 
@@ -25,6 +26,9 @@ class MenuBarController {
 
     @ObservationIgnored
     var bitPerfectCheck: BitPerfectCheck!
+
+    @ObservationIgnored
+    private var selectedDeviceCancellable: AnyCancellable?
     
     private init() {
         let outputDevices = OutputDevices()
@@ -34,5 +38,8 @@ class MenuBarController {
         self.bitPerfectCheck = BitPerfectCheck(outputDevice: { [weak outputDevices] in
             (outputDevices?.selectedOutputDevice ?? outputDevices?.defaultOutputDevice)?.id
         })
+        self.selectedDeviceCancellable = outputDevices.$selectedOutputDevice.dropFirst().sink { [weak self] _ in
+            self?.bitPerfectCheck.refreshAfterDeviceChange()
+        }
     }
 }
