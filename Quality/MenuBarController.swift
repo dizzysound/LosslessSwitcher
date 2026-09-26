@@ -22,11 +22,17 @@ class MenuBarController {
     // Owned here, next to the only OutputDevices, so there is exactly one switcher.
     @ObservationIgnored
     private var trackBoundarySwitcher: TrackBoundarySwitcher!
+
+    @ObservationIgnored
+    var bitPerfectCheck: BitPerfectCheck!
     
     private init() {
         let outputDevices = OutputDevices()
         self.outputDevices = outputDevices
         self.mrController = MediaRemoteController(outputDevices: outputDevices)
         self.trackBoundarySwitcher = TrackBoundarySwitcher(outputDevices: outputDevices)
+        self.bitPerfectCheck = BitPerfectCheck(outputDevice: { [weak outputDevices] in
+            (outputDevices?.selectedOutputDevice ?? outputDevices?.defaultOutputDevice)?.id
+        })
     }
 }
