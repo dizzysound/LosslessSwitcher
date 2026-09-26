@@ -187,3 +187,13 @@ aggregate containing the MT 48 (aggregates.swift). Much better than it used to b
 Note: switching rates is inherently at odds with "keep every rate matched" (Loopback Audio stays 48k).
 The keep-alive restart stays as a mitigation, not a fix. Not checked: whether the flapping lines up
 with those processes' launches.
+
+## Round 9 (2026-09-26 17:40): Apple Music streams not switching in pause mode
+The owner: installed build "broke Apple Music switching". Library Apple Music tracks still switched
+(Arcade Fire 96k). Non-library streams (stations, Browse; AppleScript class "URL track") did not:
+com.apple.Music.playerInfo for them has Name/Artist/Album/Total Time but NO PersistentID
+(notif_url.log). playerInfoDidChange required a PersistentID, so currentTrackKind kept the previous
+local track's .local and getAllStats returned [] for the stream.
+Fix: "Playing" without PersistentID -> currentTrackKind = .notLocal, lastPersistentID = nil (local
+files are always library tracks). Verified: Skyfall (local, 96k) then the owner's station -> log
+"stream without PersistentID", ALAC log line 44.1k detected, MT 48 96k -> 44.1k.
