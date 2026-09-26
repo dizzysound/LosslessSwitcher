@@ -46,6 +46,17 @@ struct MenuView: View {
                 }
             }
             
+            Button {
+                defaults.userPreferLocalFileDetection.toggle()
+            } label: {
+                HStack {
+                    Text("Detect Local Files")
+                    if defaults.userPreferLocalFileDetection {
+                        Image(systemName: "checkmark")
+                    }
+                }
+            }
+            
             Menu {
                 Button {
                     outputDevices.selectedOutputDevice = nil

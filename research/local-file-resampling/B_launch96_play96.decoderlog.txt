@@ -1,0 +1,2 @@
+2026-09-26 15:46:12.473 Df Music[25019:5111fcd] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0x8eaa35bc0) Input format:  2 ch,  96000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-26 15:46:12.474 Df Music[25019:5111fcd] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0x8eaa35bc0) Input format:  2 ch,  96000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet

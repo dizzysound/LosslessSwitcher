@@ -104,31 +104,13 @@ class OutputDevices: ObservableObject {
         self.updateSampleRate(sampleRate, bitDepth: nil)
     }
     
-    func getSampleRateFromAppleScript() -> Double? {
-        let scriptContents = "tell application \"Music\" to get sample rate of current track"
-        var error: NSDictionary?
-        
-        if let script = NSAppleScript(source: scriptContents) {
-            let output = script.executeAndReturnError(&error).stringValue
-            
-            if let error = error {
-                print("[APPLESCRIPT] - \(error)")
-            }
-            guard let output = output else { return nil }
-
-            if output == "missing value" {
-                return nil
-            }
-            else {
-                return Double(output)
-            }
-        }
-        
-        return nil
-    }
-    
     func getAllStats() -> [CMPlayerStats] {
         var allStats = [CMPlayerStats]()
+        
+        // A local file's own header is authoritative; recent log lines may still describe the previous track.
+        if Defaults.shared.userPreferLocalFileDetection, let localStats = LocalTrack.currentStats() {
+            return [localStats]
+        }
         
         do {
 //            let musicLogs = try Console.getRecentEntries(type: .music)

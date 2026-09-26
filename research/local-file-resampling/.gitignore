@@ -1,0 +1,7 @@
+*.wav
+*.m4a
+audioctl
+harness/localtrack
+harness/fmt/
+test_track*_pid.txt
+media_copies.txt
