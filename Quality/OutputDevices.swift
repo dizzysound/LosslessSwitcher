@@ -108,8 +108,18 @@ class OutputDevices: ObservableObject {
         var allStats = [CMPlayerStats]()
         
         // A local file's own header is authoritative; recent log lines may still describe the previous track.
-        if Defaults.shared.userPreferLocalFileDetection, let localStats = LocalTrack.currentStats() {
-            return [localStats]
+        let pauseWhileSwitching = Defaults.shared.userPreferPauseWhileSwitching
+        if Defaults.shared.userPreferLocalFileDetection || pauseWhileSwitching {
+            switch LocalTrack.lookupCurrent() {
+            case .local(let localStats):
+                // With Pause While Switching, TrackBoundarySwitcher owns local tracks; switching here would change the rate mid-track.
+                return pauseWhileSwitching ? [] : [localStats]
+            case .unknown where pauseWhileSwitching:
+                // might be a local track; the logs would switch it mid-track
+                return []
+            default:
+                break
+            }
         }
         
         do {
@@ -139,9 +149,8 @@ class OutputDevices: ObservableObject {
         let allStats = self.getAllStats()
         let defaultDevice = self.selectedOutputDevice ?? self.defaultOutputDevice
         
-        if let first = allStats.first, let supported = defaultDevice?.nominalSampleRates {
+        if let first = allStats.first, defaultDevice?.nominalSampleRates != nil {
             let sampleRate = Float64(first.sampleRate)
-            let bitDepth = Int32(first.bitDepth)
             
             if self.currentTrack == self.previousTrack, let prevSampleRate = currentSampleRate, prevSampleRate > sampleRate {
                 print("same track, prev sample rate is higher")
@@ -154,56 +163,8 @@ class OutputDevices: ObservableObject {
                 }
             }
             
-            let formats = self.getFormats(bestStat: first, device: defaultDevice!)!
-            
-            // https://stackoverflow.com/a/65060134
-            var nearest = supported.min(by: {
-                abs($0 - sampleRate) < abs($1 - sampleRate)
-            })
-            
-            let nearestBitDepth = formats.min(by: {
-                abs(Int32($0.mBitsPerChannel) - bitDepth) < abs(Int32($1.mBitsPerChannel) - bitDepth)
-            })
-            
-
-            if Defaults.shared.userPreferSampleRateMultiples,
-                let nearestSampleRate = nearest,
-                nearestSampleRate != sampleRate {
-                    
-                    // Cast to Int for mathematically safe modulo operations
-                    let sourceInt = Int(sampleRate)
-                    let is44kFamily = sourceInt % 44100 == 0
-                    let baseRate = is44kFamily ? 44100 : 48000
-                    
-                    // Filter supported rates to match the family AND be strictly less than the source
-                    let familyRates = supported.filter {
-                        Int($0) % baseRate == 0 && $0 < sampleRate
-                    }
-                    
-                    // Fall back to the highest available matching rate
-                    if let bestMatch = familyRates.max() {
-                        nearest = bestMatch
-                    }
-                }
-            
-            let nearestFormat = formats.filter({
-                $0.mSampleRate == nearest && $0.mBitsPerChannel == nearestBitDepth?.mBitsPerChannel
-            })
-            
-            print("NEAREST FORMAT \(nearestFormat)")
-            
-            if let suitableFormat = nearestFormat.first {
-                if enableBitDepthDetection {
-                    self.setFormats(device: defaultDevice, format: suitableFormat)
-                }
-                else if suitableFormat.mSampleRate != previousSampleRate { // bit depth disabled
-                    defaultDevice?.setNominalSampleRate(suitableFormat.mSampleRate)
-                }
-                self.updateSampleRate(suitableFormat.mSampleRate, bitDepth: Int(suitableFormat.mBitsPerChannel))
-                if let currentTrack = currentTrack {
-                    self.trackAndSample[currentTrack] = suitableFormat.mSampleRate
-                    self.trackAndBitDepth[currentTrack] = Int(suitableFormat.mBitsPerChannel)
-                }
+            if let suitableFormat = self.suitableFormat(for: first, device: defaultDevice!) {
+                self.apply(suitableFormat, device: defaultDevice)
             }
 
 //            if let nearest = nearest {
@@ -237,6 +198,65 @@ class OutputDevices: ObservableObject {
 //            }
         }
 
+    }
+    
+    /// The device format closest to what the track needs, honoring the sample-rate-multiples preference.
+    func suitableFormat(for stat: CMPlayerStats, device: AudioDevice) -> AudioStreamBasicDescription? {
+        guard let supported = device.nominalSampleRates,
+              let formats = self.getFormats(bestStat: stat, device: device) else { return nil }
+        let sampleRate = Float64(stat.sampleRate)
+        let bitDepth = Int32(stat.bitDepth)
+        
+        // https://stackoverflow.com/a/65060134
+        var nearest = supported.min(by: {
+            abs($0 - sampleRate) < abs($1 - sampleRate)
+        })
+        
+        let nearestBitDepth = formats.min(by: {
+            abs(Int32($0.mBitsPerChannel) - bitDepth) < abs(Int32($1.mBitsPerChannel) - bitDepth)
+        })
+        
+        if Defaults.shared.userPreferSampleRateMultiples,
+            let nearestSampleRate = nearest,
+            nearestSampleRate != sampleRate {
+                
+                // Cast to Int for mathematically safe modulo operations
+                let sourceInt = Int(sampleRate)
+                let is44kFamily = sourceInt % 44100 == 0
+                let baseRate = is44kFamily ? 44100 : 48000
+                
+                // Filter supported rates to match the family AND be strictly less than the source
+                let familyRates = supported.filter {
+                    Int($0) % baseRate == 0 && $0 < sampleRate
+                }
+                
+                // Fall back to the highest available matching rate
+                if let bestMatch = familyRates.max() {
+                    nearest = bestMatch
+                }
+            }
+        
+        let nearestFormat = formats.filter({
+            $0.mSampleRate == nearest && $0.mBitsPerChannel == nearestBitDepth?.mBitsPerChannel
+        })
+        
+        print("NEAREST FORMAT \(nearestFormat)")
+        return nearestFormat.first
+    }
+    
+    /// `force` sets the rate even when `previousSampleRate` already matches, for callers that checked the device itself.
+    func apply(_ suitableFormat: AudioStreamBasicDescription, device: AudioDevice?, force: Bool = false) {
+        if enableBitDepthDetection {
+            self.setFormats(device: device, format: suitableFormat)
+        }
+        else if force || suitableFormat.mSampleRate != previousSampleRate { // bit depth disabled
+            device?.setNominalSampleRate(suitableFormat.mSampleRate)
+        }
+        self.updateSampleRate(suitableFormat.mSampleRate, bitDepth: Int(suitableFormat.mBitsPerChannel))
+        if let currentTrack = currentTrack {
+            self.trackAndSample[currentTrack] = suitableFormat.mSampleRate
+            self.trackAndBitDepth[currentTrack] = Int(suitableFormat.mBitsPerChannel)
+        }
     }
     
     func getFormats(bestStat: CMPlayerStats, device: AudioDevice) -> [AudioStreamBasicDescription]? {

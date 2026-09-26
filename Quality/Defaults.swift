@@ -15,13 +15,15 @@ class Defaults: ObservableObject {
     private let kShellScriptPath = "KeyShellScriptPath"
     private let kUserPreferSampleRateMultiples = "PreferSampleRateMultiples"
     private let kUserPreferLocalFileDetection = "PreferLocalFileDetection"
+    private let kUserPreferPauseWhileSwitching = "PreferPauseWhileSwitching"
     
     private init() {
         UserDefaults.standard.register(defaults: [
             kUserPreferIconStatusBarItem : true,
             kUserPreferBitDepthDetection : false,
             kUserPreferSampleRateMultiples : false,
-            kUserPreferLocalFileDetection : false
+            kUserPreferLocalFileDetection : false,
+            kUserPreferPauseWhileSwitching : false
         ])
         
         self.shellScriptPath = UserDefaults.standard.string(forKey: kShellScriptPath)
@@ -29,6 +31,13 @@ class Defaults: ObservableObject {
         self.userPreferBitDepthDetection = UserDefaults.standard.bool(forKey: kUserPreferBitDepthDetection)
         self.userPreferSampleRateMultiples = UserDefaults.standard.bool(forKey: kUserPreferSampleRateMultiples)
         self.userPreferLocalFileDetection = UserDefaults.standard.bool(forKey: kUserPreferLocalFileDetection)
+        self.userPreferPauseWhileSwitching = UserDefaults.standard.bool(forKey: kUserPreferPauseWhileSwitching)
+    }
+    
+    @Published var userPreferPauseWhileSwitching: Bool {
+        willSet {
+            UserDefaults.standard.set(newValue, forKey: kUserPreferPauseWhileSwitching)
+        }
     }
     
     @Published var userPreferLocalFileDetection: Bool {
