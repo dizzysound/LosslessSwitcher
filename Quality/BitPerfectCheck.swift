@@ -2,14 +2,17 @@
 //  BitPerfectCheck.swift
 //  LosslessSwitcher
 //
-//  Settings that silently change the samples Music sends to the device, shown in the menu.
-//  Music's preferences are read from its defaults domain (no Apple event); volume needs one
-//  Apple event, sent at most once per track change or on Refresh.
+//  Settings that change what reaches the output device from Music (its own processing, plus
+//  alert sounds mixed into the same device), shown in the menu.
+//  Music's preferences are read from its defaults domain (no Apple event). The volume needs one
+//  Apple event per refresh: at launch, on Refresh, when the output or alert device changes, and on
+//  Music player notifications (play, pause, track changes), at most once every 3 s.
 //
 
 import AppKit
 import CoreAudio
 import Foundation
+import SimplyCoreAudio
 
 final class BitPerfectCheck: ObservableObject {
 
@@ -28,14 +31,22 @@ final class BitPerfectCheck: ObservableObject {
     private let outputDevice: () -> AudioObjectID?
     private let queue = DispatchQueue(label: "bitPerfectCheckQueue", qos: .utility)
     private var observer: NSObjectProtocol?
+    private var deviceObservers = [NSObjectProtocol]()
     private var lastRefresh = Date.distantPast // main thread only
 
     init(outputDevice: @escaping () -> AudioObjectID?) {
         self.outputDevice = outputDevice
         observer = DistributedNotificationCenter.default().addObserver(forName: NSNotification.Name("com.apple.Music.playerInfo"), object: nil, queue: .main) { [weak self] _ in
-            // Music posts several of these per track change; one refresh is enough.
+            // Music posts several of these per play, pause or track change; one refresh is enough.
             guard let self, Date().timeIntervalSince(lastRefresh) > 3 else { return }
             refresh()
+        }
+        // The alert-sounds item compares two devices; keep it current when either changes.
+        // (SimplyCoreAudio posts these; a change of the menu's Selected Device calls refreshAfterDeviceChange.)
+        for name in [Notification.Name.defaultOutputDeviceChanged, .defaultSystemOutputDeviceChanged] {
+            deviceObservers.append(NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
+                self?.refreshAfterDeviceChange()
+            })
         }
         refresh()
     }
@@ -43,6 +54,14 @@ final class BitPerfectCheck: ObservableObject {
     deinit {
         if let observer {
             DistributedNotificationCenter.default().removeObserver(observer)
+        }
+        deviceObservers.forEach { NotificationCenter.default.removeObserver($0) }
+    }
+
+    /// Defers to the next main-queue turn, so observers that update the device (OutputDevices) run first.
+    func refreshAfterDeviceChange() {
+        DispatchQueue.main.async { [weak self] in
+            self?.refresh()
         }
     }
 
@@ -64,17 +83,20 @@ final class BitPerfectCheck: ObservableObject {
         CFPreferencesCopyAppValue(key as CFString, musicDomain)
     }
 
-    // Keys observed on macOS 26.6.2 by toggling each setting in Music (research/bitperfect-check/log.md).
+    // Preference keys and values observed on macOS 26.6.2 by toggling each setting in Music.
     private static func check(outputDevice: AudioObjectID?) -> [Item] {
         var items = [Item]()
 
-        if isMusicRunning,
-           let output = runScript("tell application \"Music\" to return sound volume as string"),
-           let volume = Int(output) {
+        if !isMusicRunning {
+            items.append(Item(id: "volume", ok: nil, text: "Music volume: Music isn't running"))
+        } else if let output = runScript("tell application \"Music\" to return sound volume as string"),
+                  let volume = Int(output) {
             items.append(Item(id: "volume", ok: volume == 100,
                               text: volume == 100 ? "Music volume 100%" : "Music volume \(volume)% (scales the samples)"))
         } else {
-            items.append(Item(id: "volume", ok: nil, text: "Music volume: Music isn't running"))
+            // e.g. Automation permission denied (-1743) or Music not responding
+            items.append(Item(id: "volume", ok: nil,
+                              text: "Music volume couldn't be read (allow control of Music in Privacy & Security › Automation)"))
         }
 
         // Read fresh values; Music may have changed them since the last read.

@@ -403,7 +403,7 @@
 				INFOPLIST_FILE = Quality/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This permission is required for local file sample rate detection.";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "LosslessSwitcher asks Music about the current track and its playback settings.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "2022-2025 Vincent Neo";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -439,7 +439,7 @@
 				INFOPLIST_FILE = Quality/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This permission is required for local file sample rate detection.";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "LosslessSwitcher asks Music about the current track and its playback settings.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "2022-2025 Vincent Neo";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
