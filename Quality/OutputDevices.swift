@@ -108,18 +108,15 @@ class OutputDevices: ObservableObject {
         var allStats = [CMPlayerStats]()
         
         // A local file's own header is authoritative; recent log lines may still describe the previous track.
-        let pauseWhileSwitching = Defaults.shared.userPreferPauseWhileSwitching
-        if Defaults.shared.userPreferLocalFileDetection || pauseWhileSwitching {
-            switch LocalTrack.lookupCurrent() {
-            case .local(let localStats):
-                // With Pause While Switching, TrackBoundarySwitcher owns local tracks; switching here would change the rate mid-track.
-                return pauseWhileSwitching ? [] : [localStats]
-            case .unknown where pauseWhileSwitching:
-                // might be a local track; the logs would switch it mid-track
+        if Defaults.shared.userPreferPauseWhileSwitching {
+            // TrackBoundarySwitcher owns local tracks (switching here would change the rate mid-track)
+            // and has already asked Music; asking again from this timer competes with Music's controls.
+            if TrackBoundarySwitcher.currentTrackKind != .notLocal {
                 return []
-            default:
-                break
             }
+        }
+        else if Defaults.shared.userPreferLocalFileDetection, let localStats = LocalTrack.currentStats() {
+            return [localStats]
         }
         
         do {

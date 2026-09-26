@@ -21,6 +21,41 @@ class TrackBoundarySwitcher {
 
     static let readyTimeout: TimeInterval = 8
 
+    enum TrackKind {
+        case unknown, local, notLocal
+    }
+
+    /// What the switcher found for Music's current track. In pause mode the regular detection path
+    /// reads this instead of asking Music itself: its timer asked ~29 times per track change, and
+    /// Music answers Apple events on the same thread as its playback controls.
+    static var currentTrackKind: TrackKind {
+        lock.lock(); defer { lock.unlock() }
+        return _currentTrackKind
+    }
+    private static var _currentTrackKind = TrackKind.unknown
+    private static let lock = NSLock()
+    private static func setCurrentTrackKind(_ kind: TrackKind) {
+        lock.lock(); _currentTrackKind = kind; lock.unlock()
+    }
+
+    /// Tracks our own pause so the user's actions during the wait cancel the resume.
+    private enum Wait {
+        case idle
+        case pausing(Int64) // pause sent; Music may still repeat the track's "Playing" notification
+        case paused(Int64) // Music confirmed; any "Playing" from here on is the user
+        case cancelled
+    }
+    private var wait = Wait.idle // guarded by waitLock
+    private let waitLock = NSLock()
+    private func setWait(_ new: Wait) {
+        waitLock.lock(); wait = new; waitLock.unlock()
+    }
+    private var isCancelled: Bool {
+        waitLock.lock(); defer { waitLock.unlock() }
+        if case .cancelled = wait { return true }
+        return false
+    }
+
     private unowned let outputDevices: OutputDevices
     // Own queue: the regular detection path's AppleScript calls can block for seconds while Music is busy.
     private let queue = DispatchQueue(label: "trackBoundaryQueue", qos: .userInitiated)
@@ -48,12 +83,17 @@ class TrackBoundarySwitcher {
     }
 
     private func playerInfoDidChange(_ info: [AnyHashable : Any]) {
-        guard info["Player State"] as? String == "Playing",
-              let persistentID = (info["PersistentID"] as? NSNumber)?.int64Value else { return }
+        let state = info["Player State"] as? String
+        let persistentID = (info["PersistentID"] as? NSNumber)?.int64Value
+        noteUserAction(state: state, persistentID: persistentID)
+
+        guard state == "Playing", let persistentID else { return }
         // the notification repeats for the same track, and fires again when we resume
         guard persistentID != lastPersistentID else { return }
         lastPersistentID = persistentID
         guard Defaults.shared.userPreferPauseWhileSwitching else { return }
+        // until the switcher has asked Music, keep the regular path away from this track
+        Self.setCurrentTrackKind(.unknown)
 
         let received = Date()
         queue.async { [weak self] in
@@ -61,8 +101,30 @@ class TrackBoundarySwitcher {
         }
     }
 
+    private func noteUserAction(state: String?, persistentID: Int64?) {
+        waitLock.lock(); defer { waitLock.unlock() }
+        switch wait {
+        case .pausing(let id) where state == "Paused" && persistentID == id:
+            wait = .paused(id)
+        case .pausing(let id) where state == "Playing" && persistentID != id:
+            // the user moved to another track before Music confirmed our pause
+            wait = .cancelled
+        case .paused where state == "Playing":
+            // the user pressed play or moved to another track while we waited
+            wait = .cancelled
+        default:
+            break
+        }
+    }
+
     private func switchCurrentTrack(pauseMusic: Bool, persistentID: String?, received: Date) {
-        guard let stats = currentStats(),
+        let lookup = lookupCurrentTrack()
+        switch lookup {
+        case .local: Self.setCurrentTrackKind(.local)
+        case .notLocal: Self.setCurrentTrackKind(.notLocal)
+        case .unknown: Self.setCurrentTrackKind(.unknown)
+        }
+        guard case .local(let stats) = lookup,
               let device = outputDevices.selectedOutputDevice ?? outputDevices.defaultOutputDevice,
               let format = outputDevices.suitableFormat(for: stats, device: device) else { return }
 
@@ -76,6 +138,9 @@ class TrackBoundarySwitcher {
             return
         }
 
+        guard let signedID = MusicPlayer.signedPersistentID(persistentID) else { return }
+        setWait(.pausing(signedID))
+        defer { setWait(.idle) }
         guard scripts.pause() else {
             print("[TrackBoundary] could not pause Music; switching during playback")
             outputDevices.apply(format, device: device, force: true)
@@ -88,17 +153,27 @@ class TrackBoundarySwitcher {
         outputDevices.apply(format, device: device, force: true)
 
         let switched = Date()
-        guard DeviceFormat.waitUntilReady(device.id, format: format, checkBitDepth: checkBitDepth) else {
+        let ready = DeviceFormat.waitUntilReady(device.id, format: format, checkBitDepth: checkBitDepth,
+                                                cancelled: { [unowned self] in isCancelled })
+        if isCancelled {
+            print("[TrackBoundary] user took over while waiting; not resuming")
+            keepAlive?.stop()
+            return
+        }
+        guard ready else {
             print("[TrackBoundary] device not ready within \(Self.readyTimeout)s; leaving Music paused")
             keepAlive?.stop()
             return
         }
         let gap = Defaults.shared.switchGap
         print("[TrackBoundary] device ready \(Self.ms(since: switched)) after switching; \(gap.rawValue) gap \(Int(gap.extraWait * 1000)) ms")
-        Thread.sleep(forTimeInterval: gap.extraWait)
+        let gapEnd = Date().addingTimeInterval(gap.extraWait)
+        while Date() < gapEnd, !isCancelled {
+            Thread.sleep(forTimeInterval: 0.01)
+        }
 
         // don't resume if the user moved on or pressed play themselves while we waited
-        if MusicPlayer.isPaused(on: persistentID) {
+        if !isCancelled, MusicPlayer.isPaused(on: persistentID) {
             MusicPlayer.restart()
             print("[TrackBoundary] resumed \(Self.ms(since: received)) after track start")
         }
@@ -110,11 +185,11 @@ class TrackBoundarySwitcher {
 
     /// Music's own sample rate for the current local track is one round trip and no file I/O.
     /// The file header is only read when bit depth matters.
-    private func currentStats() -> CMPlayerStats? {
-        if !outputDevices.enableBitDepthDetection, let sampleRate = scripts.localSampleRate(attempts: 5) {
-            return CMPlayerStats(sampleRate: sampleRate, bitDepth: 24, date: Date(), priority: 100)
+    private func lookupCurrentTrack() -> LocalTrack.Lookup {
+        if outputDevices.enableBitDepthDetection {
+            return LocalTrack.lookupCurrent(attempts: 5)
         }
-        return LocalTrack.currentStats(attempts: 5)
+        return scripts.lookupLocalTrack(attempts: 5)
     }
 
     private static func ms(since date: Date) -> String {
@@ -179,11 +254,12 @@ enum DeviceFormat {
 
     /// Needs the device running (see SilentOutput) to ever return true.
     static func waitUntilReady(_ device: AudioObjectID, format: AudioStreamBasicDescription, checkBitDepth: Bool,
-                               timeout: TimeInterval = TrackBoundarySwitcher.readyTimeout) -> Bool {
+                               timeout: TimeInterval = TrackBoundarySwitcher.readyTimeout,
+                               cancelled: () -> Bool = { false }) -> Bool {
         let deadline = Date().addingTimeInterval(timeout)
         var runningSince: Date?
         var measured = false
-        while Date() < deadline {
+        while Date() < deadline, !cancelled() {
             if matches(device, format: format, checkBitDepth: checkBitDepth), isRunning(device) {
                 let since = runningSince ?? Date()
                 runningSince = since
@@ -260,6 +336,10 @@ enum MusicPlayer {
         String(format: "%016llX", UInt64(bitPattern: id))
     }
 
+    static func signedPersistentID(_ hex: String) -> Int64? {
+        UInt64(hex, radix: 16).map { Int64(bitPattern: $0) }
+    }
+
     /// Not thread-safe: use each instance from one queue.
     final class CompiledScripts {
         private let pauseScript = compile("tell application \"Music\" to pause")
@@ -298,16 +378,16 @@ enum MusicPlayer {
             run(pauseScript) != nil
         }
 
-        /// nil when the current track isn't a local file, or Music keeps erroring.
-        func localSampleRate(attempts: Int) -> Double? {
-            guard LocalTrack.isMusicRunning else { return nil }
+        func lookupLocalTrack(attempts: Int) -> LocalTrack.Lookup {
+            guard LocalTrack.isMusicRunning else { return .notLocal }
             var output = run(localSampleRateScript)
             for _ in 1..<max(attempts, 1) where output == nil {
                 Thread.sleep(forTimeInterval: 0.1)
                 output = run(localSampleRateScript)
             }
-            guard let output, let sampleRate = Double(output), sampleRate > 0 else { return nil }
-            return sampleRate
+            guard let output else { return .unknown }
+            guard let sampleRate = Double(output), sampleRate > 0 else { return .notLocal }
+            return .local(CMPlayerStats(sampleRate: sampleRate, bitDepth: 24, date: Date(), priority: 100))
         }
     }
 
