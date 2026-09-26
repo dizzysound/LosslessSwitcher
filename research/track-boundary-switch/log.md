@@ -106,3 +106,19 @@ live_test.sh, Normal gap:
 | to 192k | 81 ms | 2204 ms | 2604 ms |
 | to 48k | 138 ms | 1632 ms | 2123 ms |
 Not yet judged by ear; the owner to try Short/Normal/Long.
+
+## Round 4 (2026-09-26 16:50): "Music controls sometimes unresponsive"
+No Music hang/spin reports; Music answered `player state` in 0.10-0.19 s; no CPU load. Our code:
+1. The regular path's timer (2 s x 5 after each change, x2 duplicate OutputDevices, plus 1 s
+   retries) asked Music about the current track: >=116 Apple events in ~70 s / 4 changes (~29 per
+   change), clustered at track changes. Music answers Apple events on its main thread.
+   Fix: in pause mode the switcher asks once per track and publishes currentTrackKind; the regular
+   path reads that and never asks Music. Measured after: 0 regular-path lookups.
+2. The switcher ignored the user for its ~2.5 s wait: play pressed -> we restarted anyway later
+   (only if still paused); skip -> queued behind the wait. Fix: track our pause (pausing -> paused
+   once Music's "Paused" notification arrives); any later "Playing", or a new track, cancels the
+   wait. intervene_test.sh: play during wait -> "user took over", Skyfall kept playing; skip during
+   wait -> cancelled at once, next track paused 69 ms in, switched, resumed at 2.8 s.
+Still not detectable: pressing PAUSE during our wait (Music is already paused, no notification),
+so the track still resumes. Detect Local Files without pause mode still polls like upstream.
+Test harness: `script -q` without -F lost all output in one run; use `script -q -F`.

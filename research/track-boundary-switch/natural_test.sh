@@ -2,7 +2,7 @@
 # Natural boundary: seek to the last seconds of a track and let Music advance by itself.
 set -u
 BIN="../typecheck/.build/LosslessSwitcher Dev.app/Contents/MacOS/LosslessSwitcher"; AC=../local-file-resampling/audioctl
-script -q app_natural.log "$BIN" >/dev/null 2>&1 & APP=$!
+script -q -F app_natural.log "$BIN" >/dev/null 2>&1 & APP=$!
 sleep 12  # outlast the regular path's post-launch timer
 osascript <<'AS'
 tell application "Music"

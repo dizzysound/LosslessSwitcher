@@ -4,7 +4,7 @@
 set -u
 BIN="../typecheck/.build/LosslessSwitcher Dev.app/Contents/MacOS/LosslessSwitcher"; AC=../local-file-resampling/audioctl; DEV="MT 48"
 defaults write com.dizzysound.LosslessSwitcher.dev PreferPauseWhileSwitching -bool true
-script -q app.log "$BIN" >/dev/null 2>&1 & APP=$!
+script -q -F app.log "$BIN" >/dev/null 2>&1 & APP=$!
 ./listen 75 > notifications.log & LIS=$!
 ( t0=$(date +%s.%N 2>/dev/null || python3 -c 'import time;print(time.time())'); end=$(( $(date +%s) + 73 ))
   last=""; while [ $(date +%s) -lt $end ]; do r=$($AC rate "$DEV"); [ "$r" != "$last" ] && echo "$(python3 -c 'import time;print("%.3f"%time.time())') rate $r" && last=$r; sleep 0.02; done ) > rates.log & RAT=$!
