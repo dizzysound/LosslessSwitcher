@@ -154,3 +154,11 @@ No mechanism found linking the dedupe to device behavior (the removed instance n
 device). The owner: the MT 48 misbehaves on newer macOS, and IP-based devices will be less regular.
 Open: restart SilentOutput when the device keeps stopping? Resume vs stay paused after the timeout
 (pressing play already cancels the wait).
+
+## Round 7 (2026-09-26 17:45): restart the silent output when the device keeps stopping
+From 2.5 s after the switch, if the device has been stopped >= 0.25 s, restart SilentOutput (at
+most every 1.5 s); count starts. 3 x `NO_RATES=1 ./live_test.sh` on the MT 48: 12/12 ready, no
+timeouts (before: 3/5 live_test runs timed out on 44.1k -> 96k). The stall recurred once (run 1,
+Skyfall): "device keeps stopping (6 starts); restarting silent output" -> "ready after 7 starts,
+1 keep-alive restarts", ready 4358 ms after the switch. One rescue observed; not yet proof that the
+restart (rather than the device) ended the stall.
