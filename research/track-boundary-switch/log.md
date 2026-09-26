@@ -135,3 +135,22 @@ start/stop flapping, first ActualSampleRate measurement ~0.8-0.9 s and already w
 | to 48k | 141 ms | 1000 ms | 1450 ms |
 Regular-path lookups: 0. Readiness here is bounded by the HAL's first clock measurement (~0.8 s),
 not by the device; the 2 s unmeasured fallback never came into play.
+
+## Round 6 (2026-09-26 17:30): one OutputDevices; intermittent MT 48 "not ready"
+Removed the duplicate OutputDevices/MediaRemoteController in AppDelegate (it now reads
+MenuBarController.shared.outputDevices). The duplicate ran all detection twice and never saw the
+menu's Selected Device, so it acted on the default device. After: "track" log lines per change
+halved (30 -> 15), "same track" retries 59 -> 27.
+
+New: Skyfall (44.1k -> 96k, second track of live_test.sh) sometimes times out:
+  not ready: matches=true running=false ... steadyFor=0.02 s   (device starts/stops for the full 8 s)
+Occurrences, 44.1k -> 96k on the MT 48:
+| Test | timeouts |
+|---|---|
+| live_test.sh before the dedupe (rounds 3-4) | 0/4 |
+| live_test.sh after the dedupe | 3/5 (one with NO_RATES=1, so not the audioctl sampler) |
+| repeat_test.sh (alternating, no sampler) | 0/4 |
+No mechanism found linking the dedupe to device behavior (the removed instance never touched the
+device). The owner: the MT 48 misbehaves on newer macOS, and IP-based devices will be less regular.
+Open: restart SilentOutput when the device keeps stopping? Resume vs stay paused after the timeout
+(pressing play already cancels the wait).

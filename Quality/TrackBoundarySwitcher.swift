@@ -279,6 +279,7 @@ enum DeviceFormat {
             }
             Thread.sleep(forTimeInterval: 0.01)
         }
+        print("[TrackBoundary] not ready: matches=\(matches(device, format: format, checkBitDepth: checkBitDepth)) running=\(isRunning(device)) nominal=\(nominalSampleRate(device) ?? 0) actual=\(actualSampleRate(device) ?? 0) measured=\(measured) steadyFor=\(runningSince.map { String(format: "%.2f s", Date().timeIntervalSince($0)) } ?? "not running")")
         return false
     }
 }
