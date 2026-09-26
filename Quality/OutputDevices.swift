@@ -107,7 +107,6 @@ class OutputDevices: ObservableObject {
     func getAllStats() -> [CMPlayerStats] {
         var allStats = [CMPlayerStats]()
         
-        // A local file's own header is authoritative; recent log lines may still describe the previous track.
         if Defaults.shared.userPreferPauseWhileSwitching {
             // TrackBoundarySwitcher owns local tracks (switching here would change the rate mid-track)
             // and has already asked Music; asking again from this timer competes with Music's controls.
@@ -115,6 +114,7 @@ class OutputDevices: ObservableObject {
                 return []
             }
         }
+        // A local file's own header is authoritative; recent log lines may still describe the previous track.
         else if Defaults.shared.userPreferLocalFileDetection, let localStats = LocalTrack.currentStats() {
             return [localStats]
         }
@@ -161,6 +161,11 @@ class OutputDevices: ObservableObject {
             }
             
             if let suitableFormat = self.suitableFormat(for: first, device: defaultDevice!) {
+                // The track may have changed while the logs were read; if TrackBoundarySwitcher now
+                // owns it, a stale rate applied here would land in the middle of its wait.
+                if Defaults.shared.userPreferPauseWhileSwitching, TrackBoundarySwitcher.currentTrackKind != .notLocal {
+                    return
+                }
                 self.apply(suitableFormat, device: defaultDevice)
             }
 
@@ -241,6 +246,13 @@ class OutputDevices: ObservableObject {
         return nearestFormat.first
     }
     
+    /// Runs `apply` on processQueue, serialized with the regular detection path. For callers on other queues.
+    func applySerialized(_ suitableFormat: AudioStreamBasicDescription, device: AudioDevice?, force: Bool = false) {
+        processQueue.sync {
+            self.apply(suitableFormat, device: device, force: force)
+        }
+    }
+
     /// `force` sets the rate even when `previousSampleRate` already matches, for callers that checked the device itself.
     func apply(_ suitableFormat: AudioStreamBasicDescription, device: AudioDevice?, force: Bool = false) {
         if enableBitDepthDetection {
