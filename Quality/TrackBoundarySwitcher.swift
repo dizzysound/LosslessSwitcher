@@ -3,9 +3,9 @@
 //  LosslessSwitcher
 //
 //  Opt-in "Pause While Switching": when Music starts a local track that needs a different
-//  device format, pause Music, switch the device, wait until the device reports the new
-//  format steadily, then restart the track from 0:00. Music stays paused if the device
-//  never settles, rather than playing through a rate change.
+//  device format, pause Music, switch the device, wait until the device is running steadily
+//  at the new rate, add the chosen gap, then restart the track from 0:00. Music stays paused
+//  if the device never gets there, rather than playing through a rate change.
 //
 //  Music's com.apple.Music.playerInfo notification arrives the moment a track starts, but it
 //  carries no file location, so a fraction of a second of the new track still plays at the
@@ -19,15 +19,7 @@ import SimplyCoreAudio
 
 class TrackBoundarySwitcher {
 
-    static let settleTimeout: TimeInterval = 5
-    static let settlePollInterval: TimeInterval = 0.025
-    static let settleStableReads = 4 // consecutive matching reads before resuming (~100 ms)
-
-    /// Extra wait after CoreAudio reports the new format: the DAC still has to lock its clock,
-    /// and no HAL property reports that. Starting values; tune per device.
-    static func postSettleHold(for sampleRate: Float64) -> TimeInterval {
-        sampleRate > 96000 ? 1.0 : 0.5
-    }
+    static let readyTimeout: TimeInterval = 8
 
     private unowned let outputDevices: OutputDevices
     // Own queue: the regular detection path's AppleScript calls can block for seconds while Music is busy.
@@ -90,21 +82,30 @@ class TrackBoundarySwitcher {
             return
         }
         print("[TrackBoundary] paused \(persistentID) \(Self.ms(since: received)) after track start, switching to \(format.mSampleRate) Hz / \(format.mBitsPerChannel) bit")
+
+        // With Music paused nothing runs the device, and only a running device reports its clock.
+        let keepAlive = SilentOutput(device: device.id)
         outputDevices.apply(format, device: device, force: true)
 
         let switched = Date()
-        guard DeviceFormat.waitUntilSettled(device.id, format: format, checkBitDepth: checkBitDepth) else {
-            print("[TrackBoundary] device did not settle within \(Self.settleTimeout)s; leaving Music paused")
+        guard DeviceFormat.waitUntilReady(device.id, format: format, checkBitDepth: checkBitDepth) else {
+            print("[TrackBoundary] device not ready within \(Self.readyTimeout)s; leaving Music paused")
+            keepAlive?.stop()
             return
         }
-        let hold = Self.postSettleHold(for: format.mSampleRate)
-        print("[TrackBoundary] settled \(Self.ms(since: switched)) after switching; holding \(Int(hold * 1000)) ms")
-        Thread.sleep(forTimeInterval: hold)
+        let gap = Defaults.shared.switchGap
+        print("[TrackBoundary] device ready \(Self.ms(since: switched)) after switching; \(gap.rawValue) gap \(Int(gap.extraWait * 1000)) ms")
+        Thread.sleep(forTimeInterval: gap.extraWait)
 
         // don't resume if the user moved on or pressed play themselves while we waited
-        guard MusicPlayer.isPaused(on: persistentID) else { return }
-        MusicPlayer.restart()
-        print("[TrackBoundary] resumed \(Self.ms(since: received)) after track start")
+        if MusicPlayer.isPaused(on: persistentID) {
+            MusicPlayer.restart()
+            print("[TrackBoundary] resumed \(Self.ms(since: received)) after track start")
+        }
+        // keep the device running until Music has taken over, so it doesn't stop and restart
+        queue.asyncAfter(deadline: .now() + 0.5) {
+            keepAlive?.stop()
+        }
     }
 
     /// Music's own sample rate for the current local track is one round trip and no file I/O.
@@ -153,18 +154,102 @@ enum DeviceFormat {
         return !checkBitDepth || physical.mBitsPerChannel == format.mBitsPerChannel
     }
 
-    static func waitUntilSettled(_ device: AudioObjectID, format: AudioStreamBasicDescription, checkBitDepth: Bool,
-                                 timeout: TimeInterval = TrackBoundarySwitcher.settleTimeout) -> Bool {
+    static func isRunning(_ device: AudioObjectID) -> Bool {
+        var address = AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyDeviceIsRunning, mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+        var running: UInt32 = 0
+        var size = UInt32(MemoryLayout<UInt32>.size)
+        return AudioObjectGetPropertyData(device, &address, 0, nil, &size, &running) == noErr && running != 0
+    }
+
+    /// The HAL's measurement of the device clock; only meaningful while the device runs.
+    static func actualSampleRate(_ device: AudioObjectID) -> Float64? {
+        var address = AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyActualSampleRate, mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+        var rate: Float64 = 0
+        var size = UInt32(MemoryLayout<Float64>.size)
+        guard AudioObjectGetPropertyData(device, &address, 0, nil, &size, &rate) == noErr, rate > 0 else { return nil }
+        return rate
+    }
+
+    // Measured on a Neumann MT 48 (research/track-boundary-switch/log.md): nominal rate and physical
+    // format change ~60 ms after the switch, but the device stops, restarts (sometimes several
+    // times) 1.1-1.7 s later, and the measured clock can start 6% off and converge over seconds.
+    static let steadyRunning: TimeInterval = 0.5
+    static let clockTolerance = 0.005 // measured rate within 0.5% of nominal
+    static let unmeasuredFallback: TimeInterval = 2 // accept steady running if the HAL never reports a measurement
+
+    /// Needs the device running (see SilentOutput) to ever return true.
+    static func waitUntilReady(_ device: AudioObjectID, format: AudioStreamBasicDescription, checkBitDepth: Bool,
+                               timeout: TimeInterval = TrackBoundarySwitcher.readyTimeout) -> Bool {
         let deadline = Date().addingTimeInterval(timeout)
-        var stableReads = 0
+        var runningSince: Date?
+        var measured = false
         while Date() < deadline {
-            stableReads = matches(device, format: format, checkBitDepth: checkBitDepth) ? stableReads + 1 : 0
-            if stableReads >= TrackBoundarySwitcher.settleStableReads {
-                return true
+            if matches(device, format: format, checkBitDepth: checkBitDepth), isRunning(device) {
+                let since = runningSince ?? Date()
+                runningSince = since
+                let steadyFor = Date().timeIntervalSince(since)
+                if let actual = actualSampleRate(device) {
+                    // right after a restart the HAL reports the nominal rate exactly, before measuring
+                    if actual != format.mSampleRate { measured = true }
+                    let deviation = abs(actual / format.mSampleRate - 1)
+                    if steadyFor >= steadyRunning,
+                       (measured && deviation <= clockTolerance) || steadyFor >= unmeasuredFallback {
+                        return true
+                    }
+                }
+            } else {
+                runningSince = nil
+                measured = false
             }
-            Thread.sleep(forTimeInterval: TrackBoundarySwitcher.settlePollInterval)
+            Thread.sleep(forTimeInterval: 0.01)
         }
         return false
+    }
+}
+
+/// Runs the device with silence while Music is paused, so the HAL restarts it at the new rate
+/// and measures its clock.
+final class SilentOutput {
+    private let device: AudioObjectID
+    private var procID: AudioDeviceIOProcID?
+
+    init?(device: AudioObjectID) {
+        self.device = device
+        let status = AudioDeviceCreateIOProcIDWithBlock(&procID, device, nil) { _, _, _, outData, _ in
+            for buffer in UnsafeMutableAudioBufferListPointer(outData) {
+                if let data = buffer.mData { memset(data, 0, Int(buffer.mDataByteSize)) }
+            }
+        }
+        guard status == noErr, let procID, AudioDeviceStart(device, procID) == noErr else {
+            print("[TrackBoundary] could not start silent output (\(status))")
+            return nil
+        }
+    }
+
+    func stop() {
+        guard let procID else { return }
+        AudioDeviceStop(device, procID)
+        AudioDeviceDestroyIOProcID(device, procID)
+        self.procID = nil
+    }
+
+    deinit {
+        stop()
+    }
+}
+
+/// Extra wait after the device is ready, for DACs whose clock lock lags what the HAL reports.
+enum SwitchGap: String, CaseIterable {
+    case short = "Short"
+    case normal = "Normal"
+    case long = "Long"
+
+    var extraWait: TimeInterval {
+        switch self {
+        case .short: return 0
+        case .normal: return 0.25
+        case .long: return 1
+        }
     }
 }
 
