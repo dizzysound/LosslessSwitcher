@@ -14,18 +14,27 @@ class Defaults: ObservableObject {
     private let kUserPreferBitDepthDetection = "com.vincent-neo.LosslessSwitcher-Key-BitDepthDetection"
     private let kShellScriptPath = "KeyShellScriptPath"
     private let kUserPreferSampleRateMultiples = "PreferSampleRateMultiples"
+    private let kUserPreferLocalFileDetection = "PreferLocalFileDetection"
     
     private init() {
         UserDefaults.standard.register(defaults: [
             kUserPreferIconStatusBarItem : true,
             kUserPreferBitDepthDetection : false,
-            kUserPreferSampleRateMultiples : false
+            kUserPreferSampleRateMultiples : false,
+            kUserPreferLocalFileDetection : false
         ])
         
         self.shellScriptPath = UserDefaults.standard.string(forKey: kShellScriptPath)
         self.userPreferIconStatusBarItem = UserDefaults.standard.bool(forKey: kUserPreferIconStatusBarItem)
         self.userPreferBitDepthDetection = UserDefaults.standard.bool(forKey: kUserPreferBitDepthDetection)
         self.userPreferSampleRateMultiples = UserDefaults.standard.bool(forKey: kUserPreferSampleRateMultiples)
+        self.userPreferLocalFileDetection = UserDefaults.standard.bool(forKey: kUserPreferLocalFileDetection)
+    }
+    
+    @Published var userPreferLocalFileDetection: Bool {
+        willSet {
+            UserDefaults.standard.set(newValue, forKey: kUserPreferLocalFileDetection)
+        }
     }
     
     @Published var userPreferSampleRateMultiples: Bool {
