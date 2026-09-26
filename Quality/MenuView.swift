@@ -57,6 +57,17 @@ struct MenuView: View {
                 }
             }
             
+            Button {
+                defaults.userPreferPauseWhileSwitching.toggle()
+            } label: {
+                HStack {
+                    Text("Pause While Switching (Local Files)")
+                    if defaults.userPreferPauseWhileSwitching {
+                        Image(systemName: "checkmark")
+                    }
+                }
+            }
+            
             Menu {
                 Button {
                     outputDevices.selectedOutputDevice = nil

@@ -39,5 +39,10 @@ case "rate": print(rate(find(args[2])))
 case "set-rate":
     let d = find(args[2]); var r = Float64(args[3])!; var a = prop(kAudioDevicePropertyNominalSampleRate)
     let st = AudioObjectSetPropertyData(d, &a, 0, nil, 8, &r); Thread.sleep(forTimeInterval: 0.5); print("status \(st) now \(rate(d))")
+case "rates":
+    let d = find(args[2]); var a = prop(kAudioDevicePropertyAvailableNominalSampleRates); var size: UInt32 = 0
+    AudioObjectGetPropertyDataSize(d, &a, 0, nil, &size)
+    var ranges = [AudioValueRange](repeating: AudioValueRange(), count: Int(size) / MemoryLayout<AudioValueRange>.size)
+    AudioObjectGetPropertyData(d, &a, 0, nil, &size, &ranges); print(ranges.map { Int($0.mMinimum) })
 default: print("usage: audioctl list|default|set-default <name>|rate <name>|set-rate <name> <hz>")
 }

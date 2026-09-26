@@ -38,20 +38,40 @@ enum LocalTrack {
         !NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.Music").isEmpty
     }
 
-    static func currentStats() -> CMPlayerStats? {
+    enum Lookup {
+        case local(CMPlayerStats)
+        case notLocal
+        case unknown // Music errored, e.g. "Can't get current track" mid track change
+    }
+
+    /// `attempts` > 1 retries while Music errors.
+    static func lookupCurrent(attempts: Int = 1) -> Lookup {
         // "tell application" would launch Music if it isn't running
-        guard isMusicRunning else { return nil }
-        guard let path = runScript(locationScript), !path.isEmpty else { return nil }
+        guard isMusicRunning else { return .notLocal }
+        var path = runScript(locationScript)
+        for _ in 1..<max(attempts, 1) where path == nil {
+            Thread.sleep(forTimeInterval: 0.1)
+            path = runScript(locationScript)
+        }
+        guard let path else { return .unknown }
+        guard !path.isEmpty else { return .notLocal }
 
         if let stats = readFormat(url: URL(fileURLWithPath: path)) {
             print("[LocalTrack] \(path) -> \(stats)")
-            return stats
+            return .local(stats)
         }
 
         // file unreadable (e.g. privacy-protected folder); fall back to Music's metadata
         if let output = runScript(sampleRateScript), let sampleRate = Double(output) {
             print("[LocalTrack] \(path) -> AppleScript sample rate \(sampleRate)")
-            return CMPlayerStats(sampleRate: sampleRate, bitDepth: 24, date: Date(), priority: 100)
+            return .local(CMPlayerStats(sampleRate: sampleRate, bitDepth: 24, date: Date(), priority: 100))
+        }
+        return .notLocal
+    }
+
+    static func currentStats(attempts: Int = 1) -> CMPlayerStats? {
+        if case .local(let stats) = lookupCurrent(attempts: attempts) {
+            return stats
         }
         return nil
     }
@@ -80,7 +100,8 @@ enum LocalTrack {
         return 16 // lossy
     }
 
-    private static func runScript(_ source: String) -> String? {
+    /// nil on error; "" when the script succeeded without returning text (e.g. "pause").
+    static func runScript(_ source: String) -> String? {
         var error: NSDictionary?
         let output = NSAppleScript(source: source)?.executeAndReturnError(&error).stringValue
         if let error = error {
@@ -88,6 +109,6 @@ enum LocalTrack {
             return nil
         }
         if output == "missing value" { return nil }
-        return output
+        return output ?? ""
     }
 }
