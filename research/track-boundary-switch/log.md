@@ -197,3 +197,18 @@ local track's .local and getAllStats returned [] for the stream.
 Fix: "Playing" without PersistentID -> currentTrackKind = .notLocal, lastPersistentID = nil (local
 files are always library tracks). Verified: Skyfall (local, 96k) then the owner's station -> log
 "stream without PersistentID", ALAC log line 44.1k detected, MT 48 96k -> 44.1k.
+
+## Round 10 (2026-09-26 17:45): mid-song switch on an Apple Music station
+The owner heard a rate change mid-song. Traced (system log, 17:39): while "Enfold" (44.1k) was ~2:10 in,
+Music queued the station's next item and pushed a now-playing metadata update (17:39:29.5);
+mediaremoted posted kMRMediaRemoteNowPlayingInfoDidChangeNotification; the app's MediaRemoteAdapter
+helper picked it up -> MediaRemoteController -> trackDidChange -> switchLatestSampleRate 1 s later.
+At 17:39:30.2 Music had opened a 48k ALAC decoder for the prefetched next track, so the newest log
+line in the 5 s window was 48k -> MT 48 switched 44.1k -> 48k mid-song. Upstream code path (not the
+switcher); its only guard blocks down-switches on the same track, and 44.1 -> 48 is up.
+Fix: trackDidChange still records previous/current track but only runs detection on a real track
+change (the post-change timer is unchanged).
+Verification: prefetch_test.sh (installed build, station) 3.5 + 10 min, 5 tracks: rate changed only
+at track changes (e.g. Shadows 48k -> Murmurations 44.1k at the boundary). One mid-track prefetch
+decoder line (17:46:29, 44.1k, same rate as current) and no mid-track now-playing update occurred,
+so the exact trigger was NOT reproduced; the fix is reasoned from the 17:39 evidence.
