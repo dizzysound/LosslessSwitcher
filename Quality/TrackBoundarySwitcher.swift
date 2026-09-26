@@ -154,7 +154,8 @@ class TrackBoundarySwitcher {
 
         let switched = Date()
         let ready = DeviceFormat.waitUntilReady(device.id, format: format, checkBitDepth: checkBitDepth,
-                                                cancelled: { [unowned self] in isCancelled })
+                                                cancelled: { [unowned self] in isCancelled },
+                                                stalled: { keepAlive?.restart() })
         if isCancelled {
             print("[TrackBoundary] user took over while waiting; not resuming")
             keepAlive?.stop()
@@ -251,16 +252,39 @@ enum DeviceFormat {
     static let steadyRunning: TimeInterval = 0.5
     static let clockTolerance = 0.005 // measured rate within 0.5% of nominal
     static let unmeasuredFallback: TimeInterval = 2 // accept steady running if the HAL never reports a measurement
+    static let stallAfter: TimeInterval = 2.5
+    static let stallStopped: TimeInterval = 0.25
+    static let stallRestartInterval: TimeInterval = 1.5
 
     /// Needs the device running (see SilentOutput) to ever return true.
     static func waitUntilReady(_ device: AudioObjectID, format: AudioStreamBasicDescription, checkBitDepth: Bool,
                                timeout: TimeInterval = TrackBoundarySwitcher.readyTimeout,
-                               cancelled: () -> Bool = { false }) -> Bool {
-        let deadline = Date().addingTimeInterval(timeout)
+                               cancelled: () -> Bool = { false },
+                               stalled: () -> Void = {}) -> Bool {
+        let start = Date()
+        let deadline = start.addingTimeInterval(timeout)
         var runningSince: Date?
+        var stoppedSince: Date?
         var measured = false
+        var starts = 0, restarts = 0
+        var lastRestart = start
+        var wasRunning = true // the device is usually running (our silent output) when the switch begins
         while Date() < deadline, !cancelled() {
-            if matches(device, format: format, checkBitDepth: checkBitDepth), isRunning(device) {
+            let running = isRunning(device)
+            if running, !wasRunning { starts += 1 }
+            wasRunning = running
+            stoppedSince = running ? nil : (stoppedSince ?? Date())
+            // The MT 48 sometimes keeps stopping and restarting for seconds after a switch.
+            // Normal start-up flapping ends by ~1.5 s, so only restart the keep-alive after that.
+            if let stoppedSince, Date().timeIntervalSince(start) >= stallAfter,
+               Date().timeIntervalSince(stoppedSince) >= stallStopped,
+               Date().timeIntervalSince(lastRestart) >= stallRestartInterval {
+                restarts += 1
+                lastRestart = Date()
+                print("[TrackBoundary] device keeps stopping (\(starts) starts); restarting silent output")
+                stalled()
+            }
+            if matches(device, format: format, checkBitDepth: checkBitDepth), running {
                 let since = runningSince ?? Date()
                 runningSince = since
                 let steadyFor = Date().timeIntervalSince(since)
@@ -270,6 +294,9 @@ enum DeviceFormat {
                     let deviation = abs(actual / format.mSampleRate - 1)
                     if steadyFor >= steadyRunning,
                        (measured && deviation <= clockTolerance) || steadyFor >= unmeasuredFallback {
+                        if restarts > 0 || starts > 3 {
+                            print("[TrackBoundary] ready after \(starts) starts, \(restarts) keep-alive restarts")
+                        }
                         return true
                     }
                 }
@@ -279,7 +306,7 @@ enum DeviceFormat {
             }
             Thread.sleep(forTimeInterval: 0.01)
         }
-        print("[TrackBoundary] not ready: matches=\(matches(device, format: format, checkBitDepth: checkBitDepth)) running=\(isRunning(device)) nominal=\(nominalSampleRate(device) ?? 0) actual=\(actualSampleRate(device) ?? 0) measured=\(measured) steadyFor=\(runningSince.map { String(format: "%.2f s", Date().timeIntervalSince($0)) } ?? "not running")")
+        print("[TrackBoundary] not ready: matches=\(matches(device, format: format, checkBitDepth: checkBitDepth)) running=\(isRunning(device)) nominal=\(nominalSampleRate(device) ?? 0) actual=\(actualSampleRate(device) ?? 0) measured=\(measured) starts=\(starts) restarts=\(restarts) steadyFor=\(runningSince.map { String(format: "%.2f s", Date().timeIntervalSince($0)) } ?? "not running")")
         return false
     }
 }
@@ -292,15 +319,31 @@ final class SilentOutput {
 
     init?(device: AudioObjectID) {
         self.device = device
+        guard start() else { return nil }
+    }
+
+    private func start() -> Bool {
         let status = AudioDeviceCreateIOProcIDWithBlock(&procID, device, nil) { _, _, _, outData, _ in
             for buffer in UnsafeMutableAudioBufferListPointer(outData) {
                 if let data = buffer.mData { memset(data, 0, Int(buffer.mDataByteSize)) }
             }
         }
-        guard status == noErr, let procID, AudioDeviceStart(device, procID) == noErr else {
-            print("[TrackBoundary] could not start silent output (\(status))")
-            return nil
+        guard status == noErr, let procID else {
+            print("[TrackBoundary] could not create silent output (\(status))")
+            return false
         }
+        let startStatus = AudioDeviceStart(device, procID)
+        guard startStatus == noErr else {
+            print("[TrackBoundary] could not start silent output (\(startStatus))")
+            stop()
+            return false
+        }
+        return true
+    }
+
+    func restart() {
+        stop()
+        _ = start()
     }
 
     func stop() {
