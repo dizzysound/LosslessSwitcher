@@ -174,3 +174,16 @@ restart (rather than the device) ended the stall.
 Regression live_test.sh: 4/4 resumed. New stall variant: Skyfall "ready after 51 starts, 0 keep-alive
 restarts", 6372 ms. The device flapped fast enough never to be stopped for 0.25 s, so the restart
 never fired; it settled by itself. Open: also restart on a high start count?
+
+## Context (2026-09-26): the MT 48 start/stop flapping is not LosslessSwitcher
+Per the owner, and the Rogue Amoeba support thread "Loopback 2.4.10 — Virtual device continuously
+recycling HAL objects" (May–Sep 2026): Rogue Amoeba tracks Core Audio issues on macOS 26 involving
+aggregate devices and sample-rate mismatches (filed with Apple; mitigation: keep the whole chain at
+one rate). The owner's 2026-09-19 instrumentation named short-lived system audio processes
+(systemsoundserverd + corespeechd ~3 s lifetimes; sirittsd, Sound.appex) causing CoreAudio object
+churn even with everything at 48 kHz; RME's DriverKit driver separately caused ~700 ms teardowns
+(fixed by the 3.39 kext). This Mac: arkaudiod running, systemsoundserverd/corespeechd present, no
+aggregate containing the MT 48 (aggregates.swift). Much better than it used to be.
+Note: switching rates is inherently at odds with "keep every rate matched" (Loopback Audio stays 48k).
+The keep-alive restart stays as a mitigation, not a fix. Not checked: whether the flapping lines up
+with those processes' launches.
