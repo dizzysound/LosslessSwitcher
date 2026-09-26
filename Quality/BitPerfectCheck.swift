@@ -7,6 +7,7 @@
 //  Apple event, sent at most once per track change or on Refresh.
 //
 
+import AppKit
 import CoreAudio
 import Foundation
 
@@ -67,8 +68,8 @@ final class BitPerfectCheck: ObservableObject {
     private static func check(outputDevice: AudioObjectID?) -> [Item] {
         var items = [Item]()
 
-        if LocalTrack.isMusicRunning,
-           let output = LocalTrack.runScript("tell application \"Music\" to return sound volume as string"),
+        if isMusicRunning,
+           let output = runScript("tell application \"Music\" to return sound volume as string"),
            let volume = Int(output) {
             items.append(Item(id: "volume", ok: volume == 100,
                               text: volume == 100 ? "Music volume 100%" : "Music volume \(volume)% (scales the samples)"))
@@ -96,6 +97,21 @@ final class BitPerfectCheck: ObservableObject {
                               text: separate ? "Alert sounds play on another device" : "Alert sounds mix into this device"))
         }
         return items
+    }
+
+    private static var isMusicRunning: Bool {
+        // "tell application" would launch Music if it isn't running
+        !NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.Music").isEmpty
+    }
+
+    private static func runScript(_ source: String) -> String? {
+        var error: NSDictionary?
+        let output = NSAppleScript(source: source)?.executeAndReturnError(&error).stringValue
+        if let error {
+            print("[BitPerfectCheck] AppleScript - \(error)")
+            return nil
+        }
+        return output
     }
 
     /// The device macOS plays alert and system sounds on ("Play sound effects through").
