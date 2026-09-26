@@ -82,3 +82,27 @@ was paused exited 133 (trap) before printing, cause not found yet; runs while Mu
    tolerance and stable over ~250 ms, then stop the IOProc and resume.
 2. Short / Normal / Long extra gap setting on top (the owner's suggestion), for DACs whose lock
    lags what the HAL reports.
+
+## Round 3 (2026-09-26 16:35): readiness from the device + Short/Normal/Long gap
+The earlier "exit 133" probe crashes were zsh not word-splitting `$pair` (missing argument ->
+index trap), not Music being paused. With Music paused (lockprobe_paused.txt):
+| Switch | first running | running steadily | ActualSampleRate within 0.5% |
+|---|---|---|---|
+| 96k -> 192k | 1.24 s | 1.52 s (ran/stopped 3x) | 2.02 s |
+| 192k -> 44.1k | 1.09 s | 1.09 s | ~2.56 s (starts 6.5% off, 46953 Hz) |
+| 44.1k -> 96k | 1.35 s | 1.44 s | 1.94 s |
+
+Readiness now: SilentOutput (own IOProc writing zeros) started before the switch; ready when
+nominal+physical match, the device has run for 0.5 s without stopping, and ActualSampleRate has
+been measured (not the exact-nominal placeholder) within 0.5% (or 2 s of steady running if never
+measured). Then the gap (Short 0 / Normal 0.25 s / Long 1 s), resume, and stop the silent output
+0.5 s later so the device doesn't stop between. Timeout 8 s leaves Music paused.
+
+live_test.sh, Normal gap:
+| Change | paused after start | ready after switch | resumed after start |
+|---|---|---|---|
+| to 44.1k | 66 ms | 2349 ms | 2738 ms |
+| to 96k | 66 ms | 2106 ms | 2521 ms |
+| to 192k | 81 ms | 2204 ms | 2604 ms |
+| to 48k | 138 ms | 1632 ms | 2123 ms |
+Not yet judged by ear; the owner to try Short/Normal/Long.

@@ -16,6 +16,7 @@ class Defaults: ObservableObject {
     private let kUserPreferSampleRateMultiples = "PreferSampleRateMultiples"
     private let kUserPreferLocalFileDetection = "PreferLocalFileDetection"
     private let kUserPreferPauseWhileSwitching = "PreferPauseWhileSwitching"
+    private let kSwitchGap = "SwitchGap"
     
     private init() {
         UserDefaults.standard.register(defaults: [
@@ -32,6 +33,13 @@ class Defaults: ObservableObject {
         self.userPreferSampleRateMultiples = UserDefaults.standard.bool(forKey: kUserPreferSampleRateMultiples)
         self.userPreferLocalFileDetection = UserDefaults.standard.bool(forKey: kUserPreferLocalFileDetection)
         self.userPreferPauseWhileSwitching = UserDefaults.standard.bool(forKey: kUserPreferPauseWhileSwitching)
+        self.switchGap = SwitchGap(rawValue: UserDefaults.standard.string(forKey: kSwitchGap) ?? "") ?? .normal
+    }
+
+    @Published var switchGap: SwitchGap {
+        willSet {
+            UserDefaults.standard.set(newValue.rawValue, forKey: kSwitchGap)
+        }
     }
     
     @Published var userPreferPauseWhileSwitching: Bool {

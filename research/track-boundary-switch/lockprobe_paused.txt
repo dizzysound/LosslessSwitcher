@@ -1,0 +1,46 @@
+== 96000 192000
+t=0 before: actual=96000.9 alive=1 clockSource=84279296 clockStable=1 latency=60 nominal=96000 physical=96000 rateScalar=1.000 running=1 safety=26
+t=  26 ms rateScalar=not running running=0
+t=  57 ms actual=96000.0 nominal=192000 physical=192000
+t=1186 ms actual=192000.0 safety=50
+t=1239 ms rateScalar=1.000 running=1
+t=1258 ms rateScalar=not running running=0
+t=1427 ms rateScalar=1.000 running=1
+t=1443 ms rateScalar=not running running=0
+t=1515 ms rateScalar=1.000 running=1
+t=2020 ms actual=192001.2
+t=2264 ms actual=192002.0
+t=3015 ms actual=192001.9
+== 192000 44100
+t=0 before: actual=192002.0 alive=1 clockSource=84279296 clockStable=1 latency=60 nominal=192000 physical=192000 rateScalar=1.000 running=1 safety=50
+t=  28 ms rateScalar=not running running=0
+t=  73 ms actual=192000.0 nominal=44100 physical=44100
+t=1091 ms actual=44100.0 rateScalar=1.000 running=1 safety=13
+t=1569 ms actual=46952.9 rateScalar=0.939
+t=1818 ms actual=45418.7 rateScalar=0.971
+t=2068 ms actual=44752.0 rateScalar=0.985
+t=2312 ms rateScalar=0.993
+t=2320 ms actual=44425.8
+t=2562 ms actual=44260.5 rateScalar=0.996
+t=2821 ms actual=44178.3 rateScalar=0.998
+t=3067 ms actual=44159.8 rateScalar=0.999
+t=3318 ms actual=44145.0
+t=3566 ms actual=44132.8
+t=3821 ms actual=44126.7
+== 44100 96000
+t=0 before: actual=44102.9 alive=1 clockSource=84279296 clockStable=1 latency=60 nominal=44100 physical=44100 rateScalar=1.000 running=1 safety=13
+t=  22 ms rateScalar=not running running=0
+t=  62 ms actual=44100.0 nominal=96000 physical=96000
+t=1139 ms actual=96000.0 safety=26
+t=1345 ms running=1
+t=1353 ms running=0
+t=1441 ms rateScalar=1.000 running=1
+t=1944 ms actual=95991.6
+t=2190 ms actual=95989.7
+t=2451 ms actual=95987.4
+t=2693 ms actual=95984.1
+t=2945 ms actual=95992.5
+t=3186 ms actual=95996.7
+t=3444 ms actual=95997.8
+t=3701 ms actual=95998.6
+t=3945 ms actual=95999.1
