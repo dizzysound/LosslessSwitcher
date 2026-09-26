@@ -122,3 +122,16 @@ No Music hang/spin reports; Music answered `player state` in 0.10-0.19 s; no CPU
 Still not detectable: pressing PAUSE during our wait (Music is already paused, no notification),
 so the track still resumes. Detect Local Files without pause mode still polls like upstream.
 Test harness: `script -q` without -F lost all output in one run; use `script -q -F`.
+
+## Round 5 (2026-09-26 17:05): MacBook Pro Speakers
+Rates 44.1/48/88.2/96k. lockprobe_speakers.txt: running again 126-254 ms after the switch, no
+start/stop flapping, first ActualSampleRate measurement ~0.8-0.9 s and already within ~10 ppm.
+`DEV="MacBook Pro Speakers" ./live_test.sh`, Normal gap:
+| Change | paused after start | ready after switch | resumed after start |
+|---|---|---|---|
+| to 44.1k | 62 ms | 848 ms | 1222 ms |
+| to 96k | 65 ms | 1010 ms | 1384 ms |
+| 192k track | no pause: nearest supported is 96k, already set | | |
+| to 48k | 141 ms | 1000 ms | 1450 ms |
+Regular-path lookups: 0. Readiness here is bounded by the HAL's first clock measurement (~0.8 s),
+not by the device; the 2 s unmeasured fallback never came into play.

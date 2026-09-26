@@ -2,7 +2,7 @@
 # Live test of Pause While Switching: run the dev build, play local tracks at different rates,
 # record app log, Music notifications and the device's nominal rate over time.
 set -u
-BIN="../typecheck/.build/LosslessSwitcher Dev.app/Contents/MacOS/LosslessSwitcher"; AC=../local-file-resampling/audioctl; DEV="MT 48"
+BIN="../typecheck/.build/LosslessSwitcher Dev.app/Contents/MacOS/LosslessSwitcher"; AC=../local-file-resampling/audioctl; DEV="${DEV:-MT 48}"
 defaults write com.dizzysound.LosslessSwitcher.dev PreferPauseWhileSwitching -bool true
 script -q -F app.log "$BIN" >/dev/null 2>&1 & APP=$!
 ./listen 75 > notifications.log & LIS=$!

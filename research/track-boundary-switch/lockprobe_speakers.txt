@@ -1,0 +1,30 @@
+== 48000 96000
+t=0 before: actual=48000.3 alive=1 clockSource=- clockStable=1 latency=60 nominal=48000 physical=48000 rateScalar=1.000 running=1 safety=48
+t=  65 ms actual=48000.0 latency=120 rateScalar=not running running=0
+t=  73 ms nominal=96000 physical=96000
+t= 152 ms actual=96000.0 rateScalar=1.000 running=1 safety=96
+t= 815 ms actual=95999.8
+t=1148 ms actual=96000.6
+t=1479 ms actual=96000.8
+t=2136 ms actual=96000.9
+== 96000 44100
+t=0 before: actual=96000.6 alive=1 clockSource=- clockStable=1 latency=120 nominal=96000 physical=96000 rateScalar=1.000 running=1 safety=96
+t=  60 ms actual=96000.0 latency=56 rateScalar=not running running=0
+t=  67 ms nominal=44100 physical=44100
+t= 134 ms actual=44100.0 rateScalar=1.000 running=1 safety=48
+t= 800 ms actual=44099.9
+t=1132 ms actual=44100.3
+t=1462 ms actual=44100.4
+== 44100 88200
+t=0 before: actual=44100.3 alive=1 clockSource=- clockStable=1 latency=56 nominal=44100 physical=44100 rateScalar=1.000 running=1 safety=48
+t=  66 ms actual=44100.0 latency=111 rateScalar=not running running=0
+t=  74 ms nominal=88200 physical=88200
+t= 126 ms actual=88200.0 safety=96
+t= 254 ms rateScalar=1.000 running=1
+t= 920 ms actual=88199.8
+t=1248 ms actual=88200.6
+t=1584 ms actual=88200.7
+t=1910 ms actual=88201.3
+t=2235 ms actual=88200.5
+t=2568 ms actual=88200.7
+t=3561 ms actual=88200.8
