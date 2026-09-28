@@ -343,3 +343,16 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   So picking a hogged DAC in the Sound menu hangs Control Center until the hog goes (whether it had
   ended before the quit is not known); the stale list itself did not recur. Known issue: while the
   engine runs, don't pick the DAC in the Sound menu. The app can't remove it there (its driver decides).
+
+# Idle step-aside (43358a0, 2026-09-28 15:12, RendererIdleSeconds 10 for the test)
+- Music paused: "Music idle 10 s: stepping aside" at 36.094; hog released, default restored to the
+  Babyface (held 3 s), detached; the Babyface hog -1 and the default, the virtual device not
+  default-eligible, the menu names "Babyface Pro (73020432)".
+- Play pressed at 39.527: "playback began while stepped aside ... taking the output back"; Music paused
+  40.389; default -> virtual device, hogged 40.617, DAC ready 41.474; "switch 1: ... restarts at 44100 Hz
+  (no rate change)"; "rewound to 100.532 (was 101.120, played ~0.488 s)"; playing again 41.734 (about
+  2.2 s from the press). The rewind is the half second Music played to the DAC directly, not ~1.5 s
+  more (switchRate now measures to the pause).
+- Paused at 47.371, stepped aside again at 57.375. Volume keys during play: -56 / -52 dB. One
+  "NSRunningApplication lists no Music, but pid ... is alive" (no false quit).
+- RendererIdleSeconds removed afterwards (60 s).
