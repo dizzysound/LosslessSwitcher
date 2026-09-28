@@ -278,3 +278,14 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   "clock: ring at 512 frames before the lock (target 2048); refilling first", then "clock lock: ...
   fill 2048" (was fill 0). Back to the Babyface: "clock lock: ... fill 2048". Mic wait again fine
   (answered at 3.2 s, the default taken after).
+- Boundary switch, local files (9568d30, 13:39): temp playlist "LS bench (temp)": "LSB 483 With High
+  Delight Let Us Unite" (44.1k; decodes as AAC, likely the iCloud-matched copy) -> "Oh, Blest Is He That
+  Came" (CPH Choral 2024, local ALAC 96k/24). "decoder: 96000.0 Hz 24-bit (lossless)" with 12.48 s left,
+  "arming the boundary latch in 10.98 s", armed, "latched at ring 78729294 (fill 1536)", "switch 1: ...
+  latched at the old track's end; paused; boundary reached 0.016 s", DAC ready 1.408 s, "rewound to
+  0.000", switch done 1.591 s; Music then playing it at 96000. The lateArmAt path (a stream's pre-roll
+  ~100 s early) was not exercised: needs an Apple Music boundary into hi-res.
+- Getting there: AppleScript "play track N of <playlist>" plays that one track and queues nothing;
+  "play <playlist>" didn't start the new playlist; no Up Next API. The owner double-clicked in Music. Two
+  earlier stops were the CPH track being unchecked (enabled false: Music skips it); the owner re-checked
+  the CPH songs. Library "sample rate" for Apple Music items reads 44100 even when the stream is 96k.
