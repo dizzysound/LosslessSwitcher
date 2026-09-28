@@ -202,3 +202,11 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   ("no decoder line for Kashmir within 3 s; playing at 44100 Hz").
   Fix (next commit): Music counts as quit only when its remembered pid is gone (kill(pid, 0));
   the NSRunningApplication miss is logged once.
+- Build d111c36 made on the build Mac (Command Line Tools, Swift 6.3.3: builds with SwiftUI macros)
+  over ssh, copied to the bench Mac (Swift 6.4 CLT: no SwiftUIMacros plugin, can't build here). The
+  bundled driver is 0644 now (build.sh chmod). Old build kept as "LosslessSwitcher Dev (6c2d2ff)".
+  Start: "volume: forwarding to DAC elements 1,2 (-50.5 dB), linear in dB, 0 to -64 dB (4.0 dB per key
+  step) ... slider -> 0.2109"; gate held B.O.B. until its 44.1k line (0.1 s).
+- The false quits on 6c2d2ff came about every 160 s (386.8, 555.8, 714.9 s), each a 4 s dropout.
+- Turning the 6c2d2ff engine off: "play attempt 1-4: Music isn't playing" over 8 s, while Music
+  reported playing right after. Possible gap on stop; not looked into.
