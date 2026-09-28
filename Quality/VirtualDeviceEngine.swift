@@ -269,7 +269,12 @@ final class VirtualDeviceEngine {
         ticksPerSec = 1e9 * Double(tb.denom) / Double(tb.numer)
         scripts = RendererScripts()
         recorder = VRecorder.fromDefaults(log: { [unowned self] in self.log($0) })
-        checkMicrophone()
+        guard checkMicrophone() else {
+            log("engine idle until it is turned off; the output is unchanged")
+            while !shouldStop { Thread.sleep(forTimeInterval: 0.1) }
+            log.close()
+            return
+        }
         guard setUp() else {
             log("setup failed; engine idle until it is turned off")
             while !shouldStop { Thread.sleep(forTimeInterval: 0.1) }
@@ -309,14 +314,29 @@ final class VirtualDeviceEngine {
         log.close()
     }
 
-    private func checkMicrophone() {
+    /// Reading the virtual device's input needs the Microphone permission. Nothing is touched until
+    /// it is answered: on the first launch of a new copy (Babyface bench) the default was already the
+    /// virtual device while the prompt was open, each HAL call on its input blocked ~60 s, and setup
+    /// failed after 3.5 min of silence. Without the permission the engine stays idle and the output
+    /// is left as it was.
+    private func checkMicrophone() -> Bool {
         switch AVCaptureDevice.authorizationStatus(for: .audio) {
-        case .authorized: log("microphone permission: granted")
+        case .authorized:
+            log("microphone permission: granted")
+            return true
         case .notDetermined:
-            log("microphone permission: not determined; requesting (reading the virtual device's input needs it)")
-            AVCaptureDevice.requestAccess(for: .audio) { [weak self] ok in self?.log("microphone permission \(ok ? "granted" : "denied")") }
+            log("microphone permission: not determined; asking, and leaving the output alone until it is answered")
+            final class Answer: @unchecked Sendable { var granted = false }
+            let answer = Answer(), done = DispatchSemaphore(value: 0)
+            AVCaptureDevice.requestAccess(for: .audio) { ok in answer.granted = ok; done.signal() }
+            while done.wait(timeout: .now() + 0.2) == .timedOut {
+                if shouldStop { log("turned off while the microphone prompt was open"); return false }
+            }
+            log("microphone permission \(answer.granted ? "granted" : "denied")")
+            return answer.granted
         default:
-            log("microphone permission DENIED: the virtual device's input will read as silence. Allow LosslessSwitcher in System Settings > Privacy & Security > Microphone.")
+            log("microphone permission DENIED: the engine can't read the virtual device. Allow LosslessSwitcher in System Settings > Privacy & Security > Microphone, then turn the engine off and on.")
+            return false
         }
     }
 
