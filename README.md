@@ -1,3 +1,89 @@
+> **This is a fork** of [vincentneo/LosslessSwitcher](https://github.com/vincentneo/LosslessSwitcher)
+> that adds an experimental **Renderer Engine** for bit-perfect sample-rate switching. The
+> upstream README follows the fork notes below. For the original app, use upstream's releases.
+
+## This fork: the Renderer Engine (experimental)
+
+The Renderer Engine is off by default ("Renderer Engine (Experimental)" in the menu). With it on:
+
+- Music plays to a virtual output device, "LosslessSwitcher" (a HAL plug-in, `HALPlugin/`). The
+  engine reads it and plays the audio **unchanged** to your DAC (the Selected Device, or your
+  default output), with the DAC hogged and in its non-mixable integer format when it has one. The
+  virtual device's clock follows the DAC's, so nothing is resampled.
+- At a sample-rate change it catches the end of the old track, pauses Music, switches the DAC,
+  rewinds and plays, so no track starts at the wrong rate. Local files and Apple Music streams both
+  work. Same-rate and gapless changes pass through untouched.
+- The volume keys drive the DAC's own volume and mute (4 dB per step); the audio stays at unity.
+- After 60 s without playback it gives the DAC and the default output back ("Release DAC When
+  Music Is Idle"), and takes them again when Music plays (about 2 s from play to sound on the
+  Babyface Pro).
+- A window points out Music settings that defeat bit-perfect playback (AutoMix/Crossfade, Sound
+  Check, EQ, volume below 100).
+
+Status: draft pull request [#229](https://github.com/vincentneo/LosslessSwitcher/pull/229)
+upstream, built on [#227](https://github.com/vincentneo/LosslessSwitcher/pull/227) and
+[#228](https://github.com/vincentneo/LosslessSwitcher/pull/228). Tested on macOS 26 and 27 with a
+Neumann MT 48, an RME Babyface Pro and a MacBook Pro's speakers.
+
+### Try it
+
+Download the latest pre-release from this fork's
+[Releases](https://github.com/dizzysound/LosslessSwitcher/releases). It's ad-hoc signed and not
+notarized, so:
+
+1. Unzip it into `~/Applications` (not an iCloud-synced Desktop or Documents folder).
+2. Right-click **LosslessSwitcher Dev** > **Open** the first time.
+3. Quit the regular LosslessSwitcher if it's running. The dev build has its own bundle id
+   (`com.dizzysound.LosslessSwitcher.dev`) and settings, so both can be installed.
+4. In its menu (a music note in the menu bar): **Virtual Output Device > Install…** (asks for an
+   administrator password; audio restarts for a moment), then turn on **Renderer Engine**.
+5. Allow **Microphone** (the engine reads the virtual device's input to play it to the DAC) and
+   **Automation** for Music. Each new copy of an ad-hoc build asks again.
+
+To remove it: **Virtual Output Device > Remove…**, then delete the app. The engine log is
+`~/Library/Logs/LosslessSwitcher-Renderer.log`.
+
+### Build it
+
+Requirements: macOS 15 or later, Xcode 27 (the SwiftUI macros need Xcode, not just the Command
+Line Tools). The build is universal; it has only been run on Apple Silicon.
+
+```bash
+git clone -b renderer-vdevice https://github.com/dizzysound/LosslessSwitcher.git
+cd LosslessSwitcher
+./research/typecheck/make_xcode_dev_app.sh          # writes ~/Desktop/LosslessSwitcher-Dev-<commit>.zip
+```
+
+The script runs `xcodebuild` with the dev bundle id, ad-hoc signing and the **hardened runtime
+off**: with it on, library validation refuses the embedded ad-hoc `MediaRemoteAdapter.framework` at
+launch. A signed, notarized build needs a Developer ID (the project's team setting is upstream's).
+The Xcode build runs `HALPlugin/build.sh` to build the plug-in into the app's Resources; see
+[`HALPlugin/README.md`](HALPlugin/README.md) for building, testing and installing it by hand.
+
+### Known issues
+
+- Experimental: one heap-corruption crash in about 45 switches on the MT 48, not reproduced under
+  AddressSanitizer.
+- While the engine holds the DAC, choosing that DAC in the macOS Sound menu makes Control Center
+  hang until the engine lets go. Use the app's **Selected Device** instead.
+- About 70-80 ms of latency at 44.1 kHz.
+- Music's AutoMix blends tracks, so a clean switch isn't possible; turn it off.
+
+### Branches
+
+| Branch | What it is |
+|---|---|
+| `renderer-vdevice` (default) | The Renderer Engine, plus the research notes and bench tooling in `research/` |
+| `renderer-engine-pr` | The same engine without `research/`, for upstream PR #229 |
+| `local-file-detection` | Upstream PR #227 |
+| `bit-perfect-check` | Upstream PR #228 |
+| `main` | Upstream's `main`, unchanged |
+
+For testers: `research/renderer-engine/BENCH-BRIEF.md` lists what to test and what's already
+known; `research/renderer-engine/log.md` is the full test history.
+
+---
+
 <p align="center">
   <img width="550" alt="header image with app icon" src="https://user-images.githubusercontent.com/23420208/164895903-1c95fe89-6198-433a-9100-8d9af32ca24f.png">
 
