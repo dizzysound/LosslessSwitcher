@@ -219,3 +219,19 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   settings off and clicked Check Again: "Music settings: OK" at 20.3 s, window closed itself.
 - Menu showed no check marks (AX: no AXMenuItemMarkChar on any item; the owner couldn't tell what was on).
   MenuBarExtra .menu drops the Image(systemName: "checkmark") in Button labels. Next commit: Toggles.
+- d1bc9df: menu check marks show (AX: "Renderer Engine (Experimental) | mark ✓"; unmarked items match
+  the saved settings and registered defaults).
+- Bench stopped by the owner (2026-09-28 ~09:00). Left running on the bench Mac: d1bc9df, engine on,
+  Babyface hogged, default = virtual device. Old build kept as ~/Desktop/"LosslessSwitcher Dev (6c2d2ff)".
+  Open:
+  - Boundary switch with the lateArmAt fix: not yet seen (no 44.1k -> hi-res album boundary played).
+  - Built-in speakers as the DAC; restore on quit with the new build.
+  - The EQ preference key ("eqEnabled" 1 while AppleScript "EQ enabled" false): not confirmed; the
+    notifier uses AppleScript for EQ.
+  - Why NSRunningApplication lost Music every ~160 s (the pid check works around it).
+  - Engine stop on 6c2d2ff: "play attempt 1-4: Music isn't playing" over 8 s; possible gap.
+  - "played ~1.647 s" identical in two switches: check the tPlay estimate.
+  - Dolby Atmos setting values (preferredDolbyAtmosPlaySetting 30) not decoded; not checked.
+  - MediaRemoteAdapter's perl helper outlives the app (clean quit and kill -9).
+  - The bench Mac's Command Line Tools (Swift 6.4) can't build the app (no SwiftUIMacros plugin);
+    the build Mac's (6.3.3) can.
