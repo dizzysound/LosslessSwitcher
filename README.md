@@ -1,10 +1,10 @@
 > **This is a fork** of [vincentneo/LosslessSwitcher](https://github.com/vincentneo/LosslessSwitcher)
-> that adds an experimental **Renderer Engine** for bit-perfect sample-rate switching. The
+> that adds an experimental **Exclusive Mode** for bit-perfect sample-rate switching. The
 > upstream README follows the fork notes below. For the original app, use upstream's releases.
 
-## This fork: the Renderer Engine (experimental)
+## This fork: Exclusive Mode (experimental)
 
-The Renderer Engine is off by default ("Renderer Engine (Experimental)" in the menu). With it on:
+Exclusive Mode is off by default ("Exclusive Mode (Experimental)" in the menu). With it on:
 
 - Music plays to a virtual output device, "LosslessSwitcher" (a HAL plug-in, `HALPlugin/`). The
   engine reads it and plays the audio **unchanged** to your DAC (the Selected Device, or your
@@ -14,9 +14,12 @@ The Renderer Engine is off by default ("Renderer Engine (Experimental)" in the m
   rewinds and plays, so no track starts at the wrong rate. Local files and Apple Music streams both
   work. Same-rate and gapless changes pass through untouched.
 - The volume keys drive the DAC's own volume and mute (4 dB per step); the audio stays at unity.
-- After 60 s without playback it gives the DAC and the default output back ("Release DAC When
+- After 60 s without playback it gives the DAC and the default output back ("Advanced > Release DAC When
   Music Is Idle"), and takes them again when Music plays (about 2 s from play to sound on the
   Babyface Pro).
+- Optional, off by default: **Advanced > Inter-sample Overshoot Protection**, a fixed -3.0 dB on
+  the output for loud masters that peak above full scale between samples. With it on, the output is
+  no longer bit-perfect (Bit-Perfect Check says so).
 - A window points out Music settings that defeat bit-perfect playback (AutoMix/Crossfade, Sound
   Check, EQ, volume below 100).
 
@@ -35,13 +38,13 @@ notarized, so:
 2. Right-click **LosslessSwitcher Dev** > **Open** the first time.
 3. Quit the regular LosslessSwitcher if it's running. The dev build has its own bundle id
    (`com.dizzysound.LosslessSwitcher.dev`) and settings, so both can be installed.
-4. In its menu (a music note in the menu bar): **Virtual Output Device > Install…** (asks for an
-   administrator password; audio restarts for a moment), then turn on **Renderer Engine**.
+4. In its menu (a music note in the menu bar): **Advanced > Virtual Output Device > Install…** (asks for an
+   administrator password; audio restarts for a moment), then turn on **Exclusive Mode**.
 5. Allow **Microphone** (the engine reads the virtual device's input to play it to the DAC) and
    **Automation** for Music. Each new copy of an ad-hoc build asks again.
 
-To remove it: **Virtual Output Device > Remove…**, then delete the app. The engine log is
-`~/Library/Logs/LosslessSwitcher-Renderer.log`.
+To remove it: **Advanced > Virtual Output Device > Remove…**, then delete the app. The engine log is
+`~/Library/Logs/LosslessSwitcher-ExclusiveMode.log`.
 
 ### Build it
 
@@ -73,7 +76,7 @@ The Xcode build runs `HALPlugin/build.sh` to build the plug-in into the app's Re
 
 | Branch | What it is |
 |---|---|
-| `renderer-vdevice` (default) | The Renderer Engine, plus the research notes and bench tooling in `research/` |
+| `renderer-vdevice` (default) | Exclusive Mode, plus the research notes and bench tooling in `research/` |
 | `renderer-engine-pr` | The same engine without `research/`, for upstream PR #229 |
 | `local-file-detection` | Upstream PR #227 |
 | `bit-perfect-check` | Upstream PR #228 |

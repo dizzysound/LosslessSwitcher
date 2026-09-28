@@ -1,11 +1,11 @@
-# Bench test: LosslessSwitcher Dev (virtual-device Renderer Engine) on another Mac
+# Bench test: LosslessSwitcher Dev (Exclusive Mode) on another Mac
 
 You're testing a dev build of LosslessSwitcher (the owner's fork, dizzysound/LosslessSwitcher, branch
 `renderer-vdevice`) on a Mac other than the one it was built on. The build's commit is in README.txt.
 
 ## What the build does
 Music plays to a virtual output device, "LosslessSwitcher" (HAL plug-in LSOutput.driver, installed to
-/Library/Audio/Plug-Ins/HAL from the app's menu). The Renderer Engine reads that device's loopback and
+/Library/Audio/Plug-Ins/HAL from the app's menu). Exclusive Mode reads that device's loopback and
 plays it, unchanged, to the DAC: the Selected Device, or the default output from before if Selected
 Device is "Default Device". It hogs the DAC and uses its non-mixable integer format when the DAC
 offers one. The virtual clock is steered to the DAC's. When a track needs a different sample rate, it
@@ -14,7 +14,7 @@ end (local files, and Apple Music streams whose next decoder is set up up to ~2 
 and gapless changes pass through untouched. The volume keys drive the DAC's own volume and mute (4 dB
 per step, linear in dB); the audio stays at unity. When Music hasn't played for 60 s the engine steps
 aside (DAC un-hogged, the previous default output restored) and takes the output back when Music
-plays again ("Release DAC When Music Is Idle", on by default). On quit it restores the default
+plays again ("Advanced > Release DAC When Music Is Idle", on by default). On quit it restores the default
 output, un-hogged.
 
 ## Setup
@@ -23,10 +23,10 @@ output, un-hogged.
 3. Quit the regular LosslessSwitcher if it runs:
    `osascript -e 'tell application id "com.vincent-neo.LosslessSwitcher" to quit'`
 4. Open the dev app. Its menu-bar item is a music note (on a notched MacBook it can hide under the
-   notch). Menu: Virtual Output Device > Install... (admin password; audio restarts for a moment), then
-   Renderer Engine (Experimental). Allow the Microphone and Automation (Music) prompts: the engine
+   notch). Menu: Advanced > Virtual Output Device > Install... (admin password; audio restarts for a moment), then
+   Exclusive Mode (Experimental). Allow the Microphone and Automation (Music) prompts: the engine
    waits for the Microphone answer and leaves the output alone until then.
-Engine log: ~/Library/Logs/LosslessSwitcher-Renderer.log (recreated at each engine start).
+Engine log: ~/Library/Logs/LosslessSwitcher-ExclusiveMode.log (recreated at each engine start).
 
 ## What to test (report with log lines, not assumptions)
 1. The DAC: which formats it offers (non-mixable integer or float only), "hog DAC", "DAC format ->",
@@ -50,6 +50,11 @@ Engine log: ~/Library/Logs/LosslessSwitcher-Renderer.log (recreated at each engi
    aside", the DAC un-hogged and the default. Press play: "playback began while stepped aside", then
    "restarts at ..." or a rate switch, and "rewound to ..." about where Music started (not ~1.5 s
    earlier). Note the time from pressing play to sound (Babyface Pro: ~2.2 s).
+10. Advanced > Inter-sample Overshoot Protection (off by default): turn it on while playing: the log
+   says "inter-sample overshoot protection on: output -3.0 dB, not bit-perfect", Bit-Perfect Check
+   lists it, and the level drops by 3 dB (a loopback or level meter on the DAC's output shows it).
+   Turn it off: "off: output unchanged". The settings menu is under Advanced; the engine's options
+   there show only while Exclusive Mode is on.
 
 ## Rules (the owner)
 - No gap or pause unless there's a sample-rate switch.

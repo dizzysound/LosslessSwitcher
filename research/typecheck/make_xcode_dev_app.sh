@@ -28,10 +28,10 @@ Universal (Apple Silicon and Intel). Ad-hoc signed: each copy asks again for Mic
 2. Right-click the app > Open the first time (or: xattr -dr com.apple.quarantine "LosslessSwitcher Dev.app").
 3. Quit the regular LosslessSwitcher if it runs, then open LosslessSwitcher Dev. No setup script is needed.
 4. Menu-bar item (a music note; on a notched MacBook it can hide under the notch):
-   Virtual Output Device > Install... (administrator password; audio restarts for a moment),
-   then Renderer Engine (Experimental). Allow Microphone and Automation.
-Engine log: ~/Library/Logs/LosslessSwitcher-Renderer.log
-Remove: menu Virtual Output Device > Remove..., then delete the app.
+   Advanced > Virtual Output Device > Install... (administrator password; audio restarts for a moment),
+   then Exclusive Mode (Experimental). Allow Microphone and Automation.
+Engine log: ~/Library/Logs/LosslessSwitcher-ExclusiveMode.log
+Remove: menu Advanced > Virtual Output Device > Remove..., then delete the app.
 What to test, the rules and what's already known: BENCH-BRIEF.md.
 TXT
 cp research/renderer-engine/BENCH-BRIEF.md "$OUT/BENCH-BRIEF.md"
