@@ -122,6 +122,7 @@ final class VirtualDeviceEngine {
     private var awaiting: (name: String, tPlay: Date, until: Date)? // a new track whose decoder line hasn't come yet
     private var gateMarkedAt: Date?
     private var gateWaitsForMusic = false // after Music quit: the gate waits longer for its Playing
+    private var regateOnSilence = false   // the gate let another sound through: close it when that ends
     private var strayMarkerAt: Date?
     private var setUpAt: Date?
     private var inputSeen = false
@@ -642,7 +643,7 @@ final class VirtualDeviceEngine {
             log("playerInfo without a name or PersistentID: not a track; gate \(gatePending ? "held" : "open")")
             return
         }
-        if playing { gateWaitsForMusic = false }
+        if playing { gateWaitsForMusic = false; regateOnSilence = false }
         let armedOrLatched = armAt != nil || latchZeros.load(ordering: .acquiring) > 0 || latchedAt != nil
         if !playing {
             if pid == lastTrackID, armedOrLatched { disarm("\(state) on the same track") }
@@ -738,6 +739,7 @@ final class VirtualDeviceEngine {
             if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
             releaseGate("no decoder line")
         }
+        regateIfSilent()
         if let l = lateArmAt, Date() >= l, armAt == nil, armedAt == nil, latchedAt == nil, !inRoutine {
             lateArmAt = nil
             armAt = Date()
@@ -772,8 +774,19 @@ final class VirtualDeviceEngine {
             if gateMarkedAt == nil { gateMarkedAt = Date(); log("gate: output started at ring \(m); waiting for the track's rate") }
             // another app's sound, or Music never reported Playing
             let limit = gateWaitsForMusic ? 4.0 : 1.5
-            if !playing, let g = gateMarkedAt, Date().timeIntervalSince(g) > limit { gateWaitsForMusic = false; releaseGate("no Playing within \(limit) s") }
+            if !playing, let g = gateMarkedAt, Date().timeIntervalSince(g) > limit { releaseGate("no Playing within \(limit) s"); regateOnSilence = true }
         }
+    }
+
+    /// Another app's sound (or Music's tail after a quit) opened the gate while Music wasn't playing:
+    /// Babyface bench, Kashmir then started ungated. Close the gate after 0.3 s of silence.
+    private func regateIfSilent() {
+        guard regateOnSilence, !gatePending, !playing, !inRoutine else { return }
+        let silent = ring.written - lastNZ.load(ordering: .acquiring)
+        guard silent >= Int(0.3 * curRate) else { return }
+        regateOnSilence = false
+        gatePending = true; gateMarkedAt = nil; gate.store(1, ordering: .releasing)
+        log("gate closed again after \(silent * 1000 / max(Int(curRate), 1)) ms of silence")
     }
 
     private func disarm(_ why: String) {

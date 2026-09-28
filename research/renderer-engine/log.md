@@ -186,3 +186,8 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
 - Music settings notifier (next commit): at engine start and each new track only (no timer, per
   the owner: minimal CPU); prefs TransitionsEnabled / optimizeSongVolume / losslessEnabled, AppleScript EQ
   enabled and sound volume; log + menu line + one notification per change of the problem set.
+- Build 6c2d2ff live: "Music quit; the next play waits at the gate" (fix 2 works), but a sound right
+  after the quit opened the gate ("gate released (no Playing within 4.0 s)"), and nothing closed it
+  again: "new track Kashmir: no decoder line for it yet; playing on at 44100 Hz". Fix (next commit):
+  after a no-Playing release, close the gate again after 0.3 s of silence (ring written - lastNZ).
+  General, not only after a quit: another app's sound while Music is paused did the same.
