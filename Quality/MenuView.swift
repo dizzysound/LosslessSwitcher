@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/// A menu-style MenuBarExtra is a native NSMenu: an Image(systemName: "checkmark") inside a Button's
+/// label is not drawn there (on the Babyface bench, macOS 27, no option showed as selected). Toggles
+/// get the menu's own check mark.
 struct MenuView: View {
     
     @EnvironmentObject private var outputDevices: OutputDevices
@@ -31,60 +34,15 @@ struct MenuView: View {
                 Text(defaults.statusBarItemTitle)
             }
             
-            Button {
-                defaults.userPreferBitDepthDetection.toggle()
-            } label: {
-                HStack {
-                    Text("Bit Depth Switching")
-                    if defaults.userPreferBitDepthDetection {
-                        Image(systemName: "checkmark")
-                    }
-                }
-            }
+            Toggle("Bit Depth Switching", isOn: $defaults.userPreferBitDepthDetection)
             
-            Button {
-                defaults.userPreferSampleRateMultiples.toggle()
-            } label: {
-                HStack {
-                    Text("Prefer Closest Sample Rate Multiple")
-                    if defaults.userPreferSampleRateMultiples {
-                        Image(systemName: "checkmark")
-                    }
-                }
-            }
+            Toggle("Prefer Closest Sample Rate Multiple", isOn: $defaults.userPreferSampleRateMultiples)
             
-            Button {
-                defaults.userPreferLocalFileDetection.toggle()
-            } label: {
-                HStack {
-                    Text("Detect Local Files")
-                    if defaults.userPreferLocalFileDetection {
-                        Image(systemName: "checkmark")
-                    }
-                }
-            }
+            Toggle("Detect Local Files", isOn: $defaults.userPreferLocalFileDetection)
             
-            Button {
-                defaults.userPreferPauseWhileSwitching.toggle()
-            } label: {
-                HStack {
-                    Text("Pause While Switching (Local Files)")
-                    if defaults.userPreferPauseWhileSwitching {
-                        Image(systemName: "checkmark")
-                    }
-                }
-            }
+            Toggle("Pause While Switching (Local Files)", isOn: $defaults.userPreferPauseWhileSwitching)
 
-            Button {
-                defaults.userPreferRendererEngine.toggle()
-            } label: {
-                HStack {
-                    Text("Renderer Engine (Experimental)")
-                    if defaults.userPreferRendererEngine {
-                        Image(systemName: "checkmark")
-                    }
-                }
-            }
+            Toggle("Renderer Engine (Experimental)", isOn: $defaults.userPreferRendererEngine)
 
             Menu {
                 switch virtualOutput.state {
@@ -110,14 +68,7 @@ struct MenuView: View {
 
             Menu {
                 ForEach(SwitchGap.allCases, id: \.self) { gap in
-                    Button {
-                        defaults.switchGap = gap
-                    } label: {
-                        Text(gap.rawValue)
-                        if defaults.switchGap == gap {
-                            Image(systemName: "checkmark")
-                        }
-                    }
+                    Toggle(gap.rawValue, isOn: Binding(get: { defaults.switchGap == gap }, set: { if $0 { defaults.switchGap = gap } }))
                 }
             } label: {
                 Text("Gap After Switching")
@@ -137,26 +88,14 @@ struct MenuView: View {
             }
 
             Menu {
-                Button {
-                    outputDevices.selectedOutputDevice = nil
-                    defaults.selectedDeviceUID = nil
-                } label: {
-                    if outputDevices.selectedOutputDevice == nil {
-                        Image(systemName: "checkmark")
-                    }
-                    Text("Default Device")
-                }
+                Toggle("Default Device", isOn: Binding(get: { outputDevices.selectedOutputDevice == nil }, set: { on in
+                    if on { outputDevices.selectedOutputDevice = nil; defaults.selectedDeviceUID = nil }
+                }))
 
                 ForEach(outputDevices.outputDevices, id: \.uid) { device in
-                    Button {
-                        outputDevices.selectedOutputDevice = device
-                        defaults.selectedDeviceUID = device.uid
-                    } label: {
-                        Text(device.name)
-                        if outputDevices.selectedOutputDevice?.uid == device.uid {
-                            Image(systemName: "checkmark")
-                        }
-                    }
+                    Toggle(device.name, isOn: Binding(get: { outputDevices.selectedOutputDevice?.uid == device.uid }, set: { on in
+                        if on { outputDevices.selectedOutputDevice = device; defaults.selectedDeviceUID = device.uid }
+                    }))
                 }
             } label: {
                 Text("Selected Device")

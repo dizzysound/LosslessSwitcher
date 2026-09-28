@@ -215,3 +215,7 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   Crossfade is on". The owner: the notification appeared but wants a persistent window with instructions.
   Next commit: a window listing each problem and its fix, Check Again, Set to 100 for Music's volume;
   closes itself when a check comes back clean. EQ key still unconfirmed.
+- d38abf1: settings window opened at engine start ("AutoMix or Crossfade is on"); the owner turned the
+  settings off and clicked Check Again: "Music settings: OK" at 20.3 s, window closed itself.
+- Menu showed no check marks (AX: no AXMenuItemMarkChar on any item; the owner couldn't tell what was on).
+  MenuBarExtra .menu drops the Image(systemName: "checkmark") in Button labels. Next commit: Toggles.
