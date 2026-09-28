@@ -235,3 +235,18 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   - MediaRemoteAdapter's perl helper outlives the app (clean quit and kill -9).
   - The bench Mac's Command Line Tools (Swift 6.4) can't build the app (no SwiftUIMacros plugin);
     the build Mac's (6.3.3) can.
+
+# Xcode build (the build Mac, Xcode 27.0 27A266a, 2026-09-28 12:45-12:55)
+- The build Mac has no code-signing identities; the project's team is upstream's (3X69W4AQD6); bundle id is the
+  regular app's. Built with CODE_SIGN_IDENTITY=- DEVELOPMENT_TEAM= and the dev bundle id. The Run
+  Script phase ("Bundle HAL plug-in") ran for the first time: driver Info.plist 0644. Universal.
+  MediaRemoteAdapter_MediaRemoteAdapter.bundle is in Contents/Resources; no build path in the binary.
+- First try (hardened runtime on, as in the project): dyld "Library missing" at launch: "code
+  signature ... not valid for use in process: mapping process and mapped file (non-platform) have
+  different Team IDs" for the embedded ad-hoc MediaRemoteAdapter.framework (library validation).
+  With ENABLE_HARDENED_RUNTIME=NO it launches, also with /Users/Shared/LosslessSwitcher-dev-build moved
+  aside: the setup script isn't needed for Xcode builds. (A Developer ID build needs a paid account;
+  the owner's identity verification failed.)
+- An iCloud-synced Desktop adds com.apple.fileprovider.fpfs / FinderInfo xattrs ("detritus" for
+  codesign --strict): install bench apps in ~/Applications.
+- research/typecheck/make_xcode_dev_app.sh: the bench build in one step (zip + README).
