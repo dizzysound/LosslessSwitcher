@@ -11,4 +11,5 @@ clang -bundle -O2 -Wall -Wno-unused-function -mmacosx-version-min=13.0 -arch arm
 cp Info.plist LSOutput.driver/Contents/Info.plist
 plutil -lint LSOutput.driver/Contents/Info.plist >/dev/null
 codesign --force --sign - --timestamp=none LSOutput.driver
+chmod -R a+rX LSOutput.driver # coreaudiod (_coreaudiod) must read it; ditto keeps the modes
 codesign -dv LSOutput.driver 2>&1 | egrep "Identifier|Signature"
