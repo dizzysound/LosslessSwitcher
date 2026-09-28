@@ -51,6 +51,10 @@ class OutputDevices: ObservableObject {
 
     init() {
         self.outputDevices = Self.selectable(self.coreAudio.allOutputDevices)
+        // the saved Selected Device (AppDelegate.handleDevicesMenu restored it before the SwiftUI menu)
+        if let uid = Defaults.shared.selectedDeviceUID {
+            self.selectedOutputDevice = self.outputDevices.first { $0.uid == uid }
+        }
         self.defaultOutputDevice = self.coreAudio.defaultOutputDevice
         self.getDeviceSampleRate()
         
