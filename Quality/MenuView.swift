@@ -34,13 +34,18 @@ struct MenuView: View {
                 Text(defaults.statusBarItemTitle)
             }
             
-            Toggle("Bit Depth Switching", isOn: $defaults.userPreferBitDepthDetection)
-            
             Toggle("Prefer Closest Sample Rate Multiple", isOn: $defaults.userPreferSampleRateMultiples)
+
+            // With the Renderer Engine on these do nothing: it always pauses and rewinds at a rate change,
+            // for local files and streams, reads local files itself, takes the DAC's deepest format and
+            // plays to the default output. They stay for the regular path.
+            if !defaults.userPreferRendererEngine {
+            Toggle("Bit Depth Switching", isOn: $defaults.userPreferBitDepthDetection)
             
             Toggle("Detect Local Files", isOn: $defaults.userPreferLocalFileDetection)
             
             Toggle("Pause While Switching (Local Files)", isOn: $defaults.userPreferPauseWhileSwitching)
+            }
 
             Toggle("Renderer Engine (Experimental)", isOn: $defaults.userPreferRendererEngine)
 
@@ -66,6 +71,7 @@ struct MenuView: View {
             }
             .disabled(virtualOutput.busy)
 
+            if !defaults.userPreferRendererEngine {
             Menu {
                 ForEach(SwitchGap.allCases, id: \.self) { gap in
                     Toggle(gap.rawValue, isOn: Binding(get: { defaults.switchGap == gap }, set: { if $0 { defaults.switchGap = gap } }))
@@ -74,6 +80,7 @@ struct MenuView: View {
                 Text("Gap After Switching")
             }
             .disabled(!defaults.userPreferPauseWhileSwitching)
+            }
             
             Menu {
                 ForEach(bitPerfectCheck.items) { item in
@@ -87,6 +94,7 @@ struct MenuView: View {
                 Text(bitPerfectCheck.issueCount == 0 ? "Bit-Perfect Check" : "Bit-Perfect Check (\(bitPerfectCheck.issueCount) to review)")
             }
 
+            if !defaults.userPreferRendererEngine {
             Menu {
                 Toggle("Default Device", isOn: Binding(get: { outputDevices.selectedOutputDevice == nil }, set: { on in
                     if on { outputDevices.selectedOutputDevice = nil; defaults.selectedDeviceUID = nil }
@@ -99,6 +107,7 @@ struct MenuView: View {
                 }
             } label: {
                 Text("Selected Device")
+            }
             }
             
             Menu {

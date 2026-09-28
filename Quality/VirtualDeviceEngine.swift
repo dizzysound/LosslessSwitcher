@@ -154,6 +154,7 @@ final class VirtualDeviceEngine {
     private var lockAfterCycles = (0, 0)
     private var waitingForScalar = false
     private var refillAsked = false
+    private var scriptRate: Float64 = 0 // the rate the user's script (Scripting menu) last heard
     private var ticksPerSec = 0.0
 
     // shared with the IO threads
@@ -474,10 +475,23 @@ final class VirtualDeviceEngine {
             let st = AudioObjectSetPropertyData(dacOut, &a, 0, nil, UInt32(MemoryLayout<AudioStreamBasicDescription>.size), &pf)
             nonMixable = f.mFormatFlags & kAudioFormatFlagIsNonMixable != 0
             log("DAC format -> \(CA.fmt(f)): \(st)")
+            runUserScript(rate, bits: Int(f.mBitsPerChannel))
         } else if CA.nominal(dac) != rate {
             log("DAC has no listed format at \(rate) Hz; nominal rate -> \(CA.setNominal(dac, rate))")
+            runUserScript(rate, bits: nil)
         }
         curRate = rate
+    }
+
+    /// Scripting menu: the regular path runs the user's script (rate, bit depth) when it sets a new
+    /// rate; the engine owns rate changes while it runs, so it does the same, once per new rate.
+    private func runUserScript(_ rate: Float64, bits: Int?) {
+        guard rate != scriptRate else { return }
+        scriptRate = rate
+        guard let path = Defaults.shared.shellScriptPath else { return }
+        log("script: \(path) \(Int(rate))\(bits.map { " \($0)" } ?? "")")
+        let devices = outputDevices
+        DispatchQueue.main.async { devices.runUserScript(rate, bitDepth: bits) }
     }
 
     /// Non-mixable first when hogged (exclusive integer output), then the most bits.
