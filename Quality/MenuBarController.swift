@@ -28,6 +28,12 @@ class MenuBarController {
     var bitPerfectCheck: BitPerfectCheck!
 
     @ObservationIgnored
+    private var rendererEngine: RendererEngine!
+
+    @ObservationIgnored
+    private var rendererCancellable: AnyCancellable?
+
+    @ObservationIgnored
     private var selectedDeviceCancellable: AnyCancellable?
     
     private init() {
@@ -41,5 +47,18 @@ class MenuBarController {
         self.selectedDeviceCancellable = outputDevices.$selectedOutputDevice.dropFirst().sink { [weak self] _ in
             self?.bitPerfectCheck.refreshAfterDeviceChange()
         }
+        let engine = RendererEngine(outputDevices: outputDevices)
+        self.rendererEngine = engine
+        self.rendererCancellable = Defaults.shared.$userPreferRendererEngine
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { on in
+                if on { engine.start() } else { engine.stop() }
+            }
+    }
+
+    /// Called on quit: tears the renderer's pipeline down and gives Music its volume back.
+    func stopRenderer() {
+        rendererEngine.stop()
     }
 }

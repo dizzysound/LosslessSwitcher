@@ -33,6 +33,8 @@ cp -R "$BIN/MediaRemoteAdapter_MediaRemoteAdapter.bundle" "$STAGE/Contents/Resou
 cp "$REPO/Quality/LosslessSwitcher.sdef" "$STAGE/Contents/Resources/"
 for f in AppIcon.icns Assets.car; do [ -f "$TEMPLATE/Contents/Resources/$f" ] && cp "$TEMPLATE/Contents/Resources/$f" "$STAGE/Contents/Resources/"; done
 cp "$TEMPLATE/Contents/Info.plist" "$STAGE/Contents/Info.plist"
+/usr/libexec/PlistBuddy -c "Print NSAudioCaptureUsageDescription" "$STAGE/Contents/Info.plist" >/dev/null 2>&1 || \
+  /usr/libexec/PlistBuddy -c "Add NSAudioCaptureUsageDescription string The Renderer Engine takes Music's audio from the output device and plays it back unchanged, so it can switch the sample rate without cutting tracks." "$STAGE/Contents/Info.plist"
 VER=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$STAGE/Contents/Info.plist" | sed 's/-local.*//')
 /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $VER-local-$SHA" "$STAGE/Contents/Info.plist"
 codesign -s - --force --deep "$STAGE" 2>&1 | { grep -v "replacing existing" || true; }

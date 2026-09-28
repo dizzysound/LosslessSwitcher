@@ -110,7 +110,8 @@ class TrackBoundarySwitcher {
         // the notification repeats for the same track, and fires again when we resume
         guard persistentID != lastPersistentID else { return }
         lastPersistentID = persistentID
-        guard Defaults.shared.userPreferPauseWhileSwitching else { return }
+        // RendererEngine does its own pause-while-switching when it is on
+        guard Defaults.shared.userPreferPauseWhileSwitching, !Defaults.shared.userPreferRendererEngine else { return }
         // until the switcher has asked Music, keep the regular path away from this track
         Self.setCurrentTrackKind(.unknown)
 

@@ -106,7 +106,11 @@ class OutputDevices: ObservableObject {
     
     func getAllStats() -> [CMPlayerStats] {
         var allStats = [CMPlayerStats]()
-        
+
+        // RendererEngine owns rate switching; a rate set from here would land mid-track.
+        if Defaults.shared.userPreferRendererEngine {
+            return []
+        }
         if Defaults.shared.userPreferPauseWhileSwitching {
             // TrackBoundarySwitcher owns local tracks (switching here would change the rate mid-track)
             // and has already asked Music; asking again from this timer competes with Music's controls.
@@ -164,6 +168,9 @@ class OutputDevices: ObservableObject {
                 // The track may have changed while the logs were read; if TrackBoundarySwitcher now
                 // owns it, a stale rate applied here would land in the middle of its wait.
                 if Defaults.shared.userPreferPauseWhileSwitching, TrackBoundarySwitcher.currentTrackKind != .notLocal {
+                    return
+                }
+                if Defaults.shared.userPreferRendererEngine {
                     return
                 }
                 self.apply(suitableFormat, device: defaultDevice)

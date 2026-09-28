@@ -69,6 +69,17 @@ struct MenuView: View {
                 }
             }
 
+            Button {
+                defaults.userPreferRendererEngine.toggle()
+            } label: {
+                HStack {
+                    Text("Renderer Engine (Experimental)")
+                    if defaults.userPreferRendererEngine {
+                        Image(systemName: "checkmark")
+                    }
+                }
+            }
+
             Menu {
                 ForEach(SwitchGap.allCases, id: \.self) { gap in
                     Button {
