@@ -20,6 +20,7 @@
 //  - A play from paused/stopped waits at the ring's "gate" (A marks the first nonzero frame) until
 //    the new track's rate is known, so a wrong-rate start never reaches the DAC.
 //  Same-rate changes, gapless albums and pause/resume pass through untouched.
+//  Volume keys: the virtual device's volume and mute drive the DAC's own controls (VolumeForwarder).
 //  Research and measurements: github.com/dizzysound/music-tap-spike (branch vdevice), log.md.
 //
 //  Needs Microphone (reading the virtual device's input) and Automation (Music) permissions.
@@ -57,15 +58,20 @@ final class VirtualDeviceEngine {
     /// whatever coreaudiod fell back to (1.1: MacBook Pro Speakers in the kill test). Give the DAC its
     /// mixable format back and make it the default again. Harmless when the engine starts next.
     static func recoverOutput() {
+        let volumeNote = VolumeForwarder.recover()
         let unclean = UserDefaults.standard.bool(forKey: ownsOutputKey)
         let ls = findDevice()
         let current = CA.defaultOutput()
-        guard unclean || (ls != nil && current == ls) else { return }
+        guard unclean || (ls != nil && current == ls) else {
+            if let volumeNote { UserDefaults.standard.set("[Renderer] " + volumeNote, forKey: recoveryNoteKey) }
+            return
+        }
         let saved = UserDefaults.standard.string(forKey: dacUIDKey).flatMap { uid in CA.devices().first { CA.string($0, kAudioDevicePropertyDeviceUID) == uid } }
         guard let dac = saved ?? ls.flatMap({ fallbackOutput(excluding: $0) }) else { return }
         var msg = "[Renderer] recovering the output after \(unclean ? "an unclean exit" : "a default left on the virtual device"): DAC \(CA.string(dac, kAudioObjectPropertyName))"
         if CA.hogOwner(dac) == -1 { msg += ", mixable \(CA.setMixable(dac))" }
         if current != dac { msg += ", default output (was \(CA.string(current, kAudioObjectPropertyName))) \(CA.setDefaultOutput(dac))" }
+        if let volumeNote { msg += "; " + volumeNote }
         print(msg)
         UserDefaults.standard.set(msg, forKey: recoveryNoteKey) // the next engine run logs it
         UserDefaults.standard.removeObject(forKey: ownsOutputKey)
@@ -146,6 +152,7 @@ final class VirtualDeviceEngine {
     private var formatListener: AudioObjectPropertyListenerBlock?
     private var listenedStream = AudioStreamID(0)
     private let listenerQueue = DispatchQueue(label: "RendererEngine.formatListener")
+    private lazy var volume = VolumeForwarder(log: { [unowned self] in self.log($0) })
     private let aCycles = Atomic<Int>(0), bCycles = Atomic<Int>(0)
     private let inFrames = Atomic<Int>(0), outFrames = Atomic<Int>(0)
     private let outSegmentAt = Atomic<Int>(-1) // B: outFrames where a flush took effect
@@ -398,6 +405,7 @@ final class VirtualDeviceEngine {
         }
         updateOutFormat()
         listenForFormatChanges()
+        volume.start(virtual: ls, dac: d)
         setUpAt = Date(); inputSeen = false
         recorder?.segmentOut(outFrames.load(ordering: .acquiring), curRate)
         recorder?.segmentIn(inFrames.load(ordering: .acquiring), curRate)
@@ -517,6 +525,7 @@ final class VirtualDeviceEngine {
     }
 
     private func tearDownDAC() {
+        volume.stop()
         removeFormatListener()
         outFormat.store(0, ordering: .releasing)
         if let p = procB {
@@ -1384,5 +1393,165 @@ enum CA {
         for i in 0..<Int(u.pointee.mNumberStreams) { flags[i] = 0 }
         st = AudioObjectSetPropertyData(dev, &a, 0, nil, z, raw)
         return st
+    }
+}
+
+// MARK: - Volume forwarding
+
+/// The volume keys and the sound menu change the default output's volume and mute: while the
+/// engine runs that is the virtual device, which passes audio at unity. Its volume and mute are
+/// forwarded to the DAC's own controls, so the stream to the DAC stays bit-perfect. Scalar to
+/// scalar, so each device keeps its own taper. The DAC's master element (0) if it has a volume
+/// there, else the stereo pair's channel elements (Babyface Pro: channels 1/2, no master, no mute).
+/// A DAC without a mute is muted by setting its volume to the minimum; unmute restores the virtual
+/// device's volume. A change made on the DAC itself (Audio MIDI Setup, TotalMix) moves the virtual
+/// device's volume to match, so the keys carry on from there. Listeners run on their own queue:
+/// the keys keep working while a rate switch holds the engine thread.
+final class VolumeForwarder {
+    /// Set while a DAC without a mute is at its minimum for a mute: [UID, level to restore].
+    private static let mutedKey = "RendererDACMutedByVolume"
+    private static let tolerance: Float32 = 0.001
+
+    private let queue = DispatchQueue(label: "RendererEngine.volume")
+    private let log: (String) -> Void
+    // on the queue
+    private var active = false
+    private var ls = AudioObjectID(0), dac = AudioObjectID(0), dacUID = ""
+    private var volumeEls: [UInt32] = [], muteEls: [UInt32] = []
+    private var emulatedMute = false
+    // engine thread
+    private var listeners: [(AudioObjectID, AudioObjectPropertyAddress, AudioObjectPropertyListenerBlock)] = []
+
+    init(log: @escaping (String) -> Void) { self.log = log }
+
+    /// Engine thread, after the DAC is set up.
+    func start(virtual ls: AudioObjectID, dac: AudioObjectID) {
+        stop()
+        let vols = Self.elements(dac, kAudioDevicePropertyVolumeScalar)
+        let mutes = Self.elements(dac, kAudioDevicePropertyMute)
+        queue.sync {
+            self.ls = ls; self.dac = dac; self.dacUID = CA.string(dac, kAudioDevicePropertyDeviceUID)
+            volumeEls = vols; muteEls = mutes; emulatedMute = false
+            guard !vols.isEmpty else {
+                log("volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)")
+                return
+            }
+            // start from the DAC's level, so nothing jumps
+            let levels = vols.map { Self.get(dac, kAudioDevicePropertyVolumeScalar, $0) ?? 1 }
+            let level = levels.max() ?? 1
+            let muted = mutes.first.flatMap { Self.get(dac, kAudioDevicePropertyMute, $0) }.map { $0 != 0 } ?? false
+            let st = Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, level)
+            let mst = Self.set(ls, kAudioDevicePropertyMute, 0, muted ? 1 : 0)
+            log("volume: forwarding to DAC element\(vols.count > 1 ? "s" : "") \(vols.map(String.init).joined(separator: ",")) (\(Self.db(dac, vols[0])) dB), mute \(mutes.isEmpty ? "emulated (DAC has none)" : "to element\(mutes.count > 1 ? "s" : "") \(mutes.map(String.init).joined(separator: ","))"); virtual volume -> \(String(format: "%.4f", level)): \(st), mute -> \(muted ? 1 : 0): \(mst)\(Set(levels).count > 1 ? "; DAC channels differed, the keys set them equal" : "")")
+            active = true
+        }
+        guard !vols.isEmpty else { return }
+        for sel in [kAudioDevicePropertyVolumeScalar, kAudioDevicePropertyMute] {
+            listen(ls, AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: 0)) { $0.push() }
+        }
+        for e in vols {
+            listen(dac, AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyVolumeScalar, mScope: kAudioObjectPropertyScopeOutput, mElement: e)) { $0.pull() }
+        }
+    }
+
+    /// Engine thread: listeners off; a DAC muted by volume gets its level back.
+    func stop() {
+        for (obj, a, block) in listeners { var a = a; AudioObjectRemovePropertyListenerBlock(obj, &a, queue, block) }
+        listeners = []
+        queue.sync {
+            guard active else { return }
+            active = false
+            if emulatedMute {
+                let level = Self.get(ls, kAudioDevicePropertyVolumeScalar, 0) ?? 1
+                log("volume: unmuting the DAC as the engine lets go: \(setDAC(level))")
+                emulatedMute = false
+                UserDefaults.standard.removeObject(forKey: Self.mutedKey)
+            }
+        }
+    }
+
+    /// At launch after an unclean exit: a DAC left at its minimum by an emulated mute gets its level back.
+    static func recover() -> String? {
+        guard let saved = UserDefaults.standard.array(forKey: mutedKey), saved.count == 2,
+              let uid = saved[0] as? String, let level = (saved[1] as? NSNumber)?.floatValue else { return nil }
+        UserDefaults.standard.removeObject(forKey: mutedKey)
+        guard let d = CA.devices().first(where: { CA.string($0, kAudioDevicePropertyDeviceUID) == uid }) else { return nil }
+        let st = elements(d, kAudioDevicePropertyVolumeScalar).map { set(d, kAudioDevicePropertyVolumeScalar, $0, level) }
+        return "DAC volume restored from an emulated mute to \(String(format: "%.4f", level)): \(st)"
+    }
+
+    private func listen(_ obj: AudioObjectID, _ a: AudioObjectPropertyAddress, _ body: @escaping (VolumeForwarder) -> Void) {
+        var a = a
+        let block: AudioObjectPropertyListenerBlock = { [weak self] _, _ in if let self, self.active { body(self) } }
+        let st = AudioObjectAddPropertyListenerBlock(obj, &a, queue, block)
+        if st == noErr { listeners.append((obj, a, block)) } else { log("volume: listener on \(obj) el \(a.mElement): \(st)") }
+    }
+
+    /// Virtual device -> DAC (a volume key, the sound menu).
+    private func push() {
+        guard let v = Self.get(ls, kAudioDevicePropertyVolumeScalar, 0) else { return }
+        let m = (Self.get(ls, kAudioDevicePropertyMute, 0) ?? 0) != 0
+        var did: [String] = []
+        if !muteEls.isEmpty {
+            for e in muteEls where (Self.get(dac, kAudioDevicePropertyMute, e) ?? 0) != (m ? 1 : 0) {
+                did.append("mute el\(e) -> \(m ? 1 : 0): \(Self.set(dac, kAudioDevicePropertyMute, e, m ? 1 : 0))")
+            }
+        } else if m != emulatedMute {
+            emulatedMute = m
+            if m { UserDefaults.standard.set([dacUID, NSNumber(value: v)], forKey: Self.mutedKey) } else { UserDefaults.standard.removeObject(forKey: Self.mutedKey) }
+            did.append(m ? "mute (DAC to its minimum)" : "unmute")
+        }
+        let target: Float32 = muteEls.isEmpty && m ? 0 : v
+        if volumeEls.contains(where: { abs((Self.get(dac, kAudioDevicePropertyVolumeScalar, $0) ?? -1) - target) > Self.tolerance }) {
+            did.append("DAC \(String(format: "%.4f", target)): \(setDAC(target)) (\(Self.db(dac, volumeEls[0])) dB)")
+        }
+        if !did.isEmpty { log("volume \(String(format: "%.4f", v))\(m ? " muted" : ""): " + did.joined(separator: ", ")) }
+    }
+
+    /// DAC -> virtual device (changed on the DAC itself); not while an emulated mute holds it down.
+    private func pull() {
+        guard !emulatedMute, let v = Self.get(ls, kAudioDevicePropertyVolumeScalar, 0),
+              let d = volumeEls.compactMap({ Self.get(dac, kAudioDevicePropertyVolumeScalar, $0) }).max(),
+              abs(d - v) > Self.tolerance else { return }
+        log("volume: DAC changed to \(String(format: "%.4f", d)) (\(Self.db(dac, volumeEls[0])) dB); virtual volume follows: \(Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, d))")
+    }
+
+    private func setDAC(_ level: Float32) -> [OSStatus] {
+        volumeEls.map { Self.set(dac, kAudioDevicePropertyVolumeScalar, $0, level) }
+    }
+
+    /// Settable output elements for `sel`: the master, else the stereo pair's channels.
+    private static func elements(_ d: AudioObjectID, _ sel: AudioObjectPropertySelector) -> [UInt32] {
+        func settable(_ e: UInt32) -> Bool {
+            var a = AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: e)
+            var s: DarwinBoolean = false
+            return AudioObjectHasProperty(d, &a) && AudioObjectIsPropertySettable(d, &a, &s) == noErr && s.boolValue
+        }
+        if settable(0) { return [0] }
+        var ch = [UInt32](repeating: 0, count: 2)
+        var a = CA.addr(kAudioDevicePropertyPreferredChannelsForStereo, kAudioObjectPropertyScopeOutput)
+        var z = UInt32(8)
+        let pair: [UInt32] = AudioObjectGetPropertyData(d, &a, 0, nil, &z, &ch) == noErr && ch[0] >= 1 && ch[1] >= 1 ? ch : [1, 2]
+        return Array(Set(pair)).sorted().filter(settable)
+    }
+
+    private static func get(_ d: AudioObjectID, _ sel: AudioObjectPropertySelector, _ e: UInt32) -> Float32? {
+        var a = AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: e)
+        if sel == kAudioDevicePropertyMute {
+            var u = UInt32(0); var z = UInt32(4)
+            return AudioObjectGetPropertyData(d, &a, 0, nil, &z, &u) == noErr ? Float32(u) : nil
+        }
+        var f = Float32(0); var z = UInt32(4)
+        return AudioObjectGetPropertyData(d, &a, 0, nil, &z, &f) == noErr ? f : nil
+    }
+
+    private static func set(_ d: AudioObjectID, _ sel: AudioObjectPropertySelector, _ e: UInt32, _ v: Float32) -> OSStatus {
+        var a = AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: e)
+        if sel == kAudioDevicePropertyMute { var u = UInt32(v != 0 ? 1 : 0); return AudioObjectSetPropertyData(d, &a, 0, nil, 4, &u) }
+        var f = v; return AudioObjectSetPropertyData(d, &a, 0, nil, 4, &f)
+    }
+
+    private static func db(_ d: AudioObjectID, _ e: UInt32) -> String {
+        get(d, kAudioDevicePropertyVolumeDecibels, e).map { String(format: "%.1f", $0) } ?? "?"
     }
 }
