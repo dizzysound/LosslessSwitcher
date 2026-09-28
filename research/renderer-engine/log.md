@@ -328,3 +328,10 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   DAC back, the engine can do it on release.
 - Fix (next commit): with Default Device, picking the DAC itself as the default output made the engine
   follow it (teardown + setup, a gap). Now it only takes the default back.
+- 4249bae test (Selected Device = Default Device, engine on, Babyface hogged): setting the default output
+  to the Babyface from another process returned noErr, but the default never changed (polled every
+  20 ms: "LosslessSwitcher" throughout) and the engine logged nothing. Core Audio silently ignores a
+  default change to a device another process hogs. So the Sound menu can't take the DAC over, and the
+  new "DAC picked as default" branch is a safeguard that doesn't trigger here. Hypothesis (untested):
+  Control Center believes its request worked, which could be how its list went stale; test by clicking
+  the Babyface in the Sound menu while hogged, then quitting. Selection restored to the Babyface.
