@@ -151,3 +151,20 @@ MacBook Pro, macOS 27.0, arm64. DAC: RME Babyface Pro, RME kext (uid de_RME_driv
   on this Mac (SwiftPM with -continue-building-after-errors; a planted error in the engine file was
   reported, only QualityApp.swift's SwiftUI macros fail: Command Line Tools, no Xcode here). Not
   built or run yet: needs a build on the Xcode Mac.
+
+# Bench: volume forwarding on the Babyface Pro (build 6c2d2ff, 2026-09-28 08:31-08:40)
+Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
+- Start: "volume: forwarding to DAC elements 1,2 (-41.0 dB), mute emulated (DAC has none); virtual
+  volume -> 0.4598". Nothing jumped.
+- Keys (posted NX_KEYTYPE events): down x2 -> DAC -50.5, -58.5 dB; up x2 -> -50.5, -43.5 dB; mute ->
+  -140 dB; unmute -> -43.5 dB. macOS snaps the slider to 1/16 steps, so a start off the grid (0.4598)
+  doesn't come back to itself (0.4375). One step is 8-9.5 dB on the Babyface's taper (coarse; Option+
+  Shift+key gives quarter steps). The RME rounds to 0.5 dB (wrote 0.3750, reads 0.3758): inside the
+  0.001 tolerance, no echo loop. Level restored to 0.4598 (-41.0 dB) after the test.
+- Engine off while muted: "unmuting the DAC as the engine lets go", DAC back at -41.0 dB and the
+  default. Engine on again: starts unmuted (the DAC has no mute to carry it).
+- kill -9 while muted: DAC stays at -140 dB while the app is dead (nothing can run); relaunch:
+  "at launch: recovering the output after an unclean exit: ... mixable 0; DAC volume restored from
+  an emulated mute to 0.4598", key cleared.
+- Side note: a menu click meant to turn the engine on turned it off (it was already on from the
+  earlier build: same defaults domain); the stop was clean.
