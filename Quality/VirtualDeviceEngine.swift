@@ -123,6 +123,21 @@ final class VirtualDeviceEngine {
     private var gateMarkedAt: Date?
     private var gateWaitsForMusic = false // after Music quit: the gate waits longer for its Playing
     private var regateOnSilence = false   // the gate let another sound through: close it when that ends
+    private var musicPID: pid_t = 0
+    private var musicListWrong = false
+
+    /// NSRunningApplication once said Music wasn't running while it played on as the same process
+    /// (Babyface bench, twice; the "quit" held its audio at the gate for 4 s and dropped the next
+    /// track's decoder line). Its pid decides: Music quit only when that process is gone.
+    private func musicRunning() -> Bool {
+        if let app = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.Music").first {
+            musicPID = app.processIdentifier; musicListWrong = false
+            return true
+        }
+        guard musicPID > 0, kill(musicPID, 0) == 0 || errno == EPERM else { musicPID = 0; return false }
+        if !musicListWrong { musicListWrong = true; log("NSRunningApplication lists no Music, but pid \(musicPID) is alive: still running") }
+        return true
+    }
     private var strayMarkerAt: Date?
     private var setUpAt: Date?
     private var inputSeen = false
@@ -278,7 +293,7 @@ final class VirtualDeviceEngine {
             if now.timeIntervalSince(lastPLL) >= 0.5 { lastPLL = now; pll() }
             if !inRoutine, settingsCheckDue {
                 settingsCheckDue = false
-                MusicSettingsCheck.shared.check(scripts, log: { [unowned self] in self.log($0) })
+                MusicSettingsCheck.shared.check(scripts, musicRunning: musicRunning(), log: { [unowned self] in self.log($0) })
             }
             if now.timeIntervalSince(lastStatus) >= 30 {
                 lastStatus = now
@@ -884,7 +899,7 @@ final class VirtualDeviceEngine {
 
     private func checkDevicesAndMusic() {
         guard !inRoutine else { return }
-        if NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.Music").isEmpty, lastTrackID != nil {
+        if lastTrackID != nil, !musicRunning() {
             log("Music quit; the next play waits at the gate for its own decoder line")
             lastTrackID = nil
             playing = false
@@ -1076,7 +1091,7 @@ final class VirtualDeviceEngine {
     // MARK: - Helpers
 
     private func musicPlaying() -> Bool {
-        !NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.Music").isEmpty && scripts.playerState() == "playing"
+        musicRunning() && scripts.playerState() == "playing"
     }
 
     private func waitPlain(_ seconds: TimeInterval, _ cond: () -> Bool) -> Bool {
@@ -1682,8 +1697,8 @@ final class MusicSettingsCheck: ObservableObject {
     private var askedForNotifications = false
 
     /// Engine thread.
-    func check(_ scripts: RendererScripts, log: (String) -> Void) {
-        guard !NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.Music").isEmpty else { return }
+    func check(_ scripts: RendererScripts, musicRunning: Bool, log: (String) -> Void) {
+        guard musicRunning else { return }
         let app = "com.apple.Music" as CFString
         CFPreferencesAppSynchronize(app)
         func pref(_ k: String) -> Int? { (CFPreferencesCopyAppValue(k as CFString, app) as? NSNumber)?.intValue }
