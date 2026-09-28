@@ -255,3 +255,22 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   streams off" at 90 s, "start A: 268451843" at 150 s), then "setup failed" at 210 s restored the
   Babyface: ~3.5 min of silence. After granting and toggling the engine: running normally ("start A:
   0", hogged, DAC ready 0.512 s). Open: wait for the permission answer before taking the default.
+
+# Bench resumed on the bench Mac, Xcode build c2f3d73 (2026-09-28 13:04-13:10)
+- Microphone wait (fix c2f3d73): new copy, prompt open ~23 s: "not determined; asking, and leaving the
+  output alone until it is answered"; the Babyface stayed the default and un-hogged; "granted" at
+  23.069, "default output -> virtual device" at 23.134, hogged 23.425.
+- Built-in speakers as the DAC (default switched to them with Music stopped): "following it", hogged,
+  "DAC format -> 48000.0 Hz 2 ch 32 bit flags 9" (only format offered: float 0x9 at 44.1-96k, so mixable
+  float), DAC ready 0.566 s. Volume: "forwarding to DAC element 0 (-10.8 dB) ... mute to element 0"
+  (real mute; the speakers' mute=1 carried to the virtual device). Keys: mute -> "mute el0 -> 0",
+  one step down -> -16.0 dB (0.75 on the 64 dB window), mute -> "mute el0 -> 1". Restored -10.8 dB,
+  muted.
+- OPEN: on the speakers the ring sat at fill 0 ("clock lock: ... fill 0"; "48000 Hz fill 512 ... under
+  6656", then "fill 0 ... under 6656"): the underruns came once, at the follow, and did not grow while
+  idle, but a ring at 0 has no margin. Following back to the Babyface locked at fill 1536, so it's the
+  speakers, not the follow. Not tried with music playing on the speakers.
+- Restore on quit: "hog released", "default output restored to Babyface Pro", "default output after
+  3 s: Babyface Pro", "engine stopped"; RendererEngineOwnsOutput cleared. Relaunch: clean start (0.5 s).
+- MediaRemoteAdapter's perl helper outlived two quit copies again (killed by hand).
+- Not yet: a boundary switch with the lateArmAt fix (needs an album played through a rate change).
