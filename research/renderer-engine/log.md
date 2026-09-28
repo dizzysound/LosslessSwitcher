@@ -335,3 +335,11 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   new "DAC picked as default" branch is a safeguard that doesn't trigger here. Hypothesis (untested):
   Control Center believes its request worked, which could be how its list went stale; test by clicking
   the Babyface in the Sound menu while hogged, then quitting. Selection restored to the Babyface.
+- Control Center test (4249bae, 14:42): engine on, Babyface hogged (pid 76994); the owner clicked "Babyface
+  Pro" in the Sound menu: Control Center showed a beach ball (process sleeping, then 37% CPU); the
+  default never changed ("LosslessSwitcher" throughout, polled every 20 ms); the engine played on (0
+  under); other processes' HAL queries answered at once. Quit at 14:43:11: default -> Babyface at 1.67 s
+  (the engine's restore), Control Center idle again; the owner: beach ball gone, Babyface listed and checked.
+  So picking a hogged DAC in the Sound menu hangs Control Center until the hog goes (whether it had
+  ended before the quit is not known); the stale list itself did not recur. Known issue: while the
+  engine runs, don't pick the DAC in the Sound menu. The app can't remove it there (its driver decides).
