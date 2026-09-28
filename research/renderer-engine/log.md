@@ -76,4 +76,12 @@ Traps:
 - The virtual device's volume reads 0.0 and does nothing (menu-bar slider shows 0); the MT 48 has no
   hardware volume or mute. DACs that do will need the virtual device's volume/mute forwarded
   (the owner: bench test later).
-Results: music-tap-spike log.md (trials r1, m1-m3, r2).
+- coreaudiod keeps the virtual device as its preferred default output: after the engine restored
+  the DAC it put the virtual device back once (m3); the restore is now held for 3 s (m4: 1
+  re-restore, ended on the DAC). A plug-in-side fix (CanBeDefaultDevice only while the engine is
+  attached) is still needed for crashes/reboots.
+- A play that starts while the DAC comes up (up to 12 s) waits at the gate; a muted B still runs
+  the ring; a gate held > 0.5 s while Music plays restarts the play (flush + rewind) instead of
+  keeping the latency.
+Results (music-tap-spike log.md "Engine port"): r1-r3 25 switches incl. 176.4/192k, m1-m4 mixed use
+incl. stream lossy -> lossless upgrade and a gapless pair; pass-through bit-exact in every run.

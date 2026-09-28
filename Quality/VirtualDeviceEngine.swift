@@ -273,8 +273,12 @@ final class VirtualDeviceEngine {
         let infos = infoInbox, lines = lineInbox
         infoInbox = []; lineInbox = []
         inboxLock.unlock()
-        for (at, info) in infos { handleInfo(info, at: at) }
-        for (at, line) in lines { handleLine(line, at: at) }
+        // in arrival order: a track's decoder line usually comes just before its Playing
+        var events = infos.map { (at: $0.0, info: Optional($0.1), line: String?.none) } + lines.map { (at: $0.0, info: nil, line: Optional($0.1)) }
+        events.sort { $0.at < $1.at }
+        for e in events {
+            if let info = e.info { handleInfo(info, at: e.at) } else if let line = e.line { handleLine(line, at: e.at) }
+        }
     }
 
     private func wait(_ seconds: TimeInterval, until done: () -> Bool = { false }) -> Bool {
@@ -299,13 +303,14 @@ final class VirtualDeviceEngine {
             _ = scripts.pause()
             _ = wait(1) { !self.playing }
         }
+        // a play while the DAC comes up (up to 12 s) waits at the gate
+        playing = false
+        gatePending = true; gateMarkedAt = nil; gate.store(1, ordering: .releasing); trimIdle.store(1, ordering: .releasing)
         if CA.defaultOutput() != ls { log("default output -> LosslessSwitcher Output: \(CA.setDefaultOutput(ls))") }
         guard startLS(), setUpDAC(d) else {
             tearDown(restoreDefault: true, resumeMusic: wasPlaying)
             return false
         }
-        playing = false
-        gatePending = true; gate.store(1, ordering: .releasing); trimIdle.store(1, ordering: .releasing)
         if wasPlaying { playChecked() }
         return true
     }
@@ -523,6 +528,19 @@ final class VirtualDeviceEngine {
         if ls != 0 { log("virtual device scalar reset: \(CA.setScalar(ls, 1.0, Self.kRateScalar))") }
         if restoreDefault, dac != 0, dac != ls, CA.defaultOutput() == ls {
             log("default output restored to \(CA.string(dac, kAudioObjectPropertyName)): \(CA.setDefaultOutput(dac))")
+            // coreaudiod re-evaluates its preferred default after the hog release and format change,
+            // with the virtual device still first in its list (the update is asynchronous): in trial
+            // m3 it put the virtual device back 48 ms after the restore. Hold the restore for 3 s.
+            var resets = 0
+            let end = Date().addingTimeInterval(3)
+            while Date() < end {
+                Thread.sleep(forTimeInterval: 0.05)
+                if CA.defaultOutput() == ls {
+                    resets += 1
+                    log("coreaudiod put the virtual device back as the default; restoring again: \(CA.setDefaultOutput(dac))")
+                }
+            }
+            log("default output after 3 s: \(CA.string(CA.defaultOutput(), kAudioObjectPropertyName))\(resets > 0 ? " (\(resets) re-restores)" : "")")
         }
         if wasPlaying { playChecked() }
     }
@@ -591,7 +609,7 @@ final class VirtualDeviceEngine {
             switchRate(r, name: name, tPlay: tPlay)
         } else {
             if latchedAt != nil || latchZeros.load(ordering: .acquiring) > 0 || armAt != nil { disarm("same rate after all") }
-            releaseGate("same rate")
+            releaseGate("same rate", name: name, tPlay: tPlay)
         }
     }
 
@@ -672,8 +690,15 @@ final class VirtualDeviceEngine {
         log("\(why); \(wasLatched ? "latch released" : "disarmed")")
     }
 
-    private func releaseGate(_ why: String) {
+    private func releaseGate(_ why: String, name: String = "(current track)", tPlay: Date? = nil) {
         guard gatePending else { return }
+        if playing, marker.load(ordering: .acquiring) >= 0, let g = gateMarkedAt, Date().timeIntervalSince(g) > 0.5 {
+            // held long (the DAC coming up, a stream's late decoder line): continuing would keep that
+            // much latency until the next pause, so start over from where the play began
+            log("gate held \(String(format: "%.0f", Date().timeIntervalSince(g) * 1000)) ms (\(why)); restarting the play")
+            switchRate(curRate, name: name, tPlay: tPlay ?? g)
+            return
+        }
         gatePending = false
         gate.store(0, ordering: .releasing)
         if marker.load(ordering: .acquiring) >= 0 {
@@ -711,20 +736,22 @@ final class VirtualDeviceEngine {
         latchZeros.store(0, ordering: .releasing); gate.store(0, ordering: .releasing)
         gatePending = false; gateMarkedAt = nil; armAt = nil; armedAt = nil; latchedAt = nil
         let reached = wait(1) { self.atBoundary.load(ordering: .acquiring) != 0 }
-        log("switch \(switches): \(name) needs \(Int(r)) Hz (DAC \(Int(curRate))); \(how); paused; boundary \(reached ? "reached" : "NOT reached") \(ms(t))")
-        outFormat.store(0, ordering: .releasing)
+        let change = r != curRate || CA.nominal(dac) != r
+        log("switch \(switches): \(name) \(change ? "needs \(Int(r)) Hz (DAC \(Int(curRate)))" : "restarts at \(Int(r)) Hz (no rate change)"); \(how); paused; boundary \(reached ? "reached" : "NOT reached") \(ms(t))")
         dropInput.store(1, ordering: .releasing) // the DAC can take seconds; don't let the ring overflow with zeros
-        applyRate(r)
+        if change { outFormat.store(0, ordering: .releasing); applyRate(r) }
         recorder?.segmentIn(inFrames.load(ordering: .acquiring), r)
         let td = Date()
-        let target = dacFormat(r) ?? AudioStreamBasicDescription(mSampleRate: r, mFormatID: kAudioFormatLinearPCM, mFormatFlags: 0, mBytesPerPacket: 0, mFramesPerPacket: 0, mBytesPerFrame: 0, mChannelsPerFrame: 0, mBitsPerChannel: 0, mReserved: 0)
-        let ready = DeviceFormat.waitUntilReady(dac, format: target, checkBitDepth: target.mBitsPerChannel != 0, timeout: 12, stalled: { [unowned self] in
-            guard let p = self.procB else { return }
-            self.log("  DAC keeps stopping; restarting B")
-            AudioDeviceStop(self.dac, p); AudioDeviceStart(self.dac, p)
-        })
-        log("  DAC \(ready ? "ready" : "NOT ready") after \(ms(td)): \(CA.formats(dacOut))")
-        updateOutFormat()
+        if change {
+            let target = dacFormat(r) ?? AudioStreamBasicDescription(mSampleRate: r, mFormatID: kAudioFormatLinearPCM, mFormatFlags: 0, mBytesPerPacket: 0, mFramesPerPacket: 0, mBytesPerFrame: 0, mChannelsPerFrame: 0, mBitsPerChannel: 0, mReserved: 0)
+            let ready = DeviceFormat.waitUntilReady(dac, format: target, checkBitDepth: target.mBitsPerChannel != 0, timeout: 12, stalled: { [unowned self] in
+                guard let p = self.procB else { return }
+                self.log("  DAC keeps stopping; restarting B")
+                AudioDeviceStop(self.dac, p); AudioDeviceStart(self.dac, p)
+            })
+            log("  DAC \(ready ? "ready" : "NOT ready") after \(ms(td)): \(CA.formats(dacOut))")
+            updateOutFormat()
+        }
         command.store(2, ordering: .releasing)
         _ = wait(1) { self.command.load(ordering: .acquiring) == 0 }
         dropInput.store(0, ordering: .releasing)
@@ -881,11 +908,9 @@ final class VirtualDeviceEngine {
         stampB.put(t.mSampleTime, Double(t.mHostTime), t.mRateScalar)
         let outs = UnsafeMutableAudioBufferListPointer(outOutput)
         let fmt = OutFormat(packed: outFormat.load(ordering: .acquiring))
-        guard let b0 = outs.first, b0.mNumberChannels > 0, fmt.bytes > 0 else {
-            for b in outs { if let d = b.mData { memset(d, 0, Int(b.mDataByteSize)) } }
-            return
-        }
-        let n = min(Int(b0.mDataByteSize) / fmt.bytes / Int(b0.mNumberChannels), Self.maxFrames)
+        let muted = fmt.bytes == 0 // format not confirmed: run the ring as usual, write zeros
+        guard let b0 = outs.first, b0.mNumberChannels > 0 else { return }
+        let n = min(Int(b0.mDataByteSize) / (muted ? 4 : fmt.bytes) / Int(b0.mNumberChannels), Self.maxFrames)
         switch command.exchange(0, ordering: .acquiringAndReleasing) {
         case 1: // go on past the marker
             marker.store(-1, ordering: .releasing); atBoundary.store(0, ordering: .releasing)
@@ -907,7 +932,11 @@ final class VirtualDeviceEngine {
         } else {
             scratch.update(repeating: 0, count: n * 2)
         }
-        fmt.write(outs, scratch, n)
+        if muted {
+            for b in outs { if let d = b.mData { memset(d, 0, Int(b.mDataByteSize)) } }
+        } else {
+            fmt.write(outs, scratch, n)
+        }
         recorder?.output(scratch, n, sample: t.mSampleTime, host: t.mHostTime)
         outFrames.wrappingAdd(n, ordering: .releasing)
         bCycles.wrappingAdd(1, ordering: .relaxed)
