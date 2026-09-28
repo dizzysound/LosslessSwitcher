@@ -32,6 +32,7 @@ import CoreAudio
 import Foundation
 import SimplyCoreAudio
 import Synchronization
+import UserNotifications
 
 final class VirtualDeviceEngine {
 
@@ -114,6 +115,7 @@ final class VirtualDeviceEngine {
     private var pendingUpgrade: (rate: Float64, bits: Int?)?
     private var armAt: Date?
     private var armedAt: Date?
+    private var lateArmAt: Date? // a pre-roll line that came early: arm again 1.5 s before the end
     private var latchedAt: Date?
     private var gatePending = false
     private var lastNewTrackAt: Date?
@@ -154,6 +156,7 @@ final class VirtualDeviceEngine {
     private var listenedStream = AudioStreamID(0)
     private let listenerQueue = DispatchQueue(label: "RendererEngine.formatListener")
     private lazy var volume = VolumeForwarder(log: { [unowned self] in self.log($0) })
+    private var settingsCheckDue = true
     private let aCycles = Atomic<Int>(0), bCycles = Atomic<Int>(0)
     private let inFrames = Atomic<Int>(0), outFrames = Atomic<Int>(0)
     private let outSegmentAt = Atomic<Int>(-1) // B: outFrames where a flush took effect
@@ -272,6 +275,10 @@ final class VirtualDeviceEngine {
                 }
             }
             if now.timeIntervalSince(lastPLL) >= 0.5 { lastPLL = now; pll() }
+            if !inRoutine, settingsCheckDue {
+                settingsCheckDue = false
+                MusicSettingsCheck.shared.check(scripts, log: { [unowned self] in self.log($0) })
+            }
             if now.timeIntervalSince(lastStatus) >= 30 {
                 lastStatus = now
                 log("\(Int(curRate)) Hz fill \(ring.fill) scalar \(String(format: "%.9f", lsScalar)) under \(ring.underruns.load(ordering: .relaxed)) over \(ring.overruns.load(ordering: .relaxed))")
@@ -279,6 +286,7 @@ final class VirtualDeviceEngine {
             Thread.sleep(forTimeInterval: 0.01)
         }
         tearDown(restoreDefault: true, resumeMusic: true)
+        MusicSettingsCheck.shared.clear()
         recorder?.finish()
         log("engine stopped")
         log.close()
@@ -645,11 +653,16 @@ final class VirtualDeviceEngine {
         }
         trimIdle.store(0, ordering: .releasing)
         if pid == lastTrackID { // resume or seek
+            let late = lateArmAt != nil
             if armedOrLatched { disarm("seek on the same track") }
+            // the second arm's time moved with the pause or seek: take it from Music again
+            if late, let left = scripts.remaining(), left > 1.5 { lateArmAt = Date().addingTimeInterval(left - 1.5); log("boundary latch re-timed: \(String(format: "%.2f", left - 1.5)) s") }
             releaseGate("same track")
             return
         }
         lastTrackID = pid
+        settingsCheckDue = true // after the rate decision below: the loop runs it
+        lateArmAt = nil
         lossyTrackAt = nil
         awaiting = nil
         // Only a decoder line that came after the previous track began can be this track's (its
@@ -711,7 +724,11 @@ final class VirtualDeviceEngine {
         let left = scripts.remaining() ?? 0
         let delay = left > 13 ? 0 : max(0, left - 1.5)
         armAt = Date().addingTimeInterval(delay)
-        log("next track needs \(Int(rate)) Hz; \(String(format: "%.2f", left)) s left, arming the boundary latch in \(String(format: "%.2f", delay)) s")
+        // More than 13 s left: a skip (Music leaves zeros now), or a pre-roll set up early (Babyface
+        // bench: 105 s before the end of a streamed track; the 5 s arm expired and the boundary cut
+        // at the play position). Cover both: arm now, and again 1.5 s before the end.
+        lateArmAt = left > 13 ? Date().addingTimeInterval(left - 1.5) : nil
+        log("next track needs \(Int(rate)) Hz; \(String(format: "%.2f", left)) s left, arming the boundary latch in \(String(format: "%.2f", delay)) s\(lateArmAt != nil ? " and again in \(String(format: "%.2f", left - 1.5)) s" : "")")
     }
 
     private func tickLatchAndGate() {
@@ -720,6 +737,11 @@ final class VirtualDeviceEngine {
             log("no decoder line for \(aw.name) within 3 s; playing at \(Int(curRate)) Hz")
             if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
             releaseGate("no decoder line")
+        }
+        if let l = lateArmAt, Date() >= l, armAt == nil, armedAt == nil, latchedAt == nil, !inRoutine {
+            lateArmAt = nil
+            armAt = Date()
+            log("pre-roll came early; arming the boundary latch again")
         }
         if let a = armAt, Date() >= a {
             armAt = nil
@@ -756,7 +778,7 @@ final class VirtualDeviceEngine {
 
     private func disarm(_ why: String) {
         let wasLatched = latchedAt != nil || marker.load(ordering: .acquiring) >= 0
-        armAt = nil; armedAt = nil; latchedAt = nil
+        armAt = nil; armedAt = nil; latchedAt = nil; lateArmAt = nil
         latchZeros.store(0, ordering: .releasing)
         if wasLatched || marker.load(ordering: .acquiring) >= 0 { command.store(1, ordering: .releasing) }
         log("\(why); \(wasLatched ? "latch released" : "disarmed")")
@@ -1628,5 +1650,55 @@ final class VolumeForwarder {
 
     private static func db(_ d: AudioObjectID, _ e: UInt32) -> String {
         get(d, kAudioDevicePropertyVolumeDecibels, e).map { String(format: "%.1f", $0) } ?? "?"
+    }
+}
+
+// MARK: - Music settings check
+
+/// Music settings that defeat the engine: AutoMix or crossfade (tracks blend, so a switch can't be
+/// clean), Sound Check, EQ and a Music volume below 100 (not bit-perfect), Lossless off. Read at
+/// engine start and at each new track only (no timer: a change mid-track shows at the next track):
+/// Music's preferences (keys confirmed on the
+/// Babyface bench by toggling them) and, for EQ and volume, AppleScript (the "eqEnabled" preference
+/// disagreed with Music's own "EQ enabled"). A change in the set of problems is logged, shown at the
+/// top of the menu and posted as one notification.
+final class MusicSettingsCheck: ObservableObject {
+    static let shared = MusicSettingsCheck()
+    @Published private(set) var problems: [String] = []
+    private var last: [String] = []
+    private var askedForNotifications = false
+
+    /// Engine thread.
+    func check(_ scripts: RendererScripts, log: (String) -> Void) {
+        guard !NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.Music").isEmpty else { return }
+        let app = "com.apple.Music" as CFString
+        CFPreferencesAppSynchronize(app)
+        func pref(_ k: String) -> Int? { (CFPreferencesCopyAppValue(k as CFString, app) as? NSNumber)?.intValue }
+        var found: [String] = []
+        if let t = pref("TransitionsEnabled"), t != 0 { found.append("AutoMix or Crossfade is on (Settings > Playback)") }
+        if let v = pref("optimizeSongVolume"), v != 0 { found.append("Sound Check is on (Settings > Playback)") }
+        if let l = pref("losslessEnabled"), l == 0 { found.append("Lossless audio is off (Settings > Playback)") }
+        if scripts.eqEnabled() == true { found.append("the Equalizer is on (Window > Equalizer)") }
+        if let v = scripts.volume(), v < 100 { found.append("Music's volume is \(v), not 100") }
+        guard found != last else { return }
+        last = found
+        log(found.isEmpty ? "Music settings: OK" : "Music settings: " + found.joined(separator: "; "))
+        DispatchQueue.main.async { self.problems = found }
+        guard !found.isEmpty else { return }
+        let center = UNUserNotificationCenter.current()
+        let post = {
+            let c = UNMutableNotificationContent()
+            c.title = "LosslessSwitcher: Music settings"
+            c.body = found.joined(separator: "\n") + "\nPlayback isn't bit-perfect until this is fixed."
+            center.add(UNNotificationRequest(identifier: "music-settings", content: c, trigger: nil))
+        }
+        if askedForNotifications { post(); return }
+        askedForNotifications = true
+        center.requestAuthorization(options: [.alert]) { ok, _ in if ok { post() } }
+    }
+
+    func clear() {
+        last = []
+        DispatchQueue.main.async { self.problems = [] }
     }
 }
