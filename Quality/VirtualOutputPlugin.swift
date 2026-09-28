@@ -75,7 +75,9 @@ final class VirtualOutputPlugin: ObservableObject {
             return
         }
         let dst = Self.installPath
-        run(shell: "rm -rf \(q(dst)) && /usr/bin/ditto \(q(src.path)) \(q(dst)) && /usr/sbin/chown -R root:wheel \(q(dst)) && /usr/bin/killall coreaudiod",
+        // coreaudiod loads plug-ins as _coreaudiod: everything must be world-readable (a build made
+        // under umask 027 shipped Info.plist 0640, and the device never appeared)
+        run(shell: "rm -rf \(q(dst)) && /usr/bin/ditto \(q(src.path)) \(q(dst)) && /usr/sbin/chown -R root:wheel \(q(dst)) && /bin/chmod -R a+rX \(q(dst)) && /usr/bin/killall coreaudiod",
             prompt: "LosslessSwitcher wants to install its virtual output device. Audio restarts for a moment.",
             done: done)
     }
