@@ -433,6 +433,7 @@ final class VirtualDeviceEngine {
         let st = AudioObjectSetPropertyData(d, &a, 0, nil, 4, &me)
         hogged = CA.hogOwner(d) == getpid()
         log("hog DAC: \(st), \(hogged ? "hogged" : "NOT hogged (shared mode, mixable)")")
+        RendererOutput.shared.set(dacName: CA.string(d, kAudioObjectPropertyName))
         let rate = CA.nominal(d)
         if !CA.nominalRates(ls).contains(rate) { log("virtual device can't run at \(rate) Hz; Music will be resampled into it") }
         applyRate(rate)
@@ -606,6 +607,7 @@ final class VirtualDeviceEngine {
             log("hog released: \(st), owner \(CA.hogOwner(dac))")
             hogged = false
         }
+        RendererOutput.shared.set(dacName: nil)
     }
 
     /// Every exit path: IO stopped, DAC mixable and released, scalar reset, default output restored.
@@ -1866,5 +1868,20 @@ struct MusicSettingsView: View {
         }
         .padding(16)
         .frame(minWidth: 420, minHeight: 220)
+    }
+}
+
+// MARK: - The DAC, for the menu
+
+/// While the engine plays to a DAC the default output is its virtual device, so the menu would name
+/// "LosslessSwitcher". The engine publishes the DAC it holds; the menu shows that, and goes back to
+/// the default output's name when the engine lets the DAC go.
+final class RendererOutput: ObservableObject {
+    static let shared = RendererOutput()
+    @Published private(set) var dacName: String?
+
+    /// Any thread.
+    func set(dacName name: String?) {
+        DispatchQueue.main.async { if self.dacName != name { self.dacName = name } }
     }
 }
