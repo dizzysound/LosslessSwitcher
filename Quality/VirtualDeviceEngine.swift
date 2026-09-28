@@ -32,6 +32,7 @@ import CoreAudio
 import Foundation
 import SimplyCoreAudio
 import Synchronization
+import SwiftUI
 import UserNotifications
 
 final class VirtualDeviceEngine {
@@ -291,7 +292,7 @@ final class VirtualDeviceEngine {
                 }
             }
             if now.timeIntervalSince(lastPLL) >= 0.5 { lastPLL = now; pll() }
-            if !inRoutine, settingsCheckDue {
+            if !inRoutine, settingsCheckDue || MusicSettingsCheck.shared.recheck.exchange(0, ordering: .acquiringAndReleasing) != 0 {
                 settingsCheckDue = false
                 MusicSettingsCheck.shared.check(scripts, musicRunning: musicRunning(), log: { [unowned self] in self.log($0) })
             }
@@ -1685,16 +1686,25 @@ final class VolumeForwarder {
 
 /// Music settings that defeat the engine: AutoMix or crossfade (tracks blend, so a switch can't be
 /// clean), Sound Check, EQ and a Music volume below 100 (not bit-perfect), Lossless off. Read at
-/// engine start and at each new track only (no timer: a change mid-track shows at the next track):
-/// Music's preferences (keys confirmed on the
-/// Babyface bench by toggling them) and, for EQ and volume, AppleScript (the "eqEnabled" preference
-/// disagreed with Music's own "EQ enabled"). A change in the set of problems is logged, shown at the
-/// top of the menu and posted as one notification.
+/// engine start, at each new track and on "Check Again" only (no timer: minimal CPU; a change
+/// mid-track shows at the next track). Music's preferences (keys confirmed on the Babyface bench by
+/// toggling: TransitionsEnabled 0/1; optimizeSongVolume 1, absent when off) and, for EQ and volume,
+/// AppleScript (the "eqEnabled" preference disagreed with Music's own "EQ enabled"). A change in the
+/// set of problems is logged, shown at the top of the menu, posted as one notification, and opens a
+/// window with the fixes that stays until they're done (it closes itself when a check comes back clean).
 final class MusicSettingsCheck: ObservableObject {
+    struct Problem: Equatable, Identifiable {
+        let id: String, what: String, fix: String
+    }
+
     static let shared = MusicSettingsCheck()
-    @Published private(set) var problems: [String] = []
-    private var last: [String] = []
+    @Published private(set) var problems: [Problem] = []
+    @Published private(set) var checkedAt: Date?
+    /// Main thread -> engine thread: "Check Again".
+    let recheck = Atomic<Int>(0)
+    private var last: [Problem] = []
     private var askedForNotifications = false
+    private var window: NSWindow?
 
     /// Engine thread.
     func check(_ scripts: RendererScripts, musicRunning: Bool, log: (String) -> Void) {
@@ -1702,22 +1712,42 @@ final class MusicSettingsCheck: ObservableObject {
         let app = "com.apple.Music" as CFString
         CFPreferencesAppSynchronize(app)
         func pref(_ k: String) -> Int? { (CFPreferencesCopyAppValue(k as CFString, app) as? NSNumber)?.intValue }
-        var found: [String] = []
-        if let t = pref("TransitionsEnabled"), t != 0 { found.append("AutoMix or Crossfade is on (Settings > Playback)") }
-        if let v = pref("optimizeSongVolume"), v != 0 { found.append("Sound Check is on (Settings > Playback)") }
-        if let l = pref("losslessEnabled"), l == 0 { found.append("Lossless audio is off (Settings > Playback)") }
-        if scripts.eqEnabled() == true { found.append("the Equalizer is on (Window > Equalizer)") }
-        if let v = scripts.volume(), v < 100 { found.append("Music's volume is \(v), not 100") }
-        guard found != last else { return }
+        var found: [Problem] = []
+        if let t = pref("TransitionsEnabled"), t != 0 {
+            found.append(.init(id: "transitions", what: "AutoMix or Crossfade is on",
+                               fix: "Music > Settings > Playback: turn off AutoMix and Crossfade. They blend one track into the next, so a sample-rate switch can't happen cleanly."))
+        }
+        if let v = pref("optimizeSongVolume"), v != 0 {
+            found.append(.init(id: "soundcheck", what: "Sound Check is on",
+                               fix: "Music > Settings > Playback: turn off Sound Check. It changes each track's level, so the output isn't bit-perfect."))
+        }
+        if let l = pref("losslessEnabled"), l == 0 {
+            found.append(.init(id: "lossless", what: "Lossless Audio is off",
+                               fix: "Music > Settings > Playback: turn on Lossless Audio and choose Hi-Res Lossless for streaming. Otherwise Apple Music plays lossy AAC."))
+        }
+        if scripts.eqEnabled() == true {
+            found.append(.init(id: "eq", what: "The Equalizer is on",
+                               fix: "Music > Window > Equalizer: uncheck On. EQ changes the samples, so the output isn't bit-perfect."))
+        }
+        if let v = scripts.volume(), v < 100 {
+            found.append(.init(id: "volume", what: "Music's volume is \(v), not 100",
+                               fix: "Drag Music's volume slider all the way up, or click Set to 100 below. Use the keyboard's volume keys instead: they now change the DAC's own volume."))
+        }
+        let changed = found != last
         last = found
-        log(found.isEmpty ? "Music settings: OK" : "Music settings: " + found.joined(separator: "; "))
-        DispatchQueue.main.async { self.problems = found }
+        DispatchQueue.main.async {
+            self.checkedAt = Date()
+            self.problems = found
+            if found.isEmpty { self.window?.close() } else if changed { self.showWindow() }
+        }
+        guard changed else { return }
+        log(found.isEmpty ? "Music settings: OK" : "Music settings: " + found.map(\.what).joined(separator: "; "))
         guard !found.isEmpty else { return }
         let center = UNUserNotificationCenter.current()
         let post = {
             let c = UNMutableNotificationContent()
             c.title = "LosslessSwitcher: Music settings"
-            c.body = found.joined(separator: "\n") + "\nPlayback isn't bit-perfect until this is fixed."
+            c.body = found.map(\.what).joined(separator: "\n") + "\nPlayback isn't bit-perfect until this is fixed."
             center.add(UNNotificationRequest(identifier: "music-settings", content: c, trigger: nil))
         }
         if askedForNotifications { post(); return }
@@ -1727,6 +1757,65 @@ final class MusicSettingsCheck: ObservableObject {
 
     func clear() {
         last = []
-        DispatchQueue.main.async { self.problems = [] }
+        DispatchQueue.main.async { self.problems = []; self.window?.close() }
+    }
+
+    /// Main thread.
+    func checkAgain() { recheck.store(1, ordering: .releasing) }
+
+    /// Main thread; the AppleScript runs off it.
+    func setMusicVolumeTo100() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            var err: NSDictionary?
+            NSAppleScript(source: "tell application \"Music\" to set sound volume to 100")?.executeAndReturnError(&err)
+            self.recheck.store(1, ordering: .releasing)
+        }
+    }
+
+    /// Main thread.
+    private func showWindow() {
+        if window == nil {
+            let w = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 460, height: 300),
+                             styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
+            w.title = "Music settings for bit-perfect playback"
+            w.isReleasedWhenClosed = false
+            w.contentViewController = NSHostingController(rootView: MusicSettingsView(check: self))
+            w.center()
+            window = w
+        }
+        NSApp.activate(ignoringOtherApps: true)
+        window?.makeKeyAndOrderFront(nil)
+    }
+}
+
+struct MusicSettingsView: View {
+    @ObservedObject var check: MusicSettingsCheck
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("The Renderer Engine plays Music's output bit-perfect only when Music doesn't change it. Fix these in Music:")
+                .fixedSize(horizontal: false, vertical: true)
+            ForEach(check.problems) { p in
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(p.what).bold()
+                    Text(p.fix).fixedSize(horizontal: false, vertical: true)
+                    if p.id == "volume" {
+                        Button("Set to 100") { check.setMusicVolumeTo100() }
+                    }
+                }
+            }
+            if check.problems.isEmpty { Text("All set.") }
+            Spacer(minLength: 0)
+            HStack {
+                Button("Check Again") { check.checkAgain() }
+                if let t = check.checkedAt {
+                    Text("Checked \(t.formatted(date: .omitted, time: .standard))").foregroundStyle(.secondary)
+                }
+                Spacer()
+                Text("Also checked at each new track.").foregroundStyle(.secondary)
+            }
+        }
+        .padding(16)
+        .frame(minWidth: 420, minHeight: 220)
     }
 }

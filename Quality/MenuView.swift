@@ -18,7 +18,7 @@ struct MenuView: View {
     var body: some View {
         VStack {
             if !musicSettings.problems.isEmpty {
-                Text("Music settings: " + musicSettings.problems.joined(separator: "; "))
+                Text("Music settings: " + musicSettings.problems.map(\.what).joined(separator: "; "))
                 Divider()
             }
             ContentView()

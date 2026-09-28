@@ -210,3 +210,8 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
 - The false quits on 6c2d2ff came about every 160 s (386.8, 555.8, 714.9 s), each a 4 s dropout.
 - Turning the 6c2d2ff engine off: "play attempt 1-4: Music isn't playing" over 8 s, while Music
   reported playing right after. Possible gap on stop; not looked into.
+- Keys confirmed by toggling (the owner, 08:53): Sound Check on -> optimizeSongVolume 1, off -> key removed;
+  AutoMix on -> TransitionsEnabled 1. Notifier fired at the next track: "Music settings: AutoMix or
+  Crossfade is on". The owner: the notification appeared but wants a persistent window with instructions.
+  Next commit: a window listing each problem and its fix, Check Again, Set to 100 for Music's volume;
+  closes itself when a check comes back clean. EQ key still unconfirmed.
