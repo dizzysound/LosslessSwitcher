@@ -119,6 +119,7 @@ final class VirtualDeviceEngine {
     private var lastNewTrackAt: Date?
     private var awaiting: (name: String, tPlay: Date, until: Date)? // a new track whose decoder line hasn't come yet
     private var gateMarkedAt: Date?
+    private var gateWaitsForMusic = false // after Music quit: the gate waits longer for its Playing
     private var strayMarkerAt: Date?
     private var setUpAt: Date?
     private var inputSeen = false
@@ -624,6 +625,16 @@ final class VirtualDeviceEngine {
         log("playerInfo: \(state) \(name)")
         playing = state == "Playing"
         guard !inRoutine else { return } // our own pause/play
+        // Music can post Playing with no name and no PersistentID just before the real track's
+        // (Babyface bench, before YYZ). It is not a track: taking a decoder line for it released the
+        // gate, and the real track played at the old rate until its own line came. If no real one
+        // follows, the next decoder line (or 3 s) decides for it.
+        if playing, name.isEmpty, info["PersistentID"] == nil {
+            if gatePending, awaiting == nil { awaiting = ("(no name)", at, Date().addingTimeInterval(3)) }
+            log("playerInfo without a name or PersistentID: not a track; gate \(gatePending ? "held" : "open")")
+            return
+        }
+        if playing { gateWaitsForMusic = false }
         let armedOrLatched = armAt != nil || latchZeros.load(ordering: .acquiring) > 0 || latchedAt != nil
         if !playing {
             if pid == lastTrackID, armedOrLatched { disarm("\(state) on the same track") }
@@ -738,7 +749,8 @@ final class VirtualDeviceEngine {
         if gatePending, m >= 0 {
             if gateMarkedAt == nil { gateMarkedAt = Date(); log("gate: output started at ring \(m); waiting for the track's rate") }
             // another app's sound, or Music never reported Playing
-            if !playing, let g = gateMarkedAt, Date().timeIntervalSince(g) > 1.5 { releaseGate("no Playing within 1.5 s") }
+            let limit = gateWaitsForMusic ? 4.0 : 1.5
+            if !playing, let g = gateMarkedAt, Date().timeIntervalSince(g) > limit { gateWaitsForMusic = false; releaseGate("no Playing within \(limit) s") }
         }
     }
 
@@ -789,6 +801,9 @@ final class VirtualDeviceEngine {
         defer { inRoutine = false }
         switches += 1
         let t = Date()
+        // Music can start playing before it posts Playing (after a relaunch): the gate saw the first
+        // frame earlier, and that is where the play began
+        let tPlay = gatePending ? min(tPlay, gateMarkedAt ?? tPlay) : tPlay
         _ = scripts.pause()
         var m = marker.load(ordering: .acquiring)
         let how = m < 0 ? "not latched: cut at the play position" : (gatePending ? "held at the gate" : "latched at the old track's end")
@@ -821,7 +836,9 @@ final class VirtualDeviceEngine {
         let pos = scripts.position() ?? 0
         let played = Date().timeIntervalSince(tPlay) + 0.05
         var startPos = pos - played - 0.1
-        if startPos < 0.5 { startPos = 0 }
+        // near the start is the start: the estimate can come up short (0.530 on the Babyface bench),
+        // and a restart that skips a track's first half-second is heard
+        if startPos < 2 { startPos = 0 }
         _ = scripts.setPosition(startPos)
         reclaimDefault() // never let Music start on whatever coreaudiod fell back to
         _ = scripts.play()
@@ -833,8 +850,18 @@ final class VirtualDeviceEngine {
     private func checkDevicesAndMusic() {
         guard !inRoutine else { return }
         if NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.Music").isEmpty, lastTrackID != nil {
-            log("Music quit")
+            log("Music quit; the next play waits at the gate for its own decoder line")
             lastTrackID = nil
+            playing = false
+            // Relaunched Music played ~1.6 s before posting Playing (Babyface bench), and the last
+            // decoder lines belong to the old session (one was taken 264 s later): gate the next
+            // play, wait longer than usual for its Playing, and forget the old lines.
+            if armAt != nil || armedAt != nil || latchedAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("Music quit") }
+            awaiting = nil; pendingUpgrade = nil; lossyTrackAt = nil
+            decoderRates = []; lastNewTrackAt = nil
+            if !gatePending { gatePending = true; gateMarkedAt = nil; gate.store(1, ordering: .releasing) }
+            gateWaitsForMusic = true
+            trimIdle.store(1, ordering: .releasing)
         }
         // the plug-in's device vanished (coreaudiod restarted?): start over
         if CA.string(ls, kAudioDevicePropertyDeviceUID) != Self.deviceUID {

@@ -137,8 +137,13 @@ MacBook Pro, macOS 27.0, arm64. DAC: RME Babyface Pro, RME kext (uid de_RME_driv
     nothing re-armed the gate, and relaunched Music played ~1.6 s before posting Playing. The rewind
     targets the position at the notification, so 0.00-0.53 was never replayed. The rate came from a
     stale line ("seen 263.843 s before Playing", from before the quit; right by luck).
-  Proposed (not written): ignore a Playing with no name and no PersistentID; on "Music quit" re-arm
-  the gate and drop decoder lines; a gated new track whose rewind target is under ~2 s rewinds to 0.
+  Written (type-checked, not built): ignore a Playing with no name and no PersistentID (the next
+  decoder line or 3 s decides for it); on "Music quit" re-arm the gate, wait up to 4 s for Playing,
+  drop the old decoder lines; the restart point is the earlier of the Playing notification and the
+  gate's first frame; a rewind target under 2 s goes to 0.
+  CAVEAT: Music's AutoMix was ON for all of these runs (the owner, after the fact). AutoMix blends
+  tracks, so the early decoder line (latch armed ~265 s early), the nameless Playing and the
+  old-rate overlap may be AutoMix's. Rerun the switches with AutoMix off before reading more in.
 - To look at: At 203 s "next track needs 44100 Hz; 265.11 s left, arming the boundary latch in 0.00 s", then
   "no boundary within 5 s; disarmed" (armed ~265 s early; Music was quit before that track ended).
 - Not yet run: built-in speakers as DAC, restore on quit.
