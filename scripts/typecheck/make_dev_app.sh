@@ -8,6 +8,7 @@ cd "$(dirname "$0")"; swift build -c "$CONFIG" >/dev/null
 APP=".build/LosslessSwitcher Dev.app"; rm -rf "$APP"; mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp .build/$CONFIG/LosslessSwitcher .build/$CONFIG/*.dylib "$APP/Contents/MacOS/"
 cp -R .build/$CONFIG/MediaRemoteAdapter_MediaRemoteAdapter.bundle "$APP/Contents/Resources/"
+../../HALPlugin/build.sh >/dev/null && cp -R ../../HALPlugin/LSOutput.driver "$APP/Contents/Resources/"
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

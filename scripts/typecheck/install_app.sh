@@ -31,6 +31,7 @@ mkdir -p "$STAGE/Contents/MacOS" "$STAGE/Contents/Resources"
 cp "$BIN/LosslessSwitcher" "$BIN"/*.dylib "$STAGE/Contents/MacOS/"
 cp -R "$BIN/MediaRemoteAdapter_MediaRemoteAdapter.bundle" "$STAGE/Contents/Resources/"
 cp "$REPO/Quality/LosslessSwitcher.sdef" "$STAGE/Contents/Resources/"
+"$REPO/HALPlugin/build.sh" >/dev/null && cp -R "$REPO/HALPlugin/LSOutput.driver" "$STAGE/Contents/Resources/"
 for f in AppIcon.icns Assets.car; do [ -f "$TEMPLATE/Contents/Resources/$f" ] && cp "$TEMPLATE/Contents/Resources/$f" "$STAGE/Contents/Resources/"; done
 cp "$TEMPLATE/Contents/Info.plist" "$STAGE/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Print NSAudioCaptureUsageDescription" "$STAGE/Contents/Info.plist" >/dev/null 2>&1 || \
