@@ -153,6 +153,7 @@ final class VirtualDeviceEngine {
     private var dacScalarEst = 0.0, integ = 0.0, lsScalar = 1.0
     private var lockAfterCycles = (0, 0)
     private var waitingForScalar = false
+    private var refillAsked = false
     private var ticksPerSec = 0.0
 
     // shared with the IO threads
@@ -167,6 +168,7 @@ final class VirtualDeviceEngine {
     private let lastNZ = Atomic<Int>(0)       // ring position after the last nonzero frame A wrote
     private let outFormat = Atomic<Int>(0)    // packed OutFormat for B; 0 = mute
     private let formatDirty = Atomic<Int>(0)
+    private let refill = Atomic<Int>(0)       // engine -> B: output silence until the ring is back at the target
     private let dropInput = Atomic<Int>(0)    // 1: A doesn't fill the ring (inside a switch; Music is paused)  // listener -> engine: the DAC's format changed
     private var writtenFormat = AudioStreamBasicDescription()
     private var formatListener: AudioObjectPropertyListenerBlock?
@@ -986,7 +988,7 @@ final class VirtualDeviceEngine {
     // MARK: - Clock lock
 
     private func resetLock() {
-        phase0 = nil; integ = 0; dacScalarEst = 0
+        phase0 = nil; integ = 0; dacScalarEst = 0; refillAsked = false
         lockAfterCycles = (aCycles.load(ordering: .relaxed) + 8, bCycles.load(ordering: .relaxed) + 8)
     }
 
@@ -1006,6 +1008,18 @@ final class VirtualDeviceEngine {
             return
         }
         waitingForScalar = false
+        // The lock holds the phase it starts from, so it holds the ring's fill too. After the follow to
+        // the MacBook speakers the ring had drained (6656 frames under) and it locked at fill 0: no
+        // margin, for good. Below half the target, refill first (B plays silence until it's back).
+        if phase0 == nil && ring.fill < targetFill / 2 {
+            if !refillAsked {
+                refillAsked = true
+                refill.store(1, ordering: .releasing)
+                log("clock: ring at \(ring.fill) frames before the lock (target \(targetFill)); refilling first")
+            }
+            return
+        }
+        refillAsked = false
         dacScalarEst = dacScalarEst == 0 ? rB : dacScalarEst + 0.1 * (rB - dacScalarEst)
         if phase0 == nil { phase0 = phase; log("clock lock: phase0 \(String(format: "%.3f", phase)), fill \(ring.fill), cycles A \(aCycles.load(ordering: .relaxed)) B \(bCycles.load(ordering: .relaxed))") }
         let err = phase - phase0!
@@ -1087,6 +1101,7 @@ final class VirtualDeviceEngine {
             outSegmentAt.store(outFrames.load(ordering: .relaxed), ordering: .releasing)
         default: break
         }
+        if refill.exchange(0, ordering: .acquiringAndReleasing) != 0 { bPlaying = false }
         let m = marker.load(ordering: .acquiring)
         // drop only zeros: the startup backlog, and Music's silence while it isn't playing
         if (!bPlaying || trimIdle.load(ordering: .relaxed) != 0), m < 0, lastNZ.load(ordering: .acquiring) <= ring.readPos, ring.fill > targetFill {
