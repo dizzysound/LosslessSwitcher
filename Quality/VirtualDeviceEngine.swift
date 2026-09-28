@@ -1310,7 +1310,7 @@ struct OutFormat: CustomStringConvertible {
     func write(_ outs: UnsafeMutableAudioBufferListPointer, _ src: UnsafePointer<Float>, _ n: Int) {
         let scale = isFloat || bits < 2 ? 1 : Double(Int64(1) << (bits - 1))
         let lo = -scale, hi = scale - 1
-        let reduce = OvershootProtection.shared.isOn, g = OvershootProtection.gain
+        let reduce = OvershootProtection.shared.isOn, gain = OvershootProtection.gain
         let shift = alignedHigh ? bytes * 8 - bits : 0
         var base = 0
         for buf in outs {
@@ -1324,11 +1324,11 @@ struct OutFormat: CustomStringConvertible {
                 let s = g == left ? 0 : 1
                 if isFloat {
                     let o = d.assumingMemoryBound(to: Float.self)
-                    if reduce { for k in 0..<frames { o[k * ch + c] = src[k * 2 + s] * g } }
+                    if reduce { for k in 0..<frames { o[k * ch + c] = src[k * 2 + s] * gain } }
                     else { for k in 0..<frames { o[k * ch + c] = src[k * 2 + s] } }
                 } else {
                     for k in 0..<frames {
-                        let x = reduce ? src[k * 2 + s] * g : src[k * 2 + s]
+                        let x = reduce ? src[k * 2 + s] * gain : src[k * 2 + s]
                         let v = Int64(min(hi, max(lo, (Double(x) * scale).rounded()))) << shift
                         let at = d + (k * ch + c) * bytes
                         switch bytes {
