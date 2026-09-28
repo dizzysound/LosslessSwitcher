@@ -32,7 +32,9 @@ Universal (Apple Silicon and Intel). Ad-hoc signed: each copy asks again for Mic
    then Renderer Engine (Experimental). Allow Microphone and Automation.
 Engine log: ~/Library/Logs/LosslessSwitcher-Renderer.log
 Remove: menu Virtual Output Device > Remove..., then delete the app.
+What to test, the rules and what's already known: BENCH-BRIEF.md.
 TXT
+cp research/renderer-engine/BENCH-BRIEF.md "$OUT/BENCH-BRIEF.md"
 rm -f "$DEST"
 (cd "$OUT" && ditto -c -k --sequesterRsrc . "$DEST")
 rm -rf "$DD"
