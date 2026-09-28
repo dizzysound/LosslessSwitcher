@@ -307,3 +307,9 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   Pro; "LosslessSwitcher" is gone.
 - Found, not changed: Selected Device isn't restored at launch (saved UID is the Babyface; the menu
   shows Default Device): AppDelegate.handleDevicesMenu, which restored it, is commented out.
+- 53c0759 / 72fbadd (menu + scripting): with the engine on the menu shows Show Icon, Prefer Closest
+  Sample Rate Multiple, Renderer Engine ✓, Virtual Output Device, Bit-Perfect Check, About, Scripting,
+  Quit (Bit Depth Switching, Detect Local Files, Pause While Switching, Gap After Switching, Selected
+  Device hidden). Test script (records its args): 53c0759 got the engine's "48000 32" plus three
+  "48000" from the regular path (the virtual device's rate); 72fbadd: one call, "44100 32" ("script:
+  ... 44100 32" at engine start). Test script setting cleared afterwards.
