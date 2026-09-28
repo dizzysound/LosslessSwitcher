@@ -70,7 +70,7 @@ final class RendererEngine {
     private var switches = 0
     private var savedVolume = 100
     private var volumeHeld = false
-    private var scripts: Scripts!
+    private var scripts: RendererScripts!
     private let log = RendererLog()
 
     // shared with the IO thread (plain loads/stores, as in the prototype)
@@ -110,6 +110,9 @@ final class RendererEngine {
     // MARK: - Lifecycle (main thread)
 
     var isRunning: Bool { thread != nil }
+
+    /// Logged when the engine starts (why the tap engine is used instead of the virtual device).
+    var startupNote: String?
 
     func start() {
         guard thread == nil else { return }
@@ -179,8 +182,9 @@ final class RendererEngine {
 
     private func run() {
         log.start()
-        log("engine started")
-        scripts = Scripts()
+        log("engine started (process tap)")
+        if let n = startupNote { log(n) }
+        scripts = RendererScripts()
         log("scripts compiled")
         resolveDevice()
         recoverVolume()
@@ -623,40 +627,40 @@ final class RendererEngine {
     private func ms(_ t: Date) -> String { String(format: "%.3f s", Date().timeIntervalSince(t)) }
 
     private func log(_ s: String) { log.write(s) }
+}
 
-    /// AppleScript for Music, used only on the engine thread.
-    private final class Scripts {
-        private let pauseScript = compile("tell application \"Music\" to pause")
-        private let playScript = compile("tell application \"Music\" to play")
-        private let positionScript = compile("tell application \"Music\" to get player position")
-        private let remainingScript = compile("tell application \"Music\" to get (duration of current track) - player position")
-        private let volumeScript = compile("tell application \"Music\" to get sound volume")
-        private let stateScript = compile("tell application \"Music\" to get player state as string")
+/// AppleScript for Music, used only on an engine thread (RendererEngine, VirtualDeviceEngine).
+final class RendererScripts {
+    private let pauseScript = compile("tell application \"Music\" to pause")
+    private let playScript = compile("tell application \"Music\" to play")
+    private let positionScript = compile("tell application \"Music\" to get player position")
+    private let remainingScript = compile("tell application \"Music\" to get (duration of current track) - player position")
+    private let volumeScript = compile("tell application \"Music\" to get sound volume")
+    private let stateScript = compile("tell application \"Music\" to get player state as string")
 
-        private static func compile(_ source: String) -> NSAppleScript? {
-            let s = NSAppleScript(source: source)
-            var err: NSDictionary?
-            s?.compileAndReturnError(&err)
-            if let err { print("[Renderer] AppleScript compile: \(err)") }
-            return s
-        }
-
-        private func run(_ s: NSAppleScript?) -> NSAppleEventDescriptor? {
-            var err: NSDictionary?
-            let d = s?.executeAndReturnError(&err)
-            if let err { print("[Renderer] AppleScript: \(err)"); return nil }
-            return d
-        }
-
-        func pause() -> Bool { run(pauseScript) != nil }
-        func play() -> Bool { run(playScript) != nil }
-        func position() -> Double? { run(positionScript)?.doubleValue }
-        func remaining() -> Double? { run(remainingScript)?.doubleValue }
-        func volume() -> Int? { run(volumeScript).map { Int($0.int32Value) } }
-        func playerState() -> String? { run(stateScript)?.stringValue }
-        func setVolume(_ v: Int) -> Bool { run(Self.compile("tell application \"Music\" to set sound volume to \(v)")) != nil }
-        func setPosition(_ p: Double) -> Bool { run(Self.compile("tell application \"Music\" to set player position to \(p)")) != nil }
+    private static func compile(_ source: String) -> NSAppleScript? {
+        let s = NSAppleScript(source: source)
+        var err: NSDictionary?
+        s?.compileAndReturnError(&err)
+        if let err { print("[Renderer] AppleScript compile: \(err)") }
+        return s
     }
+
+    private func run(_ s: NSAppleScript?) -> NSAppleEventDescriptor? {
+        var err: NSDictionary?
+        let d = s?.executeAndReturnError(&err)
+        if let err { print("[Renderer] AppleScript: \(err)"); return nil }
+        return d
+    }
+
+    func pause() -> Bool { run(pauseScript) != nil }
+    func play() -> Bool { run(playScript) != nil }
+    func position() -> Double? { run(positionScript)?.doubleValue }
+    func remaining() -> Double? { run(remainingScript)?.doubleValue }
+    func volume() -> Int? { run(volumeScript).map { Int($0.int32Value) } }
+    func playerState() -> String? { run(stateScript)?.stringValue }
+    func setVolume(_ v: Int) -> Bool { run(Self.compile("tell application \"Music\" to set sound volume to \(v)")) != nil }
+    func setPosition(_ p: Double) -> Bool { run(Self.compile("tell application \"Music\" to set player position to \(p)")) != nil }
 }
 
 /// Engine log: ~/Library/Logs/LosslessSwitcher-Renderer.log, one "[seconds] message" line each,

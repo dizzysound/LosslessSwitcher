@@ -31,6 +31,9 @@ class MenuBarController {
     private var rendererEngine: RendererEngine!
 
     @ObservationIgnored
+    private var virtualEngine: VirtualDeviceEngine!
+
+    @ObservationIgnored
     private var rendererCancellable: AnyCancellable?
 
     @ObservationIgnored
@@ -48,17 +51,34 @@ class MenuBarController {
             self?.bitPerfectCheck.refreshAfterDeviceChange()
         }
         let engine = RendererEngine(outputDevices: outputDevices)
+        let vEngine = VirtualDeviceEngine(outputDevices: outputDevices)
         self.rendererEngine = engine
+        self.virtualEngine = vEngine
+        // an earlier run that died can leave the virtual device as the default output
+        VirtualDeviceEngine.recoverOutput()
         self.rendererCancellable = Defaults.shared.$userPreferRendererEngine
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { on in
-                if on { engine.start() } else { engine.stop() }
+                guard on else { vEngine.stop(); engine.stop(); return }
+                // The virtual device (HAL plug-in) allows hog mode and integer output on the DAC;
+                // without it the engine takes Music's audio with a process tap.
+                if UserDefaults.standard.bool(forKey: "RendererForceTapEngine") {
+                    engine.startupNote = "RendererForceTapEngine is set; using the process-tap engine"
+                    engine.start()
+                } else if VirtualDeviceEngine.findDevice() != nil {
+                    vEngine.start()
+                } else {
+                    engine.startupNote = "LosslessSwitcher Output plug-in not found (\(VirtualDeviceEngine.pluginPath)); using the process-tap engine (no hog mode)"
+                    engine.start()
+                }
             }
     }
 
-    /// Called on quit: tears the renderer's pipeline down and gives Music its volume back.
+    /// Called on quit: stops the renderer, gives the DAC back, restores the default output and
+    /// Music's volume.
     func stopRenderer() {
+        virtualEngine.stop()
         rendererEngine.stop()
     }
 }

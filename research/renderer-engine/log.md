@@ -50,3 +50,30 @@ Driven by music-tap-spike-renderer/trial_ls.sh, analysed with outcheck.py / gapp
   aggregate plus a separate output IOProc on the device's clock.
 - Hog mode needs Music on a virtual output device driven by the DAC's clock (HAL plug-in); see the
   research repo's NEXT.md.
+
+# Virtual-device engine (branch renderer-vdevice, 2026-09-28)
+Quality/VirtualDeviceEngine.swift: the research repo's vrender --auto (music-tap-spike branch
+vdevice, log.md "Engine port") as the engine's output path. Music plays to "LosslessSwitcher Output"
+(HAL plug-in LSOutput.driver, /Library/Audio/Plug-Ins/HAL; loopback + a clock steered by the
+'LSrs' rate scalar); IOProc A reads its input into a ring, IOProc B plays the ring on the DAC,
+hogged, in its non-mixable integer format. MenuBarController uses it when the plug-in's device
+exists; otherwise RendererEngine (process tap) with a logged reason. Defaults: RendererForceTapEngine
+(use the tap engine), RendererTargetFrames (ring target, 2048), RendererDACUID (last DAC, for
+recovery), RendererDebugRecord/-Seconds (streams in/out/cycles/segments/clock.csv to disk).
+Needs Microphone (reading the virtual device's input) and Automation.
+
+Traps:
+- **B must not guess the DAC's sample format.** Right after the non-mixable int32 physical format is
+  set, the stream's virtual format can still read float32; the first build wrote float bits into the
+  MT 48's int32 stream for ~6 s (loud noise). B now stays muted until virtual == physical, and
+  format listeners mute it the moment its format stops describing the buffers.
+- The DAC's HAL rate scalar needs seconds to converge after a switch (1.00115 at 88.2k); the clock
+  lock waits until it is within 100 ppm.
+- A new track's decoder line must have arrived after the previous track began (a stream can post
+  Playing first, and the previous track's pre-roll line was taken for it); a gapless successor may
+  get no line at all (its decoder was set up early), so a local file's header decides (LocalTrack);
+  a stream waits up to 3 s for its line, held at the gate.
+- The virtual device's volume reads 0.0 and does nothing (menu-bar slider shows 0); the MT 48 has no
+  hardware volume or mute. DACs that do will need the virtual device's volume/mute forwarded
+  (the owner: bench test later).
+Results: music-tap-spike log.md (trials r1, m1-m3, r2).
