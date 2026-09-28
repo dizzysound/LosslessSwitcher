@@ -250,3 +250,8 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
 - An iCloud-synced Desktop adds com.apple.fileprovider.fpfs / FinderInfo xattrs ("detritus" for
   codesign --strict): install bench apps in ~/Applications.
 - research/typecheck/make_xcode_dev_app.sh: the bench build in one step (zip + README).
+- First launch of the Xcode build on the bench Mac: while the Microphone prompt was unanswered, the
+  default was already the virtual device and each HAL call on its input blocked ~60 s ("A: output
+  streams off" at 90 s, "start A: 268451843" at 150 s), then "setup failed" at 210 s restored the
+  Babyface: ~3.5 min of silence. After granting and toggling the engine: running normally ("start A:
+  0", hogged, DAC ready 0.512 s). Open: wait for the permission answer before taking the default.
