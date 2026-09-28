@@ -1003,10 +1003,16 @@ final class VirtualDeviceEngine {
                 log("default output changed to \(CA.string(d, kAudioObjectPropertyName)); Selected Device \(CA.string(dac, kAudioObjectPropertyName)) stays the DAC; default -> virtual device: \(CA.setDefaultOutput(ls))")
             }
         } else if d != ls, d != 0 {
-            // the user (or the system) picked another output: play to it through the virtual device
-            log("default output changed to \(CA.string(d, kAudioObjectPropertyName)); following it")
             defaultBefore = d
-            follow(d)
+            if d == dac {
+                // the DAC itself was picked (it stays listed in the Sound menu while hogged): it's
+                // already where the audio goes; setting it up again would only cost a gap
+                log("default output set to the DAC \(CA.string(d, kAudioObjectPropertyName)); default -> virtual device: \(CA.setDefaultOutput(ls))")
+            } else {
+                // the user (or the system) picked another output: play to it through the virtual device
+                log("default output changed to \(CA.string(d, kAudioObjectPropertyName)); following it")
+                follow(d)
+            }
         }
     }
 
