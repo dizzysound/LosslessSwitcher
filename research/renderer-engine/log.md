@@ -191,3 +191,14 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   again: "new track Kashmir: no decoder line for it yet; playing on at 44100 Hz". Fix (next commit):
   after a no-Playing release, close the gate again after 0.3 s of silence (ring written - lastNZ).
   General, not only after a quit: another app's sound while Music is paused did the same.
+- CORRECTION: Music never quit. `ps` shows Music pid 57518 running since 2026-09-27 18:43:48, the same
+  process that logged the 96k line at 08:40:17. Both "Music quit" lines (306 s in the first session,
+  386.8 s here) were false: NSRunningApplication.runningApplications(withBundleIdentifier:) returned
+  empty once while Music played on (called from the engine thread; cause not established). So the
+  switch 3 explanation above ("relaunched Music played before posting Playing") is wrong; what made
+  Boston start ~1.6 s early is unexplained. And fix 2 turned the false quit into harm: at 386.8 s the
+  gate caught Music's ongoing track and held it 4 s (a mid-track dropout), and dropping the decoder
+  lines lost Kashmir's 96k pre-roll (08:40:17), so Kashmir (96000 Hz per Music) played on at 44.1k
+  ("no decoder line for Kashmir within 3 s; playing at 44100 Hz").
+  Fix (next commit): Music counts as quit only when its remembered pid is gone (kill(pid, 0));
+  the NSRunningApplication miss is logged once.
