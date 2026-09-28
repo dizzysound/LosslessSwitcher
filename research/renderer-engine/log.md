@@ -168,3 +168,13 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   an emulated mute to 0.4598", key cleared.
 - Side note: a menu click meant to turn the engine on turned it off (it was already on from the
   earlier build: same defaults domain); the stop was clean.
+- dB mapping (next commit): slider linear in dB from 0 to -64 dB (4 dB per key step; defaults
+  RendererVolumeTopDB / RendererVolumeRangeDB), bottom = DAC minimum, through the DAC's own
+  DecibelsToScalar. The Babyface translates exactly (0 dB -> 0.9195, -41 -> 0.4598, -64 -> 0.2710, each
+  round-trips). Emulated mute now restores the DAC's own scalar from before the mute. Type-checked.
+- Music settings readable from com.apple.Music: TransitionsEnabled (AutoMix/crossfade; 0 now),
+  TransitionStyle 1, crossfadeSeconds 1, optimizeSongVolume (Sound Check; 0), eqEnabled 1 in prefs but
+  AppleScript "EQ enabled" false (prefs stale or different meaning), losslessEnabled 1,
+  preferredStreamPlaybackAudioQuality 20, preferredDolbyAtmosPlaySetting 30. No Sound Enhancer key.
+- New track after the relaunch took a decoder line 105 s old ("seen 105.208 s before Playing"): at an
+  engine start lastNewTrackAt is nil, so any line qualifies. Same rate, harmless here.

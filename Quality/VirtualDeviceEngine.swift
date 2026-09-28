@@ -1427,17 +1427,21 @@ enum CA {
 
 /// The volume keys and the sound menu change the default output's volume and mute: while the
 /// engine runs that is the virtual device, which passes audio at unity. Its volume and mute are
-/// forwarded to the DAC's own controls, so the stream to the DAC stays bit-perfect. Scalar to
-/// scalar, so each device keeps its own taper. The DAC's master element (0) if it has a volume
-/// there, else the stereo pair's channel elements (Babyface Pro: channels 1/2, no master, no mute).
-/// A DAC without a mute is muted by setting its volume to the minimum; unmute restores the virtual
-/// device's volume. A change made on the DAC itself (Audio MIDI Setup, TotalMix) moves the virtual
-/// device's volume to match, so the keys carry on from there. Listeners run on their own queue:
-/// the keys keep working while a rate switch holds the engine thread.
+/// forwarded to the DAC's own controls, so the stream to the DAC stays bit-perfect. The DAC's master
+/// element (0) if it has a volume there, else the stereo pair's channel elements (Babyface Pro:
+/// channels 1/2, no master, no mute).
+/// Mapping: the slider is linear in dB over a window below the top (defaults RendererVolumeTopDB 0,
+/// RendererVolumeRangeDB 64: 4 dB per key step, 1 dB per Option+Shift step); the bottom is the DAC's
+/// minimum. The DAC's own taper made one step 8-9.5 dB on the Babyface. A DAC without dB controls
+/// gets the slider's value as its scalar.
+/// A DAC without a mute is muted by setting its volume to the minimum; unmute and stop restore the
+/// level it had. A change made on the DAC itself (Audio MIDI Setup, TotalMix) moves the slider to
+/// match. Comparisons are in slider units, so the DAC's own rounding (0.5 dB on the RME) doesn't echo.
+/// Listeners run on their own queue: the keys keep working while a rate switch holds the engine thread.
 final class VolumeForwarder {
-    /// Set while a DAC without a mute is at its minimum for a mute: [UID, level to restore].
+    /// Set while a DAC without a mute is at its minimum for a mute: [UID, DAC scalar to restore].
     private static let mutedKey = "RendererDACMutedByVolume"
-    private static let tolerance: Float32 = 0.001
+    private static let tolerance: Float32 = 0.01 // slider units (1/16 per key step)
 
     private let queue = DispatchQueue(label: "RendererEngine.volume")
     private let log: (String) -> Void
@@ -1446,6 +1450,8 @@ final class VolumeForwarder {
     private var ls = AudioObjectID(0), dac = AudioObjectID(0), dacUID = ""
     private var volumeEls: [UInt32] = [], muteEls: [UInt32] = []
     private var emulatedMute = false
+    private var mutedLevel: Float32 = 0 // DAC scalar before an emulated mute
+    private var topDB: Float32 = 0, rangeDB: Float32 = 64, useDB = false
     // engine thread
     private var listeners: [(AudioObjectID, AudioObjectPropertyAddress, AudioObjectPropertyListenerBlock)] = []
 
@@ -1463,13 +1469,18 @@ final class VolumeForwarder {
                 log("volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)")
                 return
             }
+            let d = UserDefaults.standard
+            let range = Self.dbRange(dac, vols[0])
+            topDB = min(Float32(d.object(forKey: "RendererVolumeTopDB") as? Double ?? 0), range?.max ?? 0)
+            rangeDB = max(Float32(d.object(forKey: "RendererVolumeRangeDB") as? Double ?? 64), 6)
+            useDB = range != nil && Self.dbToScalar(dac, vols[0], topDB) != nil
             // start from the DAC's level, so nothing jumps
-            let levels = vols.map { Self.get(dac, kAudioDevicePropertyVolumeScalar, $0) ?? 1 }
-            let level = levels.max() ?? 1
+            let level = currentSlider() ?? 1
             let muted = mutes.first.flatMap { Self.get(dac, kAudioDevicePropertyMute, $0) }.map { $0 != 0 } ?? false
             let st = Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, level)
             let mst = Self.set(ls, kAudioDevicePropertyMute, 0, muted ? 1 : 0)
-            log("volume: forwarding to DAC element\(vols.count > 1 ? "s" : "") \(vols.map(String.init).joined(separator: ",")) (\(Self.db(dac, vols[0])) dB), mute \(mutes.isEmpty ? "emulated (DAC has none)" : "to element\(mutes.count > 1 ? "s" : "") \(mutes.map(String.init).joined(separator: ","))"); virtual volume -> \(String(format: "%.4f", level)): \(st), mute -> \(muted ? 1 : 0): \(mst)\(Set(levels).count > 1 ? "; DAC channels differed, the keys set them equal" : "")")
+            let map = useDB ? "linear in dB, \(Int(topDB)) to \(Int(topDB - rangeDB)) dB (\(String(format: "%.1f", rangeDB / 16)) dB per key step)" : "DAC scalar (no dB controls)"
+            log("volume: forwarding to DAC element\(vols.count > 1 ? "s" : "") \(vols.map(String.init).joined(separator: ",")) (\(Self.db(dac, vols[0])) dB), \(map); mute \(mutes.isEmpty ? "emulated (DAC has none)" : "to element\(mutes.count > 1 ? "s" : "") \(mutes.map(String.init).joined(separator: ","))"); slider -> \(String(format: "%.4f", level)): \(st), mute -> \(muted ? 1 : 0): \(mst)")
             active = true
         }
         guard !vols.isEmpty else { return }
@@ -1489,8 +1500,7 @@ final class VolumeForwarder {
             guard active else { return }
             active = false
             if emulatedMute {
-                let level = Self.get(ls, kAudioDevicePropertyVolumeScalar, 0) ?? 1
-                log("volume: unmuting the DAC as the engine lets go: \(setDAC(level))")
+                log("volume: unmuting the DAC as the engine lets go (\(String(format: "%.4f", mutedLevel))): \(setDACScalar(mutedLevel))")
                 emulatedMute = false
                 UserDefaults.standard.removeObject(forKey: Self.mutedKey)
             }
@@ -1514,6 +1524,23 @@ final class VolumeForwarder {
         if st == noErr { listeners.append((obj, a, block)) } else { log("volume: listener on \(obj) el \(a.mElement): \(st)") }
     }
 
+    // MARK: mapping (on the queue)
+
+    /// Slider (0...1) -> DAC scalar: linear in dB over the window; 0 is the DAC's minimum.
+    private func dacScalar(forSlider v: Float32) -> Float32 {
+        guard useDB else { return v }
+        if v <= 0.001 { return 0 }
+        let dB = topDB - (1 - v) * rangeDB
+        return Self.dbToScalar(dac, volumeEls[0], dB) ?? v
+    }
+
+    /// The DAC's level in slider units (the loudest of its elements).
+    private func currentSlider() -> Float32? {
+        guard useDB else { return volumeEls.compactMap { Self.get(dac, kAudioDevicePropertyVolumeScalar, $0) }.max() }
+        guard let dB = volumeEls.compactMap({ Self.get(dac, kAudioDevicePropertyVolumeDecibels, $0) }).max() else { return nil }
+        return min(1, max(0, 1 + (dB - topDB) / rangeDB))
+    }
+
     /// Virtual device -> DAC (a volume key, the sound menu).
     private func push() {
         guard let v = Self.get(ls, kAudioDevicePropertyVolumeScalar, 0) else { return }
@@ -1524,13 +1551,18 @@ final class VolumeForwarder {
                 did.append("mute el\(e) -> \(m ? 1 : 0): \(Self.set(dac, kAudioDevicePropertyMute, e, m ? 1 : 0))")
             }
         } else if m != emulatedMute {
+            if m {
+                mutedLevel = volumeEls.compactMap { Self.get(dac, kAudioDevicePropertyVolumeScalar, $0) }.max() ?? dacScalar(forSlider: v)
+                UserDefaults.standard.set([dacUID, NSNumber(value: mutedLevel)], forKey: Self.mutedKey)
+                did.append("mute (DAC to its minimum): \(setDACScalar(0))")
+            } else {
+                UserDefaults.standard.removeObject(forKey: Self.mutedKey)
+                did.append("unmute")
+            }
             emulatedMute = m
-            if m { UserDefaults.standard.set([dacUID, NSNumber(value: v)], forKey: Self.mutedKey) } else { UserDefaults.standard.removeObject(forKey: Self.mutedKey) }
-            did.append(m ? "mute (DAC to its minimum)" : "unmute")
         }
-        let target: Float32 = muteEls.isEmpty && m ? 0 : v
-        if volumeEls.contains(where: { abs((Self.get(dac, kAudioDevicePropertyVolumeScalar, $0) ?? -1) - target) > Self.tolerance }) {
-            did.append("DAC \(String(format: "%.4f", target)): \(setDAC(target)) (\(Self.db(dac, volumeEls[0])) dB)")
+        if !(muteEls.isEmpty && m), let cur = currentSlider(), abs(cur - v) > Self.tolerance || did.contains("unmute") {
+            did.append("DAC \(setDACScalar(dacScalar(forSlider: v))) -> \(Self.db(dac, volumeEls[0])) dB")
         }
         if !did.isEmpty { log("volume \(String(format: "%.4f", v))\(m ? " muted" : ""): " + did.joined(separator: ", ")) }
     }
@@ -1538,14 +1570,15 @@ final class VolumeForwarder {
     /// DAC -> virtual device (changed on the DAC itself); not while an emulated mute holds it down.
     private func pull() {
         guard !emulatedMute, let v = Self.get(ls, kAudioDevicePropertyVolumeScalar, 0),
-              let d = volumeEls.compactMap({ Self.get(dac, kAudioDevicePropertyVolumeScalar, $0) }).max(),
-              abs(d - v) > Self.tolerance else { return }
-        log("volume: DAC changed to \(String(format: "%.4f", d)) (\(Self.db(dac, volumeEls[0])) dB); virtual volume follows: \(Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, d))")
+              let d = currentSlider(), abs(d - v) > Self.tolerance else { return }
+        log("volume: DAC changed to \(Self.db(dac, volumeEls[0])) dB; slider follows to \(String(format: "%.4f", d)): \(Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, d))")
     }
 
-    private func setDAC(_ level: Float32) -> [OSStatus] {
+    private func setDACScalar(_ level: Float32) -> [OSStatus] {
         volumeEls.map { Self.set(dac, kAudioDevicePropertyVolumeScalar, $0, level) }
     }
+
+    // MARK: Core Audio
 
     /// Settable output elements for `sel`: the master, else the stereo pair's channels.
     private static func elements(_ d: AudioObjectID, _ sel: AudioObjectPropertySelector) -> [UInt32] {
@@ -1560,6 +1593,21 @@ final class VolumeForwarder {
         var z = UInt32(8)
         let pair: [UInt32] = AudioObjectGetPropertyData(d, &a, 0, nil, &z, &ch) == noErr && ch[0] >= 1 && ch[1] >= 1 ? ch : [1, 2]
         return Array(Set(pair)).sorted().filter(settable)
+    }
+
+    private static func dbRange(_ d: AudioObjectID, _ e: UInt32) -> (min: Float32, max: Float32)? {
+        var a = AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyVolumeRangeDecibels, mScope: kAudioObjectPropertyScopeOutput, mElement: e)
+        var r = AudioValueRange(); var z = UInt32(MemoryLayout<AudioValueRange>.size)
+        guard AudioObjectGetPropertyData(d, &a, 0, nil, &z, &r) == noErr, r.mMaximum > r.mMinimum else { return nil }
+        return (Float32(r.mMinimum), Float32(r.mMaximum))
+    }
+
+    /// The DAC's own dB -> scalar translation (its taper), clamped to its range.
+    private static func dbToScalar(_ d: AudioObjectID, _ e: UInt32, _ dB: Float32) -> Float32? {
+        var a = AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyVolumeDecibelsToScalar, mScope: kAudioObjectPropertyScopeOutput, mElement: e)
+        var v = dB; if let r = dbRange(d, e) { v = min(r.max, max(r.min, v)) }
+        var z = UInt32(4)
+        return AudioObjectGetPropertyData(d, &a, 0, nil, &z, &v) == noErr ? v : nil
     }
 
     private static func get(_ d: AudioObjectID, _ sel: AudioObjectPropertySelector, _ e: UInt32) -> Float32? {
