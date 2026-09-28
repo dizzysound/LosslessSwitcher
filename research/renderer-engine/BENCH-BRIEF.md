@@ -12,7 +12,10 @@ offers one. The virtual clock is steered to the DAC's. When a track needs a diff
 pauses Music, switches both devices, rewinds and plays; it catches the boundary at the old track's
 end (local files, and Apple Music streams whose next decoder is set up up to ~2 min early). Same-rate
 and gapless changes pass through untouched. The volume keys drive the DAC's own volume and mute (4 dB
-per step, linear in dB); the audio stays at unity. On quit it restores the default output, un-hogged.
+per step, linear in dB); the audio stays at unity. When Music hasn't played for 60 s the engine steps
+aside (DAC un-hogged, the previous default output restored) and takes the output back when Music
+plays again ("Release DAC When Music Is Idle", on by default). On quit it restores the default
+output, un-hogged.
 
 ## Setup
 1. Unzip into ~/Applications (not an iCloud-synced Desktop or Documents). No setup script is needed.
@@ -42,6 +45,11 @@ Engine log: ~/Library/Logs/LosslessSwitcher-Renderer.log (recreated at each engi
 7. Crash recovery: `kill -9` the app. The default should leave the virtual device within ~4 s. Relaunch:
    "at launch: recovering the output after an unclean exit", and no orphaned `perl ... run.pl ... loop`.
 8. Restore on quit: the default output back, un-hogged, mixable.
+9. Idle step-aside: pause Music for 60 s (or `defaults write com.dizzysound.LosslessSwitcher.dev
+   RendererIdleSeconds -float 10` for a quick test, then `defaults delete` it): "Music idle ... stepping
+   aside", the DAC un-hogged and the default. Press play: "playback began while stepped aside", then
+   "restarts at ..." or a rate switch, and "rewound to ..." about where Music started (not ~1.5 s
+   earlier). Note the time from pressing play to sound (Babyface Pro: ~2.2 s).
 
 ## Rules (the owner)
 - No gap or pause unless there's a sample-rate switch.
