@@ -323,7 +323,11 @@ class OutputDevices: ObservableObject {
                 delegate?.statusItemTitle = String(format: "%.1f kHz", readableSampleRate)
             }
         }
-        self.runUserScript(sampleRate, bitDepth: bitDepth)
+        // With the Renderer Engine on the default output is its virtual device, and the engine runs
+        // the script itself with the DAC's rate and bit depth (VirtualDeviceEngine.runUserScript).
+        if !Defaults.shared.userPreferRendererEngine {
+            self.runUserScript(sampleRate, bitDepth: bitDepth)
+        }
     }
     
     func runUserScript(_ sampleRate: Float64, bitDepth: Int?) {
