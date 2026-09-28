@@ -274,3 +274,7 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   3 s: Babyface Pro", "engine stopped"; RendererEngineOwnsOutput cleared. Relaunch: clean start (0.5 s).
 - MediaRemoteAdapter's perl helper outlived two quit copies again (killed by hand).
 - Not yet: a boundary switch with the lateArmAt fix (needs an album played through a rate change).
+- Fix 9568d30 (Xcode build, installed 13:09): start locked at fill 2048. Follow to the speakers:
+  "clock: ring at 512 frames before the lock (target 2048); refilling first", then "clock lock: ...
+  fill 2048" (was fill 0). Back to the Babyface: "clock lock: ... fill 2048". Mic wait again fine
+  (answered at 3.2 s, the default taken after).
