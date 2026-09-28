@@ -2,7 +2,7 @@
 //  VirtualDeviceEngine.swift
 //  LosslessSwitcher
 //
-//  Renderer Engine, virtual-device path. Music plays to "LosslessSwitcher Output", a HAL plug-in
+//  Renderer Engine, virtual-device path. Music plays to "LosslessSwitcher" (the virtual device), a HAL plug-in
 //  (LSOutput.driver in /Library/Audio/Plug-Ins/HAL) that loops its output mix back to its input.
 //  IOProc A reads that input into a ring; IOProc B plays the ring directly on the DAC, which this
 //  engine hogs and puts in a non-mixable (integer) format. The virtual device's clock is steered to
@@ -47,15 +47,28 @@ final class VirtualDeviceEngine {
         CA.devices().first { CA.string($0, kAudioDevicePropertyDeviceUID) == deviceUID }
     }
 
-    /// After a crash (or a kill) the virtual device can be left as the default output, with nothing
-    /// reading it: put the saved DAC back, in its mixable format. Harmless when the engine starts next.
+    /// Set while the engine owns the output (virtual device default, DAC hogged non-mixable),
+    /// cleared on a clean stop: still set at launch = the last run died.
+    private static let ownsOutputKey = "RendererEngineOwnsOutput"
+    private static let recoveryNoteKey = "RendererRecoveryNote"
+
+    /// After a crash or a kill: the HAL releases the hog, but the DAC stays in its non-mixable format
+    /// (unusable for everything else) and the default output is the virtual device (plug-in 1.0) or
+    /// whatever coreaudiod fell back to (1.1: MacBook Pro Speakers in the kill test). Give the DAC its
+    /// mixable format back and make it the default again. Harmless when the engine starts next.
     static func recoverOutput() {
-        guard let ls = findDevice(), CA.defaultOutput() == ls else { return }
-        let dac = UserDefaults.standard.string(forKey: dacUIDKey).flatMap { uid in CA.devices().first { CA.string($0, kAudioDevicePropertyDeviceUID) == uid } }
-            ?? fallbackOutput(excluding: ls)
-        guard let dac else { return }
-        print("[Renderer] default output was left on LosslessSwitcher Output; restoring \(CA.string(dac, kAudioObjectPropertyName)): \(CA.setDefaultOutput(dac))")
-        if CA.hogOwner(dac) == -1 { _ = CA.setMixable(dac) }
+        let unclean = UserDefaults.standard.bool(forKey: ownsOutputKey)
+        let ls = findDevice()
+        let current = CA.defaultOutput()
+        guard unclean || (ls != nil && current == ls) else { return }
+        let saved = UserDefaults.standard.string(forKey: dacUIDKey).flatMap { uid in CA.devices().first { CA.string($0, kAudioDevicePropertyDeviceUID) == uid } }
+        guard let dac = saved ?? ls.flatMap({ fallbackOutput(excluding: $0) }) else { return }
+        var msg = "[Renderer] recovering the output after \(unclean ? "an unclean exit" : "a default left on the virtual device"): DAC \(CA.string(dac, kAudioObjectPropertyName))"
+        if CA.hogOwner(dac) == -1 { msg += ", mixable \(CA.setMixable(dac))" }
+        if current != dac { msg += ", default output (was \(CA.string(current, kAudioObjectPropertyName))) \(CA.setDefaultOutput(dac))" }
+        print(msg)
+        UserDefaults.standard.set(msg, forKey: recoveryNoteKey) // the next engine run logs it
+        UserDefaults.standard.removeObject(forKey: ownsOutputKey)
     }
 
     /// The device the system would pick: built-in output first, else any other output.
@@ -219,7 +232,11 @@ final class VirtualDeviceEngine {
 
     private func run() {
         log.start()
-        log("engine started (virtual device: LosslessSwitcher Output)")
+        log("engine started (virtual device)")
+        if let note = UserDefaults.standard.string(forKey: Self.recoveryNoteKey) {
+            log(note.replacingOccurrences(of: "[Renderer] ", with: "at launch: "))
+            UserDefaults.standard.removeObject(forKey: Self.recoveryNoteKey)
+        }
         var tb = mach_timebase_info_data_t(); mach_timebase_info(&tb)
         ticksPerSec = 1e9 * Double(tb.denom) / Double(tb.numer)
         scripts = RendererScripts()
@@ -298,7 +315,7 @@ final class VirtualDeviceEngine {
     // MARK: - Setup and teardown
 
     private func setUp() -> Bool {
-        guard let l = Self.findDevice() else { log("LosslessSwitcher Output not found"); return false }
+        guard let l = Self.findDevice() else { log("virtual device not found"); return false }
         ls = l
         guard let d = chooseDAC() else { log("no output device to play to"); return false }
         let wasPlaying = musicPlaying()
@@ -310,7 +327,8 @@ final class VirtualDeviceEngine {
         playing = false
         gatePending = true; gateMarkedAt = nil; gate.store(1, ordering: .releasing); trimIdle.store(1, ordering: .releasing)
         attach(true)
-        if CA.defaultOutput() != ls { log("default output -> LosslessSwitcher Output: \(CA.setDefaultOutput(ls))") }
+        UserDefaults.standard.set(true, forKey: Self.ownsOutputKey)
+        if CA.defaultOutput() != ls { log("default output -> virtual device: \(CA.setDefaultOutput(ls))") }
         guard startLS(), setUpDAC(d) else {
             tearDown(restoreDefault: true, resumeMusic: wasPlaying)
             return false
@@ -546,8 +564,26 @@ final class VirtualDeviceEngine {
             }
             log("default output after 3 s: \(CA.string(CA.defaultOutput(), kAudioObjectPropertyName))\(resets > 0 ? " (\(resets) re-restores)" : "")")
         }
-        if restoreDefault { attach(false) }
+        if restoreDefault {
+            attach(false)
+            UserDefaults.standard.removeObject(forKey: Self.ownsOutputKey)
+        }
         if wasPlaying { playChecked() }
+    }
+
+    /// True with plug-in 1.0 (no 'LSac': nothing to lose).
+    private func isAttached() -> Bool {
+        var a = CA.addr(Self.kAttached)
+        guard ls != 0, AudioObjectHasProperty(ls, &a) else { return true }
+        var v: Unmanaged<CFPropertyList>?; var z = UInt32(MemoryLayout<CFPropertyList?>.size)
+        guard AudioObjectGetPropertyData(ls, &a, 0, nil, &z, &v) == noErr, let n = v?.takeRetainedValue() as? NSNumber else { return false }
+        return n.int32Value == getpid()
+    }
+
+    /// Attached, and the virtual device is the default output (before Music plays again).
+    private func reclaimDefault() {
+        if !isAttached() { attach(true) }
+        if CA.defaultOutput() != ls { log("default output was \(CA.string(CA.defaultOutput(), kAudioObjectPropertyName)); back to the virtual device: \(CA.setDefaultOutput(ls))") }
     }
 
     /// Plug-in 1.1+: the device can be the default output only while attached.
@@ -778,6 +814,7 @@ final class VirtualDeviceEngine {
         var startPos = pos - played - 0.1
         if startPos < 0.5 { startPos = 0 }
         _ = scripts.setPosition(startPos)
+        reclaimDefault() // never let Music start on whatever coreaudiod fell back to
         _ = scripts.play()
         log("  rewound to \(String(format: "%.3f", startPos)) (was \(String(format: "%.3f", pos)), played ~\(String(format: "%.3f", played)) s), play; switch \(switches) done \(ms(t)) after the request")
     }
@@ -796,6 +833,14 @@ final class VirtualDeviceEngine {
             procA = nil
             tearDown(restoreDefault: false, resumeMusic: false)
             if !setUp() { log("setup failed") }
+            return
+        }
+        // The plug-in drops the attachment if it thinks we went away (it can misjudge a
+        // reconfiguration); coreaudiod then moves the default off the virtual device. That move is
+        // ours, not the user's: re-attach and take the default back instead of following it.
+        if !isAttached() {
+            log("attachment lost; re-attaching")
+            reclaimDefault()
             return
         }
         let dacPresent = CA.string(dac, kAudioDevicePropertyDeviceUID) == dacUID
@@ -822,7 +867,7 @@ final class VirtualDeviceEngine {
         if wasPlaying { _ = scripts.pause(); _ = wait(1) { !self.playing } }
         tearDownDAC()
         if setUpDAC(d) {
-            log("default output -> LosslessSwitcher Output: \(CA.setDefaultOutput(ls))")
+            log("default output -> virtual device: \(CA.setDefaultOutput(ls))")
         } else {
             // never leave the system on a virtual device nobody plays out
             tearDownDAC()

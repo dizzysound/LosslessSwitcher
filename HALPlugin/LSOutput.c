@@ -125,6 +125,16 @@ enum
 	kObjectID_DataDestination_PlayThru_Master	= 12
 };
 
+//	LSOutput: the objects the device publishes (the others above are still implemented but unlisted).
+static const AudioObjectID kLS_DeviceObjects[] = { kObjectID_Stream_Input, kObjectID_Stream_Output, kObjectID_Volume_Output_Master, kObjectID_Mute_Output_Master };
+static const AudioObjectID kLS_InputObjects[] = { kObjectID_Stream_Input };
+static const AudioObjectID kLS_OutputObjects[] = { kObjectID_Stream_Output, kObjectID_Volume_Output_Master, kObjectID_Mute_Output_Master };
+static const AudioObjectID kLS_Controls[] = { kObjectID_Volume_Output_Master, kObjectID_Mute_Output_Master };
+#define kLS_NumDeviceObjects 4
+#define kLS_NumInputObjects 1
+#define kLS_NumOutputObjects 3
+#define kLS_NumControls 2
+
 //	Declare the stuff that tracks the state of the plug-in, the device and its sub-objects.
 //	Note that we use global variables here because this driver only ever has a single device. If
 //	multiple devices were supported, this state would need to be encapsulated in one or more structs
@@ -175,6 +185,16 @@ static const AudioObjectPropertySelector	kLS_Hold						= 'LShd';
 //	Never the default input (the loopback) or the system (alert sounds) device.
 static const AudioObjectPropertySelector	kLS_Attached					= 'LSac';
 static pid_t								gAttached_PID					= 0;
+//	Clients (per HAL client ID) and their processes. The HAL removes a process's clients during a
+//	device reconfiguration (a rate change) and adds them back, so "the renderer went away" means no
+//	client of its pid for kAttached_GraceSec after the last removal.
+#define										kLS_MaxClients					64
+#define										kAttached_GraceSec				3
+static UInt32								gClient_IDs[kLS_MaxClients];
+static pid_t								gClient_PIDs[kLS_MaxClients];
+static UInt32								gClient_Count					= 0;
+static UInt64								gAttached_RemovalSerial			= 0;
+static pthread_mutex_t						gClient_Mutex					= PTHREAD_MUTEX_INITIALIZER;
 #define										kHold_Action					1
 #define										kHold_TimeoutSec				15
 static int									gHold_State						= 0;	//	0 none, 1 frozen, 2 blocked in a config change, 3 armed
@@ -593,6 +613,60 @@ Done:
 	return theAnswer;
 }
 
+static UInt32 LS_ClientsOf(pid_t inPID)	//	call with gClient_Mutex held
+{
+	UInt32 theCount = 0;
+	for(UInt32 i = 0; i < gClient_Count; ++i) if(gClient_PIDs[i] == inPID) ++theCount;
+	return theCount;
+}
+
+static void LS_SetAttached(pid_t inPID);
+
+//	coreaudiod doesn't pick a new default output when CanBeDefaultDevice turns false; it does when
+//	the device goes away. So after the renderer died, withdraw the device for a moment (the box's
+//	"acquired" state, not persisted) and bring it back, no longer eligible.
+static void LS_NotifyDeviceList(void)
+{
+	AudioObjectPropertyAddress theBox[2] = { { kAudioBoxPropertyAcquired, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain }, { kAudioBoxPropertyDeviceList, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain } };
+	AudioObjectPropertyAddress thePlugIn = { kAudioPlugInPropertyDeviceList, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain };
+	gPlugIn_Host->PropertiesChanged(gPlugIn_Host, kObjectID_Box, 2, theBox);
+	gPlugIn_Host->PropertiesChanged(gPlugIn_Host, kObjectID_PlugIn, 1, &thePlugIn);
+}
+
+static void LS_BlinkDevice(void)
+{
+	if(gPlugIn_Host == NULL) return;
+	pthread_mutex_lock(&gPlugIn_StateMutex);
+	gBox_Acquired = false;
+	pthread_mutex_unlock(&gPlugIn_StateMutex);
+	LS_NotifyDeviceList();
+	os_log(gLog, "LSOutput: device withdrawn so coreaudiod picks another default output");
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		pthread_mutex_lock(&gPlugIn_StateMutex);
+		gBox_Acquired = true;
+		pthread_mutex_unlock(&gPlugIn_StateMutex);
+		LS_NotifyDeviceList();
+		os_log(gLog, "LSOutput: device back");
+	});
+}
+
+//	The attached renderer's last client left: clear the attachment unless one comes back in time.
+static void LS_ScheduleDetachCheck(pid_t inPID)
+{
+	UInt64 theSerial = ++gAttached_RemovalSerial;
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kAttached_GraceSec * NSEC_PER_SEC), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		pthread_mutex_lock(&gClient_Mutex);
+		bool theGone = gAttached_PID == inPID && gAttached_RemovalSerial == theSerial && LS_ClientsOf(inPID) == 0;
+		pthread_mutex_unlock(&gClient_Mutex);
+		if(theGone)
+		{
+			os_log(gLog, "LSOutput: attached renderer (pid %d) has had no client for %d s; can't be the default output any more", inPID, kAttached_GraceSec);
+			LS_SetAttached(0);
+			LS_BlinkDevice();
+		}
+	});
+}
+
 static void LS_SetAttached(pid_t inPID)
 {
 	if(gAttached_PID == inPID) return;
@@ -622,6 +696,18 @@ static OSStatus	NullAudio_AddDeviceClient(AudioServerPlugInDriverRef inDriver, A
 	//	check the arguments
 	FailWithAction(inDriver != gAudioServerPlugInDriverRef, theAnswer = kAudioHardwareBadObjectError, Done, "NullAudio_AddDeviceClient: bad driver reference");
 	FailWithAction(inDeviceObjectID != kObjectID_Device, theAnswer = kAudioHardwareBadObjectError, Done, "NullAudio_AddDeviceClient: bad device ID");
+	if(inClientInfo != NULL)
+	{
+		pthread_mutex_lock(&gClient_Mutex);
+		if(gClient_Count < kLS_MaxClients)
+		{
+			gClient_IDs[gClient_Count] = inClientInfo->mClientID;
+			gClient_PIDs[gClient_Count] = inClientInfo->mProcessID;
+			++gClient_Count;
+		}
+		pthread_mutex_unlock(&gClient_Mutex);
+		os_log(gLog, "LSOutput: client %u (pid %d) added", inClientInfo->mClientID, inClientInfo->mProcessID);
+	}
 
 Done:
 	return theAnswer;
@@ -641,10 +727,23 @@ static OSStatus	NullAudio_RemoveDeviceClient(AudioServerPlugInDriverRef inDriver
 	//	check the arguments
 	FailWithAction(inDriver != gAudioServerPlugInDriverRef, theAnswer = kAudioHardwareBadObjectError, Done, "NullAudio_RemoveDeviceClient: bad driver reference");
 	FailWithAction(inDeviceObjectID != kObjectID_Device, theAnswer = kAudioHardwareBadObjectError, Done, "NullAudio_RemoveDeviceClient: bad device ID");
-	if(inClientInfo != NULL && gAttached_PID != 0 && inClientInfo->mProcessID == gAttached_PID)
+	if(inClientInfo != NULL)
 	{
-		os_log(gLog, "LSOutput: attached renderer (pid %d) went away; can't be the default output any more", gAttached_PID);
-		LS_SetAttached(0);
+		pthread_mutex_lock(&gClient_Mutex);
+		for(UInt32 i = 0; i < gClient_Count; ++i)
+		{
+			if(gClient_IDs[i] == inClientInfo->mClientID)
+			{
+				gClient_IDs[i] = gClient_IDs[gClient_Count - 1];
+				gClient_PIDs[i] = gClient_PIDs[gClient_Count - 1];
+				--gClient_Count;
+				break;
+			}
+		}
+		bool theLastOfAttached = gAttached_PID != 0 && inClientInfo->mProcessID == gAttached_PID && LS_ClientsOf(gAttached_PID) == 0;
+		pthread_mutex_unlock(&gClient_Mutex);
+		os_log(gLog, "LSOutput: client %u (pid %d) removed%s", inClientInfo->mClientID, inClientInfo->mProcessID, theLastOfAttached ? "; the attached renderer's last" : "");
+		if(theLastOfAttached) LS_ScheduleDetachCheck(inClientInfo->mProcessID);
 	}
 
 Done:
@@ -2130,15 +2229,15 @@ static OSStatus	NullAudio_GetDevicePropertyDataSize(AudioServerPlugInDriverRef i
 			switch(inAddress->mScope)
 			{
 				case kAudioObjectPropertyScopeGlobal:
-					*outDataSize = 8 * sizeof(AudioObjectID);
+					*outDataSize = kLS_NumDeviceObjects * sizeof(AudioObjectID);
 					break;
 					
 				case kAudioObjectPropertyScopeInput:
-					*outDataSize = 4 * sizeof(AudioObjectID);
+					*outDataSize = kLS_NumInputObjects * sizeof(AudioObjectID);
 					break;
 					
 				case kAudioObjectPropertyScopeOutput:
-					*outDataSize = 4 * sizeof(AudioObjectID);
+					*outDataSize = kLS_NumOutputObjects * sizeof(AudioObjectID);
 					break;
 			};
 			break;
@@ -2201,7 +2300,7 @@ static OSStatus	NullAudio_GetDevicePropertyDataSize(AudioServerPlugInDriverRef i
 			break;
 
 		case kAudioObjectPropertyControlList:
-			*outDataSize = 7 * sizeof(AudioObjectID);
+			*outDataSize = kLS_NumControls * sizeof(AudioObjectID);
 			break;
 
 		case kAudioDevicePropertySafetyOffset:
@@ -2345,52 +2444,15 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 			//	case, only that number of items will be returned
 			theNumberItemsToFetch = inDataSize / sizeof(AudioObjectID);
 			
-			//	The device owns its streams and controls. Note that what is returned here
-			//	depends on the scope requested.
-			switch(inAddress->mScope)
+			//	LSOutput: the streams, and only the output's volume and mute (the data sources, the
+			//	play-through destination and the loopback input's volume/mute did nothing and showed
+			//	up in Audio MIDI Setup as "Source 0" etc.)
 			{
-				case kAudioObjectPropertyScopeGlobal:
-					//	global scope means return all objects
-					if(theNumberItemsToFetch > 9)
-					{
-						theNumberItemsToFetch = 9;
-					}
-					
-					//	fill out the list with as many objects as requested, which is everything
-					for(theItemIndex = 0; theItemIndex < theNumberItemsToFetch; ++theItemIndex)
-					{
-						((AudioObjectID*)outData)[theItemIndex] = kObjectID_Stream_Input + theItemIndex;
-					}
-					break;
-					
-				case kAudioObjectPropertyScopeInput:
-					//	input scope means just the objects on the input side
-					if(theNumberItemsToFetch > 4)
-					{
-						theNumberItemsToFetch = 4;
-					}
-					
-					//	fill out the list with the right objects
-					for(theItemIndex = 0; theItemIndex < theNumberItemsToFetch; ++theItemIndex)
-					{
-						((AudioObjectID*)outData)[theItemIndex] = kObjectID_Stream_Input + theItemIndex;
-					}
-					break;
-					
-				case kAudioObjectPropertyScopeOutput:
-					//	output scope means just the objects on the output side
-					if(theNumberItemsToFetch > 4)
-					{
-						theNumberItemsToFetch = 4;
-					}
-					
-					//	fill out the list with the right objects
-					for(theItemIndex = 0; theItemIndex < theNumberItemsToFetch; ++theItemIndex)
-					{
-						((AudioObjectID*)outData)[theItemIndex] = kObjectID_Stream_Output + theItemIndex;
-					}
-					break;
-			};
+				const AudioObjectID* theList = inAddress->mScope == kAudioObjectPropertyScopeInput ? kLS_InputObjects : inAddress->mScope == kAudioObjectPropertyScopeOutput ? kLS_OutputObjects : kLS_DeviceObjects;
+				UInt32 theCount = inAddress->mScope == kAudioObjectPropertyScopeInput ? kLS_NumInputObjects : inAddress->mScope == kAudioObjectPropertyScopeOutput ? kLS_NumOutputObjects : kLS_NumDeviceObjects;
+				if(theNumberItemsToFetch > theCount) theNumberItemsToFetch = theCount;
+				for(theItemIndex = 0; theItemIndex < theNumberItemsToFetch; ++theItemIndex) ((AudioObjectID*)outData)[theItemIndex] = theList[theItemIndex];
+			}
 			
 			//	report how much we wrote
 			*outDataSize = theNumberItemsToFetch * sizeof(AudioObjectID);
@@ -2579,25 +2641,8 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 			//	number is allowed to be smaller than the actual size of the list. In such
 			//	case, only that number of items will be returned
 			theNumberItemsToFetch = inDataSize / sizeof(AudioObjectID);
-			if(theNumberItemsToFetch > 7)
-			{
-				theNumberItemsToFetch = 7;
-			}
-			
-			//	fill out the list with as many objects as requested, which is everything
-			for(theItemIndex = 0; theItemIndex < theNumberItemsToFetch; ++theItemIndex)
-			{
-				if(theItemIndex < 3)
-				{
-					((AudioObjectID*)outData)[theItemIndex] = kObjectID_Volume_Input_Master + theItemIndex;
-				}
-				else
-				{
-					((AudioObjectID*)outData)[theItemIndex] = kObjectID_Volume_Output_Master + (theItemIndex - 3);
-				}
-			}
-			
-			//	report how much we wrote
+			if(theNumberItemsToFetch > kLS_NumControls) theNumberItemsToFetch = kLS_NumControls;
+			for(theItemIndex = 0; theItemIndex < theNumberItemsToFetch; ++theItemIndex) ((AudioObjectID*)outData)[theItemIndex] = kLS_Controls[theItemIndex];
 			*outDataSize = theNumberItemsToFetch * sizeof(AudioObjectID);
 			break;
 
@@ -2889,6 +2934,13 @@ static OSStatus	NullAudio_SetDevicePropertyData(AudioServerPlugInDriverRef inDri
 				FailWithAction(thePID < 0, theAnswer = kAudioHardwareIllegalOperationError, Done, "LSOutput: bad pid");
 				os_log(gLog, "LSOutput: attached renderer pid %d (was %d)", thePID, gAttached_PID);
 				LS_SetAttached(thePID);
+				if(thePID != 0)
+				{
+					pthread_mutex_lock(&gClient_Mutex);
+					UInt32 theClients = LS_ClientsOf(thePID);
+					pthread_mutex_unlock(&gClient_Mutex);
+					if(theClients == 0) LS_ScheduleDetachCheck(thePID);	//	it has 3 s to become a client
+				}
 			}
 			break;
 

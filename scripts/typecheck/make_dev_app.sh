@@ -4,7 +4,7 @@
 # CONFIG=release builds optimized (RendererEngine's IO loop wants it at high sample rates).
 set -e
 CONFIG=${CONFIG:-debug}
-cd "$(dirname "$0")"; swift build -c "$CONFIG" >/dev/null
+cd "$(dirname "$0")"; swift build -c "$CONFIG" ${SANITIZE:+--sanitize=$SANITIZE} >/dev/null
 APP=".build/LosslessSwitcher Dev.app"; rm -rf "$APP"; mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp .build/$CONFIG/LosslessSwitcher .build/$CONFIG/*.dylib "$APP/Contents/MacOS/"
 cp -R .build/$CONFIG/MediaRemoteAdapter_MediaRemoteAdapter.bundle "$APP/Contents/Resources/"
