@@ -126,9 +126,20 @@ MacBook Pro, macOS 27.0, arm64. DAC: RME Babyface Pro, RME kext (uid de_RME_driv
 - Rate switches (Music, tracks picked by hand, so none latched: "not latched: cut at the play
   position"): 1) 48k -> 44.1k DAC ready 1.373 s, switch done 1.564 s; 2) 44.1k -> 48k 1.385 s / 1.806
   s; 3) 48k -> 44.1k 1.389 s / 2.152 s. B float32 each time, no "B MUTED". Babyface ~1.38 s per
-  switch (MT 48: 1.6-12 s). By ear: pending the owner.
-- To look at: switch 3 "rewound to 0.530 (was 2.277, played ~1.647 s)" (not 0.000 as in 1 and 2);
-  at 203 s "next track needs 44100 Hz; 265.11 s left, arming the boundary latch in 0.00 s", then
+  switch (MT 48: 1.6-12 s). By ear (the owner): the new track played for about a second at the old
+  rate before the restart. Traced (not reproduced) in the log:
+  - Switch 1 held at the gate (silent as designed).
+  - Switch 2 (YYZ, ~2.1 s audible): Music posted "Playing" with no name (197.737) just before
+    "Playing YYZ" (197.788). The nameless one took a 44.1k decoder line that wasn't YYZ's, decided
+    "same rate" and released the gate; YYZ then logged "playing on at 44100 Hz until one comes" until
+    its 48k line came 2.1 s later.
+  - Switch 3 (Boston, ~1.6 s audible, restart at 0.530): Music had quit ("Music quit" at 306 s);
+    nothing re-armed the gate, and relaunched Music played ~1.6 s before posting Playing. The rewind
+    targets the position at the notification, so 0.00-0.53 was never replayed. The rate came from a
+    stale line ("seen 263.843 s before Playing", from before the quit; right by luck).
+  Proposed (not written): ignore a Playing with no name and no PersistentID; on "Music quit" re-arm
+  the gate and drop decoder lines; a gated new track whose rewind target is under ~2 s rewinds to 0.
+- To look at: At 203 s "next track needs 44100 Hz; 265.11 s left, arming the boundary latch in 0.00 s", then
   "no boundary within 5 s; disarmed" (armed ~265 s early; Music was quit before that track ended).
 - Not yet run: built-in speakers as DAC, restore on quit.
 - Volume forwarding (VolumeForwarder in VirtualDeviceEngine.swift) and the chmod fix: type-checked
