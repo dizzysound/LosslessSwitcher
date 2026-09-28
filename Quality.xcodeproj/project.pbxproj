@@ -12,6 +12,7 @@
 		12AA10C12E90000100C0FFEE /* LocalTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10C02E90000100C0FFEE /* LocalTrack.swift */; };
 		12AA10C72E90000100C0FFEE /* RendererEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10C62E90000100C0FFEE /* RendererEngine.swift */; };
 		12AA10C92E90000100C0FFEE /* VirtualDeviceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10C82E90000100C0FFEE /* VirtualDeviceEngine.swift */; };
+		12AA10CB2E90000100C0FFEE /* VirtualOutputPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10CA2E90000100C0FFEE /* VirtualOutputPlugin.swift */; };
 		12AA10C52E90000100C0FFEE /* BitPerfectCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10C42E90000100C0FFEE /* BitPerfectCheck.swift */; };
 		12AA10C32E90000100C0FFEE /* TrackBoundarySwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10C22E90000100C0FFEE /* TrackBoundarySwitcher.swift */; };
 		1234F508281E8372007EC9F5 /* PrivateMediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 1234F507281E8372007EC9F5 /* PrivateMediaRemote */; };
@@ -59,6 +60,7 @@
 		12AA10C02E90000100C0FFEE /* LocalTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTrack.swift; sourceTree = "<group>"; };
 		12AA10C62E90000100C0FFEE /* RendererEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererEngine.swift; sourceTree = "<group>"; };
 		12AA10C82E90000100C0FFEE /* VirtualDeviceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualDeviceEngine.swift; sourceTree = "<group>"; };
+		12AA10CA2E90000100C0FFEE /* VirtualOutputPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualOutputPlugin.swift; sourceTree = "<group>"; };
 		12AA10C42E90000100C0FFEE /* BitPerfectCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitPerfectCheck.swift; sourceTree = "<group>"; };
 		12AA10C22E90000100C0FFEE /* TrackBoundarySwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackBoundarySwitcher.swift; sourceTree = "<group>"; };
 		1234F509281E83D1007EC9F5 /* MediaRemote.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaRemote.framework; path = ../../../../../System/Library/PrivateFrameworks/MediaRemote.framework; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				1221F3FA280F1EEF003E8B77 /* OutputDevices.swift */,
 				12AA10C02E90000100C0FFEE /* LocalTrack.swift */,
 				12AA10C42E90000100C0FFEE /* BitPerfectCheck.swift */,
+				12AA10CA2E90000100C0FFEE /* VirtualOutputPlugin.swift */,
 				12AA10C82E90000100C0FFEE /* VirtualDeviceEngine.swift */,
 				12AA10C62E90000100C0FFEE /* RendererEngine.swift */,
 				12AA10C22E90000100C0FFEE /* TrackBoundarySwitcher.swift */,
@@ -180,6 +183,7 @@
 				1272AA91280DBB4900FD72BA /* Frameworks */,
 				1272AA92280DBB4900FD72BA /* Resources */,
 				BF342D7E2E0937D20032F398 /* Embed Frameworks */,
+				12AA10CC2E90000100C0FFEE /* Bundle HAL plug-in */,
 			);
 			buildRules = (
 			);
@@ -248,6 +252,23 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		12AA10CC2E90000100C0FFEE /* Bundle HAL plug-in */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle HAL plug-in";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/HALPlugin/build.sh\" && rm -rf \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/LSOutput.driver\" && cp -R \"$SRCROOT/HALPlugin/LSOutput.driver\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1272AA90280DBB4900FD72BA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -264,6 +285,7 @@
 				1221F3FB280F1EEF003E8B77 /* OutputDevices.swift in Sources */,
 				12AA10C12E90000100C0FFEE /* LocalTrack.swift in Sources */,
 				12AA10C52E90000100C0FFEE /* BitPerfectCheck.swift in Sources */,
+				12AA10CB2E90000100C0FFEE /* VirtualOutputPlugin.swift in Sources */,
 				12AA10C92E90000100C0FFEE /* VirtualDeviceEngine.swift in Sources */,
 				12AA10C72E90000100C0FFEE /* RendererEngine.swift in Sources */,
 				12AA10C32E90000100C0FFEE /* TrackBoundarySwitcher.swift in Sources */,

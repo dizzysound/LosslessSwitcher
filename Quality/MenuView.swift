@@ -12,6 +12,7 @@ struct MenuView: View {
     @EnvironmentObject private var outputDevices: OutputDevices
     @EnvironmentObject private var defaults: Defaults
     @EnvironmentObject private var bitPerfectCheck: BitPerfectCheck
+    @ObservedObject private var virtualOutput = VirtualOutputPlugin.shared
     
     var body: some View {
         VStack {
@@ -79,6 +80,28 @@ struct MenuView: View {
                     }
                 }
             }
+
+            Menu {
+                switch virtualOutput.state {
+                case .notInstalled:
+                    Text("Not installed (the Renderer Engine uses a process tap, no hog mode)")
+                    Button("Install…") { MenuBarController.shared.changeVirtualDevice(install: true) }
+                case .installed(let version):
+                    Text("Installed (\(version))")
+                    Button("Reinstall…") { MenuBarController.shared.changeVirtualDevice(install: true) }
+                    Button("Remove…") { MenuBarController.shared.changeVirtualDevice(install: false) }
+                case .outdated(let installed, let bundled):
+                    Text("Installed \(installed), this app has \(bundled)")
+                    Button("Update…") { MenuBarController.shared.changeVirtualDevice(install: true) }
+                    Button("Remove…") { MenuBarController.shared.changeVirtualDevice(install: false) }
+                }
+                if let error = virtualOutput.lastError {
+                    Text("Last attempt failed: \(error)")
+                }
+            } label: {
+                Text(virtualOutput.busy ? "Virtual Output Device (working…)" : "Virtual Output Device")
+            }
+            .disabled(virtualOutput.busy)
 
             Menu {
                 ForEach(SwitchGap.allCases, id: \.self) { gap in

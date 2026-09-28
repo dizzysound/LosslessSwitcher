@@ -34,10 +34,13 @@ import Synchronization
 
 final class VirtualDeviceEngine {
 
-    static let deviceUID = "LSOutput_UID"
+    static let deviceUID = "LSOutput_UID" // shown as "LosslessSwitcher" (plug-in 1.1+; 1.0: "LosslessSwitcher Output")
     static let pluginPath = "/Library/Audio/Plug-Ins/HAL/LSOutput.driver"
     private static let dacUIDKey = "RendererDACUID"
     private static let kRateScalar: AudioObjectPropertySelector = 0x4C53_7273 // 'LSrs'
+    /// 'LSac': the renderer's pid while it plays the device out (0 = none). Plug-in 1.1+ can be the
+    /// default output only while it is set, and clears it when that process stops being a client.
+    private static let kAttached: AudioObjectPropertySelector = 0x4C53_6163
 
     /// The plug-in's device, if the HAL has it.
     static func findDevice() -> AudioObjectID? {
@@ -306,6 +309,7 @@ final class VirtualDeviceEngine {
         // a play while the DAC comes up (up to 12 s) waits at the gate
         playing = false
         gatePending = true; gateMarkedAt = nil; gate.store(1, ordering: .releasing); trimIdle.store(1, ordering: .releasing)
+        attach(true)
         if CA.defaultOutput() != ls { log("default output -> LosslessSwitcher Output: \(CA.setDefaultOutput(ls))") }
         guard startLS(), setUpDAC(d) else {
             tearDown(restoreDefault: true, resumeMusic: wasPlaying)
@@ -542,7 +546,18 @@ final class VirtualDeviceEngine {
             }
             log("default output after 3 s: \(CA.string(CA.defaultOutput(), kAudioObjectPropertyName))\(resets > 0 ? " (\(resets) re-restores)" : "")")
         }
+        if restoreDefault { attach(false) }
         if wasPlaying { playChecked() }
+    }
+
+    /// Plug-in 1.1+: the device can be the default output only while attached.
+    private func attach(_ on: Bool) {
+        var a = CA.addr(Self.kAttached)
+        guard ls != 0, AudioObjectHasProperty(ls, &a) else {
+            if on { log("virtual device has no 'LSac' (plug-in older than 1.1): it stays eligible as the default output after the engine stops; update it from the menu") }
+            return
+        }
+        log("\(on ? "attached" : "detached") (pid \(on ? getpid() : 0)): \(CA.setCFNumber(ls, Self.kAttached, NSNumber(value: on ? Int32(getpid()) : 0)))")
     }
 
     /// Music may not start when told to play right after the default output changed: check, retry.
@@ -1296,6 +1311,12 @@ enum CA {
         guard f.mFormatFlags & kAudioFormatFlagIsNonMixable != 0 else { return noErr }
         f.mFormatFlags &= ~kAudioFormatFlagIsNonMixable
         return AudioObjectSetPropertyData(s, &a, 0, nil, z, &f)
+    }
+
+    static func setCFNumber(_ d: AudioObjectID, _ sel: AudioObjectPropertySelector, _ n: NSNumber) -> OSStatus {
+        var a = addr(sel); let num: CFNumber = n
+        var ref = Unmanaged.passUnretained(num)
+        return withExtendedLifetime(num) { AudioObjectSetPropertyData(d, &a, 0, nil, UInt32(MemoryLayout<Unmanaged<CFNumber>>.size), &ref) }
     }
 
     /// The plug-in's custom properties take a CFPropertyListRef.
