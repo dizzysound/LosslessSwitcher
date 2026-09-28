@@ -316,3 +316,15 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
 - 4bc325e (menu names the DAC): engine on "44.1 kHz / Babyface Pro (73020432)" (was "LosslessSwitcher");
   engine off "Babyface Pro (73020432)" (the default again); off with the default on the speakers "48.0
   kHz / MacBook Pro Speakers"; on again "Babyface Pro (73020432)", hogged, DAC ready 0.511 s.
+
+# Control Center and the hogged DAC (2026-09-28 afternoon)
+- After a quit, Control Center's Sound menu listed no Babyface, nothing checked, empty slider, crossed-
+  out speaker (the owner's screenshot 14:29), while Core Audio had the Babyface alive, not hidden, hog -1,
+  canBeDefault 1, the default. `killall ControlCenter` brought it back. Not reproduced in two tries
+  after that (start/quit; start, open the menu while hogged, quit): listed and checked each time.
+  While hogged the Babyface keeps canBeDefault 1, so Control Center lists it (only its driver decides).
+- Tool for next time: research/renderer-engine/tools/control-center-refresh.swift (a public empty
+  aggregate for 0.3 s: a device-list change for every process). Run it before killall; if it brings the
+  DAC back, the engine can do it on release.
+- Fix (next commit): with Default Device, picking the DAC itself as the default output made the engine
+  follow it (teardown + setup, a gap). Now it only takes the default back.
