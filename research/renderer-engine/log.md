@@ -289,3 +289,11 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   "play <playlist>" didn't start the new playlist; no Up Next API. The owner double-clicked in Music. Two
   earlier stops were the CPH track being unchecked (enabled false: Music skips it); the owner re-checked
   the CPH songs. Library "sample rate" for Apple Music items reads 44100 even when the stream is 96k.
+- Boundary switch, Apple Music streams (9568d30, ~13:55): temp playlist "LS bench stream (temp)": Bad
+  Religion "O Come, O Come Emmanuel" (44.1k, lossy then lossless) -> Audio Brewers "Fotis' Drums
+  Improvisation" (48k lossless). The next stream's decoder came 124 s early: "next track needs 48000 Hz;
+  124.23 s left, arming the boundary latch in 0.00 s and again in 122.73 s"; the 5 s arm expired ("no
+  boundary within 5 s; disarmed"); at 2652.281 "pre-roll came early; arming the boundary latch again";
+  "latched at ring 154720670 (fill 2048)"; "switch 3: ... latched at the old track's end; paused;
+  boundary reached 0.415 s"; DAC ready 1.371 s; "rewound to 0.000"; switch done 2.316 s. The lateArmAt
+  fix works: before it, this boundary was "not latched: cut at the play position".
