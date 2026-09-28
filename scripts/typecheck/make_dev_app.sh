@@ -21,6 +21,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <key>LSUIElement</key><true/>
 <key>NSAppleEventsUsageDescription</key><string>This permission is required for local file sample rate detection.</string>
 <key>NSAudioCaptureUsageDescription</key><string>The Renderer Engine takes Music's audio from the output device and plays it back unchanged, so it can switch the sample rate without cutting tracks.</string>
+<key>NSMicrophoneUsageDescription</key><string>The Renderer Engine reads Music's audio back from the LosslessSwitcher Output virtual device (its loopback input) to play it to your DAC unchanged.</string>
 </dict></plist>
 PLIST
 codesign -s - --force --deep "$APP" 2>&1 | { grep -v "replacing existing" || true; }

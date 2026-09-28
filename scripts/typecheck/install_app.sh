@@ -35,6 +35,8 @@ for f in AppIcon.icns Assets.car; do [ -f "$TEMPLATE/Contents/Resources/$f" ] &&
 cp "$TEMPLATE/Contents/Info.plist" "$STAGE/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Print NSAudioCaptureUsageDescription" "$STAGE/Contents/Info.plist" >/dev/null 2>&1 || \
   /usr/libexec/PlistBuddy -c "Add NSAudioCaptureUsageDescription string The Renderer Engine takes Music's audio from the output device and plays it back unchanged, so it can switch the sample rate without cutting tracks." "$STAGE/Contents/Info.plist"
+/usr/libexec/PlistBuddy -c "Print NSMicrophoneUsageDescription" "$STAGE/Contents/Info.plist" >/dev/null 2>&1 || \
+  /usr/libexec/PlistBuddy -c "Add NSMicrophoneUsageDescription string The Renderer Engine reads Music's audio back from the LosslessSwitcher Output virtual device (its loopback input) to play it to your DAC unchanged." "$STAGE/Contents/Info.plist"
 VER=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$STAGE/Contents/Info.plist" | sed 's/-local.*//')
 /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $VER-local-$SHA" "$STAGE/Contents/Info.plist"
 codesign -s - --force --deep "$STAGE" 2>&1 | { grep -v "replacing existing" || true; }
