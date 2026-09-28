@@ -313,3 +313,6 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   Device hidden). Test script (records its args): 53c0759 got the engine's "48000 32" plus three
   "48000" from the regular path (the virtual device's rate); 72fbadd: one call, "44100 32" ("script:
   ... 44100 32" at engine start). Test script setting cleared afterwards.
+- 4bc325e (menu names the DAC): engine on "44.1 kHz / Babyface Pro (73020432)" (was "LosslessSwitcher");
+  engine off "Babyface Pro (73020432)" (the default again); off with the default on the speakers "48.0
+  kHz / MacBook Pro Speakers"; on again "Babyface Pro (73020432)", hogged, DAC ready 0.511 s.
