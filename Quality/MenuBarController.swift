@@ -100,5 +100,6 @@ class MenuBarController {
     /// Music's volume.
     func stopRenderer() {
         stopRendererEngines()
+        mrController?.stop()
     }
 }

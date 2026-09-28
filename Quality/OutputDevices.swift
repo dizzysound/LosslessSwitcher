@@ -42,14 +42,21 @@ class OutputDevices: ObservableObject {
     var timerActive = false
     var timerCalls = 0
     
+    /// Not the engine's own devices: the "LosslessSwitcher" virtual output (LSOutput_UID) and the
+    /// process-tap engine's private aggregate "LosslessSwitcher renderer" (visible to this process
+    /// only). Selecting either would point the app at itself.
+    static func selectable(_ devices: [AudioDevice]) -> [AudioDevice] {
+        devices.filter { $0.uid != VirtualDeviceEngine.deviceUID && !$0.name.hasPrefix("LosslessSwitcher") }
+    }
+
     init() {
-        self.outputDevices = self.coreAudio.allOutputDevices
+        self.outputDevices = Self.selectable(self.coreAudio.allOutputDevices)
         self.defaultOutputDevice = self.coreAudio.defaultOutputDevice
         self.getDeviceSampleRate()
         
         changesCancellable =
             NotificationCenter.default.publisher(for: .deviceListChanged).sink(receiveValue: { _ in
-                self.outputDevices = self.coreAudio.allOutputDevices
+                self.outputDevices = Self.selectable(self.coreAudio.allOutputDevices)
             })
         
         defaultChangesCancellable =
