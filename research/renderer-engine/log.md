@@ -85,3 +85,15 @@ Traps:
   keeping the latency.
 Results (music-tap-spike log.md "Engine port"): r1-r3 25 switches incl. 176.4/192k, m1-m4 mixed use
 incl. stream lossy -> lossless upgrade and a gapless pair; pass-through bit-exact in every run.
+
+# Plug-in 1.1.2 and install/uninstall (2026-09-28 late morning)
+HALPlugin/ (bundled into the app): 'LSac' attached pid; default output only while attached (3 s
+grace: the HAL removes and re-adds clients at a rate change); a crash-detach withdraws the device for
+2 s because coreaudiod only re-picks the default when a device goes away; names "LosslessSwitcher",
+only output volume + mute published. Menu "Virtual Output Device": Install / Update / Reinstall /
+Remove (one admin prompt, restarts coreaudiod; the engine is stopped around it). Launch after an
+unclean exit restores the DAC's mixable format and the default (the HAL leaves a dead hog owner's
+DAC non-mixable). Verified on the MT 48: update x3, kill -9 recovery, remove -> tap fallback plays,
+install -> back on the virtual device. Open: one heap-corruption crash in ~45 release switches (r5),
+not reproduced under ASan (make_dev_app.sh SANITIZE=address); Xcode Run Script phase untested.
+Details: music-tap-spike log.md "Plug-in default-device fix".
