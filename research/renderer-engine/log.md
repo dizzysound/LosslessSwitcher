@@ -98,7 +98,7 @@ install -> back on the virtual device. Open: one heap-corruption crash in ~45 re
 not reproduced under ASan (make_dev_app.sh SANITIZE=address); Xcode Run Script phase untested.
 Details: music-tap-spike log.md "Plug-in default-device fix".
 
-# Bench: portable dev build (e4aff18) on the bench Mac, Babyface Pro (2026-09-28 08:03-08:15)
+# Bench: portable dev build (2853f87) on the bench Mac, Babyface Pro (2026-09-28 08:03-08:15)
 MacBook Pro, macOS 27.0, arm64. DAC: RME Babyface Pro, RME kext (uid de_RME_driver_USBAudioEngine:0).
 - Install failed silently: the bundled LSOutput.driver carried mode 0640 on Contents/Info.plist and
   _CodeSignature/CodeResources (0751 on the binary), from the build Mac. ditto kept the modes; chown
@@ -152,7 +152,7 @@ MacBook Pro, macOS 27.0, arm64. DAC: RME Babyface Pro, RME kext (uid de_RME_driv
   reported, only QualityApp.swift's SwiftUI macros fail: Command Line Tools, no Xcode here). Not
   built or run yet: needs a build on the Xcode Mac.
 
-# Bench: volume forwarding on the Babyface Pro (build 6c2d2ff, 2026-09-28 08:31-08:40)
+# Bench: volume forwarding on the Babyface Pro (build bab778e, 2026-09-28 08:31-08:40)
 Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
 - Start: "volume: forwarding to DAC elements 1,2 (-41.0 dB), mute emulated (DAC has none); virtual
   volume -> 0.4598". Nothing jumped.
@@ -178,7 +178,7 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   preferredStreamPlaybackAudioQuality 20, preferredDolbyAtmosPlaySetting 30. No Sound Enhancer key.
 - New track after the relaunch took a decoder line 105 s old ("seen 105.208 s before Playing"): at an
   engine start lastNewTrackAt is nil, so any line qualifies. Same rate, harmless here.
-- AutoMix off (TransitionsEnabled 0), build 6c2d2ff: "next track needs 96000 Hz; 104.88 s left, arming
+- AutoMix off (TransitionsEnabled 0), build bab778e: "next track needs 96000 Hz; 104.88 s left, arming
   the boundary latch in 0.00 s", then "no boundary within 5 s; disarmed". The >13 s branch assumes a
   skip; Music set up the next (96k) decoder 105 s before the end, so the real boundary goes unlatched.
   The early arm seen with AutoMix on was this, not AutoMix. Fix (next commit): also arm 1.5 s before
@@ -186,7 +186,7 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
 - Music settings notifier (next commit): at engine start and each new track only (no timer, per
   the owner: minimal CPU); prefs TransitionsEnabled / optimizeSongVolume / losslessEnabled, AppleScript EQ
   enabled and sound volume; log + menu line + one notification per change of the problem set.
-- Build 6c2d2ff live: "Music quit; the next play waits at the gate" (fix 2 works), but a sound right
+- Build bab778e live: "Music quit; the next play waits at the gate" (fix 2 works), but a sound right
   after the quit opened the gate ("gate released (no Playing within 4.0 s)"), and nothing closed it
   again: "new track Kashmir: no decoder line for it yet; playing on at 44100 Hz". Fix (next commit):
   after a no-Playing release, close the gate again after 0.3 s of silence (ring written - lastNZ).
@@ -202,34 +202,34 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   ("no decoder line for Kashmir within 3 s; playing at 44100 Hz").
   Fix (next commit): Music counts as quit only when its remembered pid is gone (kill(pid, 0));
   the NSRunningApplication miss is logged once.
-- Build d111c36 made on the build Mac (Command Line Tools, Swift 6.3.3: builds with SwiftUI macros)
+- Build a90d702 made on the build Mac (Command Line Tools, Swift 6.3.3: builds with SwiftUI macros)
   over ssh, copied to the bench Mac (Swift 6.4 CLT: no SwiftUIMacros plugin, can't build here). The
-  bundled driver is 0644 now (build.sh chmod). Old build kept as "LosslessSwitcher Dev (6c2d2ff)".
+  bundled driver is 0644 now (build.sh chmod). Old build kept as "LosslessSwitcher Dev (bab778e)".
   Start: "volume: forwarding to DAC elements 1,2 (-50.5 dB), linear in dB, 0 to -64 dB (4.0 dB per key
   step) ... slider -> 0.2109"; gate held B.O.B. until its 44.1k line (0.1 s).
-- The false quits on 6c2d2ff came about every 160 s (386.8, 555.8, 714.9 s), each a 4 s dropout.
-- Turning the 6c2d2ff engine off: "play attempt 1-4: Music isn't playing" over 8 s, while Music
+- The false quits on bab778e came about every 160 s (386.8, 555.8, 714.9 s), each a 4 s dropout.
+- Turning the bab778e engine off: "play attempt 1-4: Music isn't playing" over 8 s, while Music
   reported playing right after. Possible gap on stop; not looked into.
 - Keys confirmed by toggling (the owner, 08:53): Sound Check on -> optimizeSongVolume 1, off -> key removed;
   AutoMix on -> TransitionsEnabled 1. Notifier fired at the next track: "Music settings: AutoMix or
   Crossfade is on". The owner: the notification appeared but wants a persistent window with instructions.
   Next commit: a window listing each problem and its fix, Check Again, Set to 100 for Music's volume;
   closes itself when a check comes back clean. EQ key still unconfirmed.
-- d38abf1: settings window opened at engine start ("AutoMix or Crossfade is on"); the owner turned the
+- 0f8b19d: settings window opened at engine start ("AutoMix or Crossfade is on"); the owner turned the
   settings off and clicked Check Again: "Music settings: OK" at 20.3 s, window closed itself.
 - Menu showed no check marks (AX: no AXMenuItemMarkChar on any item; the owner couldn't tell what was on).
   MenuBarExtra .menu drops the Image(systemName: "checkmark") in Button labels. Next commit: Toggles.
-- d1bc9df: menu check marks show (AX: "Renderer Engine (Experimental) | mark ✓"; unmarked items match
+- 6652e97: menu check marks show (AX: "Renderer Engine (Experimental) | mark ✓"; unmarked items match
   the saved settings and registered defaults).
-- Bench stopped by the owner (2026-09-28 ~09:00). Left running on the bench Mac: d1bc9df, engine on,
-  Babyface hogged, default = virtual device. Old build kept as ~/Desktop/"LosslessSwitcher Dev (6c2d2ff)".
+- Bench stopped by the owner (2026-09-28 ~09:00). Left running on the bench Mac: 6652e97, engine on,
+  Babyface hogged, default = virtual device. Old build kept as ~/Desktop/"LosslessSwitcher Dev (bab778e)".
   Open:
   - Boundary switch with the lateArmAt fix: not yet seen (no 44.1k -> hi-res album boundary played).
   - Built-in speakers as the DAC; restore on quit with the new build.
   - The EQ preference key ("eqEnabled" 1 while AppleScript "EQ enabled" false): not confirmed; the
     notifier uses AppleScript for EQ.
   - Why NSRunningApplication lost Music every ~160 s (the pid check works around it).
-  - Engine stop on 6c2d2ff: "play attempt 1-4: Music isn't playing" over 8 s; possible gap.
+  - Engine stop on bab778e: "play attempt 1-4: Music isn't playing" over 8 s; possible gap.
   - "played ~1.647 s" identical in two switches: check the tPlay estimate.
   - Dolby Atmos setting values (preferredDolbyAtmosPlaySetting 30) not decoded; not checked.
   - MediaRemoteAdapter's perl helper outlives the app (clean quit and kill -9).
@@ -256,8 +256,8 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   Babyface: ~3.5 min of silence. After granting and toggling the engine: running normally ("start A:
   0", hogged, DAC ready 0.512 s). Open: wait for the permission answer before taking the default.
 
-# Bench resumed on the bench Mac, Xcode build c2f3d73 (2026-09-28 13:04-13:10)
-- Microphone wait (fix c2f3d73): new copy, prompt open ~23 s: "not determined; asking, and leaving the
+# Bench resumed on the bench Mac, Xcode build e29b8e3 (2026-09-28 13:04-13:10)
+- Microphone wait (fix e29b8e3): new copy, prompt open ~23 s: "not determined; asking, and leaving the
   output alone until it is answered"; the Babyface stayed the default and un-hogged; "granted" at
   23.069, "default output -> virtual device" at 23.134, hogged 23.425.
 - Built-in speakers as the DAC (default switched to them with Music stopped): "following it", hogged,
@@ -274,11 +274,11 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   3 s: Babyface Pro", "engine stopped"; RendererEngineOwnsOutput cleared. Relaunch: clean start (0.5 s).
 - MediaRemoteAdapter's perl helper outlived two quit copies again (killed by hand).
 - Not yet: a boundary switch with the lateArmAt fix (needs an album played through a rate change).
-- Fix 9568d30 (Xcode build, installed 13:09): start locked at fill 2048. Follow to the speakers:
+- Fix 5969a5d (Xcode build, installed 13:09): start locked at fill 2048. Follow to the speakers:
   "clock: ring at 512 frames before the lock (target 2048); refilling first", then "clock lock: ...
   fill 2048" (was fill 0). Back to the Babyface: "clock lock: ... fill 2048". Mic wait again fine
   (answered at 3.2 s, the default taken after).
-- Boundary switch, local files (9568d30, 13:39): temp playlist "LS bench (temp)": "LSB 483 With High
+- Boundary switch, local files (5969a5d, 13:39): temp playlist "LS bench (temp)": "LSB 483 With High
   Delight Let Us Unite" (44.1k; decodes as AAC, likely the iCloud-matched copy) -> "Oh, Blest Is He That
   Came" (CPH Choral 2024, local ALAC 96k/24). "decoder: 96000.0 Hz 24-bit (lossless)" with 12.48 s left,
   "arming the boundary latch in 10.98 s", armed, "latched at ring 78729294 (fill 1536)", "switch 1: ...
@@ -289,7 +289,7 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   "play <playlist>" didn't start the new playlist; no Up Next API. The owner double-clicked in Music. Two
   earlier stops were the CPH track being unchecked (enabled false: Music skips it); the owner re-checked
   the CPH songs. Library "sample rate" for Apple Music items reads 44100 even when the stream is 96k.
-- Boundary switch, Apple Music streams (9568d30, ~13:55): temp playlist "LS bench stream (temp)": Bad
+- Boundary switch, Apple Music streams (5969a5d, ~13:55): temp playlist "LS bench stream (temp)": Bad
   Religion "O Come, O Come Emmanuel" (44.1k, lossy then lossless) -> Audio Brewers "Fotis' Drums
   Improvisation" (48k lossless). The next stream's decoder came 124 s early: "next track needs 48000 Hz;
   124.23 s left, arming the boundary latch in 0.00 s and again in 122.73 s"; the 5 s arm expired ("no
@@ -298,22 +298,22 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   boundary reached 0.415 s"; DAC ready 1.371 s; "rewound to 0.000"; switch done 2.316 s. The lateArmAt
   fix works: before it, this boundary was "not latched: cut at the play position".
 
-# Helper and device menu (a96abf5, Xcode build, 2026-09-28 14:09)
-- MediaRemoteAdapter helper: 9568d30's helper (43885) orphaned when it quit; gone after a96abf5
+# Helper and device menu (1fe6c4a, Xcode build, 2026-09-28 14:09)
+- MediaRemoteAdapter helper: 5969a5d's helper (43885) orphaned when it quit; gone after 1fe6c4a
   launched (launch cleanup; its print() isn't in the unified log, so inferred from the pid). On
-  a96abf5: quit -> helper gone; relaunch -> helper 64787 (parent 64775); kill -9 -> 64787 parent 1;
+  1fe6c4a: quit -> helper gone; relaunch -> helper 64787 (parent 64775); kill -9 -> 64787 parent 1;
   relaunch -> 64787 gone, only the new helper (parent 64871).
 - Selected Device now lists Default Device, DELL U2723QE, MacBook Pro Speakers, Loopback Audio, Babyface
   Pro; "LosslessSwitcher" is gone.
 - Found, not changed: Selected Device isn't restored at launch (saved UID is the Babyface; the menu
   shows Default Device): AppDelegate.handleDevicesMenu, which restored it, is commented out.
-- 53c0759 / 72fbadd (menu + scripting): with the engine on the menu shows Show Icon, Prefer Closest
+- 092b92a / 5f70ba2 (menu + scripting): with the engine on the menu shows Show Icon, Prefer Closest
   Sample Rate Multiple, Renderer Engine ✓, Virtual Output Device, Bit-Perfect Check, About, Scripting,
   Quit (Bit Depth Switching, Detect Local Files, Pause While Switching, Gap After Switching, Selected
-  Device hidden). Test script (records its args): 53c0759 got the engine's "48000 32" plus three
-  "48000" from the regular path (the virtual device's rate); 72fbadd: one call, "44100 32" ("script:
+  Device hidden). Test script (records its args): 092b92a got the engine's "48000 32" plus three
+  "48000" from the regular path (the virtual device's rate); 5f70ba2: one call, "44100 32" ("script:
   ... 44100 32" at engine start). Test script setting cleared afterwards.
-- 4bc325e (menu names the DAC): engine on "44.1 kHz / Babyface Pro (73020432)" (was "LosslessSwitcher");
+- 3853526 (menu names the DAC): engine on "44.1 kHz / Babyface Pro (73020432)" (was "LosslessSwitcher");
   engine off "Babyface Pro (73020432)" (the default again); off with the default on the speakers "48.0
   kHz / MacBook Pro Speakers"; on again "Babyface Pro (73020432)", hogged, DAC ready 0.511 s.
 
@@ -328,14 +328,14 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   DAC back, the engine can do it on release.
 - Fix (next commit): with Default Device, picking the DAC itself as the default output made the engine
   follow it (teardown + setup, a gap). Now it only takes the default back.
-- 4249bae test (Selected Device = Default Device, engine on, Babyface hogged): setting the default output
+- a6f04f3 test (Selected Device = Default Device, engine on, Babyface hogged): setting the default output
   to the Babyface from another process returned noErr, but the default never changed (polled every
   20 ms: "LosslessSwitcher" throughout) and the engine logged nothing. Core Audio silently ignores a
   default change to a device another process hogs. So the Sound menu can't take the DAC over, and the
   new "DAC picked as default" branch is a safeguard that doesn't trigger here. Hypothesis (untested):
   Control Center believes its request worked, which could be how its list went stale; test by clicking
   the Babyface in the Sound menu while hogged, then quitting. Selection restored to the Babyface.
-- Control Center test (4249bae, 14:42): engine on, Babyface hogged (pid 76994); the owner clicked "Babyface
+- Control Center test (a6f04f3, 14:42): engine on, Babyface hogged (pid 76994); the owner clicked "Babyface
   Pro" in the Sound menu: Control Center showed a beach ball (process sleeping, then 37% CPU); the
   default never changed ("LosslessSwitcher" throughout, polled every 20 ms); the engine played on (0
   under); other processes' HAL queries answered at once. Quit at 14:43:11: default -> Babyface at 1.67 s
