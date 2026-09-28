@@ -178,3 +178,11 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   preferredStreamPlaybackAudioQuality 20, preferredDolbyAtmosPlaySetting 30. No Sound Enhancer key.
 - New track after the relaunch took a decoder line 105 s old ("seen 105.208 s before Playing"): at an
   engine start lastNewTrackAt is nil, so any line qualifies. Same rate, harmless here.
+- AutoMix off (TransitionsEnabled 0), build 6c2d2ff: "next track needs 96000 Hz; 104.88 s left, arming
+  the boundary latch in 0.00 s", then "no boundary within 5 s; disarmed". The >13 s branch assumes a
+  skip; Music set up the next (96k) decoder 105 s before the end, so the real boundary goes unlatched.
+  The early arm seen with AutoMix on was this, not AutoMix. Fix (next commit): also arm 1.5 s before
+  the end (lateArmAt), re-timed from Music's remaining time on a resume or seek.
+- Music settings notifier (next commit): at engine start and each new track only (no timer, per
+  the owner: minimal CPU); prefs TransitionsEnabled / optimizeSongVolume / losslessEnabled, AppleScript EQ
+  enabled and sound volume; log + menu line + one notification per change of the problem set.

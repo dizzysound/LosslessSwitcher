@@ -13,9 +13,14 @@ struct MenuView: View {
     @EnvironmentObject private var defaults: Defaults
     @EnvironmentObject private var bitPerfectCheck: BitPerfectCheck
     @ObservedObject private var virtualOutput = VirtualOutputPlugin.shared
+    @ObservedObject private var musicSettings = MusicSettingsCheck.shared
     
     var body: some View {
         VStack {
+            if !musicSettings.problems.isEmpty {
+                Text("Music settings: " + musicSettings.problems.joined(separator: "; "))
+                Divider()
+            }
             ContentView()
             
             Divider()
