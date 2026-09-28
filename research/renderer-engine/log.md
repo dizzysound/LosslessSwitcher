@@ -297,3 +297,13 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   "latched at ring 154720670 (fill 2048)"; "switch 3: ... latched at the old track's end; paused;
   boundary reached 0.415 s"; DAC ready 1.371 s; "rewound to 0.000"; switch done 2.316 s. The lateArmAt
   fix works: before it, this boundary was "not latched: cut at the play position".
+
+# Helper and device menu (a96abf5, Xcode build, 2026-09-28 14:09)
+- MediaRemoteAdapter helper: 9568d30's helper (43885) orphaned when it quit; gone after a96abf5
+  launched (launch cleanup; its print() isn't in the unified log, so inferred from the pid). On
+  a96abf5: quit -> helper gone; relaunch -> helper 64787 (parent 64775); kill -9 -> 64787 parent 1;
+  relaunch -> 64787 gone, only the new helper (parent 64871).
+- Selected Device now lists Default Device, DELL U2723QE, MacBook Pro Speakers, Loopback Audio, Babyface
+  Pro; "LosslessSwitcher" is gone.
+- Found, not changed: Selected Device isn't restored at launch (saved UID is the Babyface; the menu
+  shows Default Device): AppDelegate.handleDevicesMenu, which restored it, is commented out.
