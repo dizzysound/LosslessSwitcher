@@ -103,6 +103,7 @@ final class VirtualDeviceEngine {
     private var ls = AudioObjectID(0)
     private var dac = AudioObjectID(0)
     private var dacUID = ""
+    private var defaultBefore = AudioObjectID(0) // the default output before the engine took it; restored on stop
     private var dacOut = AudioStreamID(0)
     private var procA: AudioDeviceIOProcID?
     private var procB: AudioDeviceIOProcID?
@@ -384,6 +385,7 @@ final class VirtualDeviceEngine {
         gatePending = true; gateMarkedAt = nil; gate.store(1, ordering: .releasing); trimIdle.store(1, ordering: .releasing)
         attach(true)
         UserDefaults.standard.set(true, forKey: Self.ownsOutputKey)
+        if CA.defaultOutput() != ls { defaultBefore = CA.defaultOutput() }
         if CA.defaultOutput() != ls { log("default output -> virtual device: \(CA.setDefaultOutput(ls))") }
         guard startLS(), setUpDAC(d) else {
             tearDown(restoreDefault: true, resumeMusic: wasPlaying)
@@ -393,9 +395,18 @@ final class VirtualDeviceEngine {
         return true
     }
 
-    /// The device Music played to before: the default output, or the saved DAC if the default is
-    /// already the virtual device (an earlier run didn't restore it), or the system's fallback.
+    /// The device chosen in the menu's Selected Device, if one is chosen and present (never the
+    /// virtual device). The engine plays to it instead of the default output.
+    private func selectedDAC() -> AudioObjectID? {
+        guard let uid = Defaults.shared.selectedDeviceUID, uid != Self.deviceUID else { return nil }
+        return CA.devices().first { CA.string($0, kAudioDevicePropertyDeviceUID) == uid && CA.hasOutput($0) }
+    }
+
+    /// The Selected Device, else the device Music played to before: the default output, or the saved
+    /// DAC if the default is already the virtual device (an earlier run didn't restore it), or the
+    /// system's fallback.
     private func chooseDAC() -> AudioObjectID? {
+        if let s = selectedDAC() { return s }
         let d = CA.defaultOutput()
         if d != ls, d != 0 { return d }
         if let uid = UserDefaults.standard.string(forKey: Self.dacUIDKey),
@@ -621,8 +632,10 @@ final class VirtualDeviceEngine {
         }
         tearDownDAC()
         if ls != 0 { log("virtual device scalar reset: \(CA.setScalar(ls, 1.0, Self.kRateScalar))") }
-        if restoreDefault, dac != 0, dac != ls, CA.defaultOutput() == ls {
-            log("default output restored to \(CA.string(dac, kAudioObjectPropertyName)): \(CA.setDefaultOutput(dac))")
+        // the default the user had (with a Selected Device the DAC can be another device)
+        let back = defaultBefore != 0 && defaultBefore != ls && CA.hasOutput(defaultBefore) ? defaultBefore : dac
+        if restoreDefault, back != 0, back != ls, CA.defaultOutput() == ls {
+            log("default output restored to \(CA.string(back, kAudioObjectPropertyName)): \(CA.setDefaultOutput(back))")
             // coreaudiod re-evaluates its preferred default after the hog release and format change,
             // with the virtual device still first in its list (the update is asynchronous): in trial
             // m3 it put the virtual device back 48 ms after the restore. Hold the restore for 3 s.
@@ -632,7 +645,7 @@ final class VirtualDeviceEngine {
                 Thread.sleep(forTimeInterval: 0.05)
                 if CA.defaultOutput() == ls {
                     resets += 1
-                    log("coreaudiod put the virtual device back as the default; restoring again: \(CA.setDefaultOutput(dac))")
+                    log("coreaudiod put the virtual device back as the default; restoring again: \(CA.setDefaultOutput(back))")
                 }
             }
             log("default output after 3 s: \(CA.string(CA.defaultOutput(), kAudioObjectPropertyName))\(resets > 0 ? " (\(resets) re-restores)" : "")")
@@ -979,9 +992,20 @@ final class VirtualDeviceEngine {
             }
             return
         }
-        if d != ls, d != 0 {
+        if let s = selectedDAC() {
+            // Selected Device decides: follow a new selection; a new default output doesn't move the
+            // engine, it only gets the default back (the audio keeps going to the selection)
+            if s != dac {
+                log("Selected Device changed to \(CA.string(s, kAudioObjectPropertyName)); following it")
+                follow(s)
+            } else if d != ls, d != 0 {
+                defaultBefore = d
+                log("default output changed to \(CA.string(d, kAudioObjectPropertyName)); Selected Device \(CA.string(dac, kAudioObjectPropertyName)) stays the DAC; default -> virtual device: \(CA.setDefaultOutput(ls))")
+            }
+        } else if d != ls, d != 0 {
             // the user (or the system) picked another output: play to it through the virtual device
             log("default output changed to \(CA.string(d, kAudioObjectPropertyName)); following it")
+            defaultBefore = d
             follow(d)
         }
     }

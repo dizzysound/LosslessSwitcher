@@ -37,8 +37,8 @@ struct MenuView: View {
             Toggle("Prefer Closest Sample Rate Multiple", isOn: $defaults.userPreferSampleRateMultiples)
 
             // With the Renderer Engine on these do nothing: it always pauses and rewinds at a rate change,
-            // for local files and streams, reads local files itself, takes the DAC's deepest format and
-            // plays to the default output. They stay for the regular path.
+            // for local files and streams, reads local files itself and takes the DAC's deepest format.
+            // They stay for the regular path. (Selected Device stays: the engine plays to it.)
             if !defaults.userPreferRendererEngine {
             Toggle("Bit Depth Switching", isOn: $defaults.userPreferBitDepthDetection)
             
@@ -94,7 +94,6 @@ struct MenuView: View {
                 Text(bitPerfectCheck.issueCount == 0 ? "Bit-Perfect Check" : "Bit-Perfect Check (\(bitPerfectCheck.issueCount) to review)")
             }
 
-            if !defaults.userPreferRendererEngine {
             Menu {
                 Toggle("Default Device", isOn: Binding(get: { outputDevices.selectedOutputDevice == nil }, set: { on in
                     if on { outputDevices.selectedOutputDevice = nil; defaults.selectedDeviceUID = nil }
@@ -107,7 +106,6 @@ struct MenuView: View {
                 }
             } label: {
                 Text("Selected Device")
-            }
             }
             
             Menu {
