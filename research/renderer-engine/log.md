@@ -930,3 +930,13 @@ data/2026-09-29-pastor-skips/ (engine.log, segments; .f32 on disk only): 10 x `n
   at the earliest gap of the last 0.6 s that B hasn't played ("latched at the gap before it, after the
   fact"). Plug-in 1.1.6: 'LSlt' (frames) reported as the output latency (harness: output 15435, input
   0). Not yet on the bench.
+
+# Bench: skips with the 0.35 s trail (4915970, plug-in 1.1.6), pastor, 2026-09-29 ~12:30
+Data: data/2026-09-29-pastor-skips-0.35/ (engine.log, segments; .f32 on disk only). Same test: 10 x
+`next track` 8 s apart; 7 needed a switch. "virtual device latency -> 15434/16800/33600 frames".
+- All 7: "boundary latch: the skip's gap is 13035-30796 frames back, B 1192-3797 frames before it;
+  latched there" (6 at the arm; switch 7 at the switch: "latched at the gap before it (after the fact)").
+- B's output before each flush: 24376-50944 frames of zeros (B stopped at the gap), then the old track
+  (3-8 s run). No new-track audio before any flush (before: 5-260 ms in 4 of 6). PASS.
+- Margin is thin: B was 25-85 ms short of the gap when the report came. A later report falls back to
+  the old cut at B's read position (a few ms leak). Option if heard: trail 0.5 s. Owner to listen.
