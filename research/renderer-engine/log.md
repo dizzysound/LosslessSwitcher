@@ -723,3 +723,34 @@ and the DragonFly (Apple's USB class driver, int24) has only analog outputs.
 - Consequence: on a 24-bit DAC the undithered rounding sits near -144 dBFS (below any DAC's noise); on
   a 16-bit DAC near -96 dBFS, where TPDF dither is worth having. Deciding test, if wanted: the
   DragonFly's analog out into the Babyface's input, a quiet tone at Music volume 90.
+
+## Not ours: a stream that failed to load stopped a playlist (coffee, 11bd0c6, 2026-09-29 08:03)
+Owner: "went from lossy to lossless and the playback stopped; bit depth ? bit". Music's own log: after a
+skipNext, the stream for "Here Come The Bastards - Bassnectar Mix" never became ready
+(FailedToBecomeReadyForPlayback, CoreMediaErrorDomain -12785; MPCEnginePlayerError 16 "Player item
+failed"), and Music paused itself ("UserEvent.pause ... reason: error", PlaybackStopForError); again when
+skipped back to (08:03:28). No ae_Pause (ours sends that), no rate switch (all 44.1k); the engine only
+saw Playing then Paused, and "no decoder line ... within 3 s", hence "? bit" (correct: nothing decoded).
+The owner then played the same track with Exclusive Mode off and on: fine both ways (engine: decoder
+44100 Hz lossless). -12785 in Music's log this morning: this track only, plus one near 05:00. Tell for
+next time: Music's "reason: error" pause and -12785, not our ae_Pause.
+
+## Found: left channel distorted after taking a DAC Music still streamed to (coffee, 11bd0c6, 08:13-08:21)
+- 08:13:59 take-back after the idle step-aside (Music paused at 08:12, stepped aside 08:13:37, play
+  at 08:13:59): "DAC was still running for another client; STILL running after 2.005 s", then hog and
+  int24 non-mixable anyway, "B writes int24 in 3 bytes". The owner: left channel distorted; still so
+  after pause/play; still so after Exclusive Mode off -> on at 08:17:13, which logged the same
+  "STILL running after 2.002 s"; clean with Exclusive Mode off. DAC formats read back correct (phys and
+  virt int24 flags 76, 6 bytes/frame, hog = our pid), so the mismatch isn't in the settings.
+- The other client: the audio process list (kAudioHardwarePropertyProcessObjectList, tools/clients.swift)
+  shows only Music (pid 48342, the copy started at 07:14) and us; so it was Music's own stream,
+  running > 2 s after our pause. Earlier take-backs today found it stopped within ~0.05 s.
+- Mechanism not traced (what the HAL does with a second client's stream on a hogged, non-mixable DAC,
+  and why only the left channel). Traced: the collision in both distorted setups, none in the clean one.
+- 2bdc720 (with b645054): if the DAC is still running after 2 s, pause Music again and wait up to 3 s;
+  still running -> setup fails, the DAC isn't taken ("not taking the DAC while another client plays to
+  it"): take-back stays stepped aside (Music plays to the DAC directly, retried later); at start the
+  engine idles until Exclusive Mode is turned off (visible only in the log; a menu note would help).
+- 2bdc720 on coffee, Exclusive Mode on at 08:20:48 with Music playing: no collision this time (DAC free
+  at setup), hogged, locked in 3.5 s; Music -> virtual device only, our app alone on the DragonFly;
+  the owner: clean. The refusal path itself is UNTESTED (needs the collision to recur).
