@@ -886,3 +886,26 @@ Data: data/2026-09-29-coffee-musiconly-115/ (.f32 on disk only). Track: "The Rig
 - Other-apps fill sits above target (2600-3570 vs 2205) with varispeed up to 1.000524: the P loop's
   steady offset against the DragonFly's ~1100 ppm-slow clock (DAC scalar 0.998868). ~30 ms extra
   latency at most, no dry-outs or overruns; an integral term would center it (not done).
+
+## Found: wrong rate after skipping forward and back (pastor, b3eeee4, 11:50-11:56)
+Owner: Music showed "24-bit 48 kHz" (As Alive As You Need Me To Be, TRON: Ares) while the menu bar
+said 44.1 kHz; "it seems to happen when skipping forward and back". Not related to Music only.
+- Log: As Alive decided 44.1k on a decoder line 15.465 s before its Playing (no line of its own came);
+  Afraid of Time was switched to 48k on a line 0.43 s AFTER its Playing (the "wait 1 s for its own"
+  rule took another track's line). On skips Music logs lines for the track it leaves, the one it goes
+  to and its pre-roll; a line names no track.
+- Music's AppleScript `sample rate of current track` (URL tracks too) polled every 0.3 s over 3 min of
+  the owner skipping (tools: /tmp/asrate.sh on pastor): the current track's rate at once for every
+  change (Init 48k, Bobby's Song 44.1k, As Alive 48k, Afraid of Time 44.1k x2, No Time for Caution,
+  Detach, The Ten Commandments 44.1k), once "missing value" right at the change. Not tested: a hi-res
+  track (catalog rate vs the rate Music streams at the owner's quality setting).
+- Fix: on a new track, Music's {name, sample rate} of the current track decides when the name matches
+  (retries up to ~1 s); a decoder line at that rate only supplies the depth; no answer -> the old
+  decoder-line logic. Logs "Music says X Hz" when the newest line disagrees.
+- 03e4ffd on pastor: every skip decided by Music's rate ("the newest decoder line says 44100 Hz, Music
+  says 48000 Hz for the track; Music's decides" for Init, As Alive, Afraid of Time) and switched right.
+  Owner: "it's clearly switching but the taskbar is not". Cause: with Exclusive Mode on, OutputDevices'
+  detection returns nothing (the engine owns switching) and the label is only re-read when the
+  default output changes (start, stop, step-aside), never at a switch. Fix: applyRate reports the
+  rate to OutputDevices.updateSampleRate (the label; it runs no user script while the engine is on).
+- 449866b on pastor: owner confirmed the menu bar rate now follows each switch ("perfect").
