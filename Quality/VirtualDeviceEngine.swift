@@ -176,6 +176,7 @@ final class VirtualDeviceEngine {
     private var musicOnlyMissingLogged = false
     private let others = OthersPlayer()
     private var othersDevice = AudioObjectID(0) // where other apps should play (0: nowhere); kept while the player is down
+    private var othersChoice: String? // the Other Apps & Alerts choice startOthers followed
     private var othersRestartAt = Date.distantPast
     private let othersFeed = Atomic<Int>(0) // 1: A writes loopback channels 3-4 into others.ring
 
@@ -350,7 +351,7 @@ final class VirtualDeviceEngine {
             pump()
             recorder?.drain()
             let now = Date()
-            if now.timeIntervalSince(lastCheck) >= 1 { lastCheck = now; checkDevicesAndMusic() }
+            if now.timeIntervalSince(lastCheck) >= 1 { lastCheck = now; checkDevicesAndMusic(); followOthersChoice() }
             // Music relaunched (new pid): its first audio must not go to the speakers for long
             if now.timeIntervalSince(lastMusicOnly) >= 0.25 { lastMusicOnly = now; if !inRoutine { syncMusicOnly() } }
             tickLatchAndGate()
@@ -858,14 +859,19 @@ final class VirtualDeviceEngine {
             RendererOutput.shared.set(othersRoute: "Other apps mix into Music (update the Exclusive Mode driver)", ok: false)
             return
         }
-        guard let sp = Self.builtInSpeakers(excluding: dac) else {
-            log("other apps: MUTED (no built-in speakers besides the DAC); Music alone reaches the DAC")
-            RendererOutput.shared.set(othersRoute: "Other apps muted (no built-in speakers besides the DAC)", ok: true)
+        let (target, note) = OtherAppsOutput.resolve(dac: dac)
+        othersChoice = UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey)
+        guard let sp = target else {
+            log("other apps: MUTED (\(note)); Music alone reaches the DAC")
+            RendererOutput.shared.set(othersRoute: "Other apps muted", ok: true)
+            // alert sounds still leave the DAC: to the built-in speakers if there are any
+            if let b = Self.builtInSpeakers(excluding: dac) { moveAlerts(to: b) }
             return
         }
         let name = CA.string(sp, kAudioObjectPropertyName)
         othersDevice = sp
         othersRestartAt = Date()
+        log("other apps and alert sounds: \(name) (\(note))")
         if others.start(device: sp, rate: curRate, log: { [unowned self] in self.log($0) }) {
             othersFeed.store(1, ordering: .releasing)
             RendererOutput.shared.set(othersRoute: "Other apps play on \(name)", ok: true)
@@ -873,11 +879,27 @@ final class VirtualDeviceEngine {
             log("other apps: MUTED (the player on \(name) didn't start)")
             RendererOutput.shared.set(othersRoute: "Other apps muted (\(name) didn't start)", ok: true)
         }
+        OtherAppsOutput.shared.setActive(sp)
         moveAlerts(to: sp)
+    }
+
+    /// Engine thread, each second: the Other Apps & Alerts choice changed, or the chosen device came
+    /// back or went away: play other apps (and alerts) where it now says.
+    private func followOthersChoice() {
+        guard procB != nil, !inRoutine else { return }
+        var a = CA.addr(Self.kMusicOnly)
+        guard ls != 0, AudioObjectHasProperty(ls, &a) else { return }
+        let choice = UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey)
+        let target = OtherAppsOutput.resolve(dac: dac).device ?? 0
+        guard choice != othersChoice || target != othersDevice else { return }
+        log("other apps: the choice is now \(choice ?? "automatic"); moving")
+        stopOthers()
+        startOthers()
     }
 
     private func stopOthers() {
         othersDevice = 0
+        OtherAppsOutput.shared.setActive(0)
         othersFeed.store(0, ordering: .releasing)
         if others.isRunning { log("other apps: player stopped (\(others.status))") }
         others.stop()
@@ -903,7 +925,7 @@ final class VirtualDeviceEngine {
             if Date().timeIntervalSince(othersRestartAt) >= 2 { restartOthers(why) }
             return
         }
-        others.steer()
+        others.steer(gain: OtherAppsOutput.shared.softwareGain)
     }
 
     /// Alert sounds to the speakers while the engine holds the DAC; the device before is saved (for
@@ -1875,7 +1897,8 @@ final class OthersPlayer {
 
     /// Every 0.5 s: varispeed = 1 + k (fill - target), smoothed, within +-2000 ppm (a few cents; the
     /// clocks differ by a few hundred ppm). Fill above target -> play faster.
-    func steer() {
+    func steer(gain: Float) {
+        if let e = engine, e.mainMixerNode.outputVolume != gain { e.mainMixerNode.outputVolume = gain }
         guard let vs = varispeed, rs.started.load(ordering: .relaxed) != 0 else { return }
         let f = Double(ring.fill)
         fillAvg = fillAvg < 0 ? f : fillAvg + 0.2 * (f - fillAvg)
