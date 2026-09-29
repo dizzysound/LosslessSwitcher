@@ -478,3 +478,24 @@ Data: data/2026-09-28-coffee-5d75e9a/ (run 1 = 5d75e9a, run 2 = 2fd8f41).
   "next track"s left Music paused (the owner was also at the Mac). The first skip took its own 44.1k
   line (0.172 s before Playing) and switched correctly.
 - Owner lowered the DragonFly with the keys while stepped aside: -16 -> -48 dB (not the engine).
+
+## Found: start B's 35 is a HAL-client IO context left paused at the step-aside (2026-09-28 night)
+From the coffee Mac's unified log (data/2026-09-28-coffee-5d75e9a/run*-halclient-io.log, run2-failure-*,
+run1-stepaside-*; engine t=0 = 20:54:05.03 in run 2).
+- The failed start never reaches coreaudiod: no StartIO on the DragonFly. Our own process logs
+  "HALB_IOThread::_Start: IO is still disabled after waiting" 2.1 s after AudioDeviceStart, then
+  "HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35" (35 = EAGAIN)
+  at 7.4 s. Music never ran IO on the DAC in that take-back (a cloud track still loading; its AUHAL
+  says "not already running" when it moves to the virtual device), so the in-flight-client theory is out.
+- The HAL client keeps one IO context per device per process (id 610 in run 1, 1584 in run 2), across
+  AudioDeviceDestroyIOProcID/Create. Its pause count must be 0 for IO to start. A DAC config change
+  (our mixable/non-mixable physical format set) makes coreaudiod send PauseIO/ResumeIO, which our
+  process handles on several threads at once.
+- At a bad step-aside the pair arrives out of order: run 1, 20:48:42.649-.652: pause -> 1, pause -> 2,
+  resume -> 1, resume -> 0, resume "<- 0 0 0" (clamped at 0: one decrement lost), pause -> 1. Nothing
+  undoes the last pause; every later start on that DAC in the process waits and fails. Run 1: stuck at
+  the first step-aside, then 12 of 12 logged take-backs "IO is still disabled" with the count at 1.
+  Run 2: the step-aside at 20:56:06.55 left 1584 at 1 (the earlier ones ended at 0); the next take-back
+  failed. A new process gets a new context, which is why the first start at launch always works.
+- So 2fd8f41's wind-down wait and the timing near Music's Paused are incidental. Stop+start B again in
+  the same process can't help (the count only moves by pause/resume pairs, which net zero).

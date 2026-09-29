@@ -1,0 +1,894 @@
+Timestamp               Ty Process[PID:TID]
+2026-09-28 20:54:08.126 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Started  Input {LSOutput_UID, 0xa}
+2026-09-28 20:54:08.129 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:54:08.167 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.168 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:08.168 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:08.190 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:08.190 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.190 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.190 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.190 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:08.192 E  LosslessSwitcher[4654:176e391] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:54:08.192 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.238 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.262 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:08.262 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.278 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.278 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:08.278 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e368] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:08.279 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.282 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.282 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.282 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:08.282 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.283 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:08.283 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.283 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.283 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.285 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.285 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.285 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.285 E  LosslessSwitcher[4654:176e36a] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:54:08.285 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:54:08.285 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:08.285 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:08.297 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.297 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.369 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:54:08.369 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 0 0, id:1584 called from <private>
+2026-09-28 20:54:08.379 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:08.380 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:08.380 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:08.380 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:08.381 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:08.382 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:08.382 Df LosslessSwitcher[4654:176e3ae] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.382 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:08.434 Df LosslessSwitcher[4654:176e36a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:54:08.483 E  LosslessSwitcher[4654:176e40b] (CoreAudio)         HALB_IOThread.cpp:342    HALB_IOThread::_Start: there already is a thread
+2026-09-28 20:54:08.483 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Started  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xa}
+2026-09-28 20:54:08.484 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:54:19.053 Df LosslessSwitcher[4654:176e554] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:54:19.059 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xa}
+2026-09-28 20:54:19.062 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:54:19.062 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xa}
+2026-09-28 20:54:19.063 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 1]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:54:19.100 Df LosslessSwitcher[4654:176e554] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:54:19.115 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xa}
+2026-09-28 20:54:19.115 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:54:19.115 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xa}
+2026-09-28 20:54:19.115 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 0]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:54:19.118 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:19.118 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:19.118 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.139 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.139 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:19.139 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:19.139 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:19.139 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e5f6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e5f6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e5f6] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e5f6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:19.142 Df LosslessSwitcher[4654:176e5f6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.190 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:19.197 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.197 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:19.197 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:19.198 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:19.199 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:19.199 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.222 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.222 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:19.222 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:19.223 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:19.224 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:19.224 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.243 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.243 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:19.244 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:19.245 Df LosslessSwitcher[4654:176e554] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:19.245 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:19.245 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.271 Df LosslessSwitcher[4654:176e5f6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.271 Df LosslessSwitcher[4654:176e5f6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:19.271 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e5f6] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e5f6] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:19.272 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:54:41.650 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Started  Input {LSOutput_UID, 0xb}
+2026-09-28 20:54:41.663 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:54:41.714 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:41.714 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:41.714 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:41.740 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:41.740 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.740 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:41.740 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.740 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:41.742 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:41.742 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:41.742 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:41.742 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:41.742 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:41.742 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:41.742 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.742 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.743 E  LosslessSwitcher[4654:176ea86] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:54:41.743 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:54:41.743 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:41.743 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:41.764 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:41.764 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.765 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:41.765 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.765 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:41.769 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:41.769 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:41.769 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:41.769 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:41.769 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:41.769 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.769 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.771 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:41.771 E  LosslessSwitcher[4654:176e391] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:54:41.771 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:54:41.771 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:54:41.771 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:41.794 Df LosslessSwitcher[4654:176ea85] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:41.800 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:41.800 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.803 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.803 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:54:41.803 Df LosslessSwitcher[4654:176ea85] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:41.805 Df LosslessSwitcher[4654:176ea85] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:41.805 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:54:41.805 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:41.805 Df LosslessSwitcher[4654:176ea85] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:41.807 Df LosslessSwitcher[4654:176ea85] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:41.808 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:41.808 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.808 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.873 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:54:41.873 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 0 0, id:1584 called from <private>
+2026-09-28 20:54:41.873 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 1 1, id:1584 called from <private>
+2026-09-28 20:54:41.873 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 1 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea86] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:54:41.884 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:54:41.887 Df LosslessSwitcher[4654:176ef86] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:54:41.887 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:54:41.887 Df LosslessSwitcher[4654:176e391] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.887 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:54:41.968 Df LosslessSwitcher[4654:176ea84] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:54:41.989 E  LosslessSwitcher[4654:176e40b] (CoreAudio)         HALB_IOThread.cpp:342    HALB_IOThread::_Start: there already is a thread
+2026-09-28 20:54:41.989 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Started  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xb}
+2026-09-28 20:54:41.991 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:55:10.347 Df LosslessSwitcher[4654:176f18e] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:55:10.353 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xb}
+2026-09-28 20:55:10.356 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:55:10.357 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xb}
+2026-09-28 20:55:10.357 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 1]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:55:10.390 Df LosslessSwitcher[4654:176f3dd] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:55:10.401 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xb}
+2026-09-28 20:55:10.402 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:55:10.402 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xb}
+2026-09-28 20:55:10.402 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 0]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:55:10.405 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:10.405 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:10.405 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.431 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.431 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:10.431 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:10.431 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:10.431 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:10.433 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:10.433 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:10.433 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:10.433 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:10.433 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:10.433 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.433 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.433 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:10.434 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:10.434 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:10.434 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.475 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:10.479 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.479 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:10.480 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:10.481 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:10.481 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:10.481 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.501 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.501 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:10.501 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:10.503 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:10.503 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:10.503 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.526 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.526 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:10.526 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:10.530 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:10.530 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:10.530 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.546 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.546 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:10.546 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:10.548 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:14.941 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Started  Input {LSOutput_UID, 0xc}
+2026-09-28 20:55:14.952 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:55:15.005 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:15.005 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:15.005 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.021 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.021 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:15.021 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:15.021 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:15.021 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:15.022 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:15.022 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:15.022 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:15.022 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:15.022 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:15.022 Df LosslessSwitcher[4654:176f420] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.022 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.023 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:15.023 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:15.023 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.023 E  LosslessSwitcher[4654:176f192] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:55:15.023 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.044 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.044 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:15.044 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:15.044 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:15.044 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:15.046 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:15.046 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:15.046 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:15.046 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:15.046 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:15.046 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.046 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.047 E  LosslessSwitcher[4654:176f192] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:55:15.047 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:15.048 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:15.048 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:15.048 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.077 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:15.085 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.085 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:15.085 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:15.085 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:15.086 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:15.086 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.103 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.103 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:15.103 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:15.103 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:15.104 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:15.104 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.131 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.131 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:15.131 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:15.133 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:15.133 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:15.133 Df LosslessSwitcher[4654:176f409] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.133 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.216 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:55:15.216 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 0 0, id:1584 called from <private>
+2026-09-28 20:55:15.227 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.227 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.281 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:55:15.281 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 0 0, id:1584 called from <private>
+2026-09-28 20:55:15.291 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.291 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.293 E  LosslessSwitcher[4654:176e40b] (CoreAudio)         HALB_IOThread.cpp:342    HALB_IOThread::_Start: there already is a thread
+2026-09-28 20:55:15.345 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:55:15.345 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 0 0, id:1584 called from <private>
+2026-09-28 20:55:15.356 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:15.356 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:15.410 Df LosslessSwitcher[4654:176f192] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:55:15.410 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Started  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xc}
+2026-09-28 20:55:15.413 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:55:26.953 Df LosslessSwitcher[4654:176f3dd] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:55:26.961 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xc}
+2026-09-28 20:55:26.964 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:55:26.964 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xc}
+2026-09-28 20:55:26.964 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 1]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:55:27.003 Df LosslessSwitcher[4654:176f754] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:55:27.013 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xc}
+2026-09-28 20:55:27.014 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:55:27.014 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xc}
+2026-09-28 20:55:27.014 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 0]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:55:27.017 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:27.017 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:27.017 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.048 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.048 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:27.048 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:27.048 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:27.048 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:27.051 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:27.051 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:27.051 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:27.051 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:27.051 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:27.052 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:27.052 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.052 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.052 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:27.052 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:27.052 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.091 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:27.102 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.102 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:27.102 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:27.104 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:27.104 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:27.104 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.120 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.120 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:27.120 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:27.122 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:27.122 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:27.122 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.147 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.147 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:27.147 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:27.149 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:27.149 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:27.149 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.170 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.170 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:27.171 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:27.172 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:27.173 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:31.580 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Started  Input {LSOutput_UID, 0xd}
+2026-09-28 20:55:31.602 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:55:31.679 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.680 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:31.680 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.698 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.698 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.698 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.698 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.698 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:31.700 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.700 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:31.700 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.700 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.700 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.700 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.700 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.700 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.701 E  LosslessSwitcher[4654:176f784] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:55:31.701 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:31.701 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:31.701 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.719 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.719 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.719 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.719 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.719 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:31.721 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.721 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.721 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.721 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:31.721 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.721 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.721 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.721 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.722 E  LosslessSwitcher[4654:176f754] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:55:31.722 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:31.722 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:31.722 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.761 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.761 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.791 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.791 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:31.792 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.794 Df LosslessSwitcher[4654:176f784] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.795 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.795 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.795 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.796 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.797 E  LosslessSwitcher[4654:176f754] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:55:31.797 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:31.797 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:31.797 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.803 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.803 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.857 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:55:31.857 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 0 0, id:1584 called from <private>
+2026-09-28 20:55:31.868 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.868 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:31.868 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:31.868 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:31.869 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:31.869 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:31.869 Df LosslessSwitcher[4654:176f78b] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.869 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:31.921 Df LosslessSwitcher[4654:176f3dd] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:55:31.921 E  LosslessSwitcher[4654:176e40b] (CoreAudio)         HALB_IOThread.cpp:342    HALB_IOThread::_Start: there already is a thread
+2026-09-28 20:55:31.921 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Started  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xd}
+2026-09-28 20:55:31.922 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:55:45.455 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1587)
+2026-09-28 20:55:45.455 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 0 0, id:1587 called from <private>
+2026-09-28 20:55:45.459 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1587 called from <private>
+2026-09-28 20:55:45.462 Df LosslessSwitcher[4654:176fbdc] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:55:45.471 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.471 Df LosslessSwitcher[4654:176fbdb] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:55:45.481 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:45.481 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.503 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.503 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.504 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.504 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.504 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:45.506 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.506 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.506 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:45.506 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.506 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.506 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.506 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.506 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.507 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:45.507 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.507 E  LosslessSwitcher[4654:176fbdc] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:55:45.507 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.532 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.532 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.532 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.532 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.532 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:45.533 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.533 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.533 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:45.533 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.533 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.533 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.533 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.533 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.534 E  LosslessSwitcher[4654:176f7a6] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:55:45.534 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:45.534 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:45.534 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.544 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1587 called from <private>
+2026-09-28 20:55:45.544 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1587 called from <private>
+2026-09-28 20:55:45.544 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1587)
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176fbdd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1587)
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1587 called from <private>
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1587 called from <private>
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1587 called from <private>
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1587 called from <private>
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1587 called from <private>
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1587 called from <private>
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176fbdd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1587)
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176fbdd] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1587 called from <private>
+2026-09-28 20:55:45.547 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1587)
+2026-09-28 20:55:45.554 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1587)
+2026-09-28 20:55:45.570 Df LosslessSwitcher[4654:176fbdd] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1587 called from <private>
+2026-09-28 20:55:45.581 Df LosslessSwitcher[4654:176fbdd] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 0 0, id:1587 called from <private>
+2026-09-28 20:55:45.584 Df LosslessSwitcher[4654:176fbdd] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1587 called from <private>
+2026-09-28 20:55:45.584 Df LosslessSwitcher[4654:176fbdd] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1587 called from <private>
+2026-09-28 20:55:45.593 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.593 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.593 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.594 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.594 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.594 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.594 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.595 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.611 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.611 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.628 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.628 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:45.629 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.629 Df LosslessSwitcher[4654:176f754] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176f754] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.631 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:45.634 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.634 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:45.634 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.634 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.634 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.635 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.635 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:45.635 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:45.635 E  LosslessSwitcher[4654:176fbdc] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:55:45.635 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.635 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.635 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.636 E  LosslessSwitcher[4654:176fbdb] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:55:45.636 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:55:45.636 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:55:45.636 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:45.645 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:45.645 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:45.649 Df LosslessSwitcher[4654:176fbdd] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1587 called from <private>
+2026-09-28 20:55:46.224 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:55:46.224 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 1 0 0, id:1584 called from <private>
+2026-09-28 20:55:46.237 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:46.237 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:55:46.237 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:55:46.237 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:55:46.238 Df LosslessSwitcher[4654:176fbdd] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:55:46.238 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:55:46.238 Df LosslessSwitcher[4654:176fbdc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:46.238 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:55:46.288 Df LosslessSwitcher[4654:176fbdb] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 1 0 0 id:1584 called from <private>
+2026-09-28 20:56:06.450 Df LosslessSwitcher[4654:176f7a6] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:56:06.456 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xd}
+2026-09-28 20:56:06.459 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:56:06.459 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xd}
+2026-09-28 20:56:06.460 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 1]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:56:06.502 Df LosslessSwitcher[4654:176f7a6] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:56:06.517 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xd}
+2026-09-28 20:56:06.518 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:56:06.518 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xd}
+2026-09-28 20:56:06.518 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 0]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:56:06.521 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:06.521 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:56:06.521 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:06.522 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:06.522 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:06.522 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:56:06.548 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:56:06.548 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:06.548 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:06.548 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:06.548 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:06.550 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:06.550 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:06.550 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:06.550 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:06.550 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:06.550 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:56:06.550 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 0 0 id:1584 called from <private>
+2026-09-28 20:56:06.550 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 0 0 id:1584 called from <private>
+2026-09-28 20:56:06.551 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:06.551 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 0 0, id:1584 called from <private>
+2026-09-28 20:56:06.551 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:06.597 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:06.597 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:06.620 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:06.620 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:06.620 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:06.624 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:06.624 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:06.624 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:06.639 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:06.639 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:06.639 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:06.640 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:06.640 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:06.640 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:06.662 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:06.662 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:06.662 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:06.663 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:06.663 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:06.663 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:06.663 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176fc79] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176fc6f] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:06.665 Df LosslessSwitcher[4654:176f7a6] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:48.259 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Started  Input {LSOutput_UID, 0xe}
+2026-09-28 20:56:48.263 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:56:48.268 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:48.268 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:48.268 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.283 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.283 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:48.283 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:48.283 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:48.283 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 4 4, id:1584 called from <private>
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 4 4 id:1584 called from <private>
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:48.285 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.301 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.301 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:48.302 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:48.302 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:48.302 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 4 4, id:1584 called from <private>
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 4 4 id:1584 called from <private>
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:48.304 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.333 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:48.346 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.346 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:48.346 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:48.347 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:48.347 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:48.347 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.365 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.365 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:48.365 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:48.368 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:48.368 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:48.368 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.387 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.387 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:48.387 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:48.389 Df LosslessSwitcher[4654:177068a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:48.390 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:50.347 Df LosslessSwitcher[4654:176e40b] (CoreAudio)         HALB_IOThread.cpp:305    HALB_IOThread::_Start: IO is still disabled after waiting
+2026-09-28 20:56:55.621 E  LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1075  HALC_ProxyIOContext::_StartIO(): Start failed - StartAndWaitForState returned error 35
+2026-09-28 20:56:55.621 E  LosslessSwitcher[4654:176e40b] (CoreAudio)             HALPlugIn.cpp:524    HALPlugIn::StartIOProc: got an error from the plug-in routine, Error: 35 (<private>)
+2026-09-28 20:56:55.684 Df LosslessSwitcher[4654:177065a] [com.apple.coreaudio:AMCP]          HALC_ProxyIOContext.cpp:1631  HALC_ProxyIOContext::IOWorkLoop: ending the transport, stopping the io thread
+2026-09-28 20:56:55.689 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xe}
+2026-09-28 20:56:55.689 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:199   <-- setPlayState Server update was required.
+2026-09-28 20:56:55.689 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Input {LSOutput_UID, 0xe}
+2026-09-28 20:56:55.689 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 0]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:56:55.727 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xe}
+2026-09-28 20:56:55.727 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 0]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:56:55.727 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:163   --> setPlayState Stopped  Output {AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1, 0xe}
+2026-09-28 20:56:55.727 Df LosslessSwitcher[4654:176e40b] [com.apple.coreaudio:as_client] SessionCore_macOS_Legacy.mm:194   <-- setPlayState IOState: [0, 0]. BT device UIDS: {(
+)} Server update was not required.
+2026-09-28 20:56:55.730 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:55.730 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:55.730 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.762 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.762 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:55.762 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:55.762 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:55.762 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 4 4, id:1584 called from <private>
+2026-09-28 20:56:55.764 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:55.764 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:55.764 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:55.765 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 4 4 id:1584 called from <private>
+2026-09-28 20:56:55.765 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:55.765 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:55.765 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.765 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.765 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:55.765 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:55.765 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.797 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:55.818 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.818 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:55.818 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:55.819 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:55.819 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:55.819 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.839 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.839 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:55.839 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:55.840 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:55.841 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:55.841 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.860 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.860 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:55.860 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:55.862 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:55.862 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:55.862 Df LosslessSwitcher[4654:1770854] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.876 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.876 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 3 3, id:1584 called from <private>
+2026-09-28 20:56:55.876 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3542   HALC_IOContext_PauseIO(1584)
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:17703cc] (CoreAudio)   HALC_ProxyIOContext.cpp:3576   HALC_IOContext_ResumeIO(1584)
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 3 3 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1146   HALC_ProxyIOContext::PauseIO: -> 0 1 1, id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1159   HALC_ProxyIOContext::PauseIO: <- 0 2 2, id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1193   HALC_ProxyIOContext::ResumeIO: -> 0 2 2 id:1584 called from <private>
+2026-09-28 20:56:55.877 Df LosslessSwitcher[4654:177065a] (CoreAudio)   HALC_ProxyIOContext.cpp:1210   HALC_ProxyIOContext::ResumeIO: <- 0 1 1 id:1584 called from <private>
