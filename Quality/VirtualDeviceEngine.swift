@@ -1008,9 +1008,13 @@ final class VirtualDeviceEngine {
         _ = scripts.pause()
         let pausedAt = Date()
         _ = wait(1) { !self.playing }
-        inRoutine = false
+        // Music's notices stay ignored through the setup and the rate decision: they echo our own
+        // pause, which can take over 1 s (pastor Mac: Badlands' late Playing came after the wait, was
+        // taken as a new track, and switched before the DAC was set up: NOT ready after 12 s).
+        // switchRate below pauses, rewinds and plays anyway.
         steppedAside = false
         guard setUp() else {
+            inRoutine = false
             // Music plays to the DAC directly. Its Playing must not start another take-back: on the
             // coffee bench that looped every 11 s (and Music's pause didn't stop it, the play did).
             resumeRetryAt = Date().addingTimeInterval(30)
@@ -1038,9 +1042,7 @@ final class VirtualDeviceEngine {
             let since = at.addingTimeInterval(-2)
             if decoderRates.last.map({ $0.date <= since }) ?? true {
                 let t0 = Date()
-                inRoutine = true // Music is paused by us: its notices here are our own
                 _ = wait(2) { self.decoderRates.last.map { $0.date > since } ?? false }
-                inRoutine = false
                 log("resume: \(decoderRates.last.map { $0.date > since } ?? false ? "decoder line after \(String(format: "%.2f", Date().timeIntervalSince(t0))) s" : "no decoder line within 2 s")")
             }
             let own = decoderRates.last.flatMap { $0.date > since ? $0.rate : nil }
@@ -1052,6 +1054,7 @@ final class VirtualDeviceEngine {
         if pid != lastTrackID { trackRate = rate }
         lastTrackID = pid
         lastNewTrackAt = at
+        inRoutine = false
         switchRate(target, name: name, tPlay: at, pausedAt: pausedAt)
     }
 
