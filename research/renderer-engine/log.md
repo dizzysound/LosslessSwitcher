@@ -832,3 +832,18 @@ asked for a device choice and a volume slider in the app.
   `defaults write ... OtherAppsDeviceUID mute` -> "MUTED (chosen ...)" in 2 s; delete -> back on the
   speakers in 2 s; alerts stayed on MacBook Pro Speakers. The window and slider aren't tested yet (the
   owner, over Remote Desktop).
+
+## Found: other apps silent with 1.1.4 even on unmuted speakers (pastor, 45a502c/a3a8f00, ~11:00)
+Owner: "nothing from youtube". Speakers unmuted at -5.3 dB (the owner raised them), our app a client of
+MacBook Pro Speakers, WebKit.GPU on the virtual device. a3a8f00's meter: "loopback ch 3-4 peak silent,
+player out peak silent" every 10 s, so the loss is in the plug-in (the input stream is 4 ch, stream
+configuration [4], checked with tools lsfmt.swift). The earlier afplay "pass" proved only the Music
+side (the DAC path silent); ch 3-4 were never measured. My miss.
+- Suspected cause (traced, not proven in coreaudiod): 1.1.4's gOthers replaced its span whenever a
+  ProcessOutput came with a sample time other than the last one ("first client of a cycle"). If
+  coreaudiod gives clients different times, a silent client overwrites an audible one. Harness case
+  (two other clients 8 frames apart, one silent): 1.1.4 loses 504 of 512 frames, 1.1.5 none.
+- 1.1.5 (b3eeee4): add, except frames past everything written so far (they replace an old lap; a jump
+  back of more than half the ring resets). 'LSst' adds othersPeakIn/othersPeakRead and
+  othersMaxTimeDelta/othersTimeDeltaCycles; the engine logs them in the 10 s meter line. If the time
+  delta reads 0 on the bench, the cause is something else and the peaks say which side.
