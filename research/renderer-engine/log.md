@@ -679,3 +679,20 @@ Data: data/2026-09-29-pastor-takeback/ (ccbaf2a-engine.log, 94cee07-engine.log);
   96000 Hz (no rate change)", rewound to 9.234 (paused at ~9.6), unchanged. No Microphone prompt for
   94cee07 (the ccbaf2a answer carried over).
 - Pastor Mac afterwards: 94cee07 running, Music paused (as found), RendererIdleSeconds deleted.
+
+## Found: Exclusive Mode off on coffee left Music silent (13c74f8, 2026-09-29 07:06)
+The owner turned Exclusive Mode off while Music played (Ulaid, 44.1k) and heard nothing.
+- Engine: tearDown paused Music (Music: "pause command (ae_Pause)" 07:06:03.688), DAC mixable, hog
+  released, "default output restored to AudioQuest DragonFly Black v1.5", held 3 s, "engine stopped";
+  then its resume: Music "play command" 07:06:07.925, "paused -> playing".
+- Music re-routed to the DragonFly at 07:06:05.04 (routeChangeNotification, outputs = DragonFly) while
+  paused.
+- coreaudiod: StopIO x3 at 07:06:04.69-.98, then NO StartIO on any device through 07:12, although Music
+  reported playing (07:06:07.9; stalled at 07:06:22), and later plays (owner 07:06:27 back, 07:06:49
+  play; ours 07:08:49). StartIO is logged normally (the engine's 06:00:27 start is there). So Music's
+  playback pipeline stopped producing IO after the device change; the output switch itself worked.
+  Traced, not reproduced; cause inside Music not known. Related: the overnight run's "Music came back
+  paused after the quit although it was playing".
+- DragonFly volume: 0 dB is the owner's setting (DAC at unity, level set on a preamp). I misread it as
+  a change, set it to -48 dB at 07:08, and put it back to 0 dB at ~07:10. The -48 dB in the earlier
+  coffee entries is what the owner had then, not a standing setting; don't restore it.
