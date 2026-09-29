@@ -252,6 +252,28 @@ int main(int argc, char** argv)
         CHECK(oz == 4 * sizeof(AudioObjectID) && dz == oz && objs[0] == 4 && objs[1] == 8 && objs[2] == 9 && objs[3] == 10, "device publishes 2 streams + output volume/mute only");
         ol.mSelector = kAudioObjectPropertyControlList; oz = sizeof objs; I->GetPropertyData(drv, kDev, 0, &ol, 0, NULL, oz, &oz, objs);
         CHECK(oz == 2 * sizeof(AudioObjectID) && objs[0] == 9 && objs[1] == 10, "controls: output volume + mute");
+        {   // the volume control applies no gain, so it must never read above 0 dB; linear in dB like the engine
+            AudioObjectPropertyAddress va = { kAudioLevelControlPropertyDecibelValue, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain };
+            Float32 f = 99; UInt32 fz = sizeof f;
+            I->GetPropertyData(drv, 9, 0, &va, 0, NULL, fz, &fz, &f);
+            CHECK(f == 0.0f, "volume at full scale reads 0 dB (read %.2f)", f);
+            AudioValueRange r = { 0, 0 }; UInt32 rz = sizeof r; va.mSelector = kAudioLevelControlPropertyDecibelRange;
+            I->GetPropertyData(drv, 9, 0, &va, 0, NULL, rz, &rz, &r);
+            CHECK(r.mMinimum == -64.0 && r.mMaximum == 0.0, "volume range -64..0 dB (%.1f..%.1f)", r.mMinimum, r.mMaximum);
+            va.mSelector = kAudioLevelControlPropertyConvertScalarToDecibels; f = 0.6641f; fz = sizeof f;
+            I->GetPropertyData(drv, 9, 0, &va, 0, NULL, fz, &fz, &f);
+            CHECK(fabsf(f + 21.5f) < 0.01f, "scalar 0.6641 -> -21.5 dB, the engine's mapping (%.2f)", f);
+            va.mSelector = kAudioLevelControlPropertyConvertDecibelsToScalar; f = 6.0f; fz = sizeof f;
+            I->GetPropertyData(drv, 9, 0, &va, 0, NULL, fz, &fz, &f);
+            CHECK(f == 1.0f, "+6 dB clamps to scalar 1 (0 dB) (%.4f)", f);
+            va.mSelector = kAudioLevelControlPropertyScalarValue; f = 0.5f;
+            I->SetPropertyData(drv, 9, 0, &va, 0, NULL, sizeof f, &f);
+            va.mSelector = kAudioLevelControlPropertyDecibelValue; fz = sizeof f;
+            I->GetPropertyData(drv, 9, 0, &va, 0, NULL, fz, &fz, &f);
+            CHECK(f == -32.0f, "scalar 0.5 reads -32 dB (%.2f)", f);
+            va.mSelector = kAudioLevelControlPropertyScalarValue; f = 1.0f;
+            I->SetPropertyData(drv, 9, 0, &va, 0, NULL, sizeof f, &f);
+        }
         pid = 4242; n = CFNumberCreate(NULL, kCFNumberSInt32Type, &pid); I->SetPropertyData(drv, kDev, 0, &aa, 0, NULL, sizeof n, &n); CFRelease(n);
         pid = 0; n = CFNumberCreate(NULL, kCFNumberSInt32Type, &pid); I->SetPropertyData(drv, kDev, 0, &aa, 0, NULL, sizeof n, &n); CFRelease(n);
         CHECK(CANBE(kAudioObjectPropertyScopeOutput) == 0, "detach (0) clears it");
