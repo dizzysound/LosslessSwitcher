@@ -696,3 +696,14 @@ The owner turned Exclusive Mode off while Music played (Ulaid, 44.1k) and heard 
 - DragonFly volume: 0 dB is the owner's setting (DAC at unity, level set on a preamp). I misread it as
   a change, set it to -48 dB at 07:08, and put it back to 0 dB at ~07:10. The -48 dB in the earlier
   coffee entries is what the owner had then, not a standing setting; don't restore it.
+- Follow-up (07:12-07:16): not reproduced. Coffee's Music (same process since the night, pid 1908) was
+  still stuck at 07:14: "play" -> "playing" at position 0.0 and the DragonFly not running (checked with
+  kAudioDevicePropertyDeviceIsRunningSomewhere). Quitting and reopening Music fixed it (DragonFly
+  running, position advancing). Then Exclusive Mode on -> off by the owner (07:15:31-07:16:01), same
+  teardown sequence as 07:06: the owner heard it continue; DragonFly running, position 61 -> 65 s.
+  Pastor Mac, the same toggle (07:12:48-53): Babyface running, position advancing (no one listening;
+  its RME driver logs no HALS_IOEngine2 StartIO, so the coreaudiod StartIO check doesn't apply there).
+  So the stuck state is inside that Music session (it had played through the whole night's builds,
+  relaunches, switches and take-backs), not a fixed result of the toggle. Open: what puts Music
+  there. If it recurs: check DeviceIsRunningSomewhere on the DAC and Music's player position before
+  restarting Music; tools/running.swift (device running/hog/default).
