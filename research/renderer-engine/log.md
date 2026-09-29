@@ -754,3 +754,26 @@ next time: Music's "reason: error" pause and -12785, not our ae_Pause.
 - 2bdc720 on coffee, Exclusive Mode on at 08:20:48 with Music playing: no collision this time (DAC free
   at setup), hogged, locked in 3.5 s; Music -> virtual device only, our app alone on the DragonFly;
   the owner: clean. The refusal path itself is UNTESTED (needs the collision to recur).
+
+# Music only (DESIGN-music-only.md): plug-in 1.1.4, 2026-09-29
+- Hook choice: ProcessOutput, not MixOutput. AudioServerPlugIn.h: ProcessOutput processes one client's
+  output in the canonical format, in place, before the mix; MixOutput would make the plug-in do the
+  whole mix ("no further output operations"). Evidence that coreaudiod calls ProcessOutput per client
+  with that client's own buffer: Background Music's shipping driver (BGM_Device.cpp, master) does its
+  per-app volume there, keyed by inClientID (ApplyClientRelativeVolume), and says the Thread op is no
+  longer per client on recent macOS. A GitHub code search found no shipping driver relying on
+  MixOutput. ProcessOutput also leaves WriteMix unchanged, so 'LSmx' = 0 is the 1.1.3 path exactly.
+  NOT yet seen in our coreaudiod: harness.c is a fake host, so it proves only our handling. 1.1.4 adds
+  'LSst' counters (processOutputCalls, musicClientCalls, othersFramesMoved, musicPID); on the bench
+  they must grow with Music + a browser playing, or the approach fails.
+- 1.1.4 (build 6): 'LSmx' = Music's pid (0 = off). ProcessOutput: a client whose pid isn't Music's is
+  summed into gOthers (indexed by output sample time; the cycle's first such client replaces the
+  span, so an unread old lap isn't summed) and zeroed; the HAL's mix is then Music + zeros. The
+  loopback input is 4 ch (1-2 gLoop, 3-4 gOthers; both cleared on read); the output stays 2 ch; stream
+  formats, the input layout and element names 3-4 are per stream now.
+- Compatibility: an engine older than this one (renderA requires 2 ch) reads nothing from a 1.1.4
+  device. The plug-in and the app ship together, so the menu's Update installs both; don't pair a
+  1.1.4 plug-in with an older build.
+- harness.c (fake host, 4 clients: 2 Music, a browser, Facebook): all passed. Music bit-exact on ch 1-2
+  incl. the ring wrap, others zeroed before the mix, ch 3-4 = their sum, 'LSmx' = 0 = 1.1.3 (whole mix
+  on 1-2, 3-4 silent, buffers untouched), counters.
