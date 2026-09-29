@@ -818,3 +818,17 @@ so once a rebuild left it stopped nothing restarted it.
 Fix: a notice alone isn't a reason; rebuild only if the player stopped or its output left the
 speakers (then it is stopped at once: never into the virtual device), at most every 2 s, and keep
 retrying while the engine wants other apps there (othersDevice).
+
+## Other Apps & Alerts menu (45a502c), pastor, 2026-09-29 ~10:55
+The owner's YouTube on pastor was silent after e501c68 too: the routing worked (WebKit.GPU -> virtual
+device, our app a client of MacBook Pro Speakers) but the speakers were muted at -63.5 dB (the Mac's own
+setting; not changed). With the volume keys driving the DAC, there was no easy way to reach them. Owner
+asked for a device choice and a volume slider in the app.
+- Menu (Exclusive Mode on): Other Apps & Alerts: Built-in Speakers (automatic) / any output / Mute
+  Other Apps, and Volume… (a window: picker, slider, mute; NSMenu-style MenuBarExtra draws no sliders).
+  The slider sets the device's own volume (unmutes when raised); no settable volume -> player gain.
+  Default key OtherAppsDeviceUID (nil automatic, "mute", or a UID); the engine follows it each second.
+- Pastor: start at 48k, Music switched to 96k: one player restart, no loop (the e501c68 fix held).
+  `defaults write ... OtherAppsDeviceUID mute` -> "MUTED (chosen ...)" in 2 s; delete -> back on the
+  speakers in 2 s; alerts stayed on MacBook Pro Speakers. The window and slider aren't tested yet (the
+  owner, over Remote Desktop).
