@@ -369,6 +369,11 @@ final class VirtualDeviceEngine {
             log.close()
             return
         }
+        // Music's notices from before setup are stale (pastor Mac: queued while the Microphone prompt
+        // waited ~5 min, then taken as a new track after setup: a switch for a track no longer playing).
+        // setUp reads Music's state itself.
+        inboxLock.lock(); let stale = infoInbox.count; infoInbox = []; inboxLock.unlock()
+        if stale > 0 { log("dropped \(stale) Music notices from before setup") }
         guard setUp() else {
             log("setup failed; engine idle until it is turned off")
             while !shouldStop { Thread.sleep(forTimeInterval: 0.1) }
