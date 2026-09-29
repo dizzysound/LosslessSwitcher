@@ -80,7 +80,11 @@ enum LocalTrack {
         guard let file = try? AVAudioFile(forReading: url) else { return nil }
         let asbd = file.fileFormat.streamDescription.pointee
         guard asbd.mSampleRate > 0 else { return nil }
-        return CMPlayerStats(sampleRate: asbd.mSampleRate, bitDepth: bitDepth(of: asbd), date: Date(), priority: 100)
+        let pcm = asbd.mBitsPerChannel > 0
+        let lossless = asbd.mFormatID == kAudioFormatAppleLossless || asbd.mFormatID == kAudioFormatFLAC
+        let depth = bitDepth(of: asbd)
+        return CMPlayerStats(sampleRate: asbd.mSampleRate, bitDepth: depth, date: Date(), priority: 100,
+                             sourceBits: pcm || lossless ? depth : nil, lossy: !pcm && !lossless)
     }
 
     static func bitDepth(of asbd: AudioStreamBasicDescription) -> Int {
