@@ -179,6 +179,8 @@ final class VirtualDeviceEngine {
     private var othersChoice: String? // the Other Apps & Alerts choice startOthers followed
     private var othersRestartAt = Date.distantPast
     private let othersFeed = Atomic<Int>(0) // 1: A writes loopback channels 3-4 into others.ring
+    private let othersPeakA = Atomic<UInt32>(0) // A: peak |sample| on channels 3-4 since the last meter line (Float bits)
+    private var othersMeterAt = Date()
 
     /// NSRunningApplication once said Music wasn't running while it played on as the same process
     /// (Babyface bench, twice; the "quit" held its audio at the gate for 4 s and dropped the next
@@ -921,6 +923,13 @@ final class VirtualDeviceEngine {
     /// restarting on each notice looped 19 times and left it stopped; other apps were silent).
     private func steerOthers() {
         guard othersDevice != 0 else { return }
+        // meter: where other apps' audio is lost, if it is (pastor: YouTube silent on the speakers)
+        if Date().timeIntervalSince(othersMeterAt) >= 10 {
+            othersMeterAt = Date()
+            let a = Float(bitPattern: othersPeakA.exchange(0, ordering: .relaxed)), p = others.takePeak()
+            func db(_ x: Float) -> String { x > 0 ? String(format: "%.1f dBFS", 20 * log10(x)) : "silent" }
+            log("other apps meter (10 s): loopback ch 3-4 peak \(db(a)), player out peak \(db(p)); \(others.status)")
+        }
         if let why = others.problem() {
             if Date().timeIntervalSince(othersRestartAt) >= 2 { restartOthers(why) }
             return
@@ -1560,6 +1569,9 @@ final class VirtualDeviceEngine {
                 scratchA[i * 2] = src[i * 4]; scratchA[i * 2 + 1] = src[i * 4 + 1]
                 scratchO[i * 2] = src[i * 4 + 2]; scratchO[i * 2 + 1] = src[i * 4 + 3]
             }
+            var pk: Float = 0
+            for i in 0..<(n * 2) { pk = max(pk, abs(scratchO[i])) }
+            if pk > Float(bitPattern: othersPeakA.load(ordering: .relaxed)) { othersPeakA.store(pk.bitPattern, ordering: .relaxed) }
             if othersFeed.load(ordering: .relaxed) != 0 { others.ring.write(scratchO, n) }
             f = UnsafePointer(scratchA)
         } else {
@@ -1810,7 +1822,10 @@ final class OthersPlayer {
     private final class RenderState: @unchecked Sendable {
         let started = Atomic<Int>(0)  // 1 once the ring reached the target
         let restarts = Atomic<Int>(0) // pre-rolls after running dry
+        let peak = Atomic<UInt32>(0)  // peak |sample| played since the last takePeak (Float bits)
     }
+
+    func takePeak() -> Float { Float(bitPattern: rs.peak.exchange(0, ordering: .relaxed)) }
     private let rs = RenderState()
     private let scratch = UnsafeMutablePointer<Float>.allocate(capacity: 16384 * 2)
 
@@ -1848,7 +1863,9 @@ final class OthersPlayer {
             }
             let got = ring.read(scratch, n)
             if got < n { rs.started.store(0, ordering: .relaxed); rs.restarts.wrappingAdd(1, ordering: .relaxed) }
-            for i in 0..<n { l[i] = scratch[i * 2]; rt[i] = scratch[i * 2 + 1] }
+            var pk: Float = 0
+            for i in 0..<n { l[i] = scratch[i * 2]; rt[i] = scratch[i * 2 + 1]; pk = max(pk, abs(l[i]), abs(rt[i])) }
+            if pk > Float(bitPattern: rs.peak.load(ordering: .relaxed)) { rs.peak.store(pk.bitPattern, ordering: .relaxed) }
             return noErr
         }
         let vs = AVAudioUnitVarispeed()
