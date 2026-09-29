@@ -856,3 +856,19 @@ side (the DAC path silent); ch 3-4 were never measured. My miss.
 - Owner, by ear on pastor (after PR #4, ba09e5e): YouTube plays from the MacBook Pro Speakers; no
   lip-sync problem noticed. Coffee's plug-in went to 1.1.5 (the owner, from the menu); its engine log
   not checked yet. Still open: the bit-exact Music run on 1.1.5 (needs pastor free).
+
+# Bench: Music only on plug-in 1.1.5 (b3eeee4), pastor Mac, 2026-09-29 11:27
+Data: data/2026-09-29-pastor-musiconly-115/ (.f32 on disk only). Same runs as with 1.1.4.
+- silence (afplay only, Music paused): A's input and B's output 0 nonzero frames (32.7 s). This time
+  the other side was measured too: loopback ch 3-4 and the speakers player peaked at -8.9 dBFS
+  (Submarine), so afplay reached the speakers while nothing reached the DAC. PASS.
+- alone vs with: 1101105 frames (25.0 s) bit-exact with afplay playing; the only differences are the
+  tail (B's pause fade ends +1102205, A's +1111421). with: B's output = A's input (1339090 frames).
+  PASS.
+- Timestamps: "time delta max 512 frames in 155 cycles": ProcessOutput calls came one buffer
+  (512 frames) away from their cycle's WriteMix time, in 155 cycles during the "with" run. So clients
+  do arrive with different sample times, which is what 1.1.4's replace rule couldn't survive. That
+  supports the cause of the 1.1.4 silence, although it's still a count of the last client per cycle,
+  not a direct capture of the loss.
+- othersPeakRead measures the left channel only (0.2297 vs 0.3589 in); the engine's meter (both
+  channels) read the full 0.3589 (-8.9 dBFS). Cosmetic; noted, not changed.
