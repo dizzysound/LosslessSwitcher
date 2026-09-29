@@ -853,3 +853,36 @@ side (the DAC path silent); ch 3-4 were never measured. My miss.
   something it interacted with. The time-delta fields read 0, but they compare only the LAST
   ProcessOutput of a cycle with its WriteMix, so they neither confirm nor rule out differing times
   among the clients: cause traced, not proven. Owner to confirm by ear.
+- Owner, by ear on pastor (after PR #4, ba09e5e): YouTube plays from the MacBook Pro Speakers; no
+  lip-sync problem noticed. Coffee's plug-in went to 1.1.5 (the owner, from the menu); its engine log
+  not checked yet. Still open: the bit-exact Music run on 1.1.5 (needs pastor free).
+
+# Bench: Music only on plug-in 1.1.5 (b3eeee4), pastor Mac, 2026-09-29 11:27
+Data: data/2026-09-29-pastor-musiconly-115/ (.f32 on disk only). Same runs as with 1.1.4.
+- silence (afplay only, Music paused): A's input and B's output 0 nonzero frames (32.7 s). This time
+  the other side was measured too: loopback ch 3-4 and the speakers player peaked at -8.9 dBFS
+  (Submarine), so afplay reached the speakers while nothing reached the DAC. PASS.
+- alone vs with: 1101105 frames (25.0 s) bit-exact with afplay playing; the only differences are the
+  tail (B's pause fade ends +1102205, A's +1111421). with: B's output = A's input (1339090 frames).
+  PASS.
+- Timestamps: "time delta max 512 frames in 155 cycles": ProcessOutput calls came one buffer
+  (512 frames) away from their cycle's WriteMix time, in 155 cycles during the "with" run. So clients
+  do arrive with different sample times, which is what 1.1.4's replace rule couldn't survive. That
+  supports the cause of the 1.1.4 silence, although it's still a count of the last client per cycle,
+  not a direct capture of the loss.
+- othersPeakRead measures the left channel only (0.2297 vs 0.3589 in); the engine's meter (both
+  channels) read the full 0.3589 (-8.9 dBFS). Cosmetic; noted, not changed.
+
+# Bench: Music only on plug-in 1.1.5 (b3eeee4), coffee (DragonFly Black, int24), 2026-09-29 11:30-11:33
+Data: data/2026-09-29-coffee-musiconly-115/ (.f32 on disk only). Track: "The Right Rite" (database ID
+8704, ALAC 44.1k, speech; the owner listens on coffee, so no test tone). Owner updated 1.1.3 -> 1.1.5.
+- silence: A's input and B's output 0 nonzero frames; afplay on loopback ch 3-4 and the MacBook Air
+  Speakers player at -8.9 dBFS. PASS.
+- alone vs with: 1103393 frames (25.0 s) bit-exact with afplay playing; differences only in the pause
+  fade tail (B ends +1104493, A +1105517). PASS.
+- B's recording (float, before int24) = A's input for all 1342324 frames it holds; it ends 78 frames
+  before A's (the last of the pause fade), in the alone run as well (no other app): where the
+  recording stopped at the quit, not a Music-only effect.
+- Other-apps fill sits above target (2600-3570 vs 2205) with varispeed up to 1.000524: the P loop's
+  steady offset against the DragonFly's ~1100 ppm-slow clock (DAC scalar 0.998868). ~30 ms extra
+  latency at most, no dry-outs or overruns; an integral term would center it (not done).
