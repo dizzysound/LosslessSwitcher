@@ -481,8 +481,22 @@ final class VirtualDeviceEngine {
         // client's IO wind down first.
         if CA.runningSomewhere(d) {
             let t = Date()
-            let stopped = waitPlain(2) { !CA.runningSomewhere(d) }
+            var stopped = waitPlain(2) { !CA.runningSomewhere(d) }
             log("DAC was still running for another client; \(stopped ? "stopped" : "STILL running") after \(ms(t))")
+            // Coffee, 08:13:59 (take-back) and 08:17:13 (Exclusive Mode turned on): Music's stream to
+            // the DAC was still running after 2 s; hog and the non-mixable format went ahead and the
+            // left channel was distorted for as long as the engine held the DAC (clean with Exclusive
+            // Mode off). Pause Music again and wait; never take a DAC another client still plays to.
+            if !stopped {
+                _ = scripts.pause()
+                let t2 = Date()
+                stopped = waitPlain(3) { !CA.runningSomewhere(d) }
+                log("paused Music again: DAC \(stopped ? "stopped" : "STILL running") after \(ms(t2))")
+                if !stopped {
+                    log("not taking the DAC while another client plays to it")
+                    return false
+                }
+            }
         }
         var me = getpid()
         var a = CA.addr(kAudioDevicePropertyHogMode)
