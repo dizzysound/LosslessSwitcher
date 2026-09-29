@@ -1,0 +1,12 @@
+*.f32
+*.log
+tapcapture
+TapCapture.app/
+devprobe
+devtest
+renderer
+Renderer.app/
+runs/
+procdevs
+procwatch
+playerinfo

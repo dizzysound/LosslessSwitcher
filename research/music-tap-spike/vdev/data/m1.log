@@ -1,0 +1,120 @@
+[  0.000] engine started (virtual device: LosslessSwitcher Output)
+[  0.086] debug recording to /Users/chrisgillespie/Developer/music-tap-spike/.claude/worktrees/friendly-easley-685c9c/vdev/data/m1.* (900 s)
+[  0.089] microphone permission: not determined; requesting (reading the virtual device's input needs it)
+[  0.111] default output -> LosslessSwitcher Output: 0
+[  0.115] virtual device 255 @ 96000.0 Hz; scalar reset 0
+[  1.210] microphone permission granted
+[  1.210] A: output streams off: 0
+[  1.288] start A: 0
+[  1.289] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 96000.0 Hz, hog owner -1, my pid 62897
+[  1.290] hog DAC: 0, hogged
+[  1.292] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[  1.297] B: DAC inputs off: 0
+[  1.464] start B: 0
+[  3.039] DAC ready after 1.542 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[  3.040] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[  3.041] format listeners: 0 0
+[  3.548] clock lock: phase0 119787.666, fill 2048, cycles A 426 B 95
+[  4.997] playerInfo: Stopped 
+[  5.009] decoder: 192000.0 Hz 24-bit (lossless)
+[  5.074] gate: output started at ring 363521; waiting for the track's rate
+[  5.130] playerInfo: Playing Columbine
+[  5.131] new track Columbine: decoder 192000.0 Hz (seen 0.120 s before), DAC 96000 Hz -> switch to 192000
+[  5.163] switch 1: Columbine needs 192000 Hz (DAC 96000); held at the gate; paused; boundary reached 0.032 s
+[  5.180] virtual device -> 192000: 0
+[  5.180] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[  7.844]   DAC ready after 2.663 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[  7.844] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[  7.844] playerInfo: Playing Columbine
+[  7.844] playerInfo: Paused Columbine
+[  7.880]   rewound to 0.000 (was 0.108, played ~2.785 s), play; switch 1 done 2.749 s after the request
+[  7.881] clock lock: phase0 386380.352, fill 2048, cycles A 1691 B 411
+[  7.894] playerInfo: Paused Columbine
+[  7.907] playerInfo: Playing Columbine
+[ 14.826] playerInfo: Playing Columbine
+[ 14.863] playerInfo: Paused Columbine
+[ 19.831] playerInfo: Paused Columbine
+[ 19.842] playerInfo: Playing Columbine
+[ 31.910] decoder: 176400.0 Hz 24-bit (lossless)
+[ 31.925] next track needs 176400 Hz; 185.65 s left, arming the boundary latch in 0.00 s
+[ 31.925] boundary latch armed at in frame 5481984
+[ 31.936] latched at ring 4996992 (fill 1536)
+[ 32.179] playerInfo: Playing Ca Ira - Opera in Three Acts: The Commune de Paris
+[ 32.179] new track Ca Ira - Opera in Three Acts: The Commune de Paris: decoder 176400.0 Hz (seen 0.272 s before), DAC 192000 Hz -> switch to 176400
+[ 32.210] switch 2: Ca Ira - Opera in Three Acts: The Commune de Paris needs 176400 Hz (DAC 192000); latched at the old track's end; paused; boundary reached 0.031 s
+[ 32.225] virtual device -> 176400: 0
+[ 32.225] DAC format -> 176400.0 Hz 16 ch 32 bit flags 76: 0
+[ 35.399]   DAC keeps stopping; restarting B
+[ 37.096]   DAC keeps stopping; restarting B
+[ 37.770]   DAC ready after 5.544 s: phys 176400.0 Hz 16 ch 32 bit flags 76 / virt 176400.0 Hz 16 ch 32 bit flags 76
+[ 37.770] B writes int32 in 4 bytes, channels 1/2 (virtual format 176400.0 Hz 16 ch 32 bit flags 76)
+[ 37.770] playerInfo: Playing Ca Ira - Opera in Three Acts: The Commune de Paris
+[ 37.770] playerInfo: Playing Ca Ira - Opera in Three Acts: The Commune de Paris
+[ 37.770] playerInfo: Paused Ca Ira - Opera in Three Acts: The Commune de Paris
+[ 37.813]   rewound to 0.000 (was 0.242, played ~5.659 s), play; switch 2 done 5.633 s after the request
+[ 37.814] clock lock: phase0 863038.983, fill 1536, cycles A 12693 B 9550
+[ 37.815] 176400 Hz fill 2048 scalar 1.000026500 under 0 over 0
+[ 37.827] playerInfo: Paused Ca Ira - Opera in Three Acts: The Commune de Paris
+[ 37.839] playerInfo: Playing Ca Ira - Opera in Three Acts: The Commune de Paris
+[ 44.039] decoder: 192000.0 Hz 24-bit (lossless)
+[ 44.056] next track needs 192000 Hz; 5.80 s left, arming the boundary latch in 4.30 s
+[ 48.368] boundary latch armed at in frame 8360960
+[ 50.057] latched at ring 7214917 (fill 1536)
+[ 50.466] playerInfo: Playing Brain of J.
+[ 50.467] new track Brain of J.: decoder 192000.0 Hz (seen 6.426 s before), DAC 176400 Hz -> switch to 192000
+[ 50.472] switch 3: Brain of J. needs 192000 Hz (DAC 176400); latched at the old track's end; paused; boundary reached 0.005 s
+[ 50.486] virtual device -> 192000: 0
+[ 50.486] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[ 52.696]   DAC ready after 2.209 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[ 52.697] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[ 52.697] playerInfo: Playing Brain of J.
+[ 52.697] playerInfo: Paused Brain of J.
+[ 52.737]   rewound to 0.000 (was 0.327, played ~2.295 s), play; switch 3 done 2.270 s after the request
+[ 52.738] clock: DAC scalar 1.003429 not settled; waiting to lock
+[ 52.749] playerInfo: Paused Brain of J.
+[ 52.761] playerInfo: Playing Brain of J.
+[ 55.285] clock lock: phase0 205251.423, fill 1536, cycles A 18802 B 14882
+[ 60.682] playerInfo: Playing Brain of J.
+[ 60.716] playerInfo: Paused Brain of J.
+[ 63.737] playerInfo: Stopped 
+[ 63.750] playerInfo: Playing Age of Anxiety I
+[ 63.750] new track Age of Anxiety I: decoder 192000.0 Hz (seen 19.704 s before), DAC 192000 Hz
+[ 63.836] playerInfo: Playing Age of Anxiety I
+[ 64.167] decoder: 48000.0 Hz (lossy)
+[ 64.200] next track needs 48000 Hz; 327.11 s left, arming the boundary latch in 0.00 s
+[ 64.200] boundary latch armed at in frame 11338240
+[ 64.342] decoder: 96000.0 Hz (lossless)
+[ 67.818] 192000 Hz fill 1024 scalar 0.999968136 under 0 over 0
+[ 69.208] no boundary within 5 s; disarmed
+[ 88.702] playerInfo: Playing Age of Anxiety I
+[ 88.761] decoder: 96000.0 Hz (lossless)
+[ 88.779] next track needs 96000 Hz; 302.63 s left, arming the boundary latch in 0.00 s
+[ 88.779] boundary latch armed at in frame 16057344
+[ 88.791] playerInfo: Paused Age of Anxiety I
+[ 88.792] gate: output started at ring 14217088; waiting for the track's rate
+[ 90.295] gate released (no Playing within 1.5 s) 1503 ms after the output started
+[ 91.735] playerInfo: Stopped 
+[ 91.785] decoder: 96000.0 Hz 24-bit (lossless)
+[ 91.810] playerInfo: Playing Have a Cigar
+[ 91.811] new track Have a Cigar: decoder 96000.0 Hz (seen 0.020 s before), DAC 192000 Hz -> switch to 96000
+[ 91.824] switch 4: Have a Cigar needs 96000 Hz (DAC 192000); not latched: cut at the play position; paused; boundary reached 0.013 s
+[ 91.831] virtual device -> 96000: 0
+[ 91.832] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[ 94.561]   DAC keeps stopping; restarting B
+[ 95.737]   DAC ready after 3.904 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[ 95.737] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[ 95.738] playerInfo: Playing Have a Cigar
+[ 95.738] playerInfo: Paused Have a Cigar
+[ 95.775]   rewound to 0.000 (was 0.000, played ~3.997 s), play; switch 4 done 3.965 s after the request
+[ 95.789] playerInfo: Paused Have a Cigar
+[ 95.789] playerInfo: Playing Have a Cigar
+[ 96.277] clock lock: phase0 309688.029, fill 2048, cycles A 33309 B 28685
+[ 97.818] 96000 Hz fill 2048 scalar 0.999987426 under 0 over 0
+[112.963] playerInfo: Paused Have a Cigar
+[112.963] playerInfo: Stopped 
+[113.072] playerInfo: Stopped 
+[127.829] DAC mixable again: 0
+[127.831] hog released: 0, owner -1
+[127.833] virtual device scalar reset: 0
+[127.854] default output restored to MT 48: 0
+[127.978] engine stopped

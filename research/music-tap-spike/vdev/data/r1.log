@@ -1,0 +1,210 @@
+[  0.000] engine started (virtual device: LosslessSwitcher Output)
+[  0.093] debug recording to /Users/chrisgillespie/Developer/music-tap-spike/.claude/worktrees/friendly-easley-685c9c/vdev/data/r1.* (900 s)
+[  0.099] microphone permission: not determined; requesting (reading the virtual device's input needs it)
+[  0.123] default output -> LosslessSwitcher Output: 0
+[  0.126] virtual device 255 @ 192000.0 Hz; scalar reset 0
+[  1.397] microphone permission granted
+[  1.398] A: output streams off: 0
+[  1.478] start A: 0
+[  1.479] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 192000.0 Hz, hog owner -1, my pid 53876
+[  1.481] hog DAC: 0, hogged
+[  1.484] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[  1.490] B: DAC inputs off: 0
+[  1.767] start B: 0
+[  2.281] DAC ready after 0.512 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[  2.282] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[  2.282] format listeners: 0 0
+[  2.790] clock lock: phase0 53611.857, fill 2048, cycles A 497 B 190
+[  5.358] playerInfo: Stopped 
+[  5.371] decoder: 48000.0 Hz 24-bit (lossless)
+[  5.443] gate: output started at ring 761345; waiting for the track's rate
+[  5.513] playerInfo: Playing May It Be (feat. Enya)
+[  5.514] new track May It Be (feat. Enya): decoder 48000.0 Hz (seen 0.150 s before), DAC 192000 Hz -> switch to 48000
+[  5.532] switch 1: May It Be (feat. Enya) needs 48000 Hz (DAC 192000); held at the gate; paused; boundary reached 0.018 s
+[  5.546] virtual device -> 48000: 0
+[  5.546] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[  7.148]   DAC ready after 1.601 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[  7.148] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[  7.148] playerInfo: Playing May It Be (feat. Enya)
+[  7.148] playerInfo: Paused May It Be (feat. Enya)
+[  7.191]   rewound to 0.000 (was 0.115, played ~1.702 s), play; switch 1 done 1.677 s after the request
+[  7.203] playerInfo: Paused May It Be (feat. Enya)
+[  7.214] playerInfo: Playing May It Be (feat. Enya)
+[  7.692] clock lock: phase0 46155.574, fill 2048, cycles A 1714 B 1270
+[ 15.493] decoder: 44100.0 Hz 24-bit (lossless)
+[ 15.506] next track needs 44100 Hz; 5.81 s left, arming the boundary latch in 4.31 s
+[ 19.822] boundary latch armed at in frame 1459712
+[ 21.542] latched at ring 1541696 (fill 2048)
+[ 21.702] playerInfo: Playing Unsleep
+[ 21.702] new track Unsleep: decoder 44100.0 Hz (seen 6.212 s before), DAC 48000 Hz -> switch to 44100
+[ 21.754] switch 2: Unsleep needs 44100 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.052 s
+[ 21.772] virtual device -> 44100: 0
+[ 21.776] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[ 24.084]   DAC ready after 2.305 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[ 24.085] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[ 24.085] playerInfo: Playing Unsleep
+[ 24.085] playerInfo: Paused Unsleep
+[ 24.141]   rewound to 0.000 (was 0.157, played ~2.451 s), play; switch 2 done 2.438 s after the request
+[ 24.154] playerInfo: Paused Unsleep
+[ 24.167] playerInfo: Playing Unsleep
+[ 24.649] clock: DAC scalar 0.998828 not settled; waiting to lock
+[ 27.193] clock lock: phase0 40764.229, fill 2048, cycles A 3487 B 2856
+[ 31.950] decoder: 88200.0 Hz 24-bit (lossless)
+[ 31.960] next track needs 88200 Hz; 5.82 s left, arming the boundary latch in 4.32 s
+[ 32.289] 44100 Hz fill 2560 scalar 0.999992589 under 0 over 0
+[ 36.285] boundary latch armed at in frame 2186240
+[ 37.996] latched at ring 2261192 (fill 2048)
+[ 38.242] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 38.242] new track Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): : decoder 88200.0 Hz (seen 6.292 s before), DAC 44100 Hz -> switch to 88200
+[ 38.294] switch 3: Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy):  needs 88200 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.052 s
+[ 38.311] virtual device -> 88200: 0
+[ 38.312] DAC format -> 88200.0 Hz 16 ch 32 bit flags 76: 0
+[ 40.829]   DAC keeps stopping; restarting B
+[ 44.621]   DAC ready after 6.309 s: phys 88200.0 Hz 16 ch 32 bit flags 76 / virt 88200.0 Hz 16 ch 32 bit flags 76
+[ 44.622] B writes int32 in 4 bytes, channels 1/2 (virtual format 88200.0 Hz 16 ch 32 bit flags 76)
+[ 44.622] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 44.622] playerInfo: Paused Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 44.658]   rewound to 0.000 (was 0.222, played ~6.449 s), play; switch 3 done 6.415 s after the request
+[ 44.670] playerInfo: Paused Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 44.683] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 45.170] clock: DAC scalar 1.000117 not settled; waiting to lock
+[ 45.677] clock lock: phase0 498028.867, fill 2048, cycles A 5686 B 3994
+[ 48.668] decoder: 176400.0 Hz 24-bit (lossless)
+[ 48.677] next track needs 176400 Hz; 5.82 s left, arming the boundary latch in 4.32 s
+[ 53.001] boundary latch armed at in frame 3557376
+[ 54.691] latched at ring 3706057 (fill 2048)
+[ 55.240] playerInfo: Playing "Cuando Silva ei Viento" from La Segunda; catalog# M062A-HR 
+[ 55.240] new track "Cuando Silva ei Viento" from La Segunda; catalog# M062A-HR : decoder 176400.0 Hz (seen 6.570 s before), DAC 88200 Hz -> switch to 176400
+[ 55.248] switch 4: "Cuando Silva ei Viento" from La Segunda; catalog# M062A-HR  needs 176400 Hz (DAC 88200); latched at the old track's end; paused; boundary reached 0.008 s
+[ 55.262] virtual device -> 176400: 0
+[ 55.263] DAC format -> 176400.0 Hz 16 ch 32 bit flags 76: 0
+[ 57.740]   DAC ready after 2.476 s: phys 176400.0 Hz 16 ch 32 bit flags 76 / virt 176400.0 Hz 16 ch 32 bit flags 76
+[ 57.740] B writes int32 in 4 bytes, channels 1/2 (virtual format 176400.0 Hz 16 ch 32 bit flags 76)
+[ 57.740] playerInfo: Playing "Cuando Silva ei Viento" from La Segunda; catalog# M062A-HR 
+[ 57.740] playerInfo: Paused "Cuando Silva ei Viento" from La Segunda; catalog# M062A-HR 
+[ 57.782]   rewound to 0.000 (was 0.479, played ~2.575 s), play; switch 4 done 2.542 s after the request
+[ 57.783] clock lock: phase0 308369.279, fill 2048, cycles A 7831 B 5657
+[ 57.796] playerInfo: Paused "Cuando Silva ei Viento" from La Segunda; catalog# M062A-HR 
+[ 57.796] playerInfo: Playing "Cuando Silva ei Viento" from La Segunda; catalog# M062A-HR 
+[ 62.290] 176400 Hz fill 2048 scalar 0.999997481 under 0 over 0
+[ 65.610] decoder: 192000.0 Hz 24-bit (lossless)
+[ 65.618] next track needs 192000 Hz; 5.79 s left, arming the boundary latch in 4.29 s
+[ 69.916] boundary latch armed at in frame 6150144
+[ 71.612] latched at ring 6447183 (fill 2048)
+[ 71.965] playerInfo: Playing Columbine
+[ 71.966] new track Columbine: decoder 192000.0 Hz (seen 6.356 s before), DAC 176400 Hz -> switch to 192000
+[ 71.969] switch 5: Columbine needs 192000 Hz (DAC 176400); latched at the old track's end; paused; boundary reached 0.004 s
+[ 71.985] virtual device -> 192000: 0
+[ 71.986] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[ 73.962]   DAC ready after 1.975 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[ 73.962] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[ 73.962] playerInfo: Playing Columbine
+[ 73.962] playerInfo: Paused Columbine
+[ 74.004]   rewound to 0.000 (was 0.262, played ~2.063 s), play; switch 5 done 2.038 s after the request
+[ 74.005] clock lock: phase0 253809.795, fill 1536, cycles A 13423 B 10561
+[ 74.016] playerInfo: Paused Columbine
+[ 74.029] playerInfo: Playing Columbine
+[ 82.307] decoder: 48000.0 Hz 24-bit (lossless)
+[ 82.319] next track needs 48000 Hz; 5.85 s left, arming the boundary latch in 4.35 s
+[ 86.671] boundary latch armed at in frame 9304576
+[ 86.685] latched at ring 9306496 (fill 1536)
+[ 88.462] playerInfo: Playing Don't Give Up
+[ 88.462] new track Don't Give Up: decoder 48000.0 Hz (seen 6.152 s before), DAC 192000 Hz -> switch to 48000
+[ 88.471] switch 6: Don't Give Up needs 48000 Hz (DAC 192000); latched at the old track's end; paused; boundary reached 0.008 s
+[ 88.486] virtual device -> 48000: 0
+[ 88.487] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[ 90.062]   DAC ready after 1.575 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[ 90.063] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[ 90.063] playerInfo: Playing Don't Give Up
+[ 90.063] playerInfo: Paused Don't Give Up
+[ 90.112]   rewound to 0.000 (was 0.092, played ~1.673 s), play; switch 6 done 1.650 s after the request
+[ 90.125] playerInfo: Paused Don't Give Up
+[ 90.138] playerInfo: Playing Don't Give Up
+[ 90.621] clock lock: phase0 42545.711, fill 1536, cycles A 19032 B 16037
+[ 92.297] 48000 Hz fill 2048 scalar 0.999987543 under 0 over 0
+[ 98.820] decoder: 176400.0 Hz 24-bit (lossless)
+[ 98.835] next track needs 176400 Hz; 5.82 s left, arming the boundary latch in 4.32 s
+[103.158] boundary latch armed at in frame 10346496
+[104.842] latched at ring 10426727 (fill 2048)
+[104.983] playerInfo: Playing Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[104.983] new track Ca Ira - Opera in Three Acts: "Flushed with Wine...": decoder 176400.0 Hz (seen 6.165 s before), DAC 48000 Hz -> switch to 176400
+[105.158] switch 7: Ca Ira - Opera in Three Acts: "Flushed with Wine..." needs 176400 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.175 s
+[105.174] virtual device -> 176400: 0
+[105.174] DAC format -> 176400.0 Hz 16 ch 32 bit flags 76: 0
+[108.004]   DAC ready after 2.829 s: phys 176400.0 Hz 16 ch 32 bit flags 76 / virt 176400.0 Hz 16 ch 32 bit flags 76
+[108.004] B writes int32 in 4 bytes, channels 1/2 (virtual format 176400.0 Hz 16 ch 32 bit flags 76)
+[108.004] playerInfo: Playing Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[108.004] playerInfo: Paused Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[108.051]   rewound to 0.000 (was 0.222, played ~3.095 s), play; switch 7 done 3.068 s after the request
+[108.052] clock lock: phase0 383255.812, fill 2048, cycles A 21337 B 17416
+[108.064] playerInfo: Paused Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[108.064] playerInfo: Playing Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[121.465] playerInfo: Playing Ca Ira - Opera in Three Acts: The Commune de Paris
+[121.465] new track Ca Ira - Opera in Three Acts: The Commune de Paris: decoder 176400.0 Hz (seen 22.652 s before), DAC 176400 Hz
+[122.298] 176400 Hz fill 1536 scalar 0.999994313 under 0 over 0
+[131.812] decoder: 192000.0 Hz 24-bit (lossless)
+[131.824] next track needs 192000 Hz; 5.78 s left, arming the boundary latch in 4.28 s
+[136.108] boundary latch armed at in frame 15873536
+[137.829] latched at ring 16175709 (fill 1536)
+[137.939] playerInfo: Playing VI. Mishima / Closing
+[137.940] new track VI. Mishima / Closing: decoder 192000.0 Hz (seen 6.131 s before), DAC 176400 Hz -> switch to 192000
+[138.131] switch 8: VI. Mishima / Closing needs 192000 Hz (DAC 176400); latched at the old track's end; paused; boundary reached 0.191 s
+[138.147] virtual device -> 192000: 0
+[138.148] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[140.127]   DAC ready after 1.979 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[140.128] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[140.128] playerInfo: Playing VI. Mishima / Closing
+[140.128] playerInfo: Paused VI. Mishima / Closing
+[140.178]   rewound to 0.000 (was 0.235, played ~2.259 s), play; switch 8 done 2.238 s after the request
+[140.180] clock lock: phase0 255246.016, fill 1536, cycles A 32411 B 27799
+[140.191] playerInfo: Paused VI. Mishima / Closing
+[140.202] playerInfo: Playing VI. Mishima / Closing
+[148.334] decoder: 88200.0 Hz 24-bit (lossless)
+[148.348] next track needs 88200 Hz; 5.80 s left, arming the boundary latch in 4.30 s
+[152.307] 192000 Hz fill 1536 scalar 0.999990948 under 0 over 0
+[152.659] boundary latch armed at in frame 18990592
+[154.360] latched at ring 19315440 (fill 1808)
+[154.607] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[154.607] new track Orlande de Lassus: Veni, dilecte mi: decoder 88200.0 Hz (seen 6.265 s before), DAC 192000 Hz -> switch to 88200
+[154.677] switch 9: Orlande de Lassus: Veni, dilecte mi needs 88200 Hz (DAC 192000); latched at the old track's end; paused; boundary reached 0.070 s
+[154.693] virtual device -> 88200: 0
+[154.694] DAC format -> 88200.0 Hz 16 ch 32 bit flags 76: 0
+[157.806]   DAC keeps stopping; restarting B
+[160.881]   DAC keeps stopping; restarting B
+[162.423]   DAC keeps stopping; restarting B
+[166.140]   DAC keeps stopping; restarting B
+[166.707]   DAC NOT ready after 12.013 s: phys 88200.0 Hz 16 ch 32 bit flags 76 / virt 88200.0 Hz 16 ch 32 bit flags 76
+[166.708] B writes int32 in 4 bytes, channels 1/2 (virtual format 88200.0 Hz 16 ch 32 bit flags 76)
+[166.708] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[166.708] playerInfo: Paused Orlande de Lassus: Veni, dilecte mi
+[166.763]   rewound to 239.987 (was 252.265, played ~12.178 s), play; switch 9 done 12.155 s after the request
+[166.764] clock: DAC scalar 1.000843 not settled; waiting to lock
+[166.776] playerInfo: Paused Orlande de Lassus: Veni, dilecte mi
+[166.787] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[167.268] clock lock: phase0 1001837.886, fill 2048, cycles A 39987 B 33332
+[173.796] decoder: 96000.0 Hz 24-bit (lossless)
+[173.811] next track needs 96000 Hz; 11.33 s left, arming the boundary latch in 9.83 s
+[182.313] 88200 Hz fill 2048 scalar 0.999979868 under 0 over 60176
+[183.646] boundary latch armed at in frame 21917696
+[185.175] latched at ring 21992403 (fill 2048)
+[185.448] playerInfo: Playing The Coming Storm
+[185.448] new track The Coming Storm: decoder 96000.0 Hz (seen 11.649 s before), DAC 88200 Hz -> switch to 96000
+[185.458] switch 10: The Coming Storm needs 96000 Hz (DAC 88200); latched at the old track's end; paused; boundary reached 0.010 s
+[185.473] virtual device -> 96000: 0
+[185.473] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[188.156]   DAC keeps stopping; restarting B
+[188.755]   DAC ready after 3.282 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[188.756] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[188.756] playerInfo: Playing The Coming Storm
+[188.756] playerInfo: Paused The Coming Storm
+[188.796]   rewound to 0.000 (was 0.216, played ~3.373 s), play; switch 10 done 3.347 s after the request
+[188.809] playerInfo: Paused The Coming Storm
+[188.809] playerInfo: Playing The Coming Storm
+[189.308] clock lock: phase0 251309.366, fill 2048, cycles A 43813 B 36570
+[189.965] playerInfo: Playing The Coming Storm
+[190.012] playerInfo: Paused The Coming Storm
+[190.081] DAC mixable again: 0
+[190.084] hog released: 0, owner -1
+[190.085] virtual device scalar reset: 0
+[190.105] default output restored to MT 48: 0
+[190.236] engine stopped

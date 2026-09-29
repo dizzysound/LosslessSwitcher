@@ -1,0 +1,7 @@
+1790594825.395 7F1413091C9E8A0C	96000	missing value	It Slipped My Mind	/Volumes/Extreme SSD/Music/Media.localized/Music/The Doors/Full Circle/8-08 It Slipped My Mind.m4a
+1790594825.784 3787AAC715FC284B	88200	0.172999992967	Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 	/Volumes/Extreme SSD/Music/Media.localized/Music/BBC Symphony Orchestra _ Leonard Slatkin, conductor/J.S. Bach_ The Conductors' Transcriptions/03 Cantata, BWV 147_ Chorale Prelude, _Jesu bleibet meine Freude_ (arr. E. Ormandy)_.m4a
+1790594852.840 440CEEAAEE670D06	88200	0.495000004768	Orlande de Lassus: Veni, dilecte mi	/Volumes/Extreme SSD/Music/Media.localized/Music/Stile Antico/Song of Songs/07 Orlande de Lassus_ Veni, dilecte mi.m4a
+1790594870.763 2B8EC72AB52E42BC	96000	0.146999999881	The Coming Storm	/Volumes/Extreme SSD/Music/Media.localized/Music/John Williams/Jurassic Park - 20th Anniversary/19 The Coming Storm.m4a
+1790594883.805 77AC8F0632ECBA3F	44100	0.0	Age of Anxiety I	
+1790594912.008 FC3BD926B8276552	96000	0.166999995708	Have a Cigar	/Volumes/Extreme SSD/Music/Media.localized/Music/Pink Floyd/Wish You Were Here/03 Have a Cigar.m4a
+1790594935.013 6B4EB2B50BF782DD	96000	0.229000002146	Wish You Were Here	/Volumes/Extreme SSD/Music/Media.localized/Music/Pink Floyd/Wish You Were Here/04 Wish You Were Here.m4a
