@@ -175,6 +175,8 @@ final class VirtualDeviceEngine {
     private var alertsBefore = AudioObjectID(0) // the alert-sound device before this DAC was hogged
     private var musicOnlyMissingLogged = false
     private let others = OthersPlayer()
+    private var othersDevice = AudioObjectID(0) // where other apps should play (0: nowhere); kept while the player is down
+    private var othersRestartAt = Date.distantPast
     private let othersFeed = Atomic<Int>(0) // 1: A writes loopback channels 3-4 into others.ring
 
     /// NSRunningApplication once said Music wasn't running while it played on as the same process
@@ -862,6 +864,8 @@ final class VirtualDeviceEngine {
             return
         }
         let name = CA.string(sp, kAudioObjectPropertyName)
+        othersDevice = sp
+        othersRestartAt = Date()
         if others.start(device: sp, rate: curRate, log: { [unowned self] in self.log($0) }) {
             othersFeed.store(1, ordering: .releasing)
             RendererOutput.shared.set(othersRoute: "Other apps play on \(name)", ok: true)
@@ -873,6 +877,7 @@ final class VirtualDeviceEngine {
     }
 
     private func stopOthers() {
+        othersDevice = 0
         othersFeed.store(0, ordering: .releasing)
         if others.isRunning { log("other apps: player stopped (\(others.status))") }
         others.stop()
@@ -880,17 +885,24 @@ final class VirtualDeviceEngine {
     }
 
     private func restartOthers(_ why: String) {
-        let d = others.device
+        let d = othersDevice
         guard d != 0 else { return }
+        othersRestartAt = Date()
         log("other apps: restarting the player (\(why))")
         othersFeed.store(0, ordering: .releasing)
         if others.start(device: d, rate: curRate, log: { [unowned self] in self.log($0) }) { othersFeed.store(1, ordering: .releasing) }
     }
 
     /// Every 0.5 s: the speakers' varispeed follows the others ring's fill (the two clocks drift).
+    /// The player is rebuilt only when it stopped or left the speakers, at most every 2 s: AVAudioEngine
+    /// posts a configuration change right after every start while it keeps running (pastor Mac, 48k:
+    /// restarting on each notice looped 19 times and left it stopped; other apps were silent).
     private func steerOthers() {
-        guard others.isRunning else { return }
-        if others.configChanged.exchange(0, ordering: .acquiringAndReleasing) != 0 { restartOthers("the speakers' configuration changed"); return }
+        guard othersDevice != 0 else { return }
+        if let why = others.problem() {
+            if Date().timeIntervalSince(othersRestartAt) >= 2 { restartOthers(why) }
+            return
+        }
         others.steer()
     }
 
@@ -1836,6 +1848,20 @@ final class OthersPlayer {
         }
         log("other apps -> \(CA.string(d, kAudioObjectPropertyName)) at \(Int(r)) Hz (AVAudioEngine + varispeed; target fill \(target) frames)")
         return true
+    }
+
+    /// Why the player needs a rebuild, if it does: stopped, or its output isn't `device` any more. A
+    /// configuration-change notice alone isn't a reason (one comes after every start).
+    func problem() -> String? {
+        let notice = configChanged.exchange(0, ordering: .acquiringAndReleasing) != 0
+        guard let e = engine else { return "the player isn't running" }
+        guard e.isRunning else { return notice ? "the speakers' configuration changed; the player stopped" : "the player stopped" }
+        var cur = AudioObjectID(0); var z = UInt32(4)
+        if let au = e.outputNode.audioUnit, AudioUnitGetProperty(au, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &cur, &z) == noErr, cur != device {
+            e.stop() // never play into another device (the virtual one would feed back)
+            return "its output moved to \(CA.string(cur, kAudioObjectPropertyName))"
+        }
+        return nil
     }
 
     func stop() {
