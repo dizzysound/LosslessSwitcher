@@ -1026,7 +1026,28 @@ final class VirtualDeviceEngine {
         // local file's header; the DAC's current rate if none says
         let pid = (info["PersistentID"] as? NSNumber)?.int64Value ?? (name.isEmpty ? nil : Int64(truncatingIfNeeded: name.hashValue))
         let recent = decoderRates.last.flatMap { Date().timeIntervalSince($0.date) < 30 ? $0.rate : nil }
-        let rate = (pid != nil && pid == lastTrackID ? trackRate : nil) ?? recent ?? LocalTrack.currentStats(attempts: 2)?.sampleRate
+        let rate: Float64?
+        if pid != nil && pid == lastTrackID, let r = trackRate {
+            rate = r
+        } else if pid != nil && pid == lastTrackID {
+            rate = recent ?? LocalTrack.currentStats(attempts: 2)?.sampleRate
+        } else {
+            // Another track: its own line can come after the take-back's setup (pastor Mac: Badlands'
+            // 44.1k line 1.1 s after its Playing, after the rate was chosen; it played at the hymn's
+            // 96k). Take a line from its Playing on (or just before), waiting up to 2 s for one.
+            let since = at.addingTimeInterval(-2)
+            if decoderRates.last.map({ $0.date <= since }) ?? true {
+                let t0 = Date()
+                inRoutine = true // Music is paused by us: its notices here are our own
+                _ = wait(2) { self.decoderRates.last.map { $0.date > since } ?? false }
+                inRoutine = false
+                log("resume: \(decoderRates.last.map { $0.date > since } ?? false ? "decoder line after \(String(format: "%.2f", Date().timeIntervalSince(t0))) s" : "no decoder line within 2 s")")
+            }
+            let own = decoderRates.last.flatMap { $0.date > since ? $0.rate : nil }
+            let file = own == nil ? LocalTrack.currentStats(attempts: 2)?.sampleRate : nil
+            rate = own ?? file ?? recent
+            log("resume: \(name) at \(rate.map { "\(Int($0)) Hz" } ?? "the DAC's rate") (\(own != nil ? "its decoder line" : file != nil ? "file header" : recent != nil ? "newest decoder line, may be another track's" : "nothing says"))")
+        }
         let target = rate.flatMap { neededRate($0) } ?? curRate
         if pid != lastTrackID { trackRate = rate }
         lastTrackID = pid
