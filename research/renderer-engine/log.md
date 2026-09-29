@@ -658,3 +658,24 @@ cleanly for it). Music AppleScript over SSH timed out until then.
   line newer than its Playing (pumping), then fall back as now; log which source decided.
 - Also seen: "Born to Run" by database ID 82644 (96k) played a 44.1k entry of the same name (Music's
   play resolved another track; Music's own log: 44.1k ALAC). The engine was right.
+
+# Fix: take-back to another track (ccbaf2a, 94cee07), pastor Mac Babyface, 2026-09-29 06:56-07:05
+Data: data/2026-09-29-pastor-takeback/ (ccbaf2a-engine.log, 94cee07-engine.log); repro: tools/takeback.sh
+(RendererIdleSeconds 10: hymn 96k, pause, step-aside, play Badlands 44.1k; x3).
+- ccbaf2a: resumeFromIdle, for a track other than lastTrackID, takes a decoder line from 2 s before its
+  Playing on, waiting up to 2 s for one; else its file header; else the newest line; logs "resume: X at
+  N Hz (its decoder line | file header | ...)". Right in two runs where Music's line came before
+  Playing (hymn 96k, the 2014-08-20 talk 44.1k).
+- The Badlands repro then showed a second, older race: Music's pause took > 1 s, its late "Playing
+  Badlands" came after resumeFromIdle's 1 s wait with inRoutine already cleared, was taken as a new
+  track, and switched before setUp (switch 4: "boundary NOT reached", "DAC NOT ready after 12.038 s",
+  done after 14.3 s, then a second restart, switch 5). Not caused by ccbaf2a (its code runs after
+  setUp; no "resume:" line was logged), but the same path.
+- 94cee07: inRoutine stays set from the take-back's pause through setUp and the rate decision (Music's
+  notices there echo our own pause); switchRate pauses, rewinds and plays anyway.
+- 94cee07 bench: Badlands after the hymn 3 of 3 right ("resume: Badlands at 44100 Hz (its decoder
+  line)", once after the 2 s wait: "decoder line after 0.01 s"), switch 1.32-1.33 s, no stray new-track
+  switch, clock lock ~4 s later. Same-track resume (hymn paused, stepped aside, play): "restarts at
+  96000 Hz (no rate change)", rewound to 9.234 (paused at ~9.6), unchanged. No Microphone prompt for
+  94cee07 (the ccbaf2a answer carried over).
+- Pastor Mac afterwards: 94cee07 running, Music paused (as found), RendererIdleSeconds deleted.
