@@ -1,0 +1,323 @@
+[  0.000] log started 2026-09-29 07:00:40.793 -05:00; LosslessSwitcher 2.0 (build 24, commit 94cee07), com.dizzysound.LosslessSwitcher.dev; macOS Version 27.0 (Build 26A428), MacBookPro18,3
+[  0.002] engine started (virtual device)
+[  0.014] microphone permission: not determined; asking, and leaving the output alone until it is answered
+[  1.732] microphone permission granted
+[  1.802] attached (pid 46471): 0
+[  1.816] default output -> virtual device: 0
+[  1.833] virtual device 166 @ 44100.0 Hz; scalar reset 0
+[  1.843] A: output streams off: 0
+[  1.968] start A: 0
+[  1.968] DAC Babyface Pro (73020432) (de_RME_driver_USBAudioEngine:0) @ 44100.0 Hz, hog owner -1, my pid 46471
+[  1.970] hog DAC: 0, hogged
+[  1.974] DAC format -> 44100.0 Hz 4 ch 32 bit flags 27: 0
+[  2.071] B: DAC inputs off: 0
+[  2.286] start B: 0
+[  2.789] DAC ready after 0.502 s: phys 44100.0 Hz 4 ch 32 bit flags 27 / virt 44100.0 Hz 4 ch 32 bit flags 9
+[  2.790] B writes float32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 4 ch 32 bit flags 9)
+[  2.791] format listeners: 0 0
+[  2.844] volume: forwarding to DAC elements 1,2 (-36.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step); mute emulated (DAC has none); slider -> 0.4375: 0, mute -> 0: 0
+[  3.349] clock: DAC scalar 1.000005 not steady yet; following it until the lock
+[  6.893] clock: DAC scalar steady at 1.000005 after 3.5 s
+[  6.893] clock lock: phase0 6684.056, fill 2048, cycles A 425 B 397
+[ 12.851] Music idle 10 s: stepping aside (DAC and default output given back)
+[ 12.924] hog released: 0, owner -1
+[ 12.927] virtual device scalar reset: 0
+[ 12.933] default output restored to Babyface Pro (73020432): 0
+[ 15.940] default output after 3 s: Babyface Pro (73020432)
+[ 15.944] detached (pid 0): 0
+[ 15.988] DAC probe: start 0 after 0.021 s
+[ 16.003] playerInfo: Stopped 
+[ 16.004] decoder: 96000.0 Hz 24-bit (lossless)
+[ 16.004] playerInfo: Playing Oh, Blest Is He That Came
+[ 16.004] playback began while stepped aside (Oh, Blest Is He That Came); taking the output back
+[ 16.017] playerInfo: Playing Oh, Blest Is He That Came
+[ 16.071] playerInfo: Paused Oh, Blest Is He That Came
+[ 16.083] attached (pid 46471): 0
+[ 16.089] default output -> virtual device: 0
+[ 16.098] virtual device 166 @ 44100.0 Hz; scalar reset 0
+[ 16.115] A: output streams off: 0
+[ 16.144] start A: 0
+[ 16.145] DAC Babyface Pro (73020432) (de_RME_driver_USBAudioEngine:0) @ 44100.0 Hz, hog owner -1, my pid 46471
+[ 16.203] DAC was still running for another client; stopped after 0.058 s
+[ 16.204] hog DAC: 0, hogged
+[ 16.209] DAC format -> 44100.0 Hz 4 ch 32 bit flags 27: 0
+[ 16.227] B: DAC inputs off: 0
+[ 16.450] start B: 0
+[ 16.967] DAC ready after 0.516 s: phys 44100.0 Hz 4 ch 32 bit flags 27 / virt 44100.0 Hz 4 ch 32 bit flags 9
+[ 16.968] B writes float32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 4 ch 32 bit flags 9)
+[ 16.968] format listeners: 0 0
+[ 17.018] volume: forwarding to DAC elements 1,2 (-36.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step); mute emulated (DAC has none); slider -> 0.4375: 0, mute -> 0: 0
+[ 17.018] resume: Oh, Blest Is He That Came at 96000 Hz (its decoder line)
+[ 17.043] switch 1: Oh, Blest Is He That Came needs 96000 Hz (DAC 44100); not latched: cut at the play position; paused; boundary reached 0.022 s
+[ 17.066] virtual device -> 96000: 0
+[ 17.067] DAC format -> 96000.0 Hz 4 ch 32 bit flags 27: 0
+[ 18.297]   DAC ready after 1.228 s: phys 96000.0 Hz 4 ch 32 bit flags 27 / virt 96000.0 Hz 4 ch 32 bit flags 9
+[ 18.298] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 4 ch 32 bit flags 9)
+[ 18.348]   rewound to 0.000 (was 1.133, played ~1.419 s), play; switch 1 done 1.327 s after the request
+[ 18.359] playerInfo: Paused Oh, Blest Is He That Came
+[ 18.362] clock: DAC scalar 1.000005 not steady yet; following it until the lock
+[ 18.380] playerInfo: Playing Oh, Blest Is He That Came
+[ 21.886] clock: DAC scalar steady at 1.000005 after 3.5 s
+[ 21.886] clock lock: phase0 35849.918, fill 1536, cycles A 1872 B 1738
+[ 24.815] playerInfo: Playing Oh, Blest Is He That Came
+[ 24.858] playerInfo: Paused Oh, Blest Is He That Came
+[ 32.855] 96000 Hz fill 1536 scalar 1.000006235 under 512 over 0; clock locked, DAC scalar 1.000007; 2026-09-29 07:01:13.648 -05:00
+[ 34.871] Music idle 10 s: stepping aside (DAC and default output given back)
+[ 34.950] hog released: 0, owner -1
+[ 34.952] virtual device scalar reset: 0
+[ 34.957] default output restored to Babyface Pro (73020432): 0
+[ 38.001] default output after 3 s: Babyface Pro (73020432)
+[ 38.005] detached (pid 0): 0
+[ 38.235] DAC probe: start 0 after 0.205 s
+[ 38.673] playerInfo: Stopped 
+[ 38.724] playerInfo: Playing Badlands
+[ 38.724] playback began while stepped aside (Badlands); taking the output back
+[ 38.758] playerInfo: Playing Badlands
+[ 38.758] playerInfo: Paused Badlands
+[ 38.775] attached (pid 46471): 0
+[ 38.782] default output -> virtual device: 0
+[ 38.788] virtual device 166 @ 96000.0 Hz; scalar reset 0
+[ 38.802] A: output streams off: 0
+[ 38.821] start A: 0
+[ 38.822] DAC Babyface Pro (73020432) (de_RME_driver_USBAudioEngine:0) @ 96000.0 Hz, hog owner -1, my pid 46471
+[ 38.823] hog DAC: 0, hogged
+[ 38.825] DAC format -> 96000.0 Hz 4 ch 32 bit flags 27: 0
+[ 38.882] B: DAC inputs off: 0
+[ 39.081] start B: 0
+[ 39.588] DAC ready after 0.506 s: phys 96000.0 Hz 4 ch 32 bit flags 27 / virt 96000.0 Hz 4 ch 32 bit flags 9
+[ 39.588] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 4 ch 32 bit flags 9)
+[ 39.588] format listeners: 0 0
+[ 39.632] volume: forwarding to DAC elements 1,2 (-36.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step); mute emulated (DAC has none); slider -> 0.4375: 0, mute -> 0: 0
+[ 39.633] decoder: 44100.0 Hz (lossy)
+[ 39.638] resume: decoder line after 0.01 s
+[ 39.638] resume: Badlands at 44100 Hz (its decoder line)
+[ 39.650] switch 2: Badlands needs 44100 Hz (DAC 96000); not latched: cut at the play position; paused; boundary reached 0.011 s
+[ 39.666] virtual device -> 44100: 0
+[ 39.666] DAC format -> 44100.0 Hz 4 ch 32 bit flags 27: 0
+[ 40.914]   DAC ready after 1.247 s: phys 44100.0 Hz 4 ch 32 bit flags 27 / virt 44100.0 Hz 4 ch 32 bit flags 9
+[ 40.915] B writes float32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 4 ch 32 bit flags 9)
+[ 40.960]   rewound to 0.000 (was 0.000, played ~0.081 s), play; switch 2 done 1.321 s after the request
+[ 40.972] playerInfo: Paused Badlands
+[ 40.990] playerInfo: Playing Badlands
+[ 41.478] clock: DAC scalar 1.000005 not steady yet; following it until the lock
+[ 45.035] clock: DAC scalar steady at 1.000005 after 3.6 s
+[ 45.035] clock lock: phase0 18357.609, fill 2048, cycles A 4911 B 4696
+[ 49.420] playerInfo: Stopped 
+[ 49.433] decoder: 96000.0 Hz 24-bit (lossless)
+[ 49.619] playerInfo: Playing Oh, Blest Is He That Came
+[ 49.620] new track Oh, Blest Is He That Came: decoder 96000.0 Hz lossless (seen 0.171 s before Playing), DAC 44100 Hz -> switch to 96000
+[ 49.658] switch 3: Oh, Blest Is He That Came needs 96000 Hz (DAC 44100); not latched: cut at the play position; paused; boundary reached 0.038 s
+[ 49.675] virtual device -> 96000: 0
+[ 49.675] DAC format -> 96000.0 Hz 4 ch 32 bit flags 27: 0
+[ 50.898]   DAC ready after 1.222 s: phys 96000.0 Hz 4 ch 32 bit flags 27 / virt 96000.0 Hz 4 ch 32 bit flags 9
+[ 50.899] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 4 ch 32 bit flags 9)
+[ 50.899] playerInfo: Playing Oh, Blest Is He That Came
+[ 50.899] playerInfo: Paused Oh, Blest Is He That Came
+[ 50.943]   rewound to 0.000 (was 0.000, played ~0.066 s), play; switch 3 done 1.323 s after the request
+[ 51.040] playerInfo: Paused Oh, Blest Is He That Came
+[ 51.041] playerInfo: Playing Oh, Blest Is He That Came
+[ 51.448] clock: DAC scalar 1.000005 not steady yet; following it until the lock
+[ 54.992] clock: DAC scalar steady at 1.000005 after 3.5 s
+[ 54.992] clock lock: phase0 39243.223, fill 2048, cycles A 6274 B 5959
+[ 57.758] playerInfo: Playing Oh, Blest Is He That Came
+[ 57.800] playerInfo: Paused Oh, Blest Is He That Came
+[ 62.862] 96000 Hz fill 2048 scalar 1.000005161 under 5632 over 0; clock locked, DAC scalar 1.000005; 2026-09-29 07:01:43.655 -05:00
+[ 67.810] Music idle 10 s: stepping aside (DAC and default output given back)
+[ 67.876] hog released: 0, owner -1
+[ 67.879] virtual device scalar reset: 0
+[ 67.884] default output restored to Babyface Pro (73020432): 0
+[ 70.922] default output after 3 s: Babyface Pro (73020432)
+[ 70.927] detached (pid 0): 0
+[ 71.150] DAC probe: start 0 after 0.204 s
+[ 71.474] playerInfo: Stopped 
+[ 71.489] playerInfo: Playing Badlands
+[ 71.490] playback began while stepped aside (Badlands); taking the output back
+[ 72.022] decoder: 44100.0 Hz (lossy)
+[ 72.533] playerInfo: Playing Badlands
+[ 72.571] playerInfo: Paused Badlands
+[ 72.580] attached (pid 46471): 0
+[ 72.588] default output -> virtual device: 0
+[ 72.595] virtual device 166 @ 96000.0 Hz; scalar reset 0
+[ 72.603] A: output streams off: 0
+[ 72.634] start A: 0
+[ 72.635] DAC Babyface Pro (73020432) (de_RME_driver_USBAudioEngine:0) @ 96000.0 Hz, hog owner -1, my pid 46471
+[ 72.671] DAC was still running for another client; stopped after 0.036 s
+[ 72.672] hog DAC: 0, hogged
+[ 72.677] DAC format -> 96000.0 Hz 4 ch 32 bit flags 27: 0
+[ 72.689] B: DAC inputs off: 0
+[ 72.903] start B: 0
+[ 73.406] DAC ready after 0.501 s: phys 96000.0 Hz 4 ch 32 bit flags 27 / virt 96000.0 Hz 4 ch 32 bit flags 9
+[ 73.406] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 4 ch 32 bit flags 9)
+[ 73.406] format listeners: 0 0
+[ 73.461] volume: forwarding to DAC elements 1,2 (-36.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step); mute emulated (DAC has none); slider -> 0.4375: 0, mute -> 0: 0
+[ 73.491] playerInfo: Paused Badlands
+[ 73.496] playerInfo: Playing Badlands
+[ 73.504] resume: Badlands at 44100 Hz (its decoder line)
+[ 73.550] switch 4: Badlands needs 44100 Hz (DAC 96000); not latched: cut at the play position; paused; boundary reached 0.039 s
+[ 73.581] virtual device -> 44100: 0
+[ 73.582] DAC format -> 44100.0 Hz 4 ch 32 bit flags 27: 0
+[ 74.781]   DAC ready after 1.199 s: phys 44100.0 Hz 4 ch 32 bit flags 27 / virt 44100.0 Hz 4 ch 32 bit flags 9
+[ 74.782] B writes float32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 4 ch 32 bit flags 9)
+[ 74.782] playerInfo: Playing Badlands
+[ 74.783] playerInfo: Paused Badlands
+[ 74.837]   rewound to 0.000 (was 0.178, played ~0.078 s), play; switch 4 done 1.326 s after the request
+[ 74.851] playerInfo: Paused Badlands
+[ 74.868] playerInfo: Playing Badlands
+[ 75.357] clock: DAC scalar 1.000005 not steady yet; following it until the lock
+[ 78.904] clock: DAC scalar steady at 1.000005 after 3.5 s
+[ 78.904] clock lock: phase0 16722.378, fill 2048, cycles A 9293 B 8900
+[ 83.283] playerInfo: Stopped 
+[ 83.298] decoder: 96000.0 Hz 24-bit (lossless)
+[ 83.502] playerInfo: Playing Oh, Blest Is He That Came
+[ 83.504] new track Oh, Blest Is He That Came: decoder 96000.0 Hz lossless (seen 0.203 s before Playing), DAC 44100 Hz -> switch to 96000
+[ 83.550] playerInfo: Playing Oh, Blest Is He That Came
+[ 83.565] switch 5: Oh, Blest Is He That Came needs 96000 Hz (DAC 44100); held at the gate; paused; boundary reached 0.060 s
+[ 83.590] virtual device -> 96000: 0
+[ 83.591] DAC format -> 96000.0 Hz 4 ch 32 bit flags 27: 0
+[ 85.133]   DAC ready after 1.542 s: phys 96000.0 Hz 4 ch 32 bit flags 27 / virt 96000.0 Hz 4 ch 32 bit flags 9
+[ 85.134] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 4 ch 32 bit flags 9)
+[ 85.134] playerInfo: Paused Oh, Blest Is He That Came
+[ 85.179]   rewound to 0.000 (was 0.026, played ~0.060 s), play; switch 5 done 1.674 s after the request
+[ 85.181] clock: DAC scalar 1.000002 not steady yet; following it until the lock
+[ 85.241] playerInfo: Paused Oh, Blest Is He That Came
+[ 85.241] playerInfo: Playing Oh, Blest Is He That Came
+[ 88.732] clock: DAC scalar steady at 1.000005 after 3.6 s
+[ 88.732] clock lock: phase0 71764.254, fill 1536, cycles A 10615 B 10074
+[ 91.645] playerInfo: Playing Oh, Blest Is He That Came
+[ 91.687] playerInfo: Paused Oh, Blest Is He That Came
+[ 92.870] 96000 Hz fill 1536 scalar 1.000005042 under 8704 over 0; clock locked, DAC scalar 1.000005; 2026-09-29 07:02:13.663 -05:00
+[101.689] Music idle 10 s: stepping aside (DAC and default output given back)
+[101.761] hog released: 0, owner -1
+[101.764] virtual device scalar reset: 0
+[101.768] default output restored to Babyface Pro (73020432): 0
+[104.799] default output after 3 s: Babyface Pro (73020432)
+[104.802] detached (pid 0): 0
+[105.040] DAC probe: start 0 after 0.208 s
+[105.397] playerInfo: Stopped 
+[105.424] playerInfo: Playing Badlands
+[105.424] playback began while stepped aside (Badlands); taking the output back
+[105.987] decoder: 44100.0 Hz (lossy)
+[106.465] playerInfo: Playing Badlands
+[106.505] playerInfo: Paused Badlands
+[106.513] attached (pid 46471): 0
+[106.522] default output -> virtual device: 0
+[106.530] virtual device 166 @ 96000.0 Hz; scalar reset 0
+[106.537] A: output streams off: 0
+[106.565] start A: 0
+[106.565] DAC Babyface Pro (73020432) (de_RME_driver_USBAudioEngine:0) @ 96000.0 Hz, hog owner -1, my pid 46471
+[106.615] DAC was still running for another client; stopped after 0.050 s
+[106.617] hog DAC: 0, hogged
+[106.620] DAC format -> 96000.0 Hz 4 ch 32 bit flags 27: 0
+[106.637] B: DAC inputs off: 0
+[106.845] start B: 0
+[107.351] DAC ready after 0.505 s: phys 96000.0 Hz 4 ch 32 bit flags 27 / virt 96000.0 Hz 4 ch 32 bit flags 9
+[107.352] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 4 ch 32 bit flags 9)
+[107.352] format listeners: 0 0
+[107.401] volume: forwarding to DAC elements 1,2 (-36.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step); mute emulated (DAC has none); slider -> 0.4375: 0, mute -> 0: 0
+[107.443] playerInfo: Paused Badlands
+[107.450] playerInfo: Playing Badlands
+[107.456] resume: Badlands at 44100 Hz (its decoder line)
+[107.496] switch 6: Badlands needs 44100 Hz (DAC 96000); not latched: cut at the play position; paused; boundary reached 0.035 s
+[107.522] virtual device -> 44100: 0
+[107.522] DAC format -> 44100.0 Hz 4 ch 32 bit flags 27: 0
+[108.702]   DAC ready after 1.179 s: phys 44100.0 Hz 4 ch 32 bit flags 27 / virt 44100.0 Hz 4 ch 32 bit flags 9
+[108.703] B writes float32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 4 ch 32 bit flags 9)
+[108.703] playerInfo: Playing Badlands
+[108.703] playerInfo: Paused Badlands
+[108.793]   rewound to 0.000 (was 0.184, played ~0.072 s), play; switch 6 done 1.332 s after the request
+[108.808] playerInfo: Paused Badlands
+[108.809] playerInfo: Playing Badlands
+[108.815] clock: DAC scalar 1.000005 not steady yet; following it until the lock
+[112.362] clock: DAC scalar steady at 1.000005 after 3.5 s
+[112.362] clock lock: phase0 16565.985, fill 2048, cycles A 13627 B 13002
+[116.043] playerInfo: Playing Badlands
+[116.086] playerInfo: Paused Badlands
+[116.101] gate: output started at ring 6677504; waiting for the track's rate
+[117.610] gate released (no Playing within 1.5 s) 1509 ms after the output started
+[117.621] gate closed again after 1536 ms of silence
+[122.871] 44100 Hz fill 2048 scalar 1.000005657 under 13312 over 0; clock locked, DAC scalar 1.000006; 2026-09-29 07:02:43.664 -05:00
+[125.457] playerInfo: Stopped 
+[125.472] decoder: 96000.0 Hz 24-bit (lossless)
+[125.692] playerInfo: Playing Oh, Blest Is He That Came
+[125.694] new track Oh, Blest Is He That Came: decoder 96000.0 Hz lossless (seen 0.210 s before Playing), DAC 44100 Hz -> switch to 96000
+[125.740] playerInfo: Playing Oh, Blest Is He That Came
+[125.769] switch 7: Oh, Blest Is He That Came needs 96000 Hz (DAC 44100); held at the gate; paused; boundary reached 0.075 s
+[125.787] virtual device -> 96000: 0
+[125.788] DAC format -> 96000.0 Hz 4 ch 32 bit flags 27: 0
+[127.054]   DAC ready after 1.211 s: phys 96000.0 Hz 4 ch 32 bit flags 27 / virt 96000.0 Hz 4 ch 32 bit flags 9
+[127.165] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 4 ch 32 bit flags 9)
+[127.166] playerInfo: Paused Oh, Blest Is He That Came
+[127.395]   rewound to 0.000 (was 0.026, played ~0.065 s), play; switch 7 done 1.701 s after the request
+[127.452] clock: DAC scalar 1.000004 not steady yet; following it until the lock
+[127.465] Music idle 10 s: stepping aside (DAC and default output given back)
+[127.581] hog released: 0, owner -1
+[127.583] virtual device scalar reset: 0
+[127.588] default output restored to Babyface Pro (73020432): 0
+[130.629] default output after 3 s: Babyface Pro (73020432)
+[130.635] detached (pid 0): 0
+[130.675] DAC probe: start 0 after 0.019 s
+[130.719] playerInfo: Paused Oh, Blest Is He That Came
+[130.719] playerInfo: Playing Oh, Blest Is He That Came
+[130.720] playback began while stepped aside (Oh, Blest Is He That Came); taking the output back
+[130.739] playerInfo: Playing Oh, Blest Is He That Came
+[130.783] playerInfo: Paused Oh, Blest Is He That Came
+[130.812] attached (pid 46471): 0
+[130.824] default output -> virtual device: 0
+[130.832] virtual device 166 @ 96000.0 Hz; scalar reset 0
+[130.842] A: output streams off: 0
+[130.883] start A: 0
+[130.884] DAC Babyface Pro (73020432) (de_RME_driver_USBAudioEngine:0) @ 96000.0 Hz, hog owner -1, my pid 46471
+[130.949] DAC was still running for another client; stopped after 0.065 s
+[130.951] hog DAC: 0, hogged
+[130.956] DAC format -> 96000.0 Hz 4 ch 32 bit flags 27: 0
+[130.969] B: DAC inputs off: 0
+[131.165] start B: 0
+[131.668] DAC ready after 0.501 s: phys 96000.0 Hz 4 ch 32 bit flags 27 / virt 96000.0 Hz 4 ch 32 bit flags 9
+[131.669] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 4 ch 32 bit flags 9)
+[131.669] format listeners: 0 0
+[131.723] volume: forwarding to DAC elements 1,2 (-36.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step); mute emulated (DAC has none); slider -> 0.4375: 0, mute -> 0: 0
+[131.746] switch 8: Oh, Blest Is He That Came restarts at 96000 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.019 s
+[131.793]   rewound to 0.000 (was 2.968, played ~3.219 s), play; switch 8 done 0.067 s after the request
+[131.832] playerInfo: Paused Oh, Blest Is He That Came
+[131.833] playerInfo: Playing Oh, Blest Is He That Came
+[135.346] clock: DAC scalar steady at 1.000005 after 3.5 s
+[135.346] clock lock: phase0 12052.302, fill 1536, cycles A 15895 B 15144
+[141.416] playerInfo: Playing Oh, Blest Is He That Came
+[141.464] playerInfo: Paused Oh, Blest Is He That Came
+[151.472] Music idle 10 s: stepping aside (DAC and default output given back)
+[151.528] hog released: 0, owner -1
+[151.530] virtual device scalar reset: 0
+[151.536] default output restored to Babyface Pro (73020432): 0
+[154.572] default output after 3 s: Babyface Pro (73020432)
+[154.577] detached (pid 0): 0
+[154.812] DAC probe: start 0 after 0.204 s
+[154.829] 96000 Hz fill 0 scalar 1.000008029 under 24576 over 0; clock stepped aside, DAC scalar 1.000007; 2026-09-29 07:03:15.620 -05:00
+[155.052] playerInfo: Paused Oh, Blest Is He That Came
+[155.052] playerInfo: Playing Oh, Blest Is He That Came
+[155.053] playback began while stepped aside (Oh, Blest Is He That Came); taking the output back
+[155.336] playerInfo: Playing Oh, Blest Is He That Came
+[155.371] playerInfo: Paused Oh, Blest Is He That Came
+[155.388] attached (pid 46471): 0
+[155.398] default output -> virtual device: 0
+[155.408] virtual device 166 @ 96000.0 Hz; scalar reset 0
+[155.420] A: output streams off: 0
+[155.450] start A: 0
+[155.451] DAC Babyface Pro (73020432) (de_RME_driver_USBAudioEngine:0) @ 96000.0 Hz, hog owner -1, my pid 46471
+[155.508] DAC was still running for another client; stopped after 0.057 s
+[155.510] hog DAC: 0, hogged
+[155.515] DAC format -> 96000.0 Hz 4 ch 32 bit flags 27: 0
+[155.530] B: DAC inputs off: 0
+[155.728] start B: 0
+[156.231] DAC ready after 0.503 s: phys 96000.0 Hz 4 ch 32 bit flags 27 / virt 96000.0 Hz 4 ch 32 bit flags 9
+[156.232] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 4 ch 32 bit flags 9)
+[156.232] format listeners: 0 0
+[156.284] volume: forwarding to DAC elements 1,2 (-36.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step); mute emulated (DAC has none); slider -> 0.4375: 0, mute -> 0: 0
+[156.308] switch 9: Oh, Blest Is He That Came restarts at 96000 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.020 s
+[156.343]   rewound to 9.234 (was 9.673, played ~0.339 s), play; switch 9 done 0.055 s after the request
+[156.360] playerInfo: Paused Oh, Blest Is He That Came
+[156.363] clock: DAC scalar 1.000004 not steady yet; following it until the lock
+[156.381] playerInfo: Playing Oh, Blest Is He That Came
+[159.909] clock: DAC scalar steady at 1.000005 after 3.5 s
+[159.909] clock lock: phase0 11139.076, fill 2048, cycles A 19756 B 18961
+[160.406] playerInfo: Playing Oh, Blest Is He That Came
+[160.450] playerInfo: Paused Oh, Blest Is He That Came

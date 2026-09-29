@@ -1,0 +1,185 @@
+[  0.000] engine started (virtual device)
+[  0.000] at launch: recovering the output after an unclean exit: DAC AudioQuest DragonFly Black v1.5, mixable 0
+[  0.008] microphone permission: not determined; asking, and leaving the output alone until it is answered
+[  2.879] microphone permission granted
+[  2.911] attached (pid 4654): 0
+[  2.923] default output -> virtual device: 0
+[  2.929] virtual device 147 @ 48000.0 Hz; scalar reset 0
+[  2.995] A: output streams off: 0
+[  3.057] start A: 0
+[  3.058] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 48000.0 Hz, hog owner -1, my pid 4654
+[  3.059] hog DAC: 0, hogged
+[  3.061] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[  3.062] B: DAC inputs off: 0
+[  3.413] start B: 0
+[  3.926] DAC ready after 0.512 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[  3.928] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[  3.929] format listeners: 0 0
+[  3.967] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[  4.478] clock: DAC scalar 0.999032 not settled; waiting to lock
+[ 13.981] Music idle 10 s: stepping aside (DAC and default output given back)
+[ 14.045] DAC mixable again: 0
+[ 14.047] hog released: 0, owner -1
+[ 14.048] virtual device scalar reset: 0
+[ 14.206] default output restored to AudioQuest DragonFly Black v1.5: 0
+[ 17.223] default output after 3 s: AudioQuest DragonFly Black v1.5
+[ 17.224] detached (pid 0): 0
+[ 33.973] 48000 Hz fill 0 scalar 1.000000000 under 512 over 0
+[ 36.018] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 36.064] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 36.064] playback began while stepped aside (The Rhythm of the Heat (Instrumental)); taking the output back
+[ 36.220] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 36.300] decoder: 48000.0 Hz (lossless)
+[ 36.510] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 36.524] attached (pid 4654): 0
+[ 36.536] default output -> virtual device: 0
+[ 36.544] virtual device 147 @ 48000.0 Hz; scalar reset 0
+[ 36.559] A: output streams off: 0
+[ 36.592] start A: 0
+[ 36.593] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 48000.0 Hz, hog owner -1, my pid 4654
+[ 36.637] DAC was still running for another client; stopped after 0.043 s
+[ 36.638] hog DAC: 0, hogged
+[ 36.642] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[ 36.643] B: DAC inputs off: 0
+[ 36.919] start B: 0
+[ 37.433] DAC ready after 0.512 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[ 37.435] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[ 37.435] format listeners: 0 0
+[ 37.495] volume: forwarding to DAC element 0 (-32.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.5000: 0, mute -> 0: 0
+[ 37.515] switch 1: The Rhythm of the Heat (Instrumental) restarts at 48000 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.016 s
+[ 37.866]   rewound to 121.899 (was 122.205, played ~0.206 s), play; switch 1 done 0.368 s after the request
+[ 37.877] decoder: 48000.0 Hz (lossless)
+[ 37.877] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 37.905] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 53.301] volume 0.2500: DAC [0] -> -48.0 dB
+[ 55.045] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 55.117] decoder: 48000.0 Hz (lossless)
+[ 55.273] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 63.974] 48000 Hz fill 512 scalar 1.000000000 under 512 over 0
+[ 65.275] Music idle 10 s: stepping aside (DAC and default output given back)
+[ 65.332] DAC mixable again: 0
+[ 65.337] hog released: 0, owner -1
+[ 65.341] virtual device scalar reset: 0
+[ 65.484] default output restored to AudioQuest DragonFly Black v1.5: 0
+[ 68.499] default output after 3 s: AudioQuest DragonFly Black v1.5
+[ 68.502] detached (pid 0): 0
+[ 69.423] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 69.544] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 69.544] playback began while stepped aside (The Rhythm of the Heat (Instrumental)); taking the output back
+[ 69.565] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 69.632] decoder: 48000.0 Hz (lossless)
+[ 69.801] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 69.815] attached (pid 4654): 0
+[ 69.829] default output -> virtual device: 0
+[ 69.834] virtual device 147 @ 48000.0 Hz; scalar reset 0
+[ 69.848] A: output streams off: 0
+[ 69.880] start A: 0
+[ 69.882] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 48000.0 Hz, hog owner -1, my pid 4654
+[ 69.928] DAC was still running for another client; stopped after 0.046 s
+[ 69.929] hog DAC: 0, hogged
+[ 69.932] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[ 69.933] B: DAC inputs off: 0
+[ 70.342] start B: 0
+[ 70.854] DAC ready after 0.511 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[ 70.856] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[ 70.856] format listeners: 0 0
+[ 70.913] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[ 70.938] switch 2: The Rhythm of the Heat (Instrumental) restarts at 48000 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.020 s
+[ 71.283]   rewound to 138.815 (was 138.982, played ~0.067 s), play; switch 2 done 0.365 s after the request
+[ 71.296] decoder: 48000.0 Hz (lossless)
+[ 71.311] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 71.324] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 71.629] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 71.712] decoder: 48000.0 Hz (lossless)
+[ 71.877] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 81.882] Music idle 10 s: stepping aside (DAC and default output given back)
+[ 81.944] DAC mixable again: 0
+[ 81.946] hog released: 0, owner -1
+[ 81.948] virtual device scalar reset: 0
+[ 82.109] default output restored to AudioQuest DragonFly Black v1.5: 0
+[ 85.118] default output after 3 s: AudioQuest DragonFly Black v1.5
+[ 85.121] detached (pid 0): 0
+[ 86.028] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 86.196] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 86.197] playback began while stepped aside (The Rhythm of the Heat (Instrumental)); taking the output back
+[ 86.210] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 86.284] decoder: 48000.0 Hz (lossless)
+[ 86.448] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 86.463] attached (pid 4654): 0
+[ 86.473] default output -> virtual device: 0
+[ 86.477] virtual device 147 @ 48000.0 Hz; scalar reset 0
+[ 86.491] A: output streams off: 0
+[ 86.530] start A: 0
+[ 86.532] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 48000.0 Hz, hog owner -1, my pid 4654
+[ 86.577] DAC was still running for another client; stopped after 0.044 s
+[ 86.578] hog DAC: 0, hogged
+[ 86.581] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[ 86.581] B: DAC inputs off: 0
+[ 86.851] start B: 0
+[ 87.363] DAC ready after 0.511 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[ 87.364] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[ 87.364] format listeners: 0 0
+[ 87.410] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[ 87.428] switch 3: The Rhythm of the Heat (Instrumental) restarts at 48000 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.016 s
+[ 87.788]   rewound to 138.911 (was 139.081, played ~0.070 s), play; switch 3 done 0.377 s after the request
+[ 87.800] decoder: 48000.0 Hz (lossless)
+[ 87.816] playerInfo: Paused The Rhythm of the Heat (Instrumental)
+[ 87.828] playerInfo: Playing The Rhythm of the Heat (Instrumental)
+[ 93.979] 48000 Hz fill 1536 scalar 1.000000000 under 2560 over 0
+[100.055] decoder: 44100.0 Hz (lossy)
+[100.343] next track needs 44100 Hz; 184.38 s left, arming the boundary latch in 0.00 s and again in 182.88 s
+[100.344] boundary latch armed at in frame 3142144
+[100.356] playerInfo: Playing Don't Ride That Horse
+[100.359] new track Don't Ride That Horse: decoder 44100.0 Hz lossy (seen 0.172 s before Playing), DAC 48000 Hz -> switch to 44100
+[100.371] playerInfo: Playing Don't Ride That Horse
+[100.378] switch 4: Don't Ride That Horse needs 44100 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.019 s
+[100.398] virtual device -> 44100: 0
+[100.399] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[101.685]   DAC ready after 1.285 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[101.686] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[101.686] playerInfo: Paused Don't Ride That Horse
+[101.734]   rewound to 0.000 (was 0.096, played ~0.182 s), play; switch 4 done 1.375 s after the request
+[101.798] playerInfo: Paused Don't Ride That Horse
+[101.810] playerInfo: Playing Don't Ride That Horse
+[111.377] playerInfo: Paused Jamaica Inn
+[121.378] Music idle 10 s: stepping aside (DAC and default output given back)
+[121.448] DAC mixable again: 0
+[121.453] hog released: 0, owner -1
+[121.455] virtual device scalar reset: 0
+[121.602] default output restored to AudioQuest DragonFly Black v1.5: 0
+[124.631] default output after 3 s: AudioQuest DragonFly Black v1.5
+[124.635] detached (pid 0): 0
+[124.649] playerInfo: Paused Urban Disco
+[124.650] 44100 Hz fill 0 scalar 1.000000000 under 4608 over 0
+[154.651] 44100 Hz fill 0 scalar 1.000000000 under 4608 over 0
+[161.957] playerInfo: Paused Urban Disco
+[161.982] playerInfo: Playing Urban Disco
+[161.982] playback began while stepped aside (Urban Disco); taking the output back
+[163.025] playerInfo: Playing Urban Disco
+[163.085] new track Urban Disco: no decoder line for it yet; holding at the gate until one comes (3 s)
+[163.091] playerInfo: Paused Urban Disco
+[163.101] attached (pid 4654): 0
+[163.114] default output -> virtual device: 0
+[163.121] virtual device 147 @ 44100.0 Hz; scalar reset 0
+[163.158] A: output streams off: 0
+[163.192] start A: 0
+[163.193] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 4654
+[163.194] hog DAC: 0, hogged
+[163.196] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[163.196] B: DAC inputs off: 0
+[170.550] start B: 35
+[170.552] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[170.552] format listeners: 0 0
+[170.603] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[170.657] DAC mixable again: 0
+[170.661] hog released: 0, owner -1
+[170.665] virtual device scalar reset: 0
+[170.810] default output restored to AudioQuest DragonFly Black v1.5: 0
+[173.852] default output after 3 s: AudioQuest DragonFly Black v1.5
+[173.855] detached (pid 0): 0
+[173.858] setup failed; staying stepped aside, Music plays to the DAC directly; no take-back for 30 s
+[174.019] decoder: 44100.0 Hz (lossless)
+[174.021] new track Urban Disco: decoder 44100.0 Hz lossless (seen -0.848 s before Playing), DAC 44100 Hz
+[174.022] playerInfo: Paused Urban Disco
+[174.034] playerInfo: Playing Urban Disco
+[184.654] 44100 Hz fill 327168 scalar 1.000000000 under 4608 over 0

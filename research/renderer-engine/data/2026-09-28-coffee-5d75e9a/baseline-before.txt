@@ -1,0 +1,3 @@
+AudioQuest DragonFly Black v1.5 | DEFAULT rate=48000 hog=-1 vol- e0=-16.0dB mute=e0=0 | int24 mixable 48000 | AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1
+MacBook Air Speakers | SYSTEM rate=44100 hog=-1 vol- e0=-21.5dB mute=e0=0 | float32 mixable 44100 | BuiltInSpeakerDevice
+Loopback Audio | rate=48000 hog=-1 vol- e0=0.0dB mute=e0=0 | float32 mixable 48000 | com.rogueamoeba.Loopback:B84C2883-09E2-4BFA-979B-9935F80B4D6D

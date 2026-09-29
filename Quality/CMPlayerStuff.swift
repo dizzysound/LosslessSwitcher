@@ -14,6 +14,10 @@ struct CMPlayerStats {
     let bitDepth: Int
     let date: Date
     let priority: Int
+    /// For display: the source's real bit depth when the file says (nil when guessed), and whether
+    /// it's lossy. bitDepth stays the value format matching uses.
+    var sourceBits: Int? = nil
+    var lossy = false
 }
 
 class CMPlayerParser {

@@ -283,8 +283,11 @@ static void LS_BlockUntilReleased(const char* inWhat)
 static bool									gStream_Input_IsActive			= true;
 static bool									gStream_Output_IsActive			= true;
 
-static const Float32						kVolume_MinDB					= -96.0;
-static const Float32						kVolume_MaxDB					= 6.0;
+//	The volume control applies no gain: the audio passes through at unity. It only mirrors the DAC's
+//	level (the renderer forwards it to the DAC's own control), so its range matches the renderer's
+//	mapping, linear in dB from 0 dB (unity, the most it can read) down to -64 dB.
+static const Float32						kVolume_MinDB					= -64.0;
+static const Float32						kVolume_MaxDB					= 0.0;
 static Float32								gVolume_Input_Master_Value		= 1.0;
 static Float32								gVolume_Output_Master_Value		= 1.0;
 
@@ -3877,9 +3880,7 @@ static OSStatus	NullAudio_GetControlPropertyData(AudioServerPlugInDriverRef inDr
 					*((Float32*)outData) = (inObjectID == kObjectID_Volume_Input_Master) ? gVolume_Input_Master_Value : gVolume_Output_Master_Value;
 					pthread_mutex_unlock(&gPlugIn_StateMutex);
 					
-					//	Note that we square the scalar value before converting to dB so as to
-					//	provide a better curve for the slider
-					*((Float32*)outData) *= *((Float32*)outData);
+					//	linear in dB (the renderer's mapping)
 					*((Float32*)outData) = kVolume_MinDB + (*((Float32*)outData) * (kVolume_MaxDB - kVolume_MinDB));
 					
 					//	report how much we wrote
@@ -3908,9 +3909,7 @@ static OSStatus	NullAudio_GetControlPropertyData(AudioServerPlugInDriverRef inDr
 						*((Float32*)outData) = 1.0;
 					}
 					
-					//	Note that we square the scalar value before converting to dB so as to
-					//	provide a better curve for the slider
-					*((Float32*)outData) *= *((Float32*)outData);
+					//	linear in dB (the renderer's mapping)
 					*((Float32*)outData) = kVolume_MinDB + (*((Float32*)outData) * (kVolume_MaxDB - kVolume_MinDB));
 					
 					//	report how much we wrote
@@ -3931,11 +3930,9 @@ static OSStatus	NullAudio_GetControlPropertyData(AudioServerPlugInDriverRef inDr
 						*((Float32*)outData) = kVolume_MaxDB;
 					}
 					
-					//	Note that we square the scalar value before converting to dB so as to
-					//	provide a better curve for the slider. We undo that here.
+					//	linear in dB (the renderer's mapping)
 					*((Float32*)outData) = *((Float32*)outData) - kVolume_MinDB;
 					*((Float32*)outData) /= kVolume_MaxDB - kVolume_MinDB;
-					*((Float32*)outData) = sqrtf(*((Float32*)outData));
 					
 					//	report how much we wrote
 					*outDataSize = sizeof(Float32);
@@ -4236,11 +4233,9 @@ static OSStatus	NullAudio_SetControlPropertyData(AudioServerPlugInDriverRef inDr
 					{
 						theNewVolume = kVolume_MaxDB;
 					}
-					//	Note that we square the scalar value before converting to dB so as to
-					//	provide a better curve for the slider. We undo that here.
+					//	linear in dB (the renderer's mapping)
 					theNewVolume = theNewVolume - kVolume_MinDB;
 					theNewVolume /= kVolume_MaxDB - kVolume_MinDB;
-					theNewVolume = sqrtf(theNewVolume);
 					pthread_mutex_lock(&gPlugIn_StateMutex);
 					if(inObjectID == kObjectID_Volume_Input_Master)
 					{

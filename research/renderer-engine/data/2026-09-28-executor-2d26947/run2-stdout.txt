@@ -1,0 +1,57 @@
+[MediaRemoteController] stopped an orphaned MediaRemoteAdapter helper, pid 98408: 0
+[Exclusive Mode] recovering the output after an unclean exit: DAC MT 48, mixable 0, default output (was MacBook Pro Speakers) 0
+track Billy Came Back-This Is Lorelei-The Singer in My Band Billy Came Back
+[Exclusive Mode] virtual-device engine: start requested
+[Exclusive Mode] [  0.000] engine started (virtual device)
+[Exclusive Mode] [  0.000] at launch: recovering the output after an unclean exit: DAC MT 48, mixable 0, default output (was MacBook Pro Speakers) 0
+[Exclusive Mode] [  0.093] microphone permission: granted
+[Exclusive Mode] [  0.104] attached (pid 5308): 0
+[Exclusive Mode] [  0.107] default output -> virtual device: 0
+[Exclusive Mode] [  0.111] virtual device 159 @ 96000.0 Hz; scalar reset 0
+[TrackBoundary] stream without PersistentID; leaving it to the regular path
+[Exclusive Mode] [  0.118] A: output streams off: 0
+[Exclusive Mode] [  0.147] start A: 0
+[Exclusive Mode] [  0.149] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 96000.0 Hz, hog owner -1, my pid 5308
+track Billy Came Back-This Is Lorelei-The Singer in My Band Billy Came Back
+[Exclusive Mode] [  0.429] hog DAC: 0, hogged
+[Exclusive Mode] [  0.449] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[Exclusive Mode] [  0.452] B: DAC inputs off: 0
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [  0.504] start B: 0
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+same track, ignore cache
+[TrackBoundary] device keeps stopping (5 starts); restarting silent output
+same track, ignore cache
+[TrackBoundary] ready after 6 starts, 1 keep-alive restarts
+[Exclusive Mode] [  4.175] DAC ready after 3.670 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[Exclusive Mode] [  4.176] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[Exclusive Mode] [  4.176] format listeners: 0 0
+[Exclusive Mode] [  4.177] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[Exclusive Mode] [  4.187] playerInfo: Playing Billy Came Back
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [  4.278] new track Billy Came Back: no decoder line for it yet; holding at the gate until one comes (3 s)
+[Exclusive Mode] [  4.278] decoder: 96000.0 Hz (lossless)
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [  4.278] new track Billy Came Back: decoder 96000.0 Hz lossless (seen -0.434 s before Playing), DAC 96000 Hz
+[Exclusive Mode] [  4.278] playerInfo: Paused Billy Came Back
+[Exclusive Mode] [  4.285] playerInfo: Paused Billy Came Back
+[Exclusive Mode] [  4.285] playerInfo: Playing Billy Came Back
+[Exclusive Mode] [  4.285] gate released (same track) < 10 ms after the output started
+track Billy Came Back-This Is Lorelei-The Singer in My Band Billy Came Back
+[Exclusive Mode] [  4.792] clock lock: phase0 338033.395, fill 2048, cycles A 875 B 438
+same track, ignore cache
+same track, ignore cache
+same track, ignore cache
+[Exclusive Mode] [ 34.293] 96000 Hz fill 2048 scalar 0.999995582 under 0 over 0
+[Exclusive Mode] [ 48.133] decoder: 96000.0 Hz (lossless)
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [ 49.088] DAC mixable again: 0
+[Exclusive Mode] [ 49.292] hog released: 0, owner -1
+[Exclusive Mode] [ 49.295] virtual device scalar reset: 0
+[Exclusive Mode] [ 49.303] default output restored to MacBook Pro Speakers: 0
+[Exclusive Mode] [ 52.322] default output after 3 s: MacBook Pro Speakers
+[Exclusive Mode] [ 52.324] detached (pid 0): 0
+[Exclusive Mode] [ 52.335] engine stopped

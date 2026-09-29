@@ -1,0 +1,443 @@
+[  0.000] engine started (virtual device)
+[  0.089] microphone permission: not determined; asking, and leaving the output alone until it is answered
+[  1.330] microphone permission granted
+[  1.359] attached (pid 17891): 0
+[  2.250] default output -> virtual device: 0
+[  2.252] virtual device 129 @ 88200.0 Hz; scalar reset 0
+[  2.265] A: output streams off: 0
+[  2.304] start A: 0
+[  2.305] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 88200.0 Hz, hog owner -1, my pid 17891
+[  2.466] hog DAC: 0, hogged
+[  2.478] DAC format -> 88200.0 Hz 16 ch 32 bit flags 76: 0
+[  2.483] B: DAC inputs off: 0
+[  2.534] start B: 0
+[  5.903] DAC ready after 3.369 s: phys 88200.0 Hz 16 ch 32 bit flags 76 / virt 88200.0 Hz 16 ch 32 bit flags 76
+[  5.904] B writes int32 in 4 bytes, channels 1/2 (virtual format 88200.0 Hz 16 ch 32 bit flags 76)
+[  5.904] format listeners: 0 0
+[  5.904] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[  5.910] playerInfo: Playing Split Decision
+[  6.029] new track Split Decision (file header, no decoder line): decoder 88200.0 Hz lossless (seen 0.000 s before Playing), DAC 88200 Hz
+[  6.029] gate released (same rate) < 10 ms after the output started
+[  6.029] playerInfo: Paused Split Decision
+[  6.036] playerInfo: Paused Split Decision
+[  6.036] playerInfo: Playing Split Decision
+[  6.036] gate released (same track) < 10 ms after the output started
+[  6.553] clock lock: phase0 275175.409, fill 4608, cycles A 737 B 357
+[ 29.501] decoder: 96000.0 Hz 24-bit (lossless)
+[ 29.511] next track needs 96000 Hz; 8.44 s left, arming the boundary latch in 6.94 s
+[ 36.054] 88200 Hz fill 4608 scalar 1.000001540 under 0 over 0
+[ 36.455] boundary latch armed at in frame 3014656
+[ 37.849] latched at ring 3136709 (fill 4096)
+[ 38.125] playerInfo: Playing Anti-Hero
+[ 38.126] new track Anti-Hero: decoder 96000.0 Hz lossless (seen 8.629 s before Playing), DAC 88200 Hz -> switch to 96000
+[ 38.195] switch 1: Anti-Hero needs 96000 Hz (DAC 88200); latched at the old track's end; paused; boundary reached 0.069 s
+[ 38.209] virtual device -> 96000: 0
+[ 38.211] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[ 40.184]   DAC ready after 1.973 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[ 40.185] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[ 40.185] playerInfo: Playing Anti-Hero
+[ 40.185] playerInfo: Playing Anti-Hero
+[ 40.185] playerInfo: Paused Anti-Hero
+[ 40.236]   rewound to 0.000 (was 0.272, played ~0.056 s), play; switch 1 done 2.110 s after the request
+[ 40.237] clock lock: phase0 123827.640, fill 2048, cycles A 6534 B 5951
+[ 40.271] playerInfo: Paused Anti-Hero
+[ 40.284] playerInfo: Playing Anti-Hero
+[ 66.061] 96000 Hz fill 2048 scalar 0.999993287 under 0 over 0
+[ 96.071] 96000 Hz fill 2048 scalar 0.999996292 under 0 over 0
+[126.079] 96000 Hz fill 2048 scalar 0.999994511 under 0 over 0
+[156.089] 96000 Hz fill 1536 scalar 0.999994928 under 0 over 0
+[186.095] 96000 Hz fill 2048 scalar 0.999995050 under 0 over 0
+[216.106] 96000 Hz fill 1536 scalar 0.999993737 under 0 over 0
+[240.658] playerInfo: Playing Great Balls Of Fire
+[240.774] new track Great Balls Of Fire (file header, no decoder line): decoder 96000.0 Hz lossless (seen 0.000 s before Playing), DAC 96000 Hz
+[246.109] 96000 Hz fill 2048 scalar 0.999992392 under 0 over 0
+[276.109] 96000 Hz fill 2048 scalar 0.999995920 under 0 over 0
+[306.117] 96000 Hz fill 2048 scalar 0.999994053 under 0 over 0
+[336.118] 96000 Hz fill 2048 scalar 0.999994465 under 0 over 0
+[352.079] playerInfo: Playing Wild Wild Life (Extended Mix)
+[352.175] new track Wild Wild Life (Extended Mix) (file header, no decoder line): decoder 96000.0 Hz lossless (seen 0.000 s before Playing), DAC 96000 Hz
+[366.121] 96000 Hz fill 1536 scalar 0.999995858 under 0 over 0
+[396.125] 96000 Hz fill 2048 scalar 0.999997707 under 0 over 0
+[426.132] 96000 Hz fill 2048 scalar 0.999993858 under 0 over 0
+[456.140] 96000 Hz fill 2048 scalar 0.999993214 under 0 over 0
+[486.148] 96000 Hz fill 2048 scalar 0.999993251 under 0 over 0
+[516.150] 96000 Hz fill 2048 scalar 0.999997107 under 0 over 0
+[546.157] 96000 Hz fill 2048 scalar 0.999994486 under 0 over 0
+[576.167] 96000 Hz fill 2048 scalar 0.999996078 under 0 over 0
+[606.173] 96000 Hz fill 2048 scalar 0.999994068 under 0 over 0
+[636.181] 96000 Hz fill 2048 scalar 0.999995358 under 0 over 0
+[666.187] 96000 Hz fill 2048 scalar 0.999992448 under 0 over 0
+[696.189] 96000 Hz fill 2048 scalar 0.999993123 under 0 over 0
+[699.768] decoder: 48000.0 Hz 24-bit (lossless)
+[699.777] next track needs 48000 Hz; 11.94 s left, arming the boundary latch in 10.44 s
+[710.231] boundary latch armed at in frame 67667968
+[711.759] latched at ring 67641104 (fill 2048)
+[711.927] playerInfo: Playing The Parting Glass
+[711.928] new track The Parting Glass: decoder 48000.0 Hz lossless (seen 12.160 s before Playing), DAC 96000 Hz -> switch to 48000
+[711.999] switch 2: The Parting Glass needs 48000 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 0.072 s
+[712.115] virtual device -> 48000: 0
+[712.118] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[713.814]   DAC ready after 1.695 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[713.815] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[713.815] playerInfo: Playing The Parting Glass
+[713.815] playerInfo: Paused The Parting Glass
+[713.870]   rewound to 0.000 (was 0.162, played ~0.053 s), play; switch 2 done 1.943 s after the request
+[713.911] playerInfo: Paused The Parting Glass
+[713.912] playerInfo: Playing The Parting Glass
+[714.383] clock lock: phase0 48710.231, fill 1536, cycles A 132710 B 132056
+[726.196] 48000 Hz fill 2048 scalar 0.999989157 under 0 over 0
+[756.205] 48000 Hz fill 1536 scalar 0.999993247 under 0 over 0
+[767.602] playerInfo: Paused The Parting Glass
+[786.216] 48000 Hz fill 2048 scalar 0.999993301 under 0 over 0
+[816.223] 48000 Hz fill 2048 scalar 0.999994528 under 0 over 0
+[821.781] playerInfo: Playing The Parting Glass
+[846.231] 48000 Hz fill 1536 scalar 0.999993665 under 0 over 0
+[876.234] 48000 Hz fill 2048 scalar 0.999996430 under 0 over 0
+[878.934] playerInfo: Paused The Parting Glass
+[906.239] 48000 Hz fill 2048 scalar 0.999995306 under 0 over 0
+[936.248] 48000 Hz fill 1536 scalar 0.999996887 under 0 over 0
+[938.939] Music idle 60 s: stepping aside (DAC and default output given back)
+[938.950] DAC mixable again: 0
+[939.053] hog released: 0, owner -1
+[939.055] virtual device scalar reset: 0
+[939.063] default output restored to MT 48: 0
+[939.120] coreaudiod put the virtual device back as the default; restoring again: 0
+[939.180] coreaudiod put the virtual device back as the default; restoring again: 0
+[942.113] default output after 3 s: MT 48 (2 re-restores)
+[942.114] detached (pid 0): 0
+[966.258] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[996.261] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1026.263] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1056.268] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1086.269] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1116.278] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1146.285] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1176.290] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1206.294] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1236.302] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1266.309] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1296.314] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1326.318] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1356.324] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1386.328] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1416.334] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1446.339] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1476.348] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1506.350] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1536.350] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1566.362] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1596.370] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1626.380] 48000 Hz fill 1536 scalar 0.999993030 under 0 over 0
+[1637.491] inter-sample overshoot protection on: output -3.0 dB, not bit-perfect
+[1650.806] decoder: 48000.0 Hz 24-bit (lossless)
+[1650.903] playerInfo: Playing The Parting Glass
+[1650.903] playback began while stepped aside (The Parting Glass); taking the output back
+[1650.917] playerInfo: Playing The Parting Glass
+[1650.970] playerInfo: Paused The Parting Glass
+[1650.984] attached (pid 17891): 0
+[1650.988] default output -> virtual device: 0
+[1650.991] virtual device 129 @ 48000.0 Hz; scalar reset 0
+[1650.997] A: output streams off: 0
+[1651.033] start A: 0
+[1651.033] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 44100.0 Hz, hog owner -1, my pid 17891
+[1651.153] hog DAC: 0, hogged
+[1651.265] virtual device -> 44100: 0
+[1651.266] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[1651.270] B: DAC inputs off: 0
+[1651.359] start B: 0
+[1652.130] DAC ready after 0.770 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[1652.130] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[1652.130] format listeners: 0 0
+[1652.131] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[1652.140] switch 3: The Parting Glass needs 48000 Hz (DAC 44100); not latched: cut at the play position; paused; boundary reached 0.008 s
+[1652.252] virtual device -> 48000: 0
+[1652.255] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[1654.450]   DAC ready after 2.195 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[1654.451] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[1654.511]   rewound to 110.640 (was 110.800, played ~0.060 s), play; switch 3 done 2.380 s after the request
+[1654.524] playerInfo: Paused The Parting Glass
+[1654.524] playerInfo: Playing The Parting Glass
+[1655.027] clock lock: phase0 48967.162, fill 2048, cycles A 154097 B 153319
+[1656.381] 48000 Hz fill 1536 scalar 0.999989634 under 0 over 0
+[1686.386] 48000 Hz fill 1536 scalar 0.999995880 under 0 over 0
+[1703.593] playerInfo: Paused The Parting Glass
+[1716.389] 48000 Hz fill 1536 scalar 0.999996361 under 0 over 0
+[1746.391] 48000 Hz fill 1536 scalar 0.999995624 under 0 over 0
+[1763.598] Music idle 60 s: stepping aside (DAC and default output given back)
+[1763.618] DAC mixable again: 0
+[1763.885] hog released: 0, owner -1
+[1763.887] virtual device scalar reset: 0
+[1763.902] default output restored to MT 48: 0
+[1766.931] default output after 3 s: MT 48
+[1766.932] detached (pid 0): 0
+[1776.391] 48000 Hz fill 1536 scalar 0.999992172 under 0 over 0
+[1789.741] inter-sample overshoot protection off: output unchanged
+[1791.997] playerInfo: Playing The Parting Glass
+[1791.997] playback began while stepped aside (The Parting Glass); taking the output back
+[1792.013] playerInfo: Playing The Parting Glass
+[1792.065] playerInfo: Paused The Parting Glass
+[1792.075] attached (pid 17891): 0
+[1792.080] default output -> virtual device: 0
+[1792.083] virtual device 129 @ 48000.0 Hz; scalar reset 0
+[1792.094] A: output streams off: 0
+[1792.122] start A: 0
+[1792.123] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 48000.0 Hz, hog owner -1, my pid 17891
+[1792.307] hog DAC: 0, hogged
+[1792.321] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[1792.328] B: DAC inputs off: 0
+[1792.380] start B: 0
+[1793.203] DAC ready after 0.823 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[1793.204] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[1793.204] format listeners: 0 0
+[1793.204] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[1793.286] switch 4: The Parting Glass restarts at 48000 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.017 s
+[1793.325]   rewound to 159.541 (was 159.696, played ~0.055 s), play; switch 4 done 0.056 s after the request
+[1793.338] playerInfo: Paused The Parting Glass
+[1793.363] playerInfo: Playing The Parting Glass
+[1793.847] clock lock: phase0 28413.188, fill 1536, cycles A 164438 B 163610
+[1806.394] 48000 Hz fill 1536 scalar 0.999994846 under 0 over 0
+[1836.405] 48000 Hz fill 2048 scalar 0.999994977 under 0 over 0
+[1866.412] 48000 Hz fill 2048 scalar 0.999994263 under 0 over 0
+[1870.092] decoder: 192000.0 Hz 24-bit (lossless)
+[1870.102] next track needs 192000 Hz; 11.39 s left, arming the boundary latch in 9.89 s
+[1880.000] boundary latch armed at in frame 88327168
+[1881.556] latched at ring 88043819 (fill 1536)
+[1882.092] playerInfo: Playing We Go Together
+[1882.093] new track We Go Together: decoder 192000.0 Hz lossless (seen 12.002 s before Playing), DAC 48000 Hz -> switch to 192000
+[1882.127] switch 5: We Go Together needs 192000 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.034 s
+[1882.237] virtual device -> 192000: 0
+[1882.241] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[1885.518]   DAC ready after 3.276 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[1885.518] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[1885.518] playerInfo: Playing We Go Together
+[1885.518] playerInfo: Paused We Go Together
+[1885.553]   rewound to 0.000 (was 0.476, played ~0.056 s), play; switch 5 done 3.460 s after the request
+[1885.554] clock lock: phase0 494505.745, fill 2048, cycles A 173894 B 172345
+[1885.590] playerInfo: Paused We Go Together
+[1885.602] playerInfo: Playing We Go Together
+[1896.414] 192000 Hz fill 2048 scalar 0.999989249 under 0 over 0
+[1926.418] 192000 Hz fill 2048 scalar 0.999989524 under 0 over 0
+[1956.420] 192000 Hz fill 2048 scalar 0.999998085 under 0 over 0
+[1986.428] 192000 Hz fill 2048 scalar 0.999987927 under 0 over 0
+[2016.434] 192000 Hz fill 2048 scalar 0.999990149 under 0 over 0
+[2046.442] 192000 Hz fill 1536 scalar 0.999996952 under 0 over 0
+[2073.955] decoder: 96000.0 Hz 24-bit (lossless)
+[2073.968] next track needs 96000 Hz; 9.15 s left, arming the boundary latch in 7.65 s
+[2076.450] 192000 Hz fill 2048 scalar 0.999986931 under 0 over 0
+[2081.620] boundary latch armed at in frame 126674944
+[2081.632] latched at ring 125720960 (fill 2048)
+[2083.400] playerInfo: Playing Departure of the guests (Clara and the Nutcracker)
+[2083.401] new track Departure of the guests (Clara and the Nutcracker): decoder 96000.0 Hz lossless (seen 9.437 s before Playing), DAC 192000 Hz -> switch to 96000
+[2083.441] switch 6: Departure of the guests (Clara and the Nutcracker) needs 96000 Hz (DAC 192000); latched at the old track's end; paused; boundary reached 0.040 s
+[2083.555] virtual device -> 96000: 0
+[2083.556] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[2092.834]   DAC ready after 9.277 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[2092.834] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[2092.834] playerInfo: Playing Departure of the guests (Clara and the Nutcracker)
+[2092.834] playerInfo: Paused Departure of the guests (Clara and the Nutcracker)
+[2092.874]   rewound to 0.000 (was 0.226, played ~0.059 s), play; switch 6 done 9.473 s after the request
+[2092.911] playerInfo: Paused Departure of the guests (Clara and the Nutcracker)
+[2092.923] playerInfo: Playing Departure of the guests (Clara and the Nutcracker)
+[2093.384] clock lock: phase0 824467.386, fill 2048, cycles A 249943 B 247420
+[2106.459] 96000 Hz fill 1536 scalar 0.999995894 under 0 over 0
+[2136.469] 96000 Hz fill 1536 scalar 0.999993283 under 0 over 0
+[2166.478] 96000 Hz fill 2048 scalar 0.999994715 under 0 over 0
+[2196.481] 96000 Hz fill 1536 scalar 0.999994989 under 0 over 0
+[2226.483] 96000 Hz fill 2048 scalar 0.999994200 under 0 over 0
+[2256.485] 96000 Hz fill 2048 scalar 0.999993881 under 0 over 0
+[2286.494] 96000 Hz fill 2048 scalar 0.999993047 under 0 over 0
+[2316.497] 96000 Hz fill 1536 scalar 0.999994645 under 0 over 0
+[2346.500] 96000 Hz fill 2048 scalar 0.999994505 under 0 over 0
+[2376.507] 96000 Hz fill 2048 scalar 0.999994816 under 0 over 0
+[2406.515] 96000 Hz fill 1536 scalar 0.999993571 under 0 over 0
+[2436.518] 96000 Hz fill 2048 scalar 0.999994910 under 0 over 0
+[2466.524] 96000 Hz fill 2048 scalar 0.999995264 under 0 over 0
+[2478.052] decoder: 88200.0 Hz 24-bit (lossless)
+[2478.065] next track needs 88200 Hz; 10.82 s left, arming the boundary latch in 9.32 s
+[2487.399] boundary latch armed at in frame 165795840
+[2488.919] latched at ring 164091888 (fill 2048)
+[2489.176] playerInfo: Playing Evangelista: Und speieten ihn an
+[2489.177] new track Evangelista: Und speieten ihn an: decoder 88200.0 Hz lossless (seen 11.122 s before Playing), DAC 96000 Hz -> switch to 88200
+[2489.195] switch 7: Evangelista: Und speieten ihn an needs 88200 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 0.018 s
+[2489.309] virtual device -> 88200: 0
+[2489.310] DAC format -> 88200.0 Hz 16 ch 32 bit flags 76: 0
+[2497.591]   DAC ready after 8.280 s: phys 88200.0 Hz 16 ch 32 bit flags 76 / virt 88200.0 Hz 16 ch 32 bit flags 76
+[2497.592] B writes int32 in 4 bytes, channels 1/2 (virtual format 88200.0 Hz 16 ch 32 bit flags 76)
+[2497.592] playerInfo: Playing Evangelista: Und speieten ihn an
+[2497.592] playerInfo: Paused Evangelista: Und speieten ihn an
+[2497.642]   rewound to 0.000 (was 0.207, played ~0.057 s), play; switch 7 done 8.465 s after the request
+[2497.669] 88200 Hz fill 1536 scalar 0.999994978 under 0 over 0
+[2497.682] playerInfo: Paused Evangelista: Und speieten ihn an
+[2497.682] playerInfo: Playing Evangelista: Und speieten ihn an
+[2498.143] clock lock: phase0 660817.021, fill 2048, cycles A 325649 B 322319
+[2501.894] decoder: 96000.0 Hz 24-bit (lossless)
+[2501.907] next track needs 96000 Hz; 9.97 s left, arming the boundary latch in 8.47 s
+[2505.484] decoder: 96000.0 Hz 24-bit (lossless)
+[2505.716] playerInfo: Playing Organ Chorale - O Lamm Gottes unschuldig, BWV 618
+[2505.717] new track Organ Chorale - O Lamm Gottes unschuldig, BWV 618: decoder 96000.0 Hz lossless (seen 0.243 s before Playing), DAC 88200 Hz -> switch to 96000
+[2505.784] playerInfo: Playing Organ Chorale - O Lamm Gottes unschuldig, BWV 618
+[2505.790] switch 8: Organ Chorale - O Lamm Gottes unschuldig, BWV 618 needs 96000 Hz (DAC 88200); not latched: cut at the play position; paused; boundary reached 0.073 s
+[2506.004] virtual device -> 96000: 0
+[2506.005] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[2509.795]   DAC ready after 3.789 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[2509.796] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[2509.796] playerInfo: Paused Organ Chorale - O Lamm Gottes unschuldig, BWV 618
+[2509.844]   rewound to 0.000 (was 0.207, played ~0.052 s), play; switch 8 done 4.127 s after the request
+[2509.845] clock lock: phase0 287906.056, fill 1536, cycles A 327668 B 323961
+[2509.883] playerInfo: Paused Organ Chorale - O Lamm Gottes unschuldig, BWV 618
+[2509.883] playerInfo: Playing Organ Chorale - O Lamm Gottes unschuldig, BWV 618
+[2521.035] playerInfo: Stopped 
+[2521.036] playerInfo: Playing 
+[2521.036] playerInfo without a name or PersistentID: not a track; gate held
+[2521.094] playerInfo: Playing 
+[2521.094] playerInfo without a name or PersistentID: not a track; gate held
+[2521.252] playerInfo: Playing Nothing to Live For
+[2521.324] new track Nothing to Live For: no decoder line for it yet; holding at the gate until one comes (3 s)
+[2521.353] playerInfo: Playing Nothing to Live For
+[2522.440] decoder: 48000.0 Hz (lossy)
+[2522.442] new track Nothing to Live For: decoder 48000.0 Hz lossy (seen -1.178 s before Playing), DAC 96000 Hz -> switch to 48000
+[2522.480] switch 9: Nothing to Live For needs 48000 Hz (DAC 96000); not latched: cut at the play position; paused; boundary reached 0.039 s
+[2522.694] virtual device -> 48000: 0
+[2522.695] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[2524.495]   DAC ready after 1.799 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[2524.499] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[2524.499] playerInfo: Playing Nothing to Live For
+[2524.499] playerInfo: Paused Nothing to Live For
+[2524.554]   rewound to 0.000 (was 0.000, played ~1.240 s), play; switch 9 done 2.113 s after the request
+[2524.566] decoder: 48000.0 Hz (lossless)
+[2524.566] playerInfo: Paused Nothing to Live For
+[2524.579] playerInfo: Playing Nothing to Live For
+[2525.063] clock lock: phase0 48386.966, fill 1536, cycles A 330270 B 326510
+[2527.644] 48000 Hz fill 1536 scalar 0.999986829 under 0 over 0
+[2557.653] 48000 Hz fill 1536 scalar 0.999994959 under 0 over 0
+[2587.660] 48000 Hz fill 1536 scalar 0.999994074 under 0 over 0
+[2617.666] 48000 Hz fill 1536 scalar 0.999992276 under 0 over 0
+[2647.670] 48000 Hz fill 1536 scalar 0.999992236 under 0 over 0
+[2677.678] 48000 Hz fill 1536 scalar 0.999996608 under 0 over 0
+[2707.682] 48000 Hz fill 1536 scalar 0.999995461 under 0 over 0
+[2737.686] 48000 Hz fill 1536 scalar 0.999993543 under 0 over 0
+[2767.695] 48000 Hz fill 1536 scalar 0.999994816 under 0 over 0
+[2797.697] 48000 Hz fill 1536 scalar 0.999996086 under 0 over 0
+[2806.951] playerInfo: Playing Roboticist
+[2806.952] new track Roboticist: decoder 48000.0 Hz lossless (seen 282.386 s before Playing), DAC 48000 Hz
+[2807.019] playerInfo: Playing Roboticist
+[2827.704] 48000 Hz fill 1536 scalar 0.999992781 under 0 over 0
+[2857.715] 48000 Hz fill 1536 scalar 0.999995993 under 0 over 0
+[2887.720] 48000 Hz fill 1536 scalar 0.999995694 under 0 over 0
+[2917.732] 48000 Hz fill 1536 scalar 0.999998556 under 0 over 0
+[2947.732] 48000 Hz fill 1536 scalar 0.999992807 under 0 over 0
+[2977.740] 48000 Hz fill 1536 scalar 0.999991540 under 0 over 0
+[3007.749] 48000 Hz fill 1536 scalar 0.999994402 under 0 over 0
+[3018.910] playerInfo: Playing The Vanishing
+[3018.956] new track The Vanishing: no decoder line for it yet; playing on at 48000 Hz until one comes (3 s)
+[3021.961] no decoder line for The Vanishing within 3 s; playing at 48000 Hz
+[3037.749] 48000 Hz fill 1536 scalar 0.999994172 under 0 over 0
+[3067.757] 48000 Hz fill 1536 scalar 0.999991893 under 0 over 0
+[3097.762] 48000 Hz fill 1536 scalar 0.999996006 under 0 over 0
+[3127.771] 48000 Hz fill 1536 scalar 0.999994824 under 0 over 0
+[3157.774] 48000 Hz fill 1536 scalar 0.999993505 under 0 over 0
+[3187.775] 48000 Hz fill 1536 scalar 0.999992514 under 0 over 0
+[3217.776] 48000 Hz fill 1536 scalar 0.999996048 under 0 over 0
+[3247.777] 48000 Hz fill 1536 scalar 0.999993337 under 0 over 0
+[3277.788] 48000 Hz fill 1536 scalar 0.999992411 under 0 over 0
+[3307.789] 48000 Hz fill 1536 scalar 0.999996011 under 0 over 0
+[3337.800] 48000 Hz fill 1536 scalar 0.999995662 under 0 over 0
+[3357.705] decoder: 96000.0 Hz (lossless)
+[3357.717] next track needs 96000 Hz; 64.61 s left, arming the boundary latch in 0.00 s and again in 63.11 s
+[3357.718] boundary latch armed at in frame 209065472
+[3362.726] no boundary within 5 s; disarmed
+[3367.808] 48000 Hz fill 1536 scalar 0.999990689 under 0 over 0
+[3397.814] 48000 Hz fill 1536 scalar 0.999994539 under 0 over 0
+[3420.839] pre-roll came early; arming the boundary latch again
+[3420.839] boundary latch armed at in frame 212094976
+[3422.139] latched at ring 209143365 (fill 1536)
+[3422.407] playerInfo: Playing I Like Train Songs
+[3422.407] new track I Like Train Songs: decoder 96000.0 Hz lossless (seen 64.700 s before Playing), DAC 48000 Hz -> switch to 96000
+[3422.418] switch 10: I Like Train Songs needs 96000 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.011 s
+[3422.631] virtual device -> 96000: 0
+[3422.632] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[3429.410]   DAC ready after 6.777 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[3429.414] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[3429.414] playerInfo: Playing I Like Train Songs
+[3429.414] decoder: 48000.0 Hz (lossless)
+[3429.414] decoder: 96000.0 Hz (lossless)
+[3429.414] playerInfo: Paused I Like Train Songs
+[3429.472]   rewound to 0.000 (was 0.092, played ~0.056 s), play; switch 10 done 7.065 s after the request
+[3429.473] clock lock: phase0 575199.658, fill 1536, cycles A 415644 B 411152
+[3429.543] 96000 Hz fill 1536 scalar 0.999992625 under 0 over 0
+[3429.555] decoder: 48000.0 Hz (lossless)
+[3429.555] decoder: 96000.0 Hz (lossless)
+[3429.555] decoder: 48000.0 Hz (lossless)
+[3429.555] playerInfo: Paused I Like Train Songs
+[3429.556] decoder: 96000.0 Hz (lossless)
+[3429.556] playerInfo: Playing I Like Train Songs
+[3459.473] 96000 Hz fill 2048 scalar 0.999995491 under 0 over 0
+[3489.480] 96000 Hz fill 1536 scalar 0.999995150 under 0 over 0
+[3519.480] 96000 Hz fill 1536 scalar 0.999994414 under 0 over 0
+[3549.490] 96000 Hz fill 1536 scalar 0.999994451 under 0 over 0
+[3579.496] 96000 Hz fill 1536 scalar 0.999992873 under 0 over 0
+[3609.505] 96000 Hz fill 2048 scalar 0.999993777 under 0 over 0
+[3639.511] 96000 Hz fill 2048 scalar 0.999993979 under 0 over 0
+[3669.512] 96000 Hz fill 2048 scalar 0.999992646 under 0 over 0
+[3699.518] 96000 Hz fill 2048 scalar 0.999993285 under 0 over 0
+[3717.804] decoder: 48000.0 Hz (lossless)
+[3717.818] next track needs 48000 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[3717.818] boundary latch armed at in frame 240492544
+[3717.830] latched at ring 236846016 (fill 2048)
+[3717.927] playerInfo: Playing blurry
+[3717.927] new track blurry: decoder 48000.0 Hz lossless (seen 0.117 s before Playing), DAC 96000 Hz -> switch to 48000
+[3717.934] switch 11: blurry needs 48000 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 0.007 s
+[3718.151] virtual device -> 48000: 0
+[3718.152] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[3719.968]   DAC ready after 1.816 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[3719.968] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[3719.968] playerInfo: Playing blurry
+[3719.968] playerInfo: Paused blurry
+[3720.014]   rewound to 0.000 (was 0.062, played ~0.062 s), play; switch 11 done 2.086 s after the request
+[3720.068] decoder: 48000.0 Hz (lossless)
+[3720.068] playerInfo: Paused blurry
+[3720.068] playerInfo: Playing blurry
+[3720.523] clock lock: phase0 49346.646, fill 2048, cycles A 469967 B 465420
+[3729.523] 48000 Hz fill 2048 scalar 0.999988081 under 0 over 0
+[3759.525] 48000 Hz fill 2048 scalar 1.000000483 under 0 over 0
+[3789.527] 48000 Hz fill 1536 scalar 0.999995189 under 0 over 0
+[3819.529] 48000 Hz fill 2048 scalar 0.999990469 under 0 over 0
+[3820.375] decoder: 96000.0 Hz (lossless)
+[3820.388] next track needs 96000 Hz; 111.03 s left, arming the boundary latch in 0.00 s and again in 109.53 s
+[3820.388] boundary latch armed at in frame 245416448
+[3825.400] no boundary within 5 s; disarmed
+[3849.536] 48000 Hz fill 2048 scalar 0.999995059 under 0 over 0
+[3879.547] 48000 Hz fill 2048 scalar 0.999991870 under 0 over 0
+[3909.558] 48000 Hz fill 2048 scalar 0.999994757 under 0 over 0
+[3929.928] pre-roll came early; arming the boundary latch again
+[3929.928] boundary latch armed at in frame 250674688
+[3931.490] playerInfo: Playing I Get Noise
+[3931.491] new track I Get Noise: decoder 96000.0 Hz lossless (seen 111.118 s before Playing), DAC 48000 Hz -> switch to 96000
+[3931.506] switch 12: I Get Noise needs 96000 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.016 s
+[3931.723] virtual device -> 96000: 0
+[3931.727] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[3937.037]   DAC ready after 5.310 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[3937.037] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[3937.038] playerInfo: Playing I Get Noise
+[3937.038] decoder: 48000.0 Hz (lossless)
+[3937.038] decoder: 96000.0 Hz (lossless)
+[3937.038] playerInfo: Paused I Get Noise
+[3937.113]   rewound to 0.000 (was 0.147, played ~0.052 s), play; switch 12 done 5.622 s after the request
+[3937.114] clock lock: phase0 433620.124, fill 1536, cycles A 490723 B 485611
+[3937.170] decoder: 48000.0 Hz (lossless)
+[3937.170] decoder: 96000.0 Hz (lossless)
+[3937.170] decoder: 48000.0 Hz (lossless)
+[3937.170] decoder: 96000.0 Hz (lossless)
+[3937.170] playerInfo: Paused I Get Noise
+[3937.170] playerInfo: Playing I Get Noise
+[3939.562] 96000 Hz fill 1536 scalar 0.999989247 under 0 over 0
+[3969.568] 96000 Hz fill 1536 scalar 0.999993925 under 0 over 0
+[3999.578] 96000 Hz fill 1536 scalar 0.999996413 under 0 over 0
+[4019.453] decoder: 96000.0 Hz (lossless)
+[4020.412] DAC mixable again: 0
+[4020.778] hog released: 0, owner -1
+[4020.780] virtual device scalar reset: 0
+[4020.792] default output restored to MT 48: 0
+[4023.817] default output after 3 s: MT 48
+[4023.818] detached (pid 0): 0
+[4023.822] engine stopped

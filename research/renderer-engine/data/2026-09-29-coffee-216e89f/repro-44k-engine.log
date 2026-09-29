@@ -1,0 +1,151 @@
+[  0.000] log started 2026-09-29 05:26:54.334 -05:00; LosslessSwitcher 2.0 (build 24, commit 216e89f), com.dizzysound.LosslessSwitcher.dev; macOS Version 27.0 (Build 26A428), Mac14,2
+[  0.001] engine started (virtual device)
+[  0.009] microphone permission: not determined; asking, and leaving the output alone until it is answered
+[216.673] microphone permission granted
+[216.694] attached (pid 22725): 0
+[216.709] default output -> virtual device: 0
+[216.713] virtual device 145 @ 44100.0 Hz; scalar reset 0
+[216.793] A: output streams off: 0
+[216.869] start A: 0
+[216.870] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 22725
+[216.872] hog DAC: 0, hogged
+[216.877] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[216.878] B: DAC inputs off: 0
+[217.117] start B: 0
+[217.625] DAC ready after 0.508 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[217.626] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[217.626] format listeners: 0 0
+[217.649] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[223.849] decoder: 44100.0 Hz (lossless)
+[223.850] playerInfo: Playing In the Days of the Caveman
+[223.853] new track In the Days of the Caveman: decoder 44100.0 Hz lossless (seen 7.569 s before Playing), DAC 44100 Hz
+[223.853] decoder: 44100.0 Hz (lossless)
+[223.854] playerInfo: Playing She's My Baby
+[223.854] new track She's My Baby: the newest decoder line (44100 Hz, 7.500 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.854] decoder: 44100.0 Hz (lossy)
+[223.855] new track She's My Baby: decoder 44100.0 Hz lossy (seen -0.559 s before Playing), DAC 44100 Hz
+[223.855] playerInfo: Playing While We're Young
+[223.855] new track While We're Young: the newest decoder line (44100 Hz, 7.488 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.855] decoder: 44100.0 Hz (lossy)
+[223.857] new track While We're Young: decoder 44100.0 Hz lossy (seen -0.459 s before Playing), DAC 44100 Hz
+[223.857] playerInfo: Playing Hello Operator
+[223.857] new track Hello Operator: the newest decoder line (44100 Hz, 7.475 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.857] decoder: 44100.0 Hz (lossy)
+[223.858] new track Hello Operator: decoder 44100.0 Hz lossy (seen -0.508 s before Playing), DAC 44100 Hz
+[223.858] playerInfo: Playing Melt Steel (Part II)
+[223.858] new track Melt Steel (Part II): the newest decoder line (44100 Hz, 7.478 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.858] decoder: 44100.0 Hz (lossless)
+[223.858] new track Melt Steel (Part II): decoder 44100.0 Hz lossless (seen -2.343 s before Playing), DAC 44100 Hz
+[223.860] playerInfo: Playing Learning To Fly
+[223.860] new track Learning To Fly: decoder 44100.0 Hz lossless (seen 7.505 s before Playing), DAC 44100 Hz
+[223.860] decoder: 44100.0 Hz (lossy)
+[223.860] playerInfo: Playing Ooh! My Soul
+[223.860] new track Ooh! My Soul: the newest decoder line (44100 Hz, 7.477 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.860] decoder: 44100.0 Hz (lossy)
+[223.861] new track Ooh! My Soul: decoder 44100.0 Hz lossy (seen -0.448 s before Playing), DAC 44100 Hz
+[223.861] playerInfo: Playing Wachet auf, ruft uns die Stimme (BWV 140) - IV. Chorale
+[223.861] new track Wachet auf, ruft uns die Stimme (BWV 140) - IV. Chorale: the newest decoder line (44100 Hz, 7.507 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.861] decoder: 44100.0 Hz (lossy)
+[223.861] new track Wachet auf, ruft uns die Stimme (BWV 140) - IV. Chorale: decoder 44100.0 Hz lossy (seen -0.563 s before Playing), DAC 44100 Hz
+[223.861] playerInfo: Playing Thank You
+[223.861] new track Thank You: the newest decoder line (44100 Hz, 7.538 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.861] decoder: 44100.0 Hz (lossy)
+[223.862] new track Thank You: decoder 44100.0 Hz lossy (seen -0.385 s before Playing), DAC 44100 Hz
+[223.862] playerInfo: Playing I Need A Miracle
+[223.862] new track I Need A Miracle: the newest decoder line (44100 Hz, 7.552 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.862] decoder: 44100.0 Hz (lossy)
+[223.862] new track I Need A Miracle: decoder 44100.0 Hz lossy (seen -0.406 s before Playing), DAC 44100 Hz
+[223.862] playerInfo: Playing If I Break
+[223.862] new track If I Break: the newest decoder line (44100 Hz, 7.531 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.862] decoder: 44100.0 Hz (lossless)
+[223.863] new track If I Break: decoder 44100.0 Hz lossless (seen -0.425 s before Playing), DAC 44100 Hz
+[223.863] playerInfo: Playing Thumbing My Way
+[223.863] new track Thumbing My Way: the newest decoder line (44100 Hz, 7.519 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.863] decoder: 44100.0 Hz (lossless)
+[223.863] new track Thumbing My Way: decoder 44100.0 Hz lossless (seen -0.359 s before Playing), DAC 44100 Hz
+[223.863] playerInfo: Playing Comprachicos
+[223.863] new track Comprachicos: the newest decoder line (44100 Hz, 7.520 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.863] decoder: 44100.0 Hz (lossless)
+[223.864] new track Comprachicos: decoder 44100.0 Hz lossless (seen -0.361 s before Playing), DAC 44100 Hz
+[223.864] playerInfo: Playing Intruder
+[223.864] new track Intruder: the newest decoder line (44100 Hz, 7.507 s before Playing) may be the previous track's; waiting 1 s for its own
+[223.864] decoder: 48000.0 Hz (lossless)
+[223.865] new track Intruder: decoder 48000.0 Hz lossless (seen -0.470 s before Playing), DAC 44100 Hz -> switch to 48000
+[223.879] playerInfo: Paused You're The One
+[223.885] switch 1: Intruder needs 48000 Hz (DAC 44100); not latched: cut at the play position; paused; boundary reached 0.021 s
+[223.900] virtual device -> 48000: 0
+[223.901] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[225.174]   DAC ready after 1.272 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[225.175] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[225.175] playerInfo: Playing You're The One
+[225.223]   rewound to 0.000 (was 0.596, played ~96.972 s), play; switch 1 done 1.358 s after the request
+[225.223] playerInfo: Playing St. Stephen
+[225.223] new track St. Stephen: the newest decoder line (48000 Hz, 7.522 s before Playing) may be the previous track's; waiting 1 s for its own
+[225.223] decoder: 44100.0 Hz (lossy)
+[225.224] new track St. Stephen: decoder 44100.0 Hz lossy (seen -0.946 s before Playing), DAC 48000 Hz -> switch to 44100
+[225.248] playerInfo: Playing You're The One
+[225.254] switch 2: St. Stephen needs 44100 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.030 s
+[225.273] virtual device -> 44100: 0
+[225.274] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[226.546]   DAC ready after 1.269 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[226.547] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[226.548] playerInfo: Paused You're The One
+[226.588]   rewound to 0.000 (was 0.000, played ~90.338 s), play; switch 2 done 1.364 s after the request
+[226.588] playerInfo: Playing Who Are You
+[226.588] new track Who Are You: the newest decoder line (44100 Hz, 7.511 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.588] decoder: 44100.0 Hz (lossy)
+[226.590] new track Who Are You: decoder 44100.0 Hz lossy (seen -0.450 s before Playing), DAC 44100 Hz
+[226.590] playerInfo: Playing #9 Dream
+[226.590] new track #9 Dream: the newest decoder line (44100 Hz, 7.556 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.590] decoder: 44100.0 Hz (lossy)
+[226.591] new track #9 Dream: decoder 44100.0 Hz lossy (seen -0.422 s before Playing), DAC 44100 Hz
+[226.591] playerInfo: Playing It
+[226.591] new track It: the newest decoder line (44100 Hz, 7.544 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.591] decoder: 44100.0 Hz (lossless)
+[226.592] new track It: decoder 44100.0 Hz lossless (seen -0.380 s before Playing), DAC 44100 Hz
+[226.592] playerInfo: Playing Incident At Neshabur
+[226.592] new track Incident At Neshabur: the newest decoder line (44100 Hz, 7.509 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.592] decoder: 44100.0 Hz (lossy)
+[226.593] new track Incident At Neshabur: decoder 44100.0 Hz lossy (seen -0.449 s before Playing), DAC 44100 Hz
+[226.593] playerInfo: Playing Big Bird In a Small Cage
+[226.593] new track Big Bird In a Small Cage: the newest decoder line (44100 Hz, 7.551 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.594] decoder: 44100.0 Hz (lossy)
+[226.595] new track Big Bird In a Small Cage: decoder 44100.0 Hz lossy (seen -0.654 s before Playing), DAC 44100 Hz
+[226.595] playerInfo: Playing Blow Your House Down
+[226.595] new track Blow Your House Down: the newest decoder line (44100 Hz, 7.533 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.595] decoder: 44100.0 Hz (lossless)
+[226.597] new track Blow Your House Down: decoder 44100.0 Hz lossless (seen -0.419 s before Playing), DAC 44100 Hz
+[226.597] playerInfo: Playing Thanks For The Pepperoni
+[226.597] new track Thanks For The Pepperoni: the newest decoder line (44100 Hz, 7.527 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.597] decoder: 44100.0 Hz (lossy)
+[226.598] new track Thanks For The Pepperoni: decoder 44100.0 Hz lossy (seen -0.581 s before Playing), DAC 44100 Hz
+[226.598] playerInfo: Playing Execution Of The Marquis de Sade
+[226.598] new track Execution Of The Marquis de Sade: the newest decoder line (44100 Hz, 7.540 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.598] decoder: 44100.0 Hz (lossy)
+[226.598] new track Execution Of The Marquis de Sade: decoder 44100.0 Hz lossy (seen -0.871 s before Playing), DAC 44100 Hz
+[226.598] playerInfo: Playing Dude (Looks Like A Lady)
+[226.598] new track Dude (Looks Like A Lady): the newest decoder line (44100 Hz, 7.555 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.598] decoder: 44100.0 Hz (lossy)
+[226.599] new track Dude (Looks Like A Lady): decoder 44100.0 Hz lossy (seen -0.481 s before Playing), DAC 44100 Hz
+[226.599] playerInfo: Playing You're The One
+[226.599] new track You're The One: the newest decoder line (44100 Hz, 7.528 s before Playing) may be the previous track's; waiting 1 s for its own
+[226.599] decoder: 44100.0 Hz (lossy)
+[226.599] new track You're The One: decoder 44100.0 Hz lossy (seen -0.468 s before Playing), DAC 44100 Hz
+[226.604] playerInfo: Playing You're The One
+[226.610] playerInfo: Paused You're The One
+[226.703] playerInfo: Playing You're The One
+[226.703] gate released (same track) < 10 ms after the output started
+[227.119] clock: DAC scalar 0.998948 not settled; waiting to lock
+[256.622] 44100 Hz fill 0 scalar 1.000000000 under 0 over 0; clock waiting (DAC scalar not settled), DAC scalar 0.998864; 2026-09-29 05:31:10.955 -05:00
+[286.627] 44100 Hz fill 0 scalar 1.000000000 under 1536 over 0; clock waiting (DAC scalar not settled), DAC scalar 0.998890; 2026-09-29 05:31:40.960 -05:00
+[316.636] 44100 Hz fill 0 scalar 1.000000000 under 2048 over 0; clock waiting (DAC scalar not settled), DAC scalar 0.999586; 2026-09-29 05:32:10.969 -05:00
+[346.643] 44100 Hz fill 512 scalar 1.000000000 under 2560 over 0; clock waiting (DAC scalar not settled), DAC scalar 0.999584; 2026-09-29 05:32:40.977 -05:00
+[376.647] 44100 Hz fill 0 scalar 1.000000000 under 3072 over 0; clock waiting (DAC scalar not settled), DAC scalar 0.999619; 2026-09-29 05:33:10.980 -05:00
+[406.655] 44100 Hz fill 512 scalar 1.000000000 under 3584 over 0; clock waiting (DAC scalar not settled), DAC scalar 0.999698; 2026-09-29 05:33:40.988 -05:00
+[436.665] 44100 Hz fill 512 scalar 1.000000000 under 4096 over 0; clock waiting (DAC scalar not settled), DAC scalar 0.999582; 2026-09-29 05:34:10.998 -05:00
+[466.675] 44100 Hz fill 0 scalar 1.000000000 under 4608 over 0; clock waiting (DAC scalar not settled), DAC scalar 0.999578; 2026-09-29 05:34:41.009 -05:00
+[494.157] playerInfo: Playing Heart Of Stone
+[494.157] new track Heart Of Stone: the newest decoder line (44100 Hz, 277.733 s before Playing) may be the previous track's; waiting 1 s for its own
+[495.161] no newer decoder line for Heart Of Stone within 1 s; the earlier one decides
+[495.163] new track Heart Of Stone: decoder 44100.0 Hz lossy (seen 277.733 s before Playing), DAC 44100 Hz
+[496.685] 44100 Hz fill 0 scalar 1.000000000 under 5120 over 0; clock waiting (DAC scalar not settled), DAC scalar 0.999578; 2026-09-29 05:35:11.018 -05:00

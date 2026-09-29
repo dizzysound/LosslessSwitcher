@@ -1,0 +1,5 @@
+default left the virtual device after 4.129 s: now MacBook Pro Speakers 
+helpers after kill: 1
+MT 48 | rate=96000 hog=-1 vol- mute=- | int32 nonmixable 96000 | AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2
+MacBook Pro Speakers | DEFAULT SYSTEM rate=96000 hog=-1 vol- e0=-21.5dB mute=e0=0 | float32 mixable 96000 | BuiltInSpeakerDevice
+LosslessSwitcher | rate=96000 hog=-1 vol- e0=-51.0dB mute=e0=0 | float32 mixable 96000 | LSOutput_UID
