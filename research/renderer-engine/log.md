@@ -356,3 +356,19 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
 - Paused at 47.371, stepped aside again at 57.375. Volume keys during play: -56 / -52 dB. One
   "NSRunningApplication lists no Music, but pid ... is alive" (no false quit).
 - RendererIdleSeconds removed afterwards (60 s).
+
+# TPDF dither option (2026-09-28, desk only, not benched)
+- Why: with Overshoot Protection on, OutFormat.write applied the -3 dB in float and rounded straight to
+  the DAC's integer depth: undithered requantization (at 16-bit, correlated distortion at ~-98 dBFS;
+  at 24-bit ~-144 dBFS, under any DAC's analog floor). Found in review, not heard on the bench.
+- What: Advanced > TPDF Dither, off by default (defaults key TPDFDither), enabled only when B writes an
+  integer format under 32 bits (TPDFDither.dacBits, published from updateOutFormat). A buffer is
+  dithered only if a sample can't be written exactly (gain on, or more source bits than the DAC), so
+  bit-perfect output and digital silence are untouched. Noise: difference of two xorshift32 uniforms,
+  ±1 LSB triangular, state kept on B's IO thread. Exclusive Mode only; the tap engine writes float.
+- Desk check (dither_test.swift, a copy of the noise and quantize code): noise variance 0.1665 (TPDF
+  1/6), triangular histogram; 16-bit-exact input with dither on comes out bit-identical, silence stays
+  zero; a constant 0.3 LSB input averages 0.000 LSB undithered vs 0.300 dithered; a -90 dBFS 1 kHz sine
+  with the -3 dB gain to 16-bit: undithered fundamental 0.958 LSB (should be 0.733) with H3/H5 at
+  -12 dBc, dithered 0.733 LSB with H3/H5 at the noise floor (-50/-45 dBc in a 1 Hz bin).
+- Bench: BENCH-BRIEF item 11.

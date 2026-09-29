@@ -56,6 +56,12 @@ Engine log: ~/Library/Logs/LosslessSwitcher-ExclusiveMode.log (recreated at each
    lists it, and the level drops by 3 dB (a loopback or level meter on the DAC's output shows it).
    Turn it off: "off: output unchanged". The settings menu is under Advanced; the engine's options
    there show only while Exclusive Mode is on.
+11. Advanced > TPDF Dither (off by default): the item names the DAC's depth ("16-bit DAC", "24-bit
+   DAC") and is disabled on a 32-bit or float DAC ("not needed: DAC takes 32-bit"). Turn it on: the log
+   says "TPDF dither on: ...". With Overshoot Protection off and a track at or below the DAC's depth,
+   the output stays bit-exact (a loopback capture matches the undithered one); with Overshoot
+   Protection on, a quiet fade-out has a steady ±1 LSB noise floor instead of gritty low-level
+   distortion. Turn it off: "TPDF dither off".
 
 ## Rules (the owner)
 - No gap or pause unless there's a sample-rate switch.

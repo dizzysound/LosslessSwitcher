@@ -161,6 +161,7 @@ final class VirtualDeviceEngine {
     private var refillAsked = false
     private var scriptRate: Float64 = 0 // the rate the user's script (Scripting menu) last heard
     private var overshootLogged: Bool?
+    private var ditherLogged: Bool?
     private var ticksPerSec = 0.0
 
     // shared with the IO threads
@@ -189,6 +190,7 @@ final class VirtualDeviceEngine {
     // IO-thread-only
     private var zeroRun = 0
     private var bPlaying = false
+    private var ditherRNG: UInt32 = 0x9E3779B9 // TPDF dither state (xorshift32, never 0)
     private let scratch = UnsafeMutablePointer<Float>.allocate(capacity: VirtualDeviceEngine.maxFrames * 2)
     private static let maxFrames = 16384
     private var recorder: VRecorder?
@@ -311,6 +313,11 @@ final class VirtualDeviceEngine {
             if isp != overshootLogged {
                 if overshootLogged != nil || isp { log("inter-sample overshoot protection \(isp ? "on: output -3.0 dB, not bit-perfect" : "off: output unchanged")") }
                 overshootLogged = isp
+            }
+            let dth = TPDFDither.shared.isOn
+            if dth != ditherLogged {
+                if ditherLogged != nil || dth { log("TPDF dither \(dth ? "on: integer output under 32 bits is dithered when it can't be written exactly" : "off")") }
+                ditherLogged = dth
             }
             if let r = resumeInfo { resumeInfo = nil; resumeFromIdle(r.info, at: r.at) }
             if !steppedAside, !inRoutine, !playing, let since = idleSince, UserDefaults.standard.bool(forKey: Defaults.kRendererReleaseWhenIdle) {
@@ -566,6 +573,8 @@ final class VirtualDeviceEngine {
         let f = OutFormat(asbd: vf, left: stereo.0, right: stereo.1)
         writtenFormat = vf
         outFormat.store(f.packed, ordering: .releasing)
+        let bits = f.isFloat ? 32 : f.bits
+        DispatchQueue.main.async { TPDFDither.shared.dacBits = bits }
         log("B writes \(f) (virtual format \(CA.fmt(vf)))")
     }
 
@@ -618,6 +627,7 @@ final class VirtualDeviceEngine {
         volume.stop()
         removeFormatListener()
         outFormat.store(0, ordering: .releasing)
+        DispatchQueue.main.async { TPDFDither.shared.dacBits = nil }
         if let p = procB {
             AudioDeviceStop(dac, p)
             AudioDeviceDestroyIOProcID(dac, p)
@@ -1232,7 +1242,7 @@ final class VirtualDeviceEngine {
         if muted {
             for b in outs { if let d = b.mData { memset(d, 0, Int(b.mDataByteSize)) } }
         } else {
-            fmt.write(outs, scratch, n)
+            fmt.write(outs, scratch, n, &ditherRNG)
         }
         recorder?.output(scratch, n, sample: t.mSampleTime, host: t.mHostTime)
         outFrames.wrappingAdd(n, ordering: .releasing)
@@ -1271,6 +1281,31 @@ final class OvershootProtection: @unchecked Sendable {
     func set(_ value: Bool) { on.store(value ? 1 : 0, ordering: .relaxed) }
 }
 
+/// Advanced > TPDF Dither: triangular (±1 LSB) dither when B requantizes to an integer DAC under 32
+/// bits. Only a buffer that can't be written exactly gets it (the overshoot gain is on, or the source
+/// has more bits than the DAC), so bit-perfect output and digital silence stay untouched. Off by
+/// default. Exclusive Mode only: the process-tap engine writes float and the HAL converts.
+/// `dacBits` (main thread) is the integer depth B writes, 32 for float, nil while no DAC is confirmed.
+final class TPDFDither: ObservableObject, @unchecked Sendable {
+    static let shared = TPDFDither()
+    private let on = Atomic<Int>(0)
+    var isOn: Bool { on.load(ordering: .relaxed) != 0 }
+    func set(_ value: Bool) { on.store(value ? 1 : 0, ordering: .relaxed) }
+    @Published var dacBits: Int?
+
+    /// One TPDF sample in LSBs: the difference of two uniforms in [0, 1), range (-1, 1).
+    @inline(__always)
+    static func noise(_ state: inout UInt32) -> Double {
+        (Double(next(&state)) - Double(next(&state))) / 4294967296.0
+    }
+
+    @inline(__always)
+    private static func next(_ x: inout UInt32) -> UInt32 { // xorshift32
+        x ^= x << 13; x ^= x >> 17; x ^= x << 5
+        return x
+    }
+}
+
 struct OutFormat: CustomStringConvertible {
     var isFloat = true
     var bytes = 4          // per sample
@@ -1307,11 +1342,22 @@ struct OutFormat: CustomStringConvertible {
     var description: String { "\(isFloat ? "float" : "int")\(bits) in \(bytes) bytes\(nonInterleaved ? " non-interleaved" : ""), channels \(left + 1)/\(right + 1)" }
 
     @inline(__always)
-    func write(_ outs: UnsafeMutableAudioBufferListPointer, _ src: UnsafePointer<Float>, _ n: Int) {
+    func write(_ outs: UnsafeMutableAudioBufferListPointer, _ src: UnsafePointer<Float>, _ n: Int, _ rng: inout UInt32) {
         let scale = isFloat || bits < 2 ? 1 : Double(Int64(1) << (bits - 1))
         let lo = -scale, hi = scale - 1
         let reduce = OvershootProtection.shared.isOn, gain = OvershootProtection.gain
         let shift = alignedHigh ? bytes * 8 - bits : 0
+        // dither the whole buffer if any sample lands between the DAC's steps
+        var dither = false
+        if !isFloat, bits < 32, TPDFDither.shared.isOn {
+            dither = reduce
+            if !dither {
+                for i in 0..<(n * 2) {
+                    let y = Double(src[i]) * scale
+                    if y != y.rounded() { dither = true; break }
+                }
+            }
+        }
         var base = 0
         for buf in outs {
             guard let d = buf.mData else { continue }
@@ -1329,7 +1375,8 @@ struct OutFormat: CustomStringConvertible {
                 } else {
                     for k in 0..<frames {
                         let x = reduce ? src[k * 2 + s] * gain : src[k * 2 + s]
-                        let v = Int64(min(hi, max(lo, (Double(x) * scale).rounded()))) << shift
+                        let y = dither ? Double(x) * scale + TPDFDither.noise(&rng) : Double(x) * scale
+                        let v = Int64(min(hi, max(lo, y.rounded()))) << shift
                         let at = d + (k * ch + c) * bytes
                         switch bytes {
                         case 2: at.storeBytes(of: Int16(truncatingIfNeeded: v), as: Int16.self)
