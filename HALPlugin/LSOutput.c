@@ -219,7 +219,30 @@ static Float64								gLoop_LastWriteSample			= -1.0;
 static Float64								gLoop_LastReadSample			= -1.0;
 static UInt64								gLoop_FramesWritten				= 0;
 static UInt64								gLoop_FramesRead				= 0;
+//	Music only ('LSmx', CFNumber): Music's pid while the renderer plays only Music to the DAC (1.1.4).
+//	Every other client's output is moved, per client in ProcessOutput (before the HAL mixes), into
+//	gOthers and zeroed, so the mix (hence gLoop, input channels 1-2) is Music + zeros: exactly Music.
+//	gOthers is summed over those clients and read back on input channels 3-4. 0: as 1.1.3 (3-4 silent).
+static const AudioObjectPropertySelector	kLS_MusicPID					= 'LSmx';
+static volatile pid_t						gMusic_PID						= 0;
+static Float32								gOthers_Buffer[kLoop_Frames * 2];
+static Float64								gOthers_WrittenThrough			= -1.0;	//	end (sample time) of everything written so far
+static Float32								gOthers_PeakIn					= 0.0f;	//	diagnostics: loudest non-Music sample handed to ProcessOutput
+static Float32								gOthers_PeakRead				= 0.0f;	//	... read back on input channels 3-4
+static Float64								gOthers_LastPOSample			= -1.0;	//	... the last ProcessOutput's sample time
+static Float64								gOthers_MaxPODelta				= 0.0;	//	... largest |ProcessOutput time - that cycle's WriteMix time|
+static UInt64								gOthers_PODeltaCount			= 0;	//	... WriteMix cycles whose ProcessOutput time differed
+static UInt64								gOthers_FramesMoved				= 0;	//	non-Music client frames moved (per client)
+static UInt64								gOthers_ProcessCalls			= 0;	//	ProcessOutput calls
+static UInt64								gOthers_MusicCalls				= 0;	//	... of those, for a Music client
+#define										kLS_InputChannels				4
+#define										kLS_OutputChannels				2
 static os_log_t								gLog							= NULL;
+
+static UInt32 LS_StreamChannels(AudioObjectID inStreamID)
+{
+	return inStreamID == kObjectID_Stream_Input ? kLS_InputChannels : kLS_OutputChannels;
+}
 
 static bool LS_IsSupportedRate(Float64 inRate)
 {
@@ -616,6 +639,12 @@ Done:
 	return theAnswer;
 }
 
+static pid_t LS_PIDOfClient(UInt32 inClientID)	//	call with gClient_Mutex held; 0 = unknown
+{
+	for(UInt32 i = 0; i < gClient_Count; ++i) if(gClient_IDs[i] == inClientID) return gClient_PIDs[i];
+	return 0;
+}
+
 static UInt32 LS_ClientsOf(pid_t inPID)	//	call with gClient_Mutex held
 {
 	UInt32 theCount = 0;
@@ -674,6 +703,7 @@ static void LS_SetAttached(pid_t inPID)
 {
 	if(gAttached_PID == inPID) return;
 	gAttached_PID = inPID;
+	if(inPID == 0) gMusic_PID = 0;	//	the renderer left (or died): mix everything again, as 1.1.3
 	static const AudioObjectPropertyAddress theAddresses[3] = {
 		{ kAudioDevicePropertyDeviceCanBeDefaultDevice, kAudioObjectPropertyScopeOutput, kAudioObjectPropertyElementMain },
 		{ kAudioDevicePropertyDeviceCanBeDefaultDevice, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain },
@@ -2092,6 +2122,7 @@ static Boolean	NullAudio_HasDeviceProperty(AudioServerPlugInDriverRef inDriver, 
 		case kLS_Status:
 		case kLS_Hold:
 		case kLS_Attached:
+		case kLS_MusicPID:
 			theAnswer = true;
 			break;
 			
@@ -2105,7 +2136,7 @@ static Boolean	NullAudio_HasDeviceProperty(AudioServerPlugInDriverRef inDriver, 
 			break;
 		
 		case kAudioObjectPropertyElementName:
-			theAnswer = inAddress->mElement <= 2;
+			theAnswer = inAddress->mElement <= kLS_InputChannels;
 			break;
 	};
 
@@ -2172,6 +2203,7 @@ static OSStatus	NullAudio_IsDevicePropertySettable(AudioServerPlugInDriverRef in
 		case kLS_RateScalar:
 		case kLS_Hold:
 		case kLS_Attached:
+		case kLS_MusicPID:
 			*outIsSettable = true;
 			break;
 
@@ -2319,13 +2351,14 @@ static OSStatus	NullAudio_GetDevicePropertyDataSize(AudioServerPlugInDriverRef i
 			break;
 
 		case kAudioObjectPropertyCustomPropertyInfoList:
-			*outDataSize = 4 * sizeof(AudioServerPlugInCustomPropertyInfo);
+			*outDataSize = 5 * sizeof(AudioServerPlugInCustomPropertyInfo);
 			break;
 
 		case kLS_RateScalar:
 		case kLS_Status:
 		case kLS_Hold:
 		case kLS_Attached:
+		case kLS_MusicPID:
 			*outDataSize = sizeof(CFPropertyListRef);
 			break;
 		
@@ -2338,7 +2371,7 @@ static OSStatus	NullAudio_GetDevicePropertyDataSize(AudioServerPlugInDriverRef i
 			break;
 
 		case kAudioDevicePropertyPreferredChannelLayout:
-			*outDataSize = offsetof(AudioChannelLayout, mChannelDescriptions) + (2 * sizeof(AudioChannelDescription));
+			*outDataSize = offsetof(AudioChannelLayout, mChannelDescriptions) + ((inAddress->mScope == kAudioObjectPropertyScopeInput ? kLS_InputChannels : kLS_OutputChannels) * sizeof(AudioChannelDescription));
 			break;
 
 		case kAudioDevicePropertyZeroTimeStampPeriod:
@@ -2431,6 +2464,14 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 				
 				case 2:
 					*((CFStringRef*)outData) = CFSTR("Right");
+					break;
+				
+				case 3:
+					*((CFStringRef*)outData) = CFSTR("Other Apps Left");
+					break;
+				
+				case 4:
+					*((CFStringRef*)outData) = CFSTR("Other Apps Right");
 					break;
 				
 				default:
@@ -2715,14 +2756,16 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 			//	by default. For this device, we return a stereo ACL.
 			{
 				//	calcualte how big the
-				UInt32 theACLSize = offsetof(AudioChannelLayout, mChannelDescriptions) + (2 * sizeof(AudioChannelDescription));
+				//	input (loopback): 1-2 Music, 3-4 the other apps (1.1.4)
+				UInt32 theChannels = inAddress->mScope == kAudioObjectPropertyScopeInput ? kLS_InputChannels : kLS_OutputChannels;
+				UInt32 theACLSize = offsetof(AudioChannelLayout, mChannelDescriptions) + (theChannels * sizeof(AudioChannelDescription));
 				FailWithAction(inDataSize < theACLSize, theAnswer = kAudioHardwareBadPropertySizeError, Done, "NullAudio_GetDevicePropertyData: not enough space for the return value of kAudioDevicePropertyPreferredChannelLayout for the device");
 				((AudioChannelLayout*)outData)->mChannelLayoutTag = kAudioChannelLayoutTag_UseChannelDescriptions;
 				((AudioChannelLayout*)outData)->mChannelBitmap = 0;
-				((AudioChannelLayout*)outData)->mNumberChannelDescriptions = 2;
-				for(theItemIndex = 0; theItemIndex < 2; ++theItemIndex)
+				((AudioChannelLayout*)outData)->mNumberChannelDescriptions = theChannels;
+				for(theItemIndex = 0; theItemIndex < theChannels; ++theItemIndex)
 				{
-					((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mChannelLabel = kAudioChannelLabel_Left + theItemIndex;
+					((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mChannelLabel = theItemIndex < 2 ? kAudioChannelLabel_Left + theItemIndex : kAudioChannelLabel_Discrete_0 + theItemIndex;
 					((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mChannelFlags = 0;
 					((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mCoordinates[0] = 0;
 					((AudioChannelLayout*)outData)->mChannelDescriptions[theItemIndex].mCoordinates[1] = 0;
@@ -2755,9 +2798,15 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 
 		case kAudioObjectPropertyCustomPropertyInfoList:
 			theNumberItemsToFetch = inDataSize / sizeof(AudioServerPlugInCustomPropertyInfo);
+			if(theNumberItemsToFetch > 5)
+			{
+				theNumberItemsToFetch = 5;
+			}
 			if(theNumberItemsToFetch > 4)
 			{
-				theNumberItemsToFetch = 4;
+				((AudioServerPlugInCustomPropertyInfo*)outData)[4].mSelector = kLS_MusicPID;
+				((AudioServerPlugInCustomPropertyInfo*)outData)[4].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
+				((AudioServerPlugInCustomPropertyInfo*)outData)[4].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
 			}
 			if(theNumberItemsToFetch > 3)
 			{
@@ -2806,6 +2855,15 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 			}
 			break;
 
+		case kLS_MusicPID:
+			{
+				FailWithAction(inDataSize < sizeof(CFPropertyListRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "LSOutput: no room for Music's pid");
+				SInt32 thePID = gMusic_PID;
+				*((CFPropertyListRef*)outData) = CFNumberCreate(NULL, kCFNumberSInt32Type, &thePID);
+				*outDataSize = sizeof(CFPropertyListRef);
+			}
+			break;
+
 		case kLS_Hold:
 			{
 				FailWithAction(inDataSize < sizeof(CFPropertyListRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "LSOutput: no room for the hold state");
@@ -2820,7 +2878,7 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 				//	A snapshot for clients that measure the clock and the loopback:
 				//	now, the time line at now, the zero time stamp count, loopback positions.
 				FailWithAction(inDataSize < sizeof(CFPropertyListRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "LSOutput: no room for the status");
-				Float64 theValues[14];
+				Float64 theValues[22];
 				pthread_mutex_lock(&gDevice_IOMutex);
 				UInt64 theNow = mach_absolute_time();
 				theValues[0] = (Float64)theNow;
@@ -2837,12 +2895,20 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 				theValues[11] = (Float64)gHold_State;
 				theValues[12] = (Float64)gHold_Count;
 				theValues[13] = gHold_LastSeconds;
+				theValues[14] = (Float64)gMusic_PID;
+				theValues[15] = (Float64)gOthers_ProcessCalls;
+				theValues[16] = (Float64)gOthers_MusicCalls;
+				theValues[17] = (Float64)gOthers_FramesMoved;
+				theValues[18] = gOthers_PeakIn; gOthers_PeakIn = 0.0f;	//	peaks since the last status read
+				theValues[19] = gOthers_PeakRead; gOthers_PeakRead = 0.0f;
+				theValues[20] = gOthers_MaxPODelta;
+				theValues[21] = (Float64)gOthers_PODeltaCount;
 				pthread_mutex_unlock(&gDevice_IOMutex);
-				CFStringRef theKeys[14] = { CFSTR("hostNow"), CFSTR("sampleNow"), CFSTR("rateScalar"), CFSTR("ticksPerFrame"), CFSTR("zeroStamps"), CFSTR("seed"), CFSTR("lastWrite"), CFSTR("lastRead"), CFSTR("framesWritten"), CFSTR("framesRead"), CFSTR("scalarSets"), CFSTR("holdState"), CFSTR("holds"), CFSTR("lastHoldSeconds") };
-				CFNumberRef theNumbers[14];
-				for(UInt32 i = 0; i < 14; ++i) { theNumbers[i] = CFNumberCreate(NULL, kCFNumberFloat64Type, &theValues[i]); }
-				CFDictionaryRef theDict = CFDictionaryCreate(NULL, (const void**)theKeys, (const void**)theNumbers, 14, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-				for(UInt32 i = 0; i < 14; ++i) { CFRelease(theNumbers[i]); }
+				CFStringRef theKeys[22] = { CFSTR("hostNow"), CFSTR("sampleNow"), CFSTR("rateScalar"), CFSTR("ticksPerFrame"), CFSTR("zeroStamps"), CFSTR("seed"), CFSTR("lastWrite"), CFSTR("lastRead"), CFSTR("framesWritten"), CFSTR("framesRead"), CFSTR("scalarSets"), CFSTR("holdState"), CFSTR("holds"), CFSTR("lastHoldSeconds"), CFSTR("musicPID"), CFSTR("processOutputCalls"), CFSTR("musicClientCalls"), CFSTR("othersFramesMoved"), CFSTR("othersPeakIn"), CFSTR("othersPeakRead"), CFSTR("othersMaxTimeDelta"), CFSTR("othersTimeDeltaCycles") };
+				CFNumberRef theNumbers[22];
+				for(UInt32 i = 0; i < 22; ++i) { theNumbers[i] = CFNumberCreate(NULL, kCFNumberFloat64Type, &theValues[i]); }
+				CFDictionaryRef theDict = CFDictionaryCreate(NULL, (const void**)theKeys, (const void**)theNumbers, 22, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+				for(UInt32 i = 0; i < 22; ++i) { CFRelease(theNumbers[i]); }
 				*((CFPropertyListRef*)outData) = theDict;
 				*outDataSize = sizeof(CFPropertyListRef);
 			}
@@ -2943,6 +3009,30 @@ static OSStatus	NullAudio_SetDevicePropertyData(AudioServerPlugInDriverRef inDri
 					UInt32 theClients = LS_ClientsOf(thePID);
 					pthread_mutex_unlock(&gClient_Mutex);
 					if(theClients == 0) LS_ScheduleDetachCheck(thePID);	//	it has 3 s to become a client
+				}
+			}
+			break;
+
+		case kLS_MusicPID:
+			{
+				FailWithAction(inDataSize != sizeof(CFPropertyListRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "LSOutput: wrong size for Music's pid");
+				CFPropertyListRef theValue = *((const CFPropertyListRef*)inData);
+				FailWithAction(theValue == NULL || CFGetTypeID(theValue) != CFNumberGetTypeID(), theAnswer = kAudioHardwareIllegalOperationError, Done, "LSOutput: Music's pid must be a CFNumber");
+				SInt32 thePID = -1;
+				CFNumberGetValue((CFNumberRef)theValue, kCFNumberSInt32Type, &thePID);
+				FailWithAction(thePID < 0, theAnswer = kAudioHardwareIllegalOperationError, Done, "LSOutput: bad pid");
+				if(thePID != gMusic_PID)
+				{
+					os_log(gLog, "LSOutput: Music only: pid %d (was %d)", thePID, gMusic_PID);
+					pthread_mutex_lock(&gDevice_IOMutex);
+					gMusic_PID = thePID;
+					gOthers_WrittenThrough = -1.0;
+					memset(gOthers_Buffer, 0, sizeof(gOthers_Buffer));
+					pthread_mutex_unlock(&gDevice_IOMutex);
+					*outNumberPropertiesChanged = 1;
+					outChangedAddresses[0].mSelector = kLS_MusicPID;
+					outChangedAddresses[0].mScope = kAudioObjectPropertyScopeGlobal;
+					outChangedAddresses[0].mElement = kAudioObjectPropertyElementMain;
 				}
 			}
 			break;
@@ -3292,15 +3382,16 @@ static OSStatus	NullAudio_GetStreamPropertyData(AudioServerPlugInDriverRef inDri
 			//	this value.
 			//	Note that for devices that don't override the mix operation, the virtual
 			//	format has to be the same as the physical format.
+			//	LSOutput 1.1.4: the output is 2 channels, the loopback input 4 (1-2 Music, 3-4 the others).
 			FailWithAction(inDataSize < sizeof(AudioStreamBasicDescription), theAnswer = kAudioHardwareBadPropertySizeError, Done, "NullAudio_GetStreamPropertyData: not enough space for the return value of kAudioStreamPropertyVirtualFormat for the stream");
 			pthread_mutex_lock(&gPlugIn_StateMutex);
 			((AudioStreamBasicDescription*)outData)->mSampleRate = gDevice_SampleRate;
 			((AudioStreamBasicDescription*)outData)->mFormatID = kAudioFormatLinearPCM;
 			((AudioStreamBasicDescription*)outData)->mFormatFlags = kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;
-			((AudioStreamBasicDescription*)outData)->mBytesPerPacket = 8;
+			((AudioStreamBasicDescription*)outData)->mBytesPerPacket = 4 * LS_StreamChannels(inObjectID);
 			((AudioStreamBasicDescription*)outData)->mFramesPerPacket = 1;
-			((AudioStreamBasicDescription*)outData)->mBytesPerFrame = 8;
-			((AudioStreamBasicDescription*)outData)->mChannelsPerFrame = 2;
+			((AudioStreamBasicDescription*)outData)->mBytesPerFrame = 4 * LS_StreamChannels(inObjectID);
+			((AudioStreamBasicDescription*)outData)->mChannelsPerFrame = LS_StreamChannels(inObjectID);
 			((AudioStreamBasicDescription*)outData)->mBitsPerChannel = 32;
 			pthread_mutex_unlock(&gPlugIn_StateMutex);
 			*outDataSize = sizeof(AudioStreamBasicDescription);
@@ -3329,10 +3420,10 @@ static OSStatus	NullAudio_GetStreamPropertyData(AudioServerPlugInDriverRef inDri
 				theItem->mFormat.mSampleRate = kLS_Rates[theIndex];
 				theItem->mFormat.mFormatID = kAudioFormatLinearPCM;
 				theItem->mFormat.mFormatFlags = kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;
-				theItem->mFormat.mBytesPerPacket = 8;
+				theItem->mFormat.mBytesPerPacket = 4 * LS_StreamChannels(inObjectID);
 				theItem->mFormat.mFramesPerPacket = 1;
-				theItem->mFormat.mBytesPerFrame = 8;
-				theItem->mFormat.mChannelsPerFrame = 2;
+				theItem->mFormat.mBytesPerFrame = 4 * LS_StreamChannels(inObjectID);
+				theItem->mFormat.mChannelsPerFrame = LS_StreamChannels(inObjectID);
 				theItem->mFormat.mBitsPerChannel = 32;
 				theItem->mFormat.mReserved = 0;
 				theItem->mSampleRateRange.mMinimum = kLS_Rates[theIndex];
@@ -3410,15 +3501,15 @@ static OSStatus	NullAudio_SetStreamPropertyData(AudioServerPlugInDriverRef inDri
 		case kAudioStreamPropertyPhysicalFormat:
 			//	Changing the stream format needs to be handled via the
 			//	RequestConfigChange/PerformConfigChange machinery. Note that because this
-			//	device only supports 2 channel 32 bit float data, the only thing that can
+			//	device only supports 32 bit float data (2 channels out, 4 in), the only thing that can
 			//	change is the sample rate.
 			FailWithAction(inDataSize != sizeof(AudioStreamBasicDescription), theAnswer = kAudioHardwareBadPropertySizeError, Done, "NullAudio_SetStreamPropertyData: wrong size for the data for kAudioStreamPropertyPhysicalFormat");
 			FailWithAction(((const AudioStreamBasicDescription*)inData)->mFormatID != kAudioFormatLinearPCM, theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported format ID for kAudioStreamPropertyPhysicalFormat");
 			FailWithAction(((const AudioStreamBasicDescription*)inData)->mFormatFlags != (kAudioFormatFlagIsFloat | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked), theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported format flags for kAudioStreamPropertyPhysicalFormat");
-			FailWithAction(((const AudioStreamBasicDescription*)inData)->mBytesPerPacket != 8, theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported bytes per packet for kAudioStreamPropertyPhysicalFormat");
+			FailWithAction(((const AudioStreamBasicDescription*)inData)->mBytesPerPacket != 4 * LS_StreamChannels(inObjectID), theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported bytes per packet for kAudioStreamPropertyPhysicalFormat");
 			FailWithAction(((const AudioStreamBasicDescription*)inData)->mFramesPerPacket != 1, theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported frames per packet for kAudioStreamPropertyPhysicalFormat");
-			FailWithAction(((const AudioStreamBasicDescription*)inData)->mBytesPerFrame != 8, theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported bytes per frame for kAudioStreamPropertyPhysicalFormat");
-			FailWithAction(((const AudioStreamBasicDescription*)inData)->mChannelsPerFrame != 2, theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported channels per frame for kAudioStreamPropertyPhysicalFormat");
+			FailWithAction(((const AudioStreamBasicDescription*)inData)->mBytesPerFrame != 4 * LS_StreamChannels(inObjectID), theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported bytes per frame for kAudioStreamPropertyPhysicalFormat");
+			FailWithAction(((const AudioStreamBasicDescription*)inData)->mChannelsPerFrame != LS_StreamChannels(inObjectID), theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported channels per frame for kAudioStreamPropertyPhysicalFormat");
 			FailWithAction(((const AudioStreamBasicDescription*)inData)->mBitsPerChannel != 32, theAnswer = kAudioDeviceUnsupportedFormatError, Done, "NullAudio_SetStreamPropertyData: unsupported bits per channel for kAudioStreamPropertyPhysicalFormat");
 			FailWithAction(!LS_IsSupportedRate(((const AudioStreamBasicDescription*)inData)->mSampleRate), theAnswer = kAudioHardwareIllegalOperationError, Done, "NullAudio_SetStreamPropertyData: unsupported sample rate for kAudioStreamPropertyPhysicalFormat");
 			
@@ -4424,6 +4515,8 @@ static OSStatus	NullAudio_StartIO(AudioServerPlugInDriverRef inDriver, AudioObje
 		gLoop_LastWriteSample = -1.0;
 		gLoop_LastReadSample = -1.0;
 		memset(gLoop_Buffer, 0, sizeof(gLoop_Buffer));
+		memset(gOthers_Buffer, 0, sizeof(gOthers_Buffer));
+		gOthers_WrittenThrough = -1.0;
 		pthread_mutex_unlock(&gDevice_IOMutex);
 		os_log(gLog, "LSOutput: IO start, %.0f Hz, scalar %.9f", gDevice_SampleRate, gClock_RateScalar);
 	}
@@ -4565,6 +4658,13 @@ static OSStatus	NullAudio_WillDoIOOperation(AudioServerPlugInDriverRef inDriver,
 			willDoInPlace = true;
 			break;
 			
+		case kAudioServerPlugInIOOperationProcessOutput:
+			//	per client, in place, before the mix: Music only ('LSmx'). Background Music's driver
+			//	does its per-app volume here.
+			willDo = true;
+			willDoInPlace = true;
+			break;
+			
 	};
 	
 	//	fill out the return values
@@ -4604,7 +4704,7 @@ static OSStatus	NullAudio_DoIOOperation(AudioServerPlugInDriverRef inDriver, Aud
 	//	This is called to actuall perform a given operation. For this device, all we need to do is
 	//	clear the buffer for the ReadInput operation.
 	
-	#pragma unused(inClientID, ioSecondaryBuffer)
+	#pragma unused(ioSecondaryBuffer)
 	
 	//	declare the local variables
 	OSStatus theAnswer = 0;
@@ -4614,9 +4714,43 @@ static OSStatus	NullAudio_DoIOOperation(AudioServerPlugInDriverRef inDriver, Aud
 	FailWithAction(inDeviceObjectID != kObjectID_Device, theAnswer = kAudioHardwareBadObjectError, Done, "NullAudio_DoIOOperation: bad device ID");
 	FailWithAction((inStreamObjectID != kObjectID_Stream_Input) && (inStreamObjectID != kObjectID_Stream_Output), theAnswer = kAudioHardwareBadObjectError, Done, "NullAudio_DoIOOperation: bad stream ID");
 
-	//	Loopback, indexed by sample time. Both operations run on this device's IO thread.
-	//	We are always dealing with a 2 channel 32 bit float buffer.
-	if(inOperationID == kAudioServerPlugInIOOperationWriteMix && inIOCycleInfo->mOutputTime.mSampleTime >= 0.0)
+	//	Loopback, indexed by sample time. All operations run on this device's IO thread.
+	//	The output is 2 channel 32 bit float; the loopback input is 4 channel (1-2 gLoop, 3-4 gOthers).
+	if(inOperationID == kAudioServerPlugInIOOperationProcessOutput)
+	{
+		//	One client's own output, before the HAL mixes it. With Music only on, anything that isn't
+		//	Music's is summed into gOthers and zeroed here, so the mix is Music + zeros (exact).
+		pid_t theMusic = gMusic_PID;
+		if(theMusic == 0 || inIOCycleInfo->mOutputTime.mSampleTime < 0.0) goto Done;
+		pthread_mutex_lock(&gClient_Mutex);
+		pid_t thePID = LS_PIDOfClient(inClientID);
+		pthread_mutex_unlock(&gClient_Mutex);
+		++gOthers_ProcessCalls;
+		if(thePID == theMusic) { ++gOthers_MusicCalls; goto Done; }
+		Float64 theSampleTime = inIOCycleInfo->mOutputTime.mSampleTime;
+		Float32* theSrc = (Float32*)ioMainBuffer;
+		UInt64 theStart = (UInt64)theSampleTime % kLoop_Frames;
+		//	Frames past everything written so far hold an earlier lap (read or not): replace them; the rest
+		//	was written this lap by another client: add. Doesn't assume the clients of a cycle share one
+		//	sample time (1.1.4 replaced on the "first client of a cycle" and lost other apps' audio on
+		//	the pastor Mac).
+		if(gOthers_WrittenThrough - theSampleTime > kLoop_Frames / 2) gOthers_WrittenThrough = -1.0;	//	the time line went back
+		for(UInt32 i = 0; i < inIOBufferFrameSize; ++i)
+		{
+			UInt64 k = ((theStart + i) % kLoop_Frames) * 2;
+			Float32 l = theSrc[i * 2], r = theSrc[i * 2 + 1];
+			Float32 al = l < 0 ? -l : l, ar = r < 0 ? -r : r;
+			if(al > gOthers_PeakIn) gOthers_PeakIn = al;
+			if(ar > gOthers_PeakIn) gOthers_PeakIn = ar;
+			if(theSampleTime + i >= gOthers_WrittenThrough) { gOthers_Buffer[k] = l; gOthers_Buffer[k + 1] = r; }
+			else { gOthers_Buffer[k] += l; gOthers_Buffer[k + 1] += r; }
+		}
+		if(theSampleTime + inIOBufferFrameSize > gOthers_WrittenThrough) gOthers_WrittenThrough = theSampleTime + inIOBufferFrameSize;
+		gOthers_LastPOSample = theSampleTime;
+		memset(ioMainBuffer, 0, inIOBufferFrameSize * kLS_OutputChannels * sizeof(Float32));
+		gOthers_FramesMoved += inIOBufferFrameSize;
+	}
+	else if(inOperationID == kAudioServerPlugInIOOperationWriteMix && inIOCycleInfo->mOutputTime.mSampleTime >= 0.0)
 	{
 		Float64 theSampleTime = inIOCycleInfo->mOutputTime.mSampleTime;
 		UInt64 theStart = (UInt64)theSampleTime % kLoop_Frames;
@@ -4629,23 +4763,31 @@ static OSStatus	NullAudio_DoIOOperation(AudioServerPlugInDriverRef inDriver, Aud
 		}
 		gLoop_LastWriteSample = theSampleTime;
 		gLoop_FramesWritten += inIOBufferFrameSize;
+		if(gMusic_PID != 0 && gOthers_LastPOSample >= 0.0)
+		{
+			Float64 theDelta = gOthers_LastPOSample - theSampleTime; if(theDelta < 0) theDelta = -theDelta;
+			if(theDelta > 0) { ++gOthers_PODeltaCount; if(theDelta > gOthers_MaxPODelta) gOthers_MaxPODelta = theDelta; }
+			gOthers_LastPOSample = -1.0;
+		}
 	}
 	else if(inOperationID == kAudioServerPlugInIOOperationReadInput && inIOCycleInfo->mInputTime.mSampleTime < 0.0)
 	{
-		memset(ioMainBuffer, 0, inIOBufferFrameSize * 8);
+		memset(ioMainBuffer, 0, inIOBufferFrameSize * kLS_InputChannels * sizeof(Float32));
 	}
 	else if(inOperationID == kAudioServerPlugInIOOperationReadInput)
 	{
+		//	interleave: frame i = gLoop L, R, gOthers L, R; both rings are cleared as they are read
 		Float64 theSampleTime = inIOCycleInfo->mInputTime.mSampleTime;
 		UInt64 theStart = (UInt64)theSampleTime % kLoop_Frames;
-		UInt32 theFirst = (UInt32)(kLoop_Frames - theStart);
-		if(theFirst > inIOBufferFrameSize) theFirst = inIOBufferFrameSize;
-		memcpy(ioMainBuffer, &gLoop_Buffer[theStart * 2], theFirst * 8);
-		memset(&gLoop_Buffer[theStart * 2], 0, theFirst * 8);
-		if(theFirst < inIOBufferFrameSize)
+		Float32* theDst = (Float32*)ioMainBuffer;
+		for(UInt32 i = 0; i < inIOBufferFrameSize; ++i)
 		{
-			memcpy(((Float32*)ioMainBuffer) + theFirst * 2, gLoop_Buffer, (inIOBufferFrameSize - theFirst) * 8);
-			memset(gLoop_Buffer, 0, (inIOBufferFrameSize - theFirst) * 8);
+			UInt64 k = ((theStart + i) % kLoop_Frames) * 2;
+			theDst[i * 4] = gLoop_Buffer[k]; theDst[i * 4 + 1] = gLoop_Buffer[k + 1];
+			theDst[i * 4 + 2] = gOthers_Buffer[k]; theDst[i * 4 + 3] = gOthers_Buffer[k + 1];
+			Float32 al = gOthers_Buffer[k] < 0 ? -gOthers_Buffer[k] : gOthers_Buffer[k];
+			if(al > gOthers_PeakRead) gOthers_PeakRead = al;
+			gLoop_Buffer[k] = 0; gLoop_Buffer[k + 1] = 0; gOthers_Buffer[k] = 0; gOthers_Buffer[k + 1] = 0;
 		}
 		gLoop_LastReadSample = theSampleTime;
 		gLoop_FramesRead += inIOBufferFrameSize;

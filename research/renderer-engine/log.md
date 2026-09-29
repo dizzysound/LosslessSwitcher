@@ -754,3 +754,102 @@ next time: Music's "reason: error" pause and -12785, not our ae_Pause.
 - 2bdc720 on coffee, Exclusive Mode on at 08:20:48 with Music playing: no collision this time (DAC free
   at setup), hogged, locked in 3.5 s; Music -> virtual device only, our app alone on the DragonFly;
   the owner: clean. The refusal path itself is UNTESTED (needs the collision to recur).
+
+# Music only (DESIGN-music-only.md): plug-in 1.1.4, 2026-09-29
+- Hook choice: ProcessOutput, not MixOutput. AudioServerPlugIn.h: ProcessOutput processes one client's
+  output in the canonical format, in place, before the mix; MixOutput would make the plug-in do the
+  whole mix ("no further output operations"). Evidence that coreaudiod calls ProcessOutput per client
+  with that client's own buffer: Background Music's shipping driver (BGM_Device.cpp, master) does its
+  per-app volume there, keyed by inClientID (ApplyClientRelativeVolume), and says the Thread op is no
+  longer per client on recent macOS. A GitHub code search found no shipping driver relying on
+  MixOutput. ProcessOutput also leaves WriteMix unchanged, so 'LSmx' = 0 is the 1.1.3 path exactly.
+  NOT yet seen in our coreaudiod: harness.c is a fake host, so it proves only our handling. 1.1.4 adds
+  'LSst' counters (processOutputCalls, musicClientCalls, othersFramesMoved, musicPID); on the bench
+  they must grow with Music + a browser playing, or the approach fails.
+- 1.1.4 (build 6): 'LSmx' = Music's pid (0 = off). ProcessOutput: a client whose pid isn't Music's is
+  summed into gOthers (indexed by output sample time; the cycle's first such client replaces the
+  span, so an unread old lap isn't summed) and zeroed; the HAL's mix is then Music + zeros. The
+  loopback input is 4 ch (1-2 gLoop, 3-4 gOthers; both cleared on read); the output stays 2 ch; stream
+  formats, the input layout and element names 3-4 are per stream now.
+- Compatibility: an engine older than this one (renderA requires 2 ch) reads nothing from a 1.1.4
+  device. The plug-in and the app ship together, so the menu's Update installs both; don't pair a
+  1.1.4 plug-in with an older build.
+- harness.c (fake host, 4 clients: 2 Music, a browser, Facebook): all passed. Music bit-exact on ch 1-2
+  incl. the ring wrap, others zeroed before the mix, ch 3-4 = their sum, 'LSmx' = 0 = 1.1.3 (whole mix
+  on 1-2, 3-4 silent, buffers untouched), counters.
+
+# Bench: Music only, d59b7ee + plug-in 1.1.4 on the pastor Mac (Babyface Pro), 2026-09-29 10:27-10:40
+Data: data/2026-09-29-pastor-musiconly/ (RendererDebugRecord runs silence, alone, with; the .f32 audio,
+75 MB, is kept on disk in the benchlog worktree, not in git); scripts
+tools/musiconly_bench.sh (on the Mac) and tools/musiconly_check.py. "Another app" = afplay looping
+Submarine.aiff to the default output (the virtual device; clients.swift: afplay's pid on
+"LosslessSwitcher" only). Track: "Short Glide Tone" (ALAC 44.1k, the DAC's rate: no switch).
+- The owner updated the plug-in 1.1.3 -> 1.1.4 from the menu. Before that, d59b7ee with 1.1.3 ran as
+  before (2-ch loopback; "no 'LSmx' ... other apps mix into Music").
+- coreaudiod calls ProcessOutput per client: 'LSst' after 31 s: 14301 calls, 3505 of them Music's pid,
+  5.5 M other-app frames moved (several silent clients as well as afplay). So the ProcessOutput
+  approach holds in the real host; MixOutput was never needed.
+- silence (Music paused, afplay playing, 37.8 s): A's input (loopback ch 1-2) and B's output (the
+  DAC) have 0 nonzero frames. PASS.
+- alone vs with (the same track from 0, 30 s each; with = afplay throughout): anchored on a 4096-frame
+  chunk 5 s in, found exactly in the other run: 1115953 frames (25.3 s) bit-exact; the only
+  differences are the tail, run B's pause fade-out and then A's (each run paused at a different track
+  position). Music's fade-in after play/seek makes first-nonzero alignment useless (~0.09 % apart).
+  B's output = A's input exactly (1336530 audio frames). PASS: the DAC got only Music, bit-exact.
+- Others path: MacBook Pro Speakers, fill 1789-2322 around the 2205 target, varispeed 0.99989-0.99996
+  (the speakers ~40-110 ppm apart from the Babyface clock), dry 0x, over 0 while running.
+- Step-aside (Music idle 60 s): the player stopped, "music only off ('LSmx' = 0)", 'LSmx' read back 0.
+- Alert sounds: with the alert device set to the Babyface, starting the engine left it on MacBook Pro
+  Speakers and quitting put it back on the Babyface, also after kill -9 + relaunch. But the engine logged
+  no move: macOS moves the alert device off a hogged device by itself (and back on release), before
+  startOthers looks. Fix (next commit): the engine reads the alert device before the hog, saves that
+  one for the restore, and logs macOS's move; the restore reports "on X again" when macOS already did.
+
+## Found: other apps silent after a rate switch (pastor, feb166c, 10:38-10:41)
+The owner played a YouTube video (WebKit GPU process -> the virtual device) and "blurry" in Music
+(48k, a take-back with a switch). YouTube was silent. Log: after "restarting the player (the virtual
+device's rate is now 48000 Hz)", 19 x "restarting the player (the speakers' configuration changed)" in
+0.5 s steps, then no player: our app wasn't a client of the speakers (clients.swift), others ring full
+(fill 131072, over 1.65 M), counters still moving YouTube's frames out of Music's channels (the DAC side
+was right). Reproduced on Executor (scratchpad avloop.swift): every AVAudioEngine build on the built-in
+speakers posts one AVAudioEngineConfigurationChange right after start while it keeps running (3 builds,
+3 notices, running true). Restarting on each notice loops; steerOthers only acted on a running player,
+so once a rebuild left it stopped nothing restarted it.
+Fix: a notice alone isn't a reason; rebuild only if the player stopped or its output left the
+speakers (then it is stopped at once: never into the virtual device), at most every 2 s, and keep
+retrying while the engine wants other apps there (othersDevice).
+
+## Other Apps & Alerts menu (45a502c), pastor, 2026-09-29 ~10:55
+The owner's YouTube on pastor was silent after e501c68 too: the routing worked (WebKit.GPU -> virtual
+device, our app a client of MacBook Pro Speakers) but the speakers were muted at -63.5 dB (the Mac's own
+setting; not changed). With the volume keys driving the DAC, there was no easy way to reach them. Owner
+asked for a device choice and a volume slider in the app.
+- Menu (Exclusive Mode on): Other Apps & Alerts: Built-in Speakers (automatic) / any output / Mute
+  Other Apps, and Volume… (a window: picker, slider, mute; NSMenu-style MenuBarExtra draws no sliders).
+  The slider sets the device's own volume (unmutes when raised); no settable volume -> player gain.
+  Default key OtherAppsDeviceUID (nil automatic, "mute", or a UID); the engine follows it each second.
+- Pastor: start at 48k, Music switched to 96k: one player restart, no loop (the e501c68 fix held).
+  `defaults write ... OtherAppsDeviceUID mute` -> "MUTED (chosen ...)" in 2 s; delete -> back on the
+  speakers in 2 s; alerts stayed on MacBook Pro Speakers. The window and slider aren't tested yet (the
+  owner, over Remote Desktop).
+
+## Found: other apps silent with 1.1.4 even on unmuted speakers (pastor, 45a502c/a3a8f00, ~11:00)
+Owner: "nothing from youtube". Speakers unmuted at -5.3 dB (the owner raised them), our app a client of
+MacBook Pro Speakers, WebKit.GPU on the virtual device. a3a8f00's meter: "loopback ch 3-4 peak silent,
+player out peak silent" every 10 s, so the loss is in the plug-in (the input stream is 4 ch, stream
+configuration [4], checked with tools lsfmt.swift). The earlier afplay "pass" proved only the Music
+side (the DAC path silent); ch 3-4 were never measured. My miss.
+- Suspected cause (traced, not proven in coreaudiod): 1.1.4's gOthers replaced its span whenever a
+  ProcessOutput came with a sample time other than the last one ("first client of a cycle"). If
+  coreaudiod gives clients different times, a silent client overwrites an audible one. Harness case
+  (two other clients 8 frames apart, one silent): 1.1.4 loses 504 of 512 frames, 1.1.5 none.
+- 1.1.5 (b3eeee4): add, except frames past everything written so far (they replace an old lap; a jump
+  back of more than half the ring resets). 'LSst' adds othersPeakIn/othersPeakRead and
+  othersMaxTimeDelta/othersTimeDeltaCycles; the engine logs them in the 10 s meter line. If the time
+  delta reads 0 on the bench, the cause is something else and the peaks say which side.
+- 1.1.5 on pastor (owner updated from the menu, ~10:55): YouTube reaches the speakers path. Meter at
+  12 s: plug-in peak in 0.5955, read back 0.5955, loopback ch 3-4 -4.5 dBFS, player out -4.5 dBFS,
+  MacBook Pro Speakers at -26.7 dB (the owner's slider). So 1.1.4's replace rule was the loss, or
+  something it interacted with. The time-delta fields read 0, but they compare only the LAST
+  ProcessOutput of a cycle with its WriteMix, so they neither confirm nor rule out differing times
+  among the clients: cause traced, not proven. Owner to confirm by ear.
