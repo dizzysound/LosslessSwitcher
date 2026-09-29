@@ -57,15 +57,30 @@ int main(int argc, char** argv)
     a.mSelector = kAudioStreamPropertyAvailablePhysicalFormats;
     CHECK(I->GetPropertyDataSize(drv, kOut, 0, &a, 0, NULL, &sz) == 0 && sz == 6 * sizeof(AudioStreamRangedDescription), "6 stream formats");
     AudioStreamRangedDescription fm[6]; I->GetPropertyData(drv, kOut, 0, &a, 0, NULL, sz, &sz, fm);
-    CHECK(fm[5].mFormat.mSampleRate == 192000 && fm[5].mFormat.mChannelsPerFrame == 2, "format 6 is 192k 2ch");
+    CHECK(fm[5].mFormat.mSampleRate == 192000 && fm[5].mFormat.mChannelsPerFrame == 2 && fm[5].mFormat.mBytesPerFrame == 8, "output format 6 is 192k 2ch");
+    I->GetPropertyData(drv, kIn, 0, &a, 0, NULL, sz, &sz, fm);
+    CHECK(fm[0].mFormat.mChannelsPerFrame == 4 && fm[0].mFormat.mBytesPerFrame == 16, "input formats are 4ch (1-2 Music, 3-4 others)");
+    {
+        AudioStreamBasicDescription vf; UInt32 vz = sizeof vf; AudioObjectPropertyAddress va = { kAudioStreamPropertyVirtualFormat, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain };
+        I->GetPropertyData(drv, kIn, 0, &va, 0, NULL, vz, &vz, &vf); UInt32 inCh = vf.mChannelsPerFrame;
+        I->GetPropertyData(drv, kOut, 0, &va, 0, NULL, vz, &vz, &vf);
+        CHECK(inCh == 4 && vf.mChannelsPerFrame == 2, "virtual formats: input %u ch, output %u ch", inCh, vf.mChannelsPerFrame);
+        AudioObjectPropertyAddress la = { kAudioDevicePropertyPreferredChannelLayout, kAudioObjectPropertyScopeInput, kAudioObjectPropertyElementMain };
+        UInt32 lz = 0; I->GetPropertyDataSize(drv, kDev, 0, &la, 0, NULL, &lz);
+        char lb[256]; UInt32 lz2 = sizeof lb; I->GetPropertyData(drv, kDev, 0, &la, 0, NULL, lz2, &lz2, lb);
+        UInt32 inN = ((AudioChannelLayout*)lb)->mNumberChannelDescriptions;
+        la.mScope = kAudioObjectPropertyScopeOutput; lz2 = sizeof lb; I->GetPropertyData(drv, kDev, 0, &la, 0, NULL, lz2, &lz2, lb);
+        CHECK(inN == 4 && ((AudioChannelLayout*)lb)->mNumberChannelDescriptions == 2 && lz == lz2 + 2 * sizeof(AudioChannelDescription), "channel layouts: input %u, output %u", inN, ((AudioChannelLayout*)lb)->mNumberChannelDescriptions);
+    }
 
     a.mSelector = kAudioDevicePropertyIcon;
     CHECK(!I->HasProperty(drv, kDev, 0, &a), "no icon advertised");
 
     a.mSelector = kAudioObjectPropertyCustomPropertyInfoList;
     CHECK(I->HasProperty(drv, kDev, 0, &a), "custom property list");
-    AudioServerPlugInCustomPropertyInfo ci[2]; sz = sizeof ci;
-    CHECK(I->GetPropertyData(drv, kDev, 0, &a, 0, NULL, sz, &sz, ci) == 0 && ci[0].mSelector == 'LSrs' && ci[1].mSelector == 'LSst', "custom properties LSrs, LSst");
+    AudioServerPlugInCustomPropertyInfo ci[5]; sz = 0; I->GetPropertyDataSize(drv, kDev, 0, &a, 0, NULL, &sz);
+    CHECK(sz == sizeof ci, "5 custom properties");
+    CHECK(I->GetPropertyData(drv, kDev, 0, &a, 0, NULL, sz, &sz, ci) == 0 && ci[0].mSelector == 'LSrs' && ci[1].mSelector == 'LSst' && ci[4].mSelector == 'LSmx', "custom properties LSrs, LSst, ..., LSmx");
 
     // rate change: set -> request -> perform
     a.mSelector = kAudioDevicePropertyNominalSampleRate;
@@ -131,7 +146,7 @@ int main(int argc, char** argv)
     printf("   sampleNow %.1f\n", sn); CFRelease(got);
 
     // loopback: write a random 24-bit-exact signal, read it back at the same sample times, incl. wrap
-    const UInt32 frames = 512; float out[frames * 2], in[frames * 2];
+    const UInt32 frames = 512; float out[frames * 2], in[frames * 4];
     AudioServerPlugInIOCycleInfo cyc; memset(&cyc, 0, sizeof cyc);
     int mismatches = 0; UInt32 wrapTested = 0;
     srandom(1);
@@ -143,19 +158,93 @@ int main(int argc, char** argv)
         cyc.mInputTime.mSampleTime = starts[k];
         memset(in, 0xff, sizeof in);
         I->DoIOOperation(drv, kDev, kIn, 1, kAudioServerPlugInIOOperationReadInput, frames, &cyc, in, NULL);
-        if(memcmp(in, out, sizeof in) != 0) mismatches++;
+        for(UInt32 i = 0; i < frames; i++) if(memcmp(&in[i * 4], &out[i * 2], 8) != 0 || in[i * 4 + 2] != 0 || in[i * 4 + 3] != 0) { mismatches++; break; }
         if(fmod(starts[k], 131072) + frames > 131072) wrapTested++;
         // read again: cleared -> zeros
         I->DoIOOperation(drv, kDev, kIn, 1, kAudioServerPlugInIOOperationReadInput, frames, &cyc, in, NULL);
-        int nz = 0; for(UInt32 i = 0; i < frames * 2; i++) if(in[i] != 0) nz++;
+        int nz = 0; for(UInt32 i = 0; i < frames * 4; i++) if(in[i] != 0) nz++;
         if(nz) mismatches++;
     }
     CHECK(mismatches == 0 && wrapTested == 1, "loopback bit-exact incl. wrap, cleared after read (mismatches %d, wraps %u)", mismatches, wrapTested);
     cyc.mInputTime.mSampleTime = -300;
     memset(in, 0xff, sizeof in);
     I->DoIOOperation(drv, kDev, kIn, 1, kAudioServerPlugInIOOperationReadInput, frames, &cyc, in, NULL);
-    int nz = 0; for(UInt32 i = 0; i < frames * 2; i++) if(in[i] != 0) nz++;
-    CHECK(nz == 0, "negative input sample time -> silence");
+    int nz = 0; for(UInt32 i = 0; i < frames * 4; i++) if(in[i] != 0) nz++;
+    CHECK(nz == 0, "negative input sample time -> silence (4 ch)");
+
+    // ---- Music only ('LSmx'): per-client ProcessOutput, as coreaudiod would call it: every client's
+    // own buffer, then the HAL's mix of the (processed) buffers into WriteMix.
+    {
+        AudioObjectPropertyAddress ma = { 'LSmx', kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain };
+        Boolean st = 0; I->IsPropertySettable(drv, kDev, 0, &ma, &st);
+        CHECK(I->HasProperty(drv, kDev, 0, &ma) && st, "'LSmx' present and settable");
+        Boolean wd = 0, wip = 0; I->WillDoIOOperation(drv, kDev, 0, kAudioServerPlugInIOOperationProcessOutput, &wd, &wip);
+        CHECK(wd && wip, "will do ProcessOutput in place");
+        AudioServerPlugInClientInfo music = { 11, 500, false, NULL }, music2 = { 14, 500, false, NULL }, web = { 12, 600, false, NULL }, fb = { 13, 700, false, NULL };
+        I->AddDeviceClient(drv, kDev, &music); I->AddDeviceClient(drv, kDev, &music2); I->AddDeviceClient(drv, kDev, &web); I->AddDeviceClient(drv, kDev, &fb);
+        #define SETMX(p) do { SInt32 v_ = (p); CFNumberRef n_ = CFNumberCreate(NULL, kCFNumberSInt32Type, &v_); mxs = I->SetPropertyData(drv, kDev, 0, &ma, 0, NULL, sizeof n_, &n_); CFRelease(n_); } while(0)
+        OSStatus mxs;
+        float m[frames * 2], m2[frames * 2], w[frames * 2], f[frames * 2], mix[frames * 2], wCopy[frames * 2], fCopy[frames * 2];
+        // one cycle: ProcessOutput per client (in place), the HAL sums them, WriteMix, then read back
+        #define CYCLE(t) do { \
+            cyc.mOutputTime.mSampleTime = (t); cyc.mInputTime.mSampleTime = (t); \
+            I->DoIOOperation(drv, kDev, kOut, 11, kAudioServerPlugInIOOperationProcessOutput, frames, &cyc, m, NULL); \
+            I->DoIOOperation(drv, kDev, kOut, 14, kAudioServerPlugInIOOperationProcessOutput, frames, &cyc, m2, NULL); \
+            I->DoIOOperation(drv, kDev, kOut, 12, kAudioServerPlugInIOOperationProcessOutput, frames, &cyc, w, NULL); \
+            I->DoIOOperation(drv, kDev, kOut, 13, kAudioServerPlugInIOOperationProcessOutput, frames, &cyc, f, NULL); \
+            for(UInt32 i_ = 0; i_ < frames * 2; i_++) mix[i_] = w[i_] + m[i_] + f[i_] + m2[i_]; \
+            I->DoIOOperation(drv, kDev, kOut, 0, kAudioServerPlugInIOOperationWriteMix, frames, &cyc, mix, NULL); \
+            memset(in, 0xff, sizeof in); \
+            I->DoIOOperation(drv, kDev, kIn, 1, kAudioServerPlugInIOOperationReadInput, frames, &cyc, in, NULL); \
+        } while(0)
+        #define FILL() do { for(UInt32 i_ = 0; i_ < frames * 2; i_++) { \
+            m[i_] = (float)((int)(random() % 16777216) - 8388608) / 8388608.0f; m2[i_] = 0.0f; \
+            w[i_] = (float)((int)(random() % 16777216) - 8388608) / 16777216.0f; f[i_] = (float)((int)(random() % 65536) - 32768) / 131072.0f; \
+            wCopy[i_] = w[i_]; fCopy[i_] = f[i_]; } } while(0)
+        float mCopy[frames * 2];
+        SETMX(500); CHECK(mxs == 0, "set 'LSmx' = 500 (Music)");
+        int badMusic = 0, badOthers = 0, notZeroed = 0, wraps = 0;
+        Float64 ts[] = { 4096, 131072 - 200, 131072 * 5 + 33 };
+        for(unsigned k = 0; k < 3; k++) {
+            FILL(); memcpy(mCopy, m, sizeof m);
+            CYCLE(ts[k]);
+            for(UInt32 i = 0; i < frames * 2; i++) if(w[i] != 0 || f[i] != 0) { notZeroed++; break; }
+            for(UInt32 i = 0; i < frames; i++) {
+                if(memcmp(&in[i * 4], &mCopy[i * 2], 8) != 0) { badMusic++; break; }
+            }
+            for(UInt32 i = 0; i < frames; i++) {
+                if(in[i * 4 + 2] != wCopy[i * 2] + fCopy[i * 2] || in[i * 4 + 3] != wCopy[i * 2 + 1] + fCopy[i * 2 + 1]) { badOthers++; break; }
+            }
+            if(fmod(ts[k], 131072) + frames > 131072) wraps++;
+        }
+        CHECK(badMusic == 0 && wraps == 1, "Music only: ch 1-2 bit-exact Music (2 Music clients, 2 others playing; incl. wrap)");
+        CHECK(notZeroed == 0, "others' buffers zeroed before the mix");
+        CHECK(badOthers == 0, "ch 3-4 = the sum of the two other apps");
+        // a lap later with nobody reading: the first other client of a cycle replaces the old lap
+        FILL(); cyc.mOutputTime.mSampleTime = 8192;
+        I->DoIOOperation(drv, kDev, kOut, 12, kAudioServerPlugInIOOperationProcessOutput, frames, &cyc, w, NULL);
+        FILL(); cyc.mOutputTime.mSampleTime = 8192 + 131072;
+        I->DoIOOperation(drv, kDev, kOut, 12, kAudioServerPlugInIOOperationProcessOutput, frames, &cyc, w, NULL);
+        cyc.mInputTime.mSampleTime = 8192 + 131072; memset(in, 0xff, sizeof in);
+        I->DoIOOperation(drv, kDev, kIn, 1, kAudioServerPlugInIOOperationReadInput, frames, &cyc, in, NULL);
+        int stale = 0; for(UInt32 i = 0; i < frames; i++) if(in[i * 4 + 2] != wCopy[i * 2]) { stale++; break; }
+        CHECK(stale == 0, "an unread earlier lap is replaced, not summed");
+        a.mSelector = 'LSst'; got = NULL; sz = sizeof got; I->GetPropertyData(drv, kDev, 0, &a, 0, NULL, sz, &sz, &got);
+        double calls = 0, mcalls = 0, moved = 0, mpid = 0;
+        CFNumberGetValue(CFDictionaryGetValue(got, CFSTR("processOutputCalls")), kCFNumberFloat64Type, &calls);
+        CFNumberGetValue(CFDictionaryGetValue(got, CFSTR("musicClientCalls")), kCFNumberFloat64Type, &mcalls);
+        CFNumberGetValue(CFDictionaryGetValue(got, CFSTR("othersFramesMoved")), kCFNumberFloat64Type, &moved);
+        CFNumberGetValue(CFDictionaryGetValue(got, CFSTR("musicPID")), kCFNumberFloat64Type, &mpid); CFRelease(got);
+        CHECK(calls == 14 && mcalls == 6 && moved == 8 * frames && mpid == 500, "status counts per-client calls (%.0f calls, %.0f Music, %.0f frames moved, pid %.0f)", calls, mcalls, moved, mpid);
+        // 'LSmx' = 0: as 1.1.3, everything mixed on ch 1-2, 3-4 silent, buffers untouched
+        SETMX(0); CHECK(mxs == 0, "set 'LSmx' = 0");
+        FILL(); CYCLE(20000);
+        int bad0 = 0; for(UInt32 i = 0; i < frames * 2; i++) if(w[i] != wCopy[i] || f[i] != fCopy[i]) { bad0++; break; }
+        for(UInt32 i = 0; i < frames; i++) if(memcmp(&in[i * 4], &mix[i * 2], 8) != 0 || in[i * 4 + 2] != 0 || in[i * 4 + 3] != 0) { bad0++; break; }
+        CHECK(bad0 == 0, "'LSmx' = 0: the whole mix on ch 1-2, ch 3-4 silent, buffers untouched");
+        SETMX(-1); CHECK(mxs != 0, "negative pid refused");
+        I->RemoveDeviceClient(drv, kDev, &music); I->RemoveDeviceClient(drv, kDev, &music2); I->RemoveDeviceClient(drv, kDev, &web); I->RemoveDeviceClient(drv, kDev, &fb);
+    }
 
     // ---- holds
     AudioObjectPropertyAddress ha = { 'LShd', kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain };
