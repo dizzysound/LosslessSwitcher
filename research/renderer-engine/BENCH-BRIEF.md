@@ -82,6 +82,16 @@ Engine log: ~/Library/Logs/LosslessSwitcher-ExclusiveMode.log (recreated at each
    launch, kill it three times, each within 30 s of the last restart: the restarts wait 1, 1, 2 s.
    Quit the app: no `run.pl ... loop` left and no restart message.
 
+14. Skips (fix 6b4915c): on an Apple Music station, skip ("next track") three times ~10 s apart, and
+   once during a rate switch. Each "new track" line must match the track's rate in Music's own log
+   (`/usr/bin/log show --info --last 10m --style compact --predicate 'process == "Music" AND eventMessage
+   CONTAINS "ACAppleLosslessDecoder"'`); expect "may be the previous track's; waiting 1 s for its own"
+   on quick skips. Then pause past the idle step-aside and play: the resumed track keeps its own rate.
+15. Virtual device volume (plug-in 1.1.3): update the plug-in from the menu first. Audio MIDI Setup
+   (or the Sound menu) must never show the LosslessSwitcher device above 0 dB. With a DAC that has a
+   volume, its reading equals the DAC's dB; with one that has none (MT 48), it stays at 0 dB and a
+   volume key puts it straight back.
+
 ## Rules (the owner)
 - No gap or pause unless there's a sample-rate switch.
 - Restore what you change: default output, its rate, the DAC's volume, Music volume 100. Leave shuffle.

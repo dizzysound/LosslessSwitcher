@@ -427,3 +427,23 @@ current track (Earth: 48000).
 - Possible fix direction (not written): drop lines logged within ~1 s after the previous track's
   Playing when a later line exists, or, on a Playing that follows a skip, wait for a line newer than
   the notification (the existing 3 s "awaiting" path).
+
+# Fixes from the Executor bench (2026-09-28, desk-checked; bench pending)
+- 6b4915c, skip decoder line: decoder lines up to 2 s after a track's Playing, or 1 s after a
+  switch's play, are that track's own (ownLinesUntil). A new track whose newest line falls in the
+  previous track's window waits up to 1 s for a newer line and takes the old one only if none comes
+  ("may be the previous track's; waiting 1 s for its own" / "no newer decoder line ... the earlier one
+  decides"). Replayed against the logged run: Deadbeat Drag and Earth would each wait and get their own
+  line (44.1k at +0.39 s, 48k at +0.42 s); Ticking (skipped to during switch 2) waits 1 s and falls back
+  to its 48k line, as before. Natural transitions: the pre-roll line comes 8-12 s (streams up to
+  ~105 s) early, outside the window, so they decide at once. Resume from step-aside now uses the rate
+  decided for the same track (trackRate), not the newest line (Earth resumed on the next track's 48k
+  pre-roll line: right by luck).
+- 277d43f, virtual device volume: plug-in 1.1.2 kept NullAudio's -96..+6 dB squared taper, so unity
+  read +6 dB and the engine's slider read wrong (0.6641, the DAC's -21.5 dB, read -51.02 dB; the
+  Executor probe saw -51.0). The control never applied gain (gVolume_Output_Master_Value is read only
+  by the property getters), but the readout suggested a boost or a cut. Plug-in 1.1.3 (build 5): 0 to
+  -64 dB, linear in dB, same as the engine; harness: 7 volume checks pass on 1.1.3, 4 fail on the
+  installed 1.1.2. Engine: RendererVolumeTopDB/RendererVolumeRangeDB removed (the window must match
+  the plug-in); a DAC without volume (MT 48) holds the virtual device at 0 dB, unmuted; stop leaves
+  it at 0 dB. Needs the plug-in update (menu, admin password).
