@@ -1724,10 +1724,12 @@ enum CA {
 /// forwarded to the DAC's own controls, so the stream to the DAC stays bit-perfect. The DAC's master
 /// element (0) if it has a volume there, else the stereo pair's channel elements (Babyface Pro:
 /// channels 1/2, no master, no mute).
-/// Mapping: the slider is linear in dB over a window below the top (defaults RendererVolumeTopDB 0,
-/// RendererVolumeRangeDB 64: 4 dB per key step, 1 dB per Option+Shift step); the bottom is the DAC's
-/// minimum. The DAC's own taper made one step 8-9.5 dB on the Babyface. A DAC without dB controls
-/// gets the slider's value as its scalar.
+/// Mapping: the slider is linear in dB from 0 dB down to -64 dB (4 dB per key step, 1 dB per
+/// Option+Shift step), the same mapping plug-in 1.1.3 reports, so the virtual device reads the DAC's
+/// own level and never above 0 dB; the bottom is the DAC's minimum. The DAC's own taper made one step
+/// 8-9.5 dB on the Babyface. A DAC without dB controls gets the slider's value as its scalar.
+/// A DAC with no settable volume: the virtual device is held at 0 dB, unmuted (nothing attenuates).
+/// Stop leaves it at 0 dB.
 /// A DAC without a mute is muted by setting its volume to the minimum; unmute and stop restore the
 /// level it had. A change made on the DAC itself (Audio MIDI Setup, TotalMix) moves the slider to
 /// match. Comparisons are in slider units, so the DAC's own rounding (0.5 dB on the RME) doesn't echo.
@@ -1745,7 +1747,11 @@ final class VolumeForwarder {
     private var volumeEls: [UInt32] = [], muteEls: [UInt32] = []
     private var emulatedMute = false
     private var mutedLevel: Float32 = 0 // DAC scalar before an emulated mute
-    private var topDB: Float32 = 0, rangeDB: Float32 = 64, useDB = false
+    private static let topDB: Float32 = 0, rangeDB: Float32 = 64 // LSOutput.driver's kVolume_MaxDB, -kVolume_MinDB
+    private var topDB: Float32 { Self.topDB }
+    private var rangeDB: Float32 { Self.rangeDB }
+    private var useDB = false
+    private var pinned = false // the DAC has no volume: the virtual device stays at 0 dB, unmuted
     // engine thread
     private var listeners: [(AudioObjectID, AudioObjectPropertyAddress, AudioObjectPropertyListenerBlock)] = []
 
@@ -1759,15 +1765,13 @@ final class VolumeForwarder {
         queue.sync {
             self.ls = ls; self.dac = dac; self.dacUID = CA.string(dac, kAudioDevicePropertyDeviceUID)
             volumeEls = vols; muteEls = mutes; emulatedMute = false
+            pinned = vols.isEmpty
             guard !vols.isEmpty else {
-                log("volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)")
+                log("volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity); virtual device held at 0 dB: \(Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, 1)), unmuted: \(Self.set(ls, kAudioDevicePropertyMute, 0, 0))")
+                active = true
                 return
             }
-            let d = UserDefaults.standard
-            let range = Self.dbRange(dac, vols[0])
-            topDB = min(Float32(d.object(forKey: "RendererVolumeTopDB") as? Double ?? 0), range?.max ?? 0)
-            rangeDB = max(Float32(d.object(forKey: "RendererVolumeRangeDB") as? Double ?? 64), 6)
-            useDB = range != nil && Self.dbToScalar(dac, vols[0], topDB) != nil
+            useDB = Self.dbRange(dac, vols[0]) != nil && Self.dbToScalar(dac, vols[0], topDB) != nil
             // start from the DAC's level, so nothing jumps
             let level = currentSlider() ?? 1
             let muted = mutes.first.flatMap { Self.get(dac, kAudioDevicePropertyMute, $0) }.map { $0 != 0 } ?? false
@@ -1777,10 +1781,10 @@ final class VolumeForwarder {
             log("volume: forwarding to DAC element\(vols.count > 1 ? "s" : "") \(vols.map(String.init).joined(separator: ",")) (\(Self.db(dac, vols[0])) dB), \(map); mute \(mutes.isEmpty ? "emulated (DAC has none)" : "to element\(mutes.count > 1 ? "s" : "") \(mutes.map(String.init).joined(separator: ","))"); slider -> \(String(format: "%.4f", level)): \(st), mute -> \(muted ? 1 : 0): \(mst)")
             active = true
         }
-        guard !vols.isEmpty else { return }
         for sel in [kAudioDevicePropertyVolumeScalar, kAudioDevicePropertyMute] {
             listen(ls, AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: 0)) { $0.push() }
         }
+        guard !vols.isEmpty else { return }
         for e in vols {
             listen(dac, AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyVolumeScalar, mScope: kAudioObjectPropertyScopeOutput, mElement: e)) { $0.pull() }
         }
@@ -1798,6 +1802,9 @@ final class VolumeForwarder {
                 emulatedMute = false
                 UserDefaults.standard.removeObject(forKey: Self.mutedKey)
             }
+            // nothing drives it now: leave it reading unity, which is what it passes
+            _ = Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, 1); _ = Self.set(ls, kAudioDevicePropertyMute, 0, 0)
+            pinned = false
         }
     }
 
@@ -1837,6 +1844,13 @@ final class VolumeForwarder {
 
     /// Virtual device -> DAC (a volume key, the sound menu).
     private func push() {
+        if pinned {
+            // no DAC control to drive: put the virtual device back to 0 dB, unmuted
+            if (Self.get(ls, kAudioDevicePropertyVolumeScalar, 0) ?? 1) < 1 || (Self.get(ls, kAudioDevicePropertyMute, 0) ?? 0) != 0 {
+                log("volume: DAC has no volume control; virtual device back to 0 dB: \(Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, 1)), unmuted: \(Self.set(ls, kAudioDevicePropertyMute, 0, 0))")
+            }
+            return
+        }
         guard let v = Self.get(ls, kAudioDevicePropertyVolumeScalar, 0) else { return }
         let m = (Self.get(ls, kAudioDevicePropertyMute, 0) ?? 0) != 0
         var did: [String] = []
