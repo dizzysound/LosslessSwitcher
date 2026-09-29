@@ -6,5 +6,12 @@
             <cocoa class="LosslessSwitcher.ScriptableApplicationCommand"/>
             <result type="integer" description="sample rate"/>
         </command>
+        <command name="export logs" code="sdseexpl" description="writes the same zip as About > Export Logs… (engine logs, audio devices, settings, filtered system log) and returns its path; takes up to a few minutes">
+            <cocoa class="LosslessSwitcher.ExportLogsCommand"/>
+            <parameter name="to" code="dest" type="text" optional="yes" description="zip path or folder (default: the Desktop)">
+                <cocoa key="destination"/>
+            </parameter>
+            <result type="text" description="the zip's path, or an error message starting with 'error:'"/>
+        </command>
     </suite>
 </dictionary>
