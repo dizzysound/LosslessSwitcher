@@ -151,6 +151,7 @@ final class VirtualDeviceEngine {
     private var armAt: Date?
     private var armedAt: Date?
     private var lateArmAt: Date? // a pre-roll line that came early: arm again 1.5 s before the end
+    private var armForSkip = false // armAt is for a skip (the gap already went through A)
     private var latchedAt: Date?
     private var gatePending = false
     private var lastNewTrackAt: Date?
@@ -201,7 +202,19 @@ final class VirtualDeviceEngine {
     private var switches = 0
     private var scripts: RendererScripts!
     private let log = RendererLog()
-    private let targetFill: Int
+    /// Frames B trails A by: ~0.35 s at the current rate (RendererTargetFrames overrides). A skip is
+    /// reported ~0.25-0.3 s after the new track's audio started (Music's log line and Playing; pastor
+    /// Mac, data/2026-09-29-pastor-skips): with 2048 frames (~46 ms) its start had already played at the
+    /// old rate by then (5-260 ms leaked). 0.35 s keeps the gap between the tracks ahead of B.
+    private let fixedTarget: Int?
+    private let targetFillA = Atomic<Int>(2048)
+    private var targetFill: Int { targetFillA.load(ordering: .relaxed) }
+    private static let trailSeconds = 0.35
+    // A's history of gaps (>= 10 ms of exact zeros): the ring position where each gap reached 10 ms
+    private let gapHist = UnsafeMutablePointer<Int>.allocate(capacity: 32)
+    private let gapCount = Atomic<Int>(0)
+    private let gapLen = Atomic<Int>(441)
+    private var gapRun = 0 // A only
     // clock lock (PLL on the phase between the two devices' time lines)
     private let tau = 5.0
     private var phase0: Double?
@@ -252,13 +265,15 @@ final class VirtualDeviceEngine {
     init(outputDevices: OutputDevices) {
         self.outputDevices = outputDevices
         let t = UserDefaults.standard.integer(forKey: "RendererTargetFrames")
-        targetFill = t > 0 ? t : 2048
+        fixedTarget = t > 0 ? t : nil
+        targetFillA.store(t > 0 ? t : 2048, ordering: .relaxed)
+        gapHist.initialize(repeating: -1, count: 32)
         scratch.initialize(repeating: 0, count: Self.maxFrames * 2)
         scratchA.initialize(repeating: 0, count: Self.maxFrames * 2)
         scratchO.initialize(repeating: 0, count: Self.maxFrames * 2)
     }
 
-    deinit { scratch.deallocate(); scratchA.deallocate(); scratchO.deallocate() }
+    deinit { scratch.deallocate(); scratchA.deallocate(); scratchO.deallocate(); gapHist.deallocate() }
 
     // MARK: - Lifecycle (main thread)
 
@@ -608,6 +623,9 @@ final class VirtualDeviceEngine {
             runUserScript(rate, bits: nil)
         }
         curRate = rate
+        targetFillA.store(fixedTarget ?? Int(rate * Self.trailSeconds), ordering: .releasing)
+        gapLen.store(max(Int(0.01 * rate), 1), ordering: .releasing)
+        setReportedLatency(targetFill)
         // the menu bar's rate: with Exclusive Mode on, OutputDevices' own detection is off and it only
         // re-reads a device when the default output changes, so a switch mid-session never reached it
         // (pastor Mac: "it's clearly switching but the taskbar is not")
@@ -756,6 +774,7 @@ final class VirtualDeviceEngine {
         }
         tearDownDAC()
         clearMusicOnly()
+        setReportedLatency(0)
         if ls != 0 { log("virtual device scalar reset: \(CA.setScalar(ls, 1.0, Self.kRateScalar))") }
         // the default the user had (with a Selected Device the DAC can be another device)
         let back = defaultBefore != 0 && defaultBefore != ls && CA.hasOutput(defaultBefore) ? defaultBefore : dac
@@ -1083,7 +1102,7 @@ final class VirtualDeviceEngine {
         let need = neededRate(rate)
         log("new track \(name): decoder \(rate) Hz \(lossless ? "lossless" : "lossy") (seen \(String(format: "%.3f", seenAgo)) s before Playing), DAC \(Int(curRate)) Hz\(need.map { " -> switch to \(Int($0))" } ?? "")")
         if let r = need {
-            switchRate(r, name: name, tPlay: tPlay)
+            switchRate(r, name: name, tPlay: tPlay, newTrack: true)
         } else {
             if latchedAt != nil || latchZeros.load(ordering: .acquiring) > 0 || armAt != nil { disarm("same rate after all") }
             releaseGate("same rate", name: name, tPlay: tPlay)
@@ -1122,6 +1141,7 @@ final class VirtualDeviceEngine {
         let left = scripts.remaining() ?? 0
         let delay = left > 13 ? 0 : max(0, left - 1.5)
         armAt = Date().addingTimeInterval(delay)
+        armForSkip = left > 13
         // More than 13 s left: a skip (Music leaves zeros now), or a pre-roll set up early (Babyface
         // bench: 105 s before the end of a streamed track; the 5 s arm expired and the boundary cut
         // at the play position). Cover both: arm now, and again 1.5 s before the end.
@@ -1150,9 +1170,17 @@ final class VirtualDeviceEngine {
         }
         if let a = armAt, Date() >= a {
             armAt = nil
-            latchZeros.store(max(Int(0.01 * curRate), 1), ordering: .releasing)
             armedAt = Date()
-            log("boundary latch armed at in frame \(inFrames.load(ordering: .relaxed))")
+            // a skip is reported after its gap went through A: stop at that gap if B hasn't played it
+            if armForSkip, marker.load(ordering: .acquiring) < 0, let g = retroGap() {
+                atBoundary.store(0, ordering: .relaxed)
+                marker.store(g, ordering: .releasing)
+                log("boundary latch: the skip's gap is \(ring.written - g) frames back, B \(g - ring.readPos) frames before it; latched there")
+            } else {
+                latchZeros.store(max(Int(0.01 * curRate), 1), ordering: .releasing)
+                log("boundary latch armed at in frame \(inFrames.load(ordering: .relaxed))")
+            }
+            armForSkip = false
         }
         let m = marker.load(ordering: .acquiring)
         if let a = armedAt, m < 0, Date().timeIntervalSince(a) > 5 {
@@ -1365,10 +1393,35 @@ final class VirtualDeviceEngine {
         return fmt.mSampleRate
     }
 
+    /// Where B should stop for a skip reported late: the earliest gap A saw in the last 0.6 s that B
+    /// hasn't played yet (nil: none; B then stops where it is, as before).
+    private func retroGap() -> Int? {
+        let c = gapCount.load(ordering: .acquiring)
+        let rd = ring.readPos, w = ring.written, window = Int(0.6 * curRate)
+        var best: Int?
+        for k in max(0, c - 32)..<c {
+            let p = gapHist[k & 31]
+            if p > rd, p >= w - window, p <= w { best = min(best ?? p, p) }
+        }
+        return best
+    }
+
+    /// Plug-in 1.1.6: the device reports B's trail as its output latency, so video stays in sync.
+    private static let kLatency: AudioObjectPropertySelector = 0x4C53_6C74 // 'LSlt'
+    private var reportedLatency = -1
+    private func setReportedLatency(_ frames: Int) {
+        guard ls != 0, frames != reportedLatency else { return }
+        var a = CA.addr(Self.kLatency)
+        guard AudioObjectHasProperty(ls, &a) else { return }
+        let st = CA.setCFNumber(ls, Self.kLatency, NSNumber(value: Int32(frames)))
+        if st == noErr { reportedLatency = frames }
+        log("virtual device latency -> \(frames) frames: \(st)")
+    }
+
     // MARK: - The switch routine
 
     /// `pausedAt`: when Music was paused, if a caller paused it already (resume from idle).
-    private func switchRate(_ r: Float64, name: String, tPlay: Date, pausedAt: Date? = nil) {
+    private func switchRate(_ r: Float64, name: String, tPlay: Date, pausedAt: Date? = nil, newTrack: Bool = false) {
         inRoutine = true
         defer { inRoutine = false }
         switches += 1
@@ -1379,8 +1432,11 @@ final class VirtualDeviceEngine {
         let tPlay = gatePending ? min(tPlay, gateMarkedAt ?? tPlay) : tPlay
         _ = scripts.pause()
         var m = marker.load(ordering: .acquiring)
-        let how = m < 0 ? "not latched: cut at the play position" : (gatePending ? "held at the gate" : "latched at the old track's end")
-        if m < 0 { atBoundary.store(0, ordering: .releasing); m = ring.readPos; marker.store(m, ordering: .releasing) }
+        // a new track reported late (a skip): the gap before it, if B hasn't played it yet
+        let retro = m < 0 && newTrack ? retroGap() : nil
+        let how = m >= 0 ? (gatePending ? "held at the gate" : "latched at the old track's end")
+            : retro.map { "latched at the gap before it (after the fact, \(ring.written - $0) frames back; B \($0 - ring.readPos) frames before it)" } ?? "not latched: cut at the play position"
+        if m < 0 { atBoundary.store(0, ordering: .releasing); m = retro ?? ring.readPos; marker.store(m, ordering: .releasing) }
         latchZeros.store(0, ordering: .releasing); gate.store(0, ordering: .releasing)
         gatePending = false; gateMarkedAt = nil; armAt = nil; armedAt = nil; latchedAt = nil
         let reached = wait(1) { self.atBoundary.load(ordering: .acquiring) != 0 }
@@ -1617,6 +1673,17 @@ final class VirtualDeviceEngine {
             f = UnsafePointer(d.assumingMemoryBound(to: Float.self))
         }
         let w0 = ring.written
+        let gl = gapLen.load(ordering: .relaxed)
+        for i in 0..<n {
+            if f[i * 2] == 0 && f[i * 2 + 1] == 0 {
+                gapRun += 1
+                if gapRun == gl {
+                    let c = gapCount.load(ordering: .relaxed)
+                    gapHist[c & 31] = w0 + i + 1
+                    gapCount.store(c + 1, ordering: .releasing)
+                }
+            } else { gapRun = 0 }
+        }
         if marker.load(ordering: .acquiring) < 0 {
             let lz = latchZeros.load(ordering: .acquiring)
             if lz > 0 {
