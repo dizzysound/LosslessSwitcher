@@ -165,6 +165,8 @@ final class VirtualDeviceEngine {
     private var dacScalarEst = 0.0, integ = 0.0, lsScalar = 1.0
     private var lockAfterCycles = (0, 0)
     private var waitingForScalar = false
+    private var scalarHistory: [(t: Double, r: Double)] = [] // the DAC's HAL scalar at each pll() since the last reset
+    private var waitingSince: Double?
     private var refillAsked = false
     private var scriptRate: Float64 = 0 // the rate the user's script (Scripting menu) last heard
     private var overshootLogged: Bool?
@@ -340,7 +342,7 @@ final class VirtualDeviceEngine {
                 lastStatus = now
                 // wall clock and clock-lock state: the overnight coffee log needed both
                 let dacScalar = stampB.get().map { String(format: "%.6f", $0.2) } ?? "-"
-                let clock = procB == nil ? "stepped aside" : phase0 != nil ? "locked" : waitingForScalar ? "waiting (DAC scalar not settled)" : "not locked"
+                let clock = procB == nil ? "stepped aside" : phase0 != nil ? "locked" : waitingForScalar ? "waiting (DAC scalar not steady, following it)" : "not locked"
                 log("\(Int(curRate)) Hz fill \(ring.fill) scalar \(String(format: "%.9f", lsScalar)) under \(ring.underruns.load(ordering: .relaxed)) over \(ring.overruns.load(ordering: .relaxed)); clock \(clock), DAC scalar \(dacScalar); \(RendererLog.wallClock.string(from: now))")
             }
             Thread.sleep(forTimeInterval: 0.01)
@@ -1221,6 +1223,7 @@ final class VirtualDeviceEngine {
 
     private func resetLock() {
         phase0 = nil; integ = 0; dacScalarEst = 0; refillAsked = false
+        scalarHistory.removeAll(); waitingSince = nil
         lockAfterCycles = (aCycles.load(ordering: .relaxed) + 8, bCycles.load(ordering: .relaxed) + 8)
     }
 
@@ -1233,11 +1236,38 @@ final class VirtualDeviceEngine {
         let h = Double(mach_absolute_time())
         let phase = (sA + (h - hA) / (tpf * lsScalar)) - (sB + (h - hB) / (tpf * rB))
         // After a switch the DAC's HAL scalar converges for seconds (1.00115 at 88.2k in trial s2, and
-        // seeding on it walked the phase to -285 frames). Until it is within 100 ppm the virtual
-        // device keeps its last scalar (same crystal) and nothing is locked.
-        if phase0 == nil && abs(rB - 1) > 100e-6 {
-            if !waitingForScalar { waitingForScalar = true; log("clock: DAC scalar \(String(format: "%.6f", rB)) not settled; waiting to lock") }
-            return
+        // seeding on it walked the phase to -285 frames), so the lock waits until it is steady: the
+        // means of the older and newer halves of the last 4 s within 20 ppm. Steady, not near 1: the
+        // DragonFly Black runs ~400 ppm fast at 44.1k and a 100 ppm gate never locked (the ring drained,
+        // ~12 ms dropout every 30 s). Replayed on the MT 48 recordings: passes 3.3-5 s after the old
+        // lock point, never fails once settled (worst 19 ppm at 192k). While waiting the virtual device
+        // follows the DAC's scalar so the ring doesn't drain; after 30 s it locks on the 4 s mean anyway.
+        if phase0 == nil {
+            let t = h / ticksPerSec
+            scalarHistory.append((t, rB))
+            scalarHistory.removeAll { t - $0.t > 4 }
+            var steady: Double?
+            if let first = scalarHistory.first, t - first.t >= 3.25 {
+                let mid = first.t + (t - first.t) / 2
+                let older = scalarHistory.filter { $0.t < mid }.map(\.r), newer = scalarHistory.filter { $0.t >= mid }.map(\.r)
+                let mo = older.reduce(0, +) / Double(older.count), mn = newer.reduce(0, +) / Double(newer.count)
+                if abs(mn - mo) < 20e-6 {
+                    steady = mn
+                } else if let w = waitingSince, t - w >= 30 {
+                    steady = mn
+                    if waitingForScalar { log("clock: DAC scalar still moving after 30 s (\(String(format: "%.6f", mo)) -> \(String(format: "%.6f", mn)) over 4 s); locking on it") }
+                }
+            }
+            guard let est = steady else {
+                if waitingSince == nil { waitingSince = t }
+                if !waitingForScalar { waitingForScalar = true; log("clock: DAC scalar \(String(format: "%.6f", rB)) not steady yet; following it until the lock") }
+                if CA.setScalar(ls, rB, Self.kRateScalar) == noErr { lsScalar = rB }
+                return
+            }
+            if waitingForScalar, let w = waitingSince {
+                log("clock: DAC scalar steady at \(String(format: "%.6f", est)) after \(String(format: "%.1f", t - w)) s")
+            }
+            dacScalarEst = est
         }
         waitingForScalar = false
         // The lock holds the phase it starts from, so it holds the ring's fill too. After the follow to
