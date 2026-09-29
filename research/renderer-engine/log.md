@@ -979,3 +979,16 @@ hymn; before -> 96k: 99.5 % = the 16-bit tone, less its stop fade). No leak.
 - Owner asked about finding the sample rate from the samples like the depth: not possible (the rate
   isn't in the sample values). An FFT bandwidth estimate could hint at upsampling (nothing above
   ~22 kHz on a 96k track) but real hi-res recordings can look the same; not built.
+
+## Bench attempts at the 0.5 s margin (b1c4314, pastor, 13:40-14:00): no switch to measure
+- Both Macs started at Normal (0.5 s): "virtual device latency -> 22050 frames" (coffee, 44.1k),
+  48000 (pastor, 96k). Owner on coffee: no skip glitch heard.
+- Run 1: Music's context was a single library track (after the play-track test): `next track` did
+  nothing. Run 2: "Everything" on shuffle: all 44.1k (mostly lossy): no switch. Found: "Uniform (12"
+  German version)*" decided lossless for want of a line; its lossy line came 18 ms later; the
+  samples fit no grid and the Bit-Perfect Check blamed Music. Fix (committed): a lossy line at the
+  track's rate in its own window marks it lossy.
+- Run 3: temporary playlist "LS bench (temp)" (owner's OK; deleted after, shuffle restored): Music
+  skipped all four 96k hymns in it and played Bobby's Song (library 48000) at 44.1k: no switch.
+- Stopped there (checkpoint rule). Evidence stands on the 0.35 s run (7 of 7 clean) and the owner's
+  listening; 0.5 s only widens the margin. Depth from the samples: 16/24 right on every track here.
