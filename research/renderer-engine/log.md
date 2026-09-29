@@ -872,3 +872,17 @@ Data: data/2026-09-29-pastor-musiconly-115/ (.f32 on disk only). Same runs as wi
   not a direct capture of the loss.
 - othersPeakRead measures the left channel only (0.2297 vs 0.3589 in); the engine's meter (both
   channels) read the full 0.3589 (-8.9 dBFS). Cosmetic; noted, not changed.
+
+# Bench: Music only on plug-in 1.1.5 (b3eeee4), coffee (DragonFly Black, int24), 2026-09-29 11:30-11:33
+Data: data/2026-09-29-coffee-musiconly-115/ (.f32 on disk only). Track: "The Right Rite" (database ID
+8704, ALAC 44.1k, speech; the owner listens on coffee, so no test tone). Owner updated 1.1.3 -> 1.1.5.
+- silence: A's input and B's output 0 nonzero frames; afplay on loopback ch 3-4 and the MacBook Air
+  Speakers player at -8.9 dBFS. PASS.
+- alone vs with: 1103393 frames (25.0 s) bit-exact with afplay playing; differences only in the pause
+  fade tail (B ends +1104493, A +1105517). PASS.
+- B's recording (float, before int24) = A's input for all 1342324 frames it holds; it ends 78 frames
+  before A's (the last of the pause fade), in the alone run as well (no other app): where the
+  recording stopped at the quit, not a Music-only effect.
+- Other-apps fill sits above target (2600-3570 vs 2205) with varispeed up to 1.000524: the P loop's
+  steady offset against the DragonFly's ~1100 ppm-slow clock (DAC scalar 0.998868). ~30 ms extra
+  latency at most, no dry-outs or overruns; an integral term would center it (not done).
