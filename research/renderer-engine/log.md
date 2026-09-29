@@ -1020,3 +1020,12 @@ playlist, ~/Music/LS-gapless-temp, Music's copy of B in Unknown Artist/Unknown A
 - A first attempt with the files in /tmp failed ("File permission error" setting tags) after adding A;
   cleaned up and redone from ~/Music without tag edits.
 - Music reports shuffle off afterwards and ignored `set shuffle enabled to true` with nothing queued.
+
+# Bench: skips at the 0.5 s margin (eebe7e9), pastor, Apple Music playlist (owner started it), ~14:25
+Data: data/2026-09-29-pastor-skips-0.5/ (.f32 on disk only). 10 x `next track` 9 s apart; 5 needed a
+switch (48k <-> 44.1k, TRON: Ares and others).
+- All 5 "boundary latch: the skip's gap is 11931-16672 frames back, B 6880-10085 frames before it;
+  latched there": 143-229 ms to spare (0.35 s: 2.6-85 ms).
+- B's output before each flush: 0.51-0.62 s zeros (stopped at the gap), then 6.94-9.08 s of the old
+  track. No new-track audio. Silence per switch 1.53-1.86 s (46 ms trail: 1.02-1.91 s). PASS.
+- Music left playing (as found).
