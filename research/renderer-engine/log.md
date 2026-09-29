@@ -847,3 +847,9 @@ side (the DAC path silent); ch 3-4 were never measured. My miss.
   back of more than half the ring resets). 'LSst' adds othersPeakIn/othersPeakRead and
   othersMaxTimeDelta/othersTimeDeltaCycles; the engine logs them in the 10 s meter line. If the time
   delta reads 0 on the bench, the cause is something else and the peaks say which side.
+- 1.1.5 on pastor (owner updated from the menu, ~10:55): YouTube reaches the speakers path. Meter at
+  12 s: plug-in peak in 0.5955, read back 0.5955, loopback ch 3-4 -4.5 dBFS, player out -4.5 dBFS,
+  MacBook Pro Speakers at -26.7 dB (the owner's slider). So 1.1.4's replace rule was the loss, or
+  something it interacted with. The time-delta fields read 0, but they compare only the LAST
+  ProcessOutput of a cycle with its WriteMix, so they neither confirm nor rule out differing times
+  among the clients: cause traced, not proven. Owner to confirm by ear.
