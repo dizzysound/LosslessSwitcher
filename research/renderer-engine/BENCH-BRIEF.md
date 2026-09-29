@@ -54,10 +54,12 @@ Engine log: ~/Library/Logs/LosslessSwitcher-ExclusiveMode.log (recreated at each
 10. Advanced > Inter-sample Overshoot Protection (off by default): turn it on while playing: the log
    says "inter-sample overshoot protection on: output -3.0 dB, not bit-perfect", Bit-Perfect Check
    lists it, and the level drops by 3 dB (a loopback or level meter on the DAC's output shows it).
-   Turn it off: "off: output unchanged". The settings menu is under Advanced; the engine's options
+   Turn it off: "off: output unchanged". Hovering the item shows why (inter-sample overs, after
+   Benchmark Media's application note). The settings menu is under Advanced; the engine's options
    there show only while Exclusive Mode is on.
-11. Advanced > TPDF Dither (off by default): the item names the DAC's depth ("16-bit DAC", "24-bit
-   DAC") and is disabled on a 32-bit or float DAC ("not needed: DAC takes 32-bit"). Turn it on: the log
+11. Advanced > TPDF Dither (off by default): hovering the item shows what it does and the DAC's depth
+   ("This DAC takes 24-bit samples."); it is disabled on a 32-bit or float DAC (hover: "Not needed
+   here"). Turn it on: the log
    says "TPDF dither on: ...". With Overshoot Protection off and a track at or below the DAC's depth,
    the output stays bit-exact (a loopback capture matches the undithered one); with Overshoot
    Protection on, a quiet fade-out has a steady ±1 LSB noise floor instead of gritty low-level
