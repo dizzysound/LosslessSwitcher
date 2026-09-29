@@ -1,0 +1,1733 @@
+[  0.000] engine started (virtual device)
+[  0.007] microphone permission: not determined; asking, and leaving the output alone until it is answered
+[ 43.664] microphone permission granted
+[ 51.161] attached (pid 12560): 0
+[ 51.167] default output -> virtual device: 0
+[ 51.170] virtual device 145 @ 44100.0 Hz; scalar reset 0
+[ 51.235] A: output streams off: 0
+[ 51.293] start A: 0
+[ 51.294] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 12560
+[ 51.296] hog DAC: 0, hogged
+[ 51.300] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[ 51.300] B: DAC inputs off: 0
+[ 51.594] start B: 0
+[ 52.152] DAC ready after 0.556 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[ 52.152] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[ 52.152] format listeners: 0 0
+[ 52.185] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[ 52.191] playerInfo: Playing Revolution in the Water
+[ 52.261] new track Revolution in the Water: no decoder line for it yet; holding at the gate until one comes (3 s)
+[ 52.262] decoder: 44100.0 Hz (lossy)
+[ 52.263] new track Revolution in the Water: decoder 44100.0 Hz lossy (seen -1.011 s before Playing), DAC 44100 Hz
+[ 52.263] playerInfo: Playing Attics Of My Life (Remastered Version)
+[ 52.263] new track Attics Of My Life (Remastered Version): the newest decoder line (44100 Hz, 7.542 s before Playing) may be the previous track's; waiting 1 s for its own
+[ 52.263] decoder: 44100.0 Hz (lossy)
+[ 52.264] new track Attics Of My Life (Remastered Version): decoder 44100.0 Hz lossy (seen -0.467 s before Playing), DAC 44100 Hz
+[ 52.264] playerInfo: Playing September Fields
+[ 52.264] new track September Fields: the newest decoder line (44100 Hz, 7.531 s before Playing) may be the previous track's; waiting 1 s for its own
+[ 52.264] decoder: 44100.0 Hz (lossy)
+[ 52.264] new track September Fields: decoder 44100.0 Hz lossy (seen -0.664 s before Playing), DAC 44100 Hz
+[ 52.264] playerInfo: Playing Hot For Teacher
+[ 52.264] new track Hot For Teacher: the newest decoder line (44100 Hz, 7.561 s before Playing) may be the previous track's; waiting 1 s for its own
+[ 52.264] decoder: 44100.0 Hz (lossy)
+[ 52.265] new track Hot For Teacher: decoder 44100.0 Hz lossy (seen -0.422 s before Playing), DAC 44100 Hz
+[ 52.265] playerInfo: Playing Disappear
+[ 52.265] new track Disappear: the newest decoder line (44100 Hz, 7.495 s before Playing) may be the previous track's; waiting 1 s for its own
+[ 52.265] decoder: 44100.0 Hz (lossy)
+[ 52.265] new track Disappear: decoder 44100.0 Hz lossy (seen -0.506 s before Playing), DAC 44100 Hz
+[ 52.265] playerInfo: Playing Chaos
+[ 52.265] new track Chaos: the newest decoder line (44100 Hz, 7.465 s before Playing) may be the previous track's; waiting 1 s for its own
+[ 52.265] decoder: 44100.0 Hz (lossless)
+[ 52.266] new track Chaos: decoder 44100.0 Hz lossless (seen -0.544 s before Playing), DAC 44100 Hz
+[ 52.266] playerInfo: Playing Chaos
+[ 52.266] playerInfo: Paused Chaos
+[ 52.266] playerInfo: Paused Pine Moon
+[ 52.266] decoder: 44100.0 Hz (lossless)
+[ 52.272] playerInfo: Paused Pine Moon
+[ 52.278] playerInfo: Playing Pine Moon
+[ 52.279] new track Pine Moon: decoder 44100.0 Hz lossless (seen 0.348 s before Playing), DAC 44100 Hz
+[ 52.786] clock: DAC scalar 0.998922 not settled; waiting to lock
+[ 82.285] 44100 Hz fill 0 scalar 1.000000000 under 0 over 0
+[ 83.303] playerInfo: Playing Pine Moon
+[ 83.339] decoder: 44100.0 Hz (lossless)
+[ 83.419] playerInfo: Paused Pine Moon
+[ 93.423] Music idle 10 s: stepping aside (DAC and default output given back)
+[ 93.485] DAC mixable again: 0
+[ 93.493] hog released: 0, owner -1
+[ 93.495] virtual device scalar reset: 0
+[ 93.649] default output restored to AudioQuest DragonFly Black v1.5: 0
+[ 96.695] default output after 3 s: AudioQuest DragonFly Black v1.5
+[ 96.697] detached (pid 0): 0
+[ 96.784] DAC probe: start 0 after 0.070 s
+[100.474] playerInfo: Paused Pine Moon
+[107.741] playerInfo: Playing Pine Moon
+[107.741] playback began while stepped aside (Pine Moon); taking the output back
+[108.766] playerInfo: Playing Pine Moon
+[108.785] decoder: 44100.0 Hz (lossless)
+[108.959] playerInfo: Paused Pine Moon
+[108.968] attached (pid 12560): 0
+[108.980] default output -> virtual device: 0
+[108.984] virtual device 145 @ 44100.0 Hz; scalar reset 0
+[109.003] A: output streams off: 0
+[109.027] start A: 0
+[109.028] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 12560
+[109.031] hog DAC: 0, hogged
+[109.035] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[109.037] B: DAC inputs off: 0
+[109.250] start B: 0
+[109.754] DAC ready after 0.502 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[109.756] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[109.756] format listeners: 0 0
+[109.794] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[109.824] playerInfo: Paused Pine Moon
+[109.897] playerInfo: Playing Pine Moon
+[109.920] switch 1: Pine Moon restarts at 44100 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.015 s
+[109.920] playerInfo: Playing Pine Moon
+[110.201]   rewound to 30.873 (was 31.034, played ~0.061 s), play; switch 1 done 0.295 s after the request
+[110.213] decoder: 44100.0 Hz (lossless)
+[110.218] playerInfo: Paused Pine Moon
+[110.231] playerInfo: Paused Pine Moon
+[110.291] playerInfo: Playing Pine Moon
+[112.285] 44100 Hz fill 1536 scalar 1.000000000 under 2560 over 0
+[132.086] playerInfo: Playing Pine Moon
+[132.122] decoder: 44100.0 Hz (lossless)
+[132.242] playerInfo: Paused Pine Moon
+[142.245] Music idle 10 s: stepping aside (DAC and default output given back)
+[142.302] DAC mixable again: 0
+[142.310] hog released: 0, owner -1
+[142.312] virtual device scalar reset: 0
+[142.482] default output restored to AudioQuest DragonFly Black v1.5: 0
+[145.518] default output after 3 s: AudioQuest DragonFly Black v1.5
+[145.521] detached (pid 0): 0
+[145.622] DAC probe: start 0 after 0.077 s
+[145.635] 44100 Hz fill 0 scalar 1.000000000 under 4096 over 0
+[149.275] playerInfo: Paused Pine Moon
+[156.551] playerInfo: Playing Pine Moon
+[156.551] playback began while stepped aside (Pine Moon); taking the output back
+[157.596] playerInfo: Playing Pine Moon
+[157.622] decoder: 44100.0 Hz (lossless)
+[157.803] playerInfo: Paused Pine Moon
+[157.811] attached (pid 12560): 0
+[157.827] default output -> virtual device: 0
+[157.830] virtual device 145 @ 44100.0 Hz; scalar reset 0
+[157.846] A: output streams off: 0
+[157.872] start A: 0
+[157.873] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 12560
+[157.876] hog DAC: 0, hogged
+[157.878] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[157.878] B: DAC inputs off: 0
+[158.174] start B: 0
+[158.688] DAC ready after 0.512 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[158.689] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[158.690] format listeners: 0 0
+[158.737] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[158.758] playerInfo: Paused Pine Moon
+[158.857] playerInfo: Playing Pine Moon
+[158.877] playerInfo: Playing Pine Moon
+[158.884] switch 2: Pine Moon restarts at 44100 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.020 s
+[159.174]   rewound to 52.490 (was 52.657, played ~0.067 s), play; switch 2 done 0.310 s after the request
+[159.187] decoder: 44100.0 Hz (lossless)
+[159.191] playerInfo: Paused Pine Moon
+[159.204] playerInfo: Paused Pine Moon
+[159.229] playerInfo: Playing Pine Moon
+[175.645] 44100 Hz fill 1024 scalar 1.000000000 under 4096 over 0
+[180.868] playerInfo: Playing Pine Moon
+[180.915] decoder: 44100.0 Hz (lossless)
+[181.035] playerInfo: Paused Pine Moon
+[191.038] Music idle 10 s: stepping aside (DAC and default output given back)
+[191.099] DAC mixable again: 0
+[191.108] hog released: 0, owner -1
+[191.109] virtual device scalar reset: 0
+[191.285] default output restored to AudioQuest DragonFly Black v1.5: 0
+[194.291] default output after 3 s: AudioQuest DragonFly Black v1.5
+[194.293] detached (pid 0): 0
+[194.387] DAC probe: start 0 after 0.073 s
+[198.061] playerInfo: Paused Pine Moon
+[205.342] playerInfo: Playing Pine Moon
+[205.342] playback began while stepped aside (Pine Moon); taking the output back
+[206.378] playerInfo: Playing Pine Moon
+[206.397] decoder: 44100.0 Hz (lossless)
+[206.628] playerInfo: Paused Pine Moon
+[206.636] attached (pid 12560): 0
+[206.639] default output -> virtual device: 0
+[206.642] virtual device 145 @ 44100.0 Hz; scalar reset 0
+[206.650] A: output streams off: 0
+[206.689] start A: 0
+[206.690] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 12560
+[206.693] hog DAC: 0, hogged
+[206.698] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[206.699] B: DAC inputs off: 0
+[206.985] start B: 0
+[207.550] DAC ready after 0.562 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[207.552] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[207.553] format listeners: 0 0
+[207.607] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[207.636] playerInfo: Paused Pine Moon
+[207.726] playerInfo: Playing Pine Moon
+[207.748] switch 3: Pine Moon restarts at 44100 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.016 s
+[207.748] playerInfo: Playing Pine Moon
+[208.025]   rewound to 73.918 (was 74.087, played ~0.069 s), play; switch 3 done 0.292 s after the request
+[208.037] decoder: 44100.0 Hz (lossless)
+[208.049] playerInfo: Paused Pine Moon
+[208.049] playerInfo: Paused Pine Moon
+[208.050] 44100 Hz fill 1536 scalar 1.000000000 under 5632 over 0
+[208.073] playerInfo: Playing Pine Moon
+[229.683] playerInfo: Playing Pine Moon
+[229.719] decoder: 44100.0 Hz (lossless)
+[229.848] playerInfo: Paused Pine Moon
+[238.055] 44100 Hz fill 512 scalar 1.000000000 under 5632 over 0
+[239.850] Music idle 10 s: stepping aside (DAC and default output given back)
+[239.913] DAC mixable again: 0
+[239.918] hog released: 0, owner -1
+[239.919] virtual device scalar reset: 0
+[240.085] default output restored to AudioQuest DragonFly Black v1.5: 0
+[243.091] default output after 3 s: AudioQuest DragonFly Black v1.5
+[243.093] detached (pid 0): 0
+[243.182] DAC probe: start 0 after 0.071 s
+[246.877] playerInfo: Paused Pine Moon
+[254.162] playerInfo: Playing Pine Moon
+[254.162] playback began while stepped aside (Pine Moon); taking the output back
+[255.196] playerInfo: Playing Pine Moon
+[255.215] decoder: 44100.0 Hz (lossless)
+[255.404] playerInfo: Paused Pine Moon
+[255.412] attached (pid 12560): 0
+[255.424] default output -> virtual device: 0
+[255.429] virtual device 145 @ 44100.0 Hz; scalar reset 0
+[255.447] A: output streams off: 0
+[255.468] start A: 0
+[255.469] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 12560
+[255.471] hog DAC: 0, hogged
+[255.476] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[255.478] B: DAC inputs off: 0
+[255.930] start B: 0
+[256.510] DAC ready after 0.575 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[256.512] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[256.512] format listeners: 0 0
+[256.572] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[256.593] playerInfo: Paused Pine Moon
+[256.689] playerInfo: Playing Pine Moon
+[256.721] switch 4: Pine Moon restarts at 44100 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.024 s
+[256.721] playerInfo: Playing Pine Moon
+[257.006]   rewound to 95.434 (was 95.603, played ~0.069 s), play; switch 4 done 0.309 s after the request
+[257.018] decoder: 44100.0 Hz (lossless)
+[257.021] playerInfo: Paused Pine Moon
+[257.022] playerInfo: Paused Pine Moon
+[257.048] playerInfo: Playing Pine Moon
+[268.065] 44100 Hz fill 1024 scalar 1.000000000 under 7680 over 0
+[289.202] playerInfo: Playing Pine Moon
+[289.241] decoder: 44100.0 Hz (lossless)
+[289.371] playerInfo: Paused Pine Moon
+[298.073] 44100 Hz fill 0 scalar 1.000000000 under 8192 over 0
+[299.380] Music idle 10 s: stepping aside (DAC and default output given back)
+[299.440] DAC mixable again: 0
+[299.447] hog released: 0, owner -1
+[299.449] virtual device scalar reset: 0
+[299.648] default output restored to AudioQuest DragonFly Black v1.5: 0
+[302.699] default output after 3 s: AudioQuest DragonFly Black v1.5
+[302.702] detached (pid 0): 0
+[302.802] DAC probe: start 0 after 0.082 s
+[311.397] playerInfo: Paused Pine Moon
+[318.673] playerInfo: Playing Pine Moon
+[318.673] playback began while stepped aside (Pine Moon); taking the output back
+[319.563] playerInfo: Playing Pine Moon
+[319.581] decoder: 44100.0 Hz (lossless)
+[319.764] playerInfo: Paused Pine Moon
+[319.772] attached (pid 12560): 0
+[319.781] default output -> virtual device: 0
+[319.786] virtual device 145 @ 44100.0 Hz; scalar reset 0
+[319.801] A: output streams off: 0
+[319.834] start A: 0
+[319.834] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 12560
+[319.838] hog DAC: 0, hogged
+[319.840] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[319.841] B: DAC inputs off: 0
+[320.144] start B: 0
+[320.649] DAC ready after 0.503 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[320.650] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[320.650] format listeners: 0 0
+[320.691] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[320.712] playerInfo: Paused Pine Moon
+[320.805] playerInfo: Playing Pine Moon
+[320.837] switch 5: Pine Moon restarts at 44100 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.024 s
+[320.837] playerInfo: Playing Pine Moon
+[321.184]   rewound to 127.502 (was 127.669, played ~0.067 s), play; switch 5 done 0.371 s after the request
+[321.197] decoder: 44100.0 Hz (lossless)
+[321.200] playerInfo: Paused Pine Moon
+[321.214] playerInfo: Paused Pine Moon
+[321.264] playerInfo: Playing Pine Moon
+[328.079] 44100 Hz fill 1536 scalar 1.000000000 under 9728 over 0
+[349.924] playerInfo: Playing Pine Moon
+[349.950] decoder: 44100.0 Hz (lossless)
+[350.077] playerInfo: Paused Pine Moon
+[358.083] 44100 Hz fill 0 scalar 1.000000000 under 9728 over 0
+[360.077] Music idle 10 s: stepping aside (DAC and default output given back)
+[360.144] DAC mixable again: 0
+[360.148] hog released: 0, owner -1
+[360.149] virtual device scalar reset: 0
+[360.326] default output restored to AudioQuest DragonFly Black v1.5: 0
+[363.368] default output after 3 s: AudioQuest DragonFly Black v1.5
+[363.369] detached (pid 0): 0
+[363.472] DAC probe: start 0 after 0.083 s
+[372.108] playerInfo: Paused Pine Moon
+[379.430] playerInfo: Playing Pine Moon
+[379.431] playback began while stepped aside (Pine Moon); taking the output back
+[380.265] playerInfo: Playing Pine Moon
+[380.280] decoder: 44100.0 Hz (lossless)
+[380.564] playerInfo: Paused Pine Moon
+[380.572] attached (pid 12560): 0
+[380.578] default output -> virtual device: 0
+[380.581] virtual device 145 @ 44100.0 Hz; scalar reset 0
+[380.614] A: output streams off: 0
+[380.630] start A: 0
+[380.630] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 12560
+[380.633] hog DAC: 0, hogged
+[380.635] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[380.635] B: DAC inputs off: 0
+[380.896] start B: 0
+[381.411] DAC ready after 0.514 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[381.412] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[381.412] format listeners: 0 0
+[381.448] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[381.469] playerInfo: Paused Pine Moon
+[381.576] playerInfo: Playing Pine Moon
+[381.613] playerInfo: Playing Pine Moon
+[381.621] switch 6: Pine Moon restarts at 44100 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.035 s
+[381.901]   rewound to 156.127 (was 156.295, played ~0.068 s), play; switch 6 done 0.315 s after the request
+[381.916] decoder: 44100.0 Hz (lossless)
+[381.920] playerInfo: Paused Pine Moon
+[381.936] playerInfo: Paused Pine Moon
+[381.951] playerInfo: Playing Pine Moon
+[388.093] 44100 Hz fill 1536 scalar 1.000000000 under 12288 over 0
+[410.632] playerInfo: Playing Pine Moon
+[410.675] decoder: 44100.0 Hz (lossless)
+[410.807] playerInfo: Paused Pine Moon
+[418.099] 44100 Hz fill 0 scalar 1.000000000 under 12800 over 0
+[420.809] Music idle 10 s: stepping aside (DAC and default output given back)
+[420.881] DAC mixable again: 0
+[420.888] hog released: 0, owner -1
+[420.891] virtual device scalar reset: 0
+[421.063] default output restored to AudioQuest DragonFly Black v1.5: 0
+[424.107] default output after 3 s: AudioQuest DragonFly Black v1.5
+[424.109] detached (pid 0): 0
+[424.211] DAC probe: start 0 after 0.081 s
+[432.840] playerInfo: Paused Pine Moon
+[440.163] playerInfo: Playing Pine Moon
+[440.163] playback began while stepped aside (Pine Moon); taking the output back
+[441.016] playerInfo: Playing Pine Moon
+[441.036] decoder: 44100.0 Hz (lossless)
+[441.236] playerInfo: Paused Pine Moon
+[441.246] attached (pid 12560): 0
+[441.258] default output -> virtual device: 0
+[441.266] virtual device 145 @ 44100.0 Hz; scalar reset 0
+[441.285] A: output streams off: 0
+[441.309] start A: 0
+[441.310] DAC AudioQuest DragonFly Black v1.5 (AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1) @ 44100.0 Hz, hog owner -1, my pid 12560
+[441.312] hog DAC: 0, hogged
+[441.314] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[441.315] B: DAC inputs off: 0
+[441.567] start B: 0
+[442.082] DAC ready after 0.513 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[442.084] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[442.084] format listeners: 0 0
+[442.126] volume: forwarding to DAC element 0 (-48.0 dB), linear in dB, 0 to -64 dB (4.0 dB per key step), set in dB (no dB -> scalar on the DAC); mute to element 0; slider -> 0.2500: 0, mute -> 0: 0
+[442.148] playerInfo: Paused Pine Moon
+[442.251] playerInfo: Playing Pine Moon
+[442.276] switch 7: Pine Moon restarts at 44100 Hz (no rate change); not latched: cut at the play position; paused; boundary reached 0.017 s
+[442.276] playerInfo: Playing Pine Moon
+[442.680]   rewound to 184.586 (was 184.753, played ~0.067 s), play; switch 7 done 0.421 s after the request
+[442.695] decoder: 44100.0 Hz (lossless)
+[442.699] playerInfo: Paused Pine Moon
+[442.699] playerInfo: Paused Pine Moon
+[442.731] playerInfo: Playing Pine Moon
+[448.110] 44100 Hz fill 1536 scalar 1.000000000 under 14848 over 0
+[478.115] 44100 Hz fill 512 scalar 1.000000000 under 15360 over 0
+[508.125] 44100 Hz fill 0 scalar 1.000000000 under 16384 over 0
+[538.132] 44100 Hz fill 0 scalar 1.000000000 under 16896 over 0
+[551.196] playerInfo: Playing Emerald Lies (Intro) [Live at Utrecht 1985]
+[551.196] new track Emerald Lies (Intro) [Live at Utrecht 1985]: the newest decoder line (44100 Hz, 108.573 s before Playing) may be the previous track's; waiting 1 s for its own
+[552.208] no newer decoder line for Emerald Lies (Intro) [Live at Utrecht 1985] within 1 s; the earlier one decides
+[552.209] new track Emerald Lies (Intro) [Live at Utrecht 1985]: decoder 44100.0 Hz lossless (seen 108.573 s before Playing), DAC 44100 Hz
+[568.142] 44100 Hz fill 0 scalar 1.000000000 under 17408 over 0
+[598.150] 44100 Hz fill 0 scalar 1.000000000 under 17920 over 0
+[601.762] decoder: 48000.0 Hz (lossless)
+[601.789] next track needs 48000 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[601.789] boundary latch armed at in frame 18810368
+[601.802] latched at ring 18807737 (fill 71)
+[602.062] playerInfo: Playing Shine On You Crazy Diamond, Pts. 1-5 (Live at Knebworth, 1990) [2019 Mix]
+[602.067] new track Shine On You Crazy Diamond, Pts. 1-5 (Live at Knebworth, 1990) [2019 Mix]: decoder 48000.0 Hz lossless (seen 0.298 s before Playing), DAC 44100 Hz -> switch to 48000
+[602.095] switch 8: Shine On You Crazy Diamond, Pts. 1-5 (Live at Knebworth, 1990) [2019 Mix] needs 48000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.028 s
+[602.118] virtual device -> 48000: 0
+[602.119] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[603.391]   DAC ready after 1.271 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[603.392] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[603.392] playerInfo: Playing Shine On You Crazy Diamond, Pts. 1-5 (Live at Knebworth, 1990) [2019 Mix]
+[603.392] decoder: 48000.0 Hz (lossless)
+[603.393] playerInfo: Paused Shine On You Crazy Diamond, Pts. 1-5 (Live at Knebworth, 1990) [2019 Mix]
+[603.725]   rewound to 0.000 (was 0.233, played ~0.064 s), play; switch 8 done 1.657 s after the request
+[603.804] decoder: 48000.0 Hz (lossless)
+[603.804] playerInfo: Paused Shine On You Crazy Diamond, Pts. 1-5 (Live at Knebworth, 1990) [2019 Mix]
+[603.804] playerInfo: Playing Shine On You Crazy Diamond, Pts. 1-5 (Live at Knebworth, 1990) [2019 Mix]
+[628.156] 48000 Hz fill 512 scalar 1.000000000 under 17920 over 0
+[655.379] clock: ring at 512 frames before the lock (target 2048); refilling first
+[655.885] clock lock: phase0 30641.416, fill 1536, cycles A 41793 B 41575
+[658.163] 48000 Hz fill 2048 scalar 0.999949602 under 18432 over 0
+[688.168] 48000 Hz fill 2048 scalar 0.999994509 under 18432 over 0
+[718.171] 48000 Hz fill 2048 scalar 0.999994450 under 18432 over 0
+[748.186] 48000 Hz fill 2048 scalar 0.999995719 under 18432 over 0
+[778.200] 48000 Hz fill 1536 scalar 0.999996252 under 18432 over 0
+[808.213] 48000 Hz fill 1536 scalar 0.999995917 under 18432 over 0
+[838.220] 48000 Hz fill 1536 scalar 0.999995822 under 18432 over 0
+[868.222] 48000 Hz fill 2048 scalar 0.999996375 under 18432 over 0
+[898.231] 48000 Hz fill 1536 scalar 0.999995808 under 18432 over 0
+[928.233] 48000 Hz fill 1536 scalar 0.999995599 under 18432 over 0
+[958.244] 48000 Hz fill 2048 scalar 0.999995821 under 18432 over 0
+[988.247] 48000 Hz fill 1536 scalar 0.999995184 under 18432 over 0
+[1018.249] 48000 Hz fill 1536 scalar 0.999995695 under 18432 over 0
+[1048.254] 48000 Hz fill 1536 scalar 0.999995776 under 18432 over 0
+[1078.262] 48000 Hz fill 1536 scalar 0.999995933 under 18432 over 0
+[1108.271] 48000 Hz fill 2048 scalar 0.999995513 under 18432 over 0
+[1138.272] 48000 Hz fill 1536 scalar 0.999995783 under 18432 over 0
+[1168.275] 48000 Hz fill 1536 scalar 0.999995288 under 18432 over 0
+[1198.286] 48000 Hz fill 2048 scalar 0.999995404 under 18432 over 0
+[1228.287] 48000 Hz fill 1536 scalar 0.999995912 under 18432 over 0
+[1258.299] 48000 Hz fill 2048 scalar 0.999996150 under 18432 over 0
+[1280.493] decoder: 44100.0 Hz (lossy)
+[1280.685] next track needs 44100 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[1280.685] boundary latch armed at in frame 51388928
+[1280.701] latched at ring 51331040 (fill 2048)
+[1280.842] playerInfo: Playing Mixtaped
+[1280.845] new track Mixtaped: decoder 44100.0 Hz lossy (seen 0.339 s before Playing), DAC 48000 Hz -> switch to 44100
+[1280.869] switch 9: Mixtaped needs 44100 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.023 s
+[1280.892] virtual device -> 44100: 0
+[1280.892] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[1282.180]   DAC ready after 1.286 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[1282.181] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[1282.181] playerInfo: Playing Mixtaped
+[1282.181] playerInfo: Paused Mixtaped
+[1282.221]   rewound to 0.000 (was 0.168, played ~0.065 s), play; switch 9 done 1.375 s after the request
+[1282.280] playerInfo: Paused Mixtaped
+[1282.295] playerInfo: Playing Mixtaped
+[1282.731] clock: DAC scalar 0.998949 not settled; waiting to lock
+[1288.304] 44100 Hz fill 2048 scalar 0.999995528 under 18432 over 0
+[1318.308] 44100 Hz fill 512 scalar 0.999995528 under 18432 over 0
+[1348.320] 44100 Hz fill 512 scalar 0.999995528 under 19968 over 0
+[1378.322] 44100 Hz fill 512 scalar 0.999995528 under 20480 over 0
+[1408.335] 44100 Hz fill 512 scalar 0.999995528 under 20992 over 0
+[1438.347] 44100 Hz fill 512 scalar 0.999995528 under 21504 over 0
+[1468.355] 44100 Hz fill 512 scalar 0.999995528 under 22016 over 0
+[1498.360] 44100 Hz fill 512 scalar 0.999995528 under 22528 over 0
+[1528.363] 44100 Hz fill 0 scalar 0.999995528 under 23040 over 0
+[1558.364] 44100 Hz fill 0 scalar 0.999995528 under 23552 over 0
+[1588.364] 44100 Hz fill 0 scalar 0.999995528 under 24064 over 0
+[1618.364] 44100 Hz fill 0 scalar 0.999995528 under 24576 over 0
+[1648.367] 44100 Hz fill 512 scalar 0.999995528 under 25088 over 0
+[1678.373] 44100 Hz fill 0 scalar 0.999995528 under 25600 over 0
+[1708.379] 44100 Hz fill 512 scalar 0.999995528 under 26112 over 0
+[1738.393] 44100 Hz fill 512 scalar 0.999995528 under 26624 over 0
+[1768.402] 44100 Hz fill 512 scalar 0.999995528 under 27136 over 0
+[1798.408] 44100 Hz fill 0 scalar 0.999995528 under 27648 over 0
+[1801.427] playerInfo: Playing Stand Up Guy
+[1801.573] new track Stand Up Guy: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[1804.580] no decoder line for Stand Up Guy within 3 s; playing at 44100 Hz
+[1828.411] 44100 Hz fill 0 scalar 0.999995528 under 28160 over 0
+[1858.415] 44100 Hz fill 512 scalar 0.999995528 under 28672 over 0
+[1888.418] 44100 Hz fill 512 scalar 0.999995528 under 29184 over 0
+[1918.418] 44100 Hz fill 0 scalar 0.999995528 under 29696 over 0
+[1948.427] 44100 Hz fill 512 scalar 0.999995528 under 30208 over 0
+[1978.427] 44100 Hz fill 512 scalar 0.999995528 under 30720 over 0
+[2008.429] 44100 Hz fill 512 scalar 0.999995528 under 31232 over 0
+[2038.434] 44100 Hz fill 0 scalar 0.999995528 under 31744 over 0
+[2068.446] 44100 Hz fill 0 scalar 0.999995528 under 32256 over 0
+[2074.352] decoder: 44100.0 Hz (lossy)
+[2074.693] playerInfo: Playing Erotic Chiftetelli
+[2074.694] new track Erotic Chiftetelli: decoder 44100.0 Hz lossy (seen 0.347 s before Playing), DAC 44100 Hz
+[2098.448] 44100 Hz fill 0 scalar 0.999995528 under 32768 over 0
+[2128.452] 44100 Hz fill 512 scalar 0.999995528 under 33280 over 0
+[2158.465] 44100 Hz fill 512 scalar 0.999995528 under 33792 over 0
+[2188.475] 44100 Hz fill 512 scalar 0.999995528 under 34304 over 0
+[2218.475] 44100 Hz fill 512 scalar 0.999995528 under 34816 over 0
+[2248.487] 44100 Hz fill 512 scalar 0.999995528 under 35328 over 0
+[2278.488] 44100 Hz fill 512 scalar 0.999995528 under 35840 over 0
+[2308.499] 44100 Hz fill 512 scalar 0.999995528 under 36352 over 0
+[2338.512] 44100 Hz fill 512 scalar 0.999995528 under 36864 over 0
+[2368.512] 44100 Hz fill 512 scalar 0.999995528 under 37376 over 0
+[2398.518] 44100 Hz fill 0 scalar 0.999995528 under 37888 over 0
+[2428.524] 44100 Hz fill 0 scalar 0.999995528 under 38400 over 0
+[2444.291] decoder: 44100.0 Hz (lossy)
+[2444.534] playerInfo: Playing Hurdy Gurdy Mushroom Man
+[2444.537] new track Hurdy Gurdy Mushroom Man: decoder 44100.0 Hz lossy (seen 0.240 s before Playing), DAC 44100 Hz
+[2458.537] 44100 Hz fill 0 scalar 0.999995528 under 38912 over 0
+[2488.545] 44100 Hz fill 512 scalar 0.999995528 under 39424 over 0
+[2492.454] decoder: 44100.0 Hz (lossy)
+[2492.736] playerInfo: Playing Mister Completely
+[2492.736] new track Mister Completely: decoder 44100.0 Hz lossy (seen 0.280 s before Playing), DAC 44100 Hz
+[2518.546] 44100 Hz fill 512 scalar 0.999995528 under 39936 over 0
+[2548.551] 44100 Hz fill 0 scalar 0.999995528 under 40448 over 0
+[2578.563] 44100 Hz fill 0 scalar 0.999995528 under 40960 over 0
+[2608.564] 44100 Hz fill 0 scalar 0.999995528 under 41472 over 0
+[2638.575] 44100 Hz fill 0 scalar 0.999995528 under 41984 over 0
+[2653.935] decoder: 44100.0 Hz (lossy)
+[2654.244] playerInfo: Playing Dangerous Type
+[2654.246] new track Dangerous Type: decoder 44100.0 Hz lossy (seen 0.303 s before Playing), DAC 44100 Hz
+[2668.578] 44100 Hz fill 0 scalar 0.999995528 under 42496 over 0
+[2698.579] 44100 Hz fill 0 scalar 0.999995528 under 43008 over 0
+[2728.585] 44100 Hz fill 0 scalar 0.999995528 under 43520 over 0
+[2758.599] 44100 Hz fill 0 scalar 0.999995528 under 44032 over 0
+[2788.600] 44100 Hz fill 0 scalar 0.999995528 under 44544 over 0
+[2818.609] 44100 Hz fill 0 scalar 0.999995528 under 45056 over 0
+[2848.616] 44100 Hz fill 512 scalar 0.999995528 under 45568 over 0
+[2878.618] 44100 Hz fill 0 scalar 0.999995528 under 46080 over 0
+[2908.626] 44100 Hz fill 0 scalar 0.999995528 under 46592 over 0
+[2926.503] playerInfo: Playing Ljudet Innan
+[2926.664] new track Ljudet Innan: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[2929.677] no decoder line for Ljudet Innan within 3 s; playing at 44100 Hz
+[2938.633] 44100 Hz fill 0 scalar 0.999995528 under 47104 over 0
+[2968.643] 44100 Hz fill 0 scalar 0.999995528 under 47616 over 0
+[2998.650] 44100 Hz fill 0 scalar 0.999995528 under 48128 over 0
+[3028.650] 44100 Hz fill 512 scalar 0.999995528 under 48640 over 0
+[3058.658] 44100 Hz fill 0 scalar 0.999995528 under 49152 over 0
+[3088.666] 44100 Hz fill 0 scalar 0.999995528 under 49664 over 0
+[3118.675] 44100 Hz fill 512 scalar 0.999995528 under 50176 over 0
+[3148.686] 44100 Hz fill 512 scalar 0.999995528 under 50688 over 0
+[3178.697] 44100 Hz fill 0 scalar 0.999995528 under 51200 over 0
+[3208.697] 44100 Hz fill 0 scalar 0.999995528 under 51712 over 0
+[3238.703] 44100 Hz fill 0 scalar 0.999995528 under 52224 over 0
+[3268.705] 44100 Hz fill 0 scalar 0.999995528 under 52736 over 0
+[3298.710] 44100 Hz fill 512 scalar 0.999995528 under 53248 over 0
+[3328.713] 44100 Hz fill 0 scalar 0.999995528 under 53760 over 0
+[3358.720] 44100 Hz fill 0 scalar 0.999995528 under 54272 over 0
+[3388.724] 44100 Hz fill 0 scalar 0.999995528 under 54784 over 0
+[3418.728] 44100 Hz fill 0 scalar 0.999995528 under 55296 over 0
+[3448.739] 44100 Hz fill 512 scalar 0.999995528 under 56320 over 0
+[3478.745] 44100 Hz fill 0 scalar 0.999995528 under 56832 over 0
+[3508.749] 44100 Hz fill 512 scalar 0.999995528 under 57344 over 0
+[3538.753] 44100 Hz fill 512 scalar 0.999995528 under 57856 over 0
+[3541.514] decoder: 44100.0 Hz (lossless)
+[3541.895] playerInfo: Playing Hello, Goodbye
+[3541.895] new track Hello, Goodbye: decoder 44100.0 Hz lossless (seen 0.379 s before Playing), DAC 44100 Hz
+[3568.757] 44100 Hz fill 0 scalar 0.999995528 under 58368 over 0
+[3598.765] 44100 Hz fill 512 scalar 0.999995528 under 58880 over 0
+[3628.768] 44100 Hz fill 512 scalar 0.999995528 under 59392 over 0
+[3656.655] decoder: 44100.0 Hz (lossy)
+[3658.775] 44100 Hz fill 512 scalar 0.999995528 under 59904 over 0
+[3688.781] 44100 Hz fill 0 scalar 0.999995528 under 60416 over 0
+[3718.790] 44100 Hz fill 512 scalar 0.999995528 under 60928 over 0
+[3748.797] 44100 Hz fill 512 scalar 0.999995528 under 61440 over 0
+[3750.762] decoder: 44100.0 Hz (lossless)
+[3750.869] playerInfo: Playing Desert
+[3750.871] new track Desert: decoder 44100.0 Hz lossless (seen 0.113 s before Playing), DAC 44100 Hz
+[3778.807] 44100 Hz fill 512 scalar 0.999995528 under 61952 over 0
+[3808.817] 44100 Hz fill 512 scalar 0.999995528 under 62464 over 0
+[3838.821] 44100 Hz fill 512 scalar 0.999995528 under 62976 over 0
+[3868.824] 44100 Hz fill 512 scalar 0.999995528 under 63488 over 0
+[3898.829] 44100 Hz fill 0 scalar 0.999995528 under 64000 over 0
+[3928.838] 44100 Hz fill 512 scalar 0.999995528 under 64512 over 0
+[3950.413] decoder: 44100.0 Hz (lossy)
+[3950.731] playerInfo: Playing The Sky Is Broken
+[3950.733] new track The Sky Is Broken: decoder 44100.0 Hz lossy (seen 0.323 s before Playing), DAC 44100 Hz
+[3958.841] 44100 Hz fill 0 scalar 0.999995528 under 65024 over 0
+[3988.846] 44100 Hz fill 512 scalar 0.999995528 under 65536 over 0
+[4018.849] 44100 Hz fill 512 scalar 0.999995528 under 66048 over 0
+[4048.855] 44100 Hz fill 512 scalar 0.999995528 under 66560 over 0
+[4078.856] 44100 Hz fill 512 scalar 0.999995528 under 67072 over 0
+[4108.863] 44100 Hz fill 0 scalar 0.999995528 under 67584 over 0
+[4138.874] 44100 Hz fill 0 scalar 0.999995528 under 68096 over 0
+[4168.885] 44100 Hz fill 512 scalar 0.999995528 under 68608 over 0
+[4197.384] decoder: 44100.0 Hz (lossy)
+[4198.897] 44100 Hz fill 512 scalar 0.999995528 under 69120 over 0
+[4208.492] playerInfo: Playing Why Was I Born?
+[4208.492] new track Why Was I Born?: decoder 44100.0 Hz lossy (seen 11.102 s before Playing), DAC 44100 Hz
+[4228.900] 44100 Hz fill 0 scalar 0.999995528 under 69632 over 0
+[4258.900] 44100 Hz fill 0 scalar 0.999995528 under 70144 over 0
+[4288.914] 44100 Hz fill 512 scalar 0.999995528 under 70656 over 0
+[4318.919] 44100 Hz fill 512 scalar 0.999995528 under 71168 over 0
+[4348.924] 44100 Hz fill 0 scalar 0.999995528 under 71680 over 0
+[4378.931] 44100 Hz fill 0 scalar 0.999995528 under 72192 over 0
+[4388.262] decoder: 44100.0 Hz (lossy)
+[4399.190] playerInfo: Playing Good Luck Charm
+[4399.192] new track Good Luck Charm: decoder 44100.0 Hz lossy (seen 10.929 s before Playing), DAC 44100 Hz
+[4408.938] 44100 Hz fill 512 scalar 0.999995528 under 72704 over 0
+[4438.945] 44100 Hz fill 0 scalar 0.999995528 under 73216 over 0
+[4468.948] 44100 Hz fill 0 scalar 0.999995528 under 73728 over 0
+[4498.962] 44100 Hz fill 512 scalar 0.999995528 under 74240 over 0
+[4528.966] 44100 Hz fill 512 scalar 0.999995528 under 74752 over 0
+[4543.861] playerInfo: Playing The Backbone
+[4544.379] new track The Backbone: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[4547.388] no decoder line for The Backbone within 3 s; playing at 44100 Hz
+[4558.971] 44100 Hz fill 0 scalar 0.999995528 under 75264 over 0
+[4588.983] 44100 Hz fill 0 scalar 0.999995528 under 75776 over 0
+[4618.991] 44100 Hz fill 0 scalar 0.999995528 under 76288 over 0
+[4648.996] 44100 Hz fill 512 scalar 0.999995528 under 76800 over 0
+[4679.002] 44100 Hz fill 0 scalar 0.999995528 under 77312 over 0
+[4709.011] 44100 Hz fill 512 scalar 0.999995528 under 77824 over 0
+[4739.012] 44100 Hz fill 512 scalar 0.999995528 under 78336 over 0
+[4769.021] 44100 Hz fill 512 scalar 0.999995528 under 78848 over 0
+[4799.031] 44100 Hz fill 512 scalar 0.999995528 under 79360 over 0
+[4829.044] 44100 Hz fill 512 scalar 0.999995528 under 79872 over 0
+[4859.051] 44100 Hz fill 0 scalar 0.999995528 under 80384 over 0
+[4889.060] 44100 Hz fill 0 scalar 0.999995528 under 80896 over 0
+[4919.067] 44100 Hz fill 512 scalar 0.999995528 under 81408 over 0
+[4949.078] 44100 Hz fill 512 scalar 0.999995528 under 81920 over 0
+[4952.349] playerInfo: Playing The Punk And The Godfather
+[4952.425] new track The Punk And The Godfather: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[4955.428] no decoder line for The Punk And The Godfather within 3 s; playing at 44100 Hz
+[4979.088] 44100 Hz fill 0 scalar 0.999995528 under 82432 over 0
+[5009.089] 44100 Hz fill 0 scalar 0.999995528 under 82944 over 0
+[5039.094] 44100 Hz fill 0 scalar 0.999995528 under 83456 over 0
+[5069.100] 44100 Hz fill 0 scalar 0.999995528 under 83968 over 0
+[5099.112] 44100 Hz fill 0 scalar 0.999995528 under 84480 over 0
+[5129.125] 44100 Hz fill 512 scalar 0.999995528 under 84992 over 0
+[5159.139] 44100 Hz fill 512 scalar 0.999995528 under 85504 over 0
+[5189.153] 44100 Hz fill 0 scalar 0.999995528 under 86016 over 0
+[5219.165] 44100 Hz fill 0 scalar 0.999995528 under 86528 over 0
+[5249.172] 44100 Hz fill 0 scalar 0.999995528 under 87040 over 0
+[5263.105] playerInfo: Playing Fadeaway
+[5263.167] new track Fadeaway: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[5266.180] no decoder line for Fadeaway within 3 s; playing at 44100 Hz
+[5279.181] 44100 Hz fill 0 scalar 0.999995528 under 87552 over 0
+[5309.184] 44100 Hz fill 0 scalar 0.999995528 under 88064 over 0
+[5339.196] 44100 Hz fill 0 scalar 0.999995528 under 88576 over 0
+[5369.210] 44100 Hz fill 512 scalar 0.999995528 under 89088 over 0
+[5399.214] 44100 Hz fill 0 scalar 0.999995528 under 89600 over 0
+[5429.215] 44100 Hz fill 0 scalar 0.999995528 under 90112 over 0
+[5459.225] 44100 Hz fill 0 scalar 0.999995528 under 90624 over 0
+[5489.235] 44100 Hz fill 0 scalar 0.999995528 under 91136 over 0
+[5519.238] 44100 Hz fill 0 scalar 0.999995528 under 91648 over 0
+[5549.246] 44100 Hz fill 0 scalar 0.999995528 under 92160 over 0
+[5579.251] 44100 Hz fill 0 scalar 0.999995528 under 92672 over 0
+[5609.265] 44100 Hz fill 0 scalar 0.999995528 under 93184 over 0
+[5636.224] decoder: 44100.0 Hz (lossy)
+[5636.770] playerInfo: Playing Bad Blood
+[5636.770] new track Bad Blood: decoder 44100.0 Hz lossy (seen 0.546 s before Playing), DAC 44100 Hz
+[5639.269] 44100 Hz fill 0 scalar 0.999995528 under 93696 over 0
+[5669.281] 44100 Hz fill 0 scalar 0.999995528 under 94208 over 0
+[5699.294] 44100 Hz fill 0 scalar 0.999995528 under 94720 over 0
+[5729.295] 44100 Hz fill 0 scalar 0.999995528 under 95232 over 0
+[5759.297] 44100 Hz fill 0 scalar 0.999995528 under 95744 over 0
+[5789.302] 44100 Hz fill 0 scalar 0.999995528 under 96768 over 0
+[5819.312] 44100 Hz fill 512 scalar 0.999995528 under 97280 over 0
+[5848.618] decoder: 44100.0 Hz (lossy)
+[5848.913] playerInfo: Playing Plenty Of Girls In The Sea
+[5848.915] new track Plenty Of Girls In The Sea: decoder 44100.0 Hz lossy (seen 0.291 s before Playing), DAC 44100 Hz
+[5849.315] 44100 Hz fill 512 scalar 0.999995528 under 97792 over 0
+[5879.322] 44100 Hz fill 512 scalar 0.999995528 under 98304 over 0
+[5909.334] 44100 Hz fill 512 scalar 0.999995528 under 98816 over 0
+[5939.338] 44100 Hz fill 0 scalar 0.999995528 under 99328 over 0
+[5969.345] 44100 Hz fill 512 scalar 0.999995528 under 99840 over 0
+[5999.355] 44100 Hz fill 512 scalar 0.999995528 under 100352 over 0
+[6029.363] 44100 Hz fill 512 scalar 0.999995528 under 100864 over 0
+[6033.958] playerInfo: Playing Locomotive Breath
+[6034.095] new track Locomotive Breath: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[6037.104] no decoder line for Locomotive Breath within 3 s; playing at 44100 Hz
+[6059.369] 44100 Hz fill 512 scalar 0.999995528 under 101376 over 0
+[6089.376] 44100 Hz fill 512 scalar 0.999995528 under 101888 over 0
+[6119.378] 44100 Hz fill 512 scalar 0.999995528 under 102400 over 0
+[6149.383] 44100 Hz fill 512 scalar 0.999995528 under 102912 over 0
+[6179.398] 44100 Hz fill 512 scalar 0.999995528 under 103424 over 0
+[6209.409] 44100 Hz fill 0 scalar 0.999995528 under 103936 over 0
+[6239.413] 44100 Hz fill 512 scalar 0.999995528 under 104448 over 0
+[6269.427] 44100 Hz fill 512 scalar 0.999995528 under 104960 over 0
+[6299.441] 44100 Hz fill 0 scalar 0.999995528 under 105472 over 0
+[6315.258] playerInfo: Playing Untitled 02
+[6315.304] new track Untitled 02: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[6318.312] no decoder line for Untitled 02 within 3 s; playing at 44100 Hz
+[6329.445] 44100 Hz fill 512 scalar 0.999995528 under 105984 over 0
+[6359.449] 44100 Hz fill 512 scalar 0.999995528 under 106496 over 0
+[6389.457] 44100 Hz fill 512 scalar 0.999995528 under 107008 over 0
+[6419.470] 44100 Hz fill 512 scalar 0.999995528 under 107520 over 0
+[6449.475] 44100 Hz fill 512 scalar 0.999995528 under 108032 over 0
+[6479.481] 44100 Hz fill 0 scalar 0.999995528 under 108544 over 0
+[6509.485] 44100 Hz fill 512 scalar 0.999995528 under 109056 over 0
+[6539.492] 44100 Hz fill 0 scalar 0.999995528 under 109568 over 0
+[6569.495] 44100 Hz fill 512 scalar 0.999995528 under 110080 over 0
+[6599.499] 44100 Hz fill 512 scalar 0.999995528 under 110592 over 0
+[6629.510] 44100 Hz fill 512 scalar 0.999995528 under 111104 over 0
+[6659.511] 44100 Hz fill 512 scalar 0.999995528 under 111616 over 0
+[6689.516] 44100 Hz fill 0 scalar 0.999995528 under 112128 over 0
+[6719.518] 44100 Hz fill 512 scalar 0.999995528 under 112640 over 0
+[6749.522] 44100 Hz fill 512 scalar 0.999995528 under 113152 over 0
+[6779.535] 44100 Hz fill 512 scalar 0.999995528 under 113664 over 0
+[6798.111] playerInfo: Playing Silent All These Years
+[6798.278] new track Silent All These Years: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[6801.286] no decoder line for Silent All These Years within 3 s; playing at 44100 Hz
+[6809.535] 44100 Hz fill 0 scalar 0.999995528 under 114176 over 0
+[6839.544] 44100 Hz fill 512 scalar 0.999995528 under 114688 over 0
+[6869.553] 44100 Hz fill 0 scalar 0.999995528 under 115200 over 0
+[6899.564] 44100 Hz fill 0 scalar 0.999995528 under 115712 over 0
+[6929.568] 44100 Hz fill 512 scalar 0.999995528 under 116224 over 0
+[6959.576] 44100 Hz fill 0 scalar 0.999995528 under 116736 over 0
+[6989.591] 44100 Hz fill 512 scalar 0.999995528 under 117248 over 0
+[7019.603] 44100 Hz fill 512 scalar 0.999995528 under 117760 over 0
+[7049.615] 44100 Hz fill 512 scalar 0.999995528 under 118272 over 0
+[7062.139] decoder: 44100.0 Hz (lossy)
+[7073.383] playerInfo: Playing Shake It Up
+[7073.385] new track Shake It Up: decoder 44100.0 Hz lossy (seen 11.227 s before Playing), DAC 44100 Hz
+[7079.619] 44100 Hz fill 0 scalar 0.999995528 under 118784 over 0
+[7109.629] 44100 Hz fill 0 scalar 0.999995528 under 119296 over 0
+[7139.640] 44100 Hz fill 512 scalar 0.999995528 under 119808 over 0
+[7169.644] 44100 Hz fill 0 scalar 0.999995528 under 120320 over 0
+[7199.652] 44100 Hz fill 0 scalar 0.999995528 under 120832 over 0
+[7229.667] 44100 Hz fill 0 scalar 0.999995528 under 121344 over 0
+[7259.671] 44100 Hz fill 512 scalar 0.999995528 under 121856 over 0
+[7277.693] decoder: 44100.0 Hz (lossy)
+[7288.928] playerInfo: Playing Shields
+[7288.929] new track Shields: decoder 44100.0 Hz lossy (seen 11.240 s before Playing), DAC 44100 Hz
+[7289.671] 44100 Hz fill 0 scalar 0.999995528 under 122368 over 0
+[7319.671] 44100 Hz fill 0 scalar 0.999995528 under 122880 over 0
+[7349.678] 44100 Hz fill 0 scalar 0.999995528 under 123392 over 0
+[7379.693] 44100 Hz fill 0 scalar 0.999995528 under 123904 over 0
+[7409.698] 44100 Hz fill 512 scalar 0.999995528 under 124416 over 0
+[7439.702] 44100 Hz fill 0 scalar 0.999995528 under 124928 over 0
+[7469.704] 44100 Hz fill 0 scalar 0.999995528 under 125440 over 0
+[7499.712] 44100 Hz fill 0 scalar 0.999995528 under 125952 over 0
+[7529.715] 44100 Hz fill 0 scalar 0.999995528 under 126464 over 0
+[7559.727] 44100 Hz fill 0 scalar 0.999995528 under 126976 over 0
+[7589.739] 44100 Hz fill 0 scalar 0.999995528 under 127488 over 0
+[7614.731] playerInfo: Playing Ghosts On Magnetic Tape II
+[7614.816] new track Ghosts On Magnetic Tape II: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[7617.822] no decoder line for Ghosts On Magnetic Tape II within 3 s; playing at 44100 Hz
+[7619.740] 44100 Hz fill 0 scalar 0.999995528 under 128000 over 0
+[7649.745] 44100 Hz fill 512 scalar 0.999995528 under 128512 over 0
+[7679.748] 44100 Hz fill 0 scalar 0.999995528 under 129024 over 0
+[7709.755] 44100 Hz fill 0 scalar 0.999995528 under 129536 over 0
+[7739.755] 44100 Hz fill 0 scalar 0.999995528 under 130048 over 0
+[7769.760] 44100 Hz fill 0 scalar 0.999995528 under 130560 over 0
+[7799.765] 44100 Hz fill 0 scalar 0.999995528 under 131072 over 0
+[7829.768] 44100 Hz fill 512 scalar 0.999995528 under 131584 over 0
+[7859.780] 44100 Hz fill 512 scalar 0.999995528 under 132096 over 0
+[7889.782] 44100 Hz fill 0 scalar 0.999995528 under 132608 over 0
+[7919.786] 44100 Hz fill 0 scalar 0.999995528 under 133120 over 0
+[7949.793] 44100 Hz fill 0 scalar 0.999995528 under 133632 over 0
+[7979.802] 44100 Hz fill 0 scalar 0.999995528 under 134144 over 0
+[8009.814] 44100 Hz fill 512 scalar 0.999995528 under 135168 over 0
+[8036.881] playerInfo: Playing Venus In Furs
+[8037.016] new track Venus In Furs: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[8039.820] 44100 Hz fill 0 scalar 0.999995528 under 135168 over 0
+[8040.023] no decoder line for Venus In Furs within 3 s; playing at 44100 Hz
+[8069.821] 44100 Hz fill 0 scalar 0.999995528 under 135680 over 0
+[8099.827] 44100 Hz fill 512 scalar 0.999995528 under 136704 over 0
+[8129.835] 44100 Hz fill 512 scalar 0.999995528 under 137216 over 0
+[8159.836] 44100 Hz fill 512 scalar 0.999995528 under 137728 over 0
+[8189.838] 44100 Hz fill 0 scalar 0.999995528 under 138240 over 0
+[8219.839] 44100 Hz fill 512 scalar 0.999995528 under 138752 over 0
+[8249.849] 44100 Hz fill 512 scalar 0.999995528 under 139264 over 0
+[8279.863] 44100 Hz fill 512 scalar 0.999995528 under 139776 over 0
+[8309.864] 44100 Hz fill 512 scalar 0.999995528 under 140288 over 0
+[8339.874] 44100 Hz fill 0 scalar 0.999995528 under 140800 over 0
+[8349.158] playerInfo: Playing West of Hollywood
+[8349.313] new track West of Hollywood: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[8352.317] no decoder line for West of Hollywood within 3 s; playing at 44100 Hz
+[8369.874] 44100 Hz fill 0 scalar 0.999995528 under 141312 over 0
+[8399.885] 44100 Hz fill 512 scalar 0.999995528 under 141824 over 0
+[8429.889] 44100 Hz fill 512 scalar 0.999995528 under 142336 over 0
+[8459.898] 44100 Hz fill 0 scalar 0.999995528 under 142848 over 0
+[8489.898] 44100 Hz fill 0 scalar 0.999995528 under 143360 over 0
+[8519.900] 44100 Hz fill 512 scalar 0.999995528 under 143872 over 0
+[8549.905] 44100 Hz fill 512 scalar 0.999995528 under 144384 over 0
+[8579.905] 44100 Hz fill 512 scalar 0.999995528 under 144896 over 0
+[8609.913] 44100 Hz fill 512 scalar 0.999995528 under 145408 over 0
+[8639.915] 44100 Hz fill 512 scalar 0.999995528 under 145920 over 0
+[8669.926] 44100 Hz fill 512 scalar 0.999995528 under 146432 over 0
+[8699.932] 44100 Hz fill 0 scalar 0.999995528 under 146944 over 0
+[8729.938] 44100 Hz fill 512 scalar 0.999995528 under 147456 over 0
+[8759.939] 44100 Hz fill 512 scalar 0.999995528 under 147968 over 0
+[8789.950] 44100 Hz fill 512 scalar 0.999995528 under 148480 over 0
+[8819.955] 44100 Hz fill 512 scalar 0.999995528 under 148992 over 0
+[8849.957] 44100 Hz fill 0 scalar 0.999995528 under 149504 over 0
+[8850.646] playerInfo: Playing Switch Opens
+[8850.815] new track Switch Opens: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[8853.819] no decoder line for Switch Opens within 3 s; playing at 44100 Hz
+[8879.965] 44100 Hz fill 512 scalar 0.999995528 under 150016 over 0
+[8909.971] 44100 Hz fill 512 scalar 0.999995528 under 150528 over 0
+[8939.974] 44100 Hz fill 512 scalar 0.999995528 under 151040 over 0
+[8969.977] 44100 Hz fill 512 scalar 0.999995528 under 151552 over 0
+[8999.991] 44100 Hz fill 0 scalar 0.999995528 under 152064 over 0
+[9029.994] 44100 Hz fill 0 scalar 0.999995528 under 152576 over 0
+[9059.997] 44100 Hz fill 512 scalar 0.999995528 under 153088 over 0
+[9083.462] decoder: 44100.0 Hz (lossy)
+[9084.015] playerInfo: Playing The Vampyre Of Time And Memory
+[9084.018] new track The Vampyre Of Time And Memory: decoder 44100.0 Hz lossy (seen 0.547 s before Playing), DAC 44100 Hz
+[9090.005] 44100 Hz fill 0 scalar 0.999995528 under 153600 over 0
+[9120.006] 44100 Hz fill 0 scalar 0.999995528 under 154112 over 0
+[9150.013] 44100 Hz fill 512 scalar 0.999995528 under 154624 over 0
+[9180.026] 44100 Hz fill 0 scalar 0.999995528 under 155136 over 0
+[9210.035] 44100 Hz fill 512 scalar 0.999995528 under 155648 over 0
+[9240.042] 44100 Hz fill 512 scalar 0.999995528 under 156160 over 0
+[9270.048] 44100 Hz fill 0 scalar 0.999995528 under 156672 over 0
+[9298.509] decoder: 44100.0 Hz (lossy)
+[9298.748] playerInfo: Playing In My Dreams
+[9298.749] new track In My Dreams: decoder 44100.0 Hz lossy (seen 0.237 s before Playing), DAC 44100 Hz
+[9300.051] 44100 Hz fill 0 scalar 0.999995528 under 157184 over 0
+[9330.054] 44100 Hz fill 0 scalar 0.999995528 under 157696 over 0
+[9360.064] 44100 Hz fill 0 scalar 0.999995528 under 158208 over 0
+[9390.076] 44100 Hz fill 0 scalar 0.999995528 under 158720 over 0
+[9420.083] 44100 Hz fill 512 scalar 0.999995528 under 159232 over 0
+[9450.089] 44100 Hz fill 0 scalar 0.999995528 under 159744 over 0
+[9480.092] 44100 Hz fill 512 scalar 0.999995528 under 160256 over 0
+[9510.097] 44100 Hz fill 0 scalar 0.999995528 under 160768 over 0
+[9540.106] 44100 Hz fill 0 scalar 0.999995528 under 161280 over 0
+[9563.500] playerInfo: Playing Leucocyte / II. Ad interim
+[9563.618] new track Leucocyte / II. Ad interim: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[9566.625] no decoder line for Leucocyte / II. Ad interim within 3 s; playing at 44100 Hz
+[9570.113] 44100 Hz fill 0 scalar 0.999995528 under 161792 over 0
+[9600.115] 44100 Hz fill 512 scalar 0.999995528 under 162304 over 0
+[9615.118] decoder: 44100.0 Hz (lossy)
+[9624.111] playerInfo: Playing Butterfly, How Long It Takes To Die
+[9624.113] new track Butterfly, How Long It Takes To Die: decoder 44100.0 Hz lossy (seen 8.989 s before Playing), DAC 44100 Hz
+[9630.117] 44100 Hz fill 512 scalar 0.999995528 under 162816 over 0
+[9660.125] 44100 Hz fill 0 scalar 0.999995528 under 163328 over 0
+[9690.129] 44100 Hz fill 512 scalar 0.999995528 under 163840 over 0
+[9720.127] 44100 Hz fill 512 scalar 0.999995528 under 164352 over 0
+[9750.141] 44100 Hz fill 512 scalar 0.999995528 under 164864 over 0
+[9780.148] 44100 Hz fill 0 scalar 0.999995528 under 165376 over 0
+[9810.160] 44100 Hz fill 0 scalar 0.999995528 under 165888 over 0
+[9840.160] 44100 Hz fill 0 scalar 0.999995528 under 166400 over 0
+[9870.160] 44100 Hz fill 0 scalar 0.999995528 under 166912 over 0
+[9900.163] 44100 Hz fill 512 scalar 0.999995528 under 167424 over 0
+[9930.167] 44100 Hz fill 0 scalar 0.999995528 under 167936 over 0
+[9960.182] 44100 Hz fill 0 scalar 0.999995528 under 168448 over 0
+[9990.191] 44100 Hz fill 0 scalar 0.999995528 under 168960 over 0
+[10020.200] 44100 Hz fill 512 scalar 0.999995528 under 169472 over 0
+[10021.414] decoder: 44100.0 Hz (lossy)
+[10021.804] playerInfo: Playing Out Of Order
+[10021.806] new track Out Of Order: decoder 44100.0 Hz lossy (seen 0.384 s before Playing), DAC 44100 Hz
+[10022.748] decoder: 44100.0 Hz (lossless)
+[10050.208] 44100 Hz fill 0 scalar 0.999995528 under 169984 over 0
+[10080.210] 44100 Hz fill 512 scalar 0.999995528 under 170496 over 0
+[10110.210] 44100 Hz fill 512 scalar 0.999995528 under 171008 over 0
+[10140.221] 44100 Hz fill 512 scalar 0.999995528 under 171520 over 0
+[10170.225] 44100 Hz fill 0 scalar 0.999995528 under 172032 over 0
+[10200.239] 44100 Hz fill 0 scalar 0.999995528 under 172544 over 0
+[10230.249] 44100 Hz fill 0 scalar 0.999995528 under 173056 over 0
+[10233.448] playerInfo: Playing Not For You (Folk Arts Theater - Manila, Philippines 2/26/1995)
+[10233.448] new track Not For You (Folk Arts Theater - Manila, Philippines 2/26/1995): the newest decoder line (44100 Hz, 210.695 s before Playing) may be the previous track's; waiting 1 s for its own
+[10234.457] no newer decoder line for Not For You (Folk Arts Theater - Manila, Philippines 2/26/1995) within 1 s; the earlier one decides
+[10234.459] new track Not For You (Folk Arts Theater - Manila, Philippines 2/26/1995): decoder 44100.0 Hz lossless (seen 210.695 s before Playing), DAC 44100 Hz
+[10260.249] 44100 Hz fill 0 scalar 0.999995528 under 173568 over 0
+[10290.259] 44100 Hz fill 0 scalar 0.999995528 under 174080 over 0
+[10320.263] 44100 Hz fill 0 scalar 0.999995528 under 174592 over 0
+[10350.266] 44100 Hz fill 0 scalar 0.999995528 under 175104 over 0
+[10380.268] 44100 Hz fill 0 scalar 0.999995528 under 175616 over 0
+[10410.275] 44100 Hz fill 0 scalar 0.999995528 under 176128 over 0
+[10440.281] 44100 Hz fill 0 scalar 0.999995528 under 176640 over 0
+[10470.295] 44100 Hz fill 0 scalar 0.999995528 under 177152 over 0
+[10500.305] 44100 Hz fill 0 scalar 0.999995528 under 177664 over 0
+[10530.314] 44100 Hz fill 0 scalar 0.999995528 under 178176 over 0
+[10560.315] 44100 Hz fill 0 scalar 0.999995528 under 178688 over 0
+[10590.317] 44100 Hz fill 0 scalar 0.999995528 under 179200 over 0
+[10612.598] playerInfo: Playing Mercy On The Boy
+[10612.771] new track Mercy On The Boy: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[10615.780] no decoder line for Mercy On The Boy within 3 s; playing at 44100 Hz
+[10620.325] 44100 Hz fill 0 scalar 0.999995528 under 179712 over 0
+[10650.338] 44100 Hz fill 0 scalar 0.999995528 under 180224 over 0
+[10680.351] 44100 Hz fill 512 scalar 0.999995528 under 180736 over 0
+[10710.351] 44100 Hz fill 512 scalar 0.999995528 under 181760 over 0
+[10740.351] 44100 Hz fill 0 scalar 0.999995528 under 181760 over 0
+[10770.354] 44100 Hz fill 0 scalar 0.999995528 under 182272 over 0
+[10800.358] 44100 Hz fill 0 scalar 0.999995528 under 182784 over 0
+[10830.361] 44100 Hz fill 512 scalar 0.999995528 under 183808 over 0
+[10836.087] playerInfo: Playing Oraanu
+[10836.192] new track Oraanu: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[10839.198] no decoder line for Oraanu within 3 s; playing at 44100 Hz
+[10860.363] 44100 Hz fill 0 scalar 0.999995528 under 184320 over 0
+[10890.363] 44100 Hz fill 512 scalar 0.999995528 under 184832 over 0
+[10920.373] 44100 Hz fill 512 scalar 0.999995528 under 185344 over 0
+[10950.387] 44100 Hz fill 0 scalar 0.999995528 under 185856 over 0
+[10980.392] 44100 Hz fill 512 scalar 0.999995528 under 186368 over 0
+[11010.405] 44100 Hz fill 512 scalar 0.999995528 under 186880 over 0
+[11040.410] 44100 Hz fill 0 scalar 0.999995528 under 187392 over 0
+[11070.413] 44100 Hz fill 512 scalar 0.999995528 under 187904 over 0
+[11073.000] decoder: 44100.0 Hz (lossy)
+[11073.341] playerInfo: Playing Head Over Heels / Broken
+[11073.342] new track Head Over Heels / Broken: decoder 44100.0 Hz lossy (seen 0.328 s before Playing), DAC 44100 Hz
+[11100.428] 44100 Hz fill 512 scalar 0.999995528 under 188416 over 0
+[11130.434] 44100 Hz fill 0 scalar 0.999995528 under 188928 over 0
+[11160.437] 44100 Hz fill 512 scalar 0.999995528 under 189440 over 0
+[11190.446] 44100 Hz fill 0 scalar 0.999995528 under 189952 over 0
+[11220.452] 44100 Hz fill 512 scalar 0.999995528 under 190464 over 0
+[11250.453] 44100 Hz fill 512 scalar 0.999995528 under 190976 over 0
+[11280.462] 44100 Hz fill 512 scalar 0.999995528 under 191488 over 0
+[11310.463] 44100 Hz fill 512 scalar 0.999995528 under 192000 over 0
+[11340.471] 44100 Hz fill 512 scalar 0.999995528 under 192512 over 0
+[11370.485] 44100 Hz fill 512 scalar 0.999995528 under 193024 over 0
+[11374.452] playerInfo: Playing Vegetable Man (BBC Session December1967)
+[11374.558] new track Vegetable Man (BBC Session December1967): no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[11377.563] no decoder line for Vegetable Man (BBC Session December1967) within 3 s; playing at 44100 Hz
+[11400.492] 44100 Hz fill 0 scalar 0.999995528 under 193536 over 0
+[11430.493] 44100 Hz fill 512 scalar 0.999995528 under 194048 over 0
+[11460.506] 44100 Hz fill 512 scalar 0.999995528 under 194560 over 0
+[11490.508] 44100 Hz fill 512 scalar 0.999995528 under 195072 over 0
+[11520.509] 44100 Hz fill 512 scalar 0.999995528 under 195584 over 0
+[11550.519] 44100 Hz fill 512 scalar 0.999995528 under 196096 over 0
+[11561.086] decoder: 44100.0 Hz (lossless)
+[11561.542] playerInfo: Playing With Automatic Shut Off
+[11561.543] new track With Automatic Shut Off: decoder 44100.0 Hz lossless (seen 0.454 s before Playing), DAC 44100 Hz
+[11580.532] 44100 Hz fill 512 scalar 0.999995528 under 196608 over 0
+[11610.537] 44100 Hz fill 0 scalar 0.999995528 under 197120 over 0
+[11640.547] 44100 Hz fill 512 scalar 0.999995528 under 197632 over 0
+[11670.548] 44100 Hz fill 0 scalar 0.999995528 under 198144 over 0
+[11700.552] 44100 Hz fill 0 scalar 0.999995528 under 198656 over 0
+[11730.564] 44100 Hz fill 512 scalar 0.999995528 under 199168 over 0
+[11760.572] 44100 Hz fill 0 scalar 0.999995528 under 199680 over 0
+[11775.495] playerInfo: Playing You Just Have To Be Crazy
+[11775.664] new track You Just Have To Be Crazy: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[11778.668] no decoder line for You Just Have To Be Crazy within 3 s; playing at 44100 Hz
+[11790.585] 44100 Hz fill 0 scalar 0.999995528 under 200192 over 0
+[11820.591] 44100 Hz fill 512 scalar 0.999995528 under 200704 over 0
+[11850.594] 44100 Hz fill 512 scalar 0.999995528 under 201216 over 0
+[11880.600] 44100 Hz fill 0 scalar 0.999995528 under 201728 over 0
+[11910.612] 44100 Hz fill 0 scalar 0.999995528 under 202240 over 0
+[11940.621] 44100 Hz fill 0 scalar 0.999995528 under 202752 over 0
+[11970.635] 44100 Hz fill 0 scalar 0.999995528 under 203264 over 0
+[11992.416] decoder: 44100.0 Hz (lossy)
+[11992.656] playerInfo: Playing Look...The Sun Rising (Individual Shuffle-Ready Version)
+[11992.657] new track Look...The Sun Rising (Individual Shuffle-Ready Version): decoder 44100.0 Hz lossy (seen 0.235 s before Playing), DAC 44100 Hz
+[12000.645] 44100 Hz fill 0 scalar 0.999995528 under 203776 over 0
+[12030.646] 44100 Hz fill 0 scalar 0.999995528 under 204288 over 0
+[12060.647] 44100 Hz fill 0 scalar 0.999995528 under 204800 over 0
+[12090.652] 44100 Hz fill 512 scalar 0.999995528 under 205312 over 0
+[12120.659] 44100 Hz fill 512 scalar 0.999995528 under 205824 over 0
+[12150.672] 44100 Hz fill 512 scalar 0.999995528 under 206336 over 0
+[12180.683] 44100 Hz fill 512 scalar 0.999995528 under 206848 over 0
+[12210.683] 44100 Hz fill 0 scalar 0.999995528 under 207360 over 0
+[12211.350] playerInfo: Playing A Blossom Fell (Album Version)
+[12211.409] new track A Blossom Fell (Album Version): no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[12214.416] no decoder line for A Blossom Fell (Album Version) within 3 s; playing at 44100 Hz
+[12240.688] 44100 Hz fill 512 scalar 0.999995528 under 207872 over 0
+[12270.695] 44100 Hz fill 0 scalar 0.999995528 under 208384 over 0
+[12300.701] 44100 Hz fill 0 scalar 0.999995528 under 208896 over 0
+[12330.714] 44100 Hz fill 0 scalar 0.999995528 under 209408 over 0
+[12360.714] 44100 Hz fill 0 scalar 0.999995528 under 209920 over 0
+[12390.722] 44100 Hz fill 512 scalar 0.999995528 under 210432 over 0
+[12420.722] 44100 Hz fill 512 scalar 0.999995528 under 210944 over 0
+[12450.725] 44100 Hz fill 0 scalar 0.999995528 under 211456 over 0
+[12480.733] 44100 Hz fill 512 scalar 0.999995528 under 211968 over 0
+[12510.731] 44100 Hz fill 0 scalar 0.999995528 under 212480 over 0
+[12523.262] decoder: 48000.0 Hz (lossy)
+[12523.277] next track needs 48000 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[12523.277] boundary latch armed at in frame 547177472
+[12523.292] latched at ring 547071929 (fill 71)
+[12523.583] playerInfo: Playing Cold Water
+[12523.585] new track Cold Water: decoder 48000.0 Hz lossy (seen 0.315 s before Playing), DAC 44100 Hz -> switch to 48000
+[12523.615] switch 10: Cold Water needs 48000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.030 s
+[12523.644] virtual device -> 48000: 0
+[12523.648] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[12525.196]   DAC ready after 1.547 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[12525.197] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[12525.197] playerInfo: Playing Cold Water
+[12525.197] decoder: 48000.0 Hz (lossy)
+[12525.197] playerInfo: Paused Cold Water
+[12525.398]   rewound to 0.000 (was 0.141, played ~0.061 s), play; switch 10 done 1.813 s after the request
+[12525.487] decoder: 48000.0 Hz (lossy)
+[12525.487] decoder: 44100.0 Hz (lossy)
+[12525.487] decoder: 48000.0 Hz (lossy)
+[12525.488] playerInfo: Paused Cold Water
+[12525.488] playerInfo: Playing Cold Water
+[12525.517] decoder: 44100.0 Hz (lossless)
+[12525.519] lossless decoder at 44100.0 Hz after a lossy start; switching again
+[12525.528] switch 11: (lossless upgrade) needs 44100 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.009 s
+[12525.547] virtual device -> 44100: 0
+[12525.548] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[12526.872]   DAC ready after 1.323 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[12526.873] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[12526.873] playerInfo: Playing Cold Water
+[12526.873] decoder: 48000.0 Hz (lossy)
+[12526.873] playerInfo: Paused Cold Water
+[12526.956]   rewound to 0.000 (was 0.035, played ~0.050 s), play; switch 11 done 1.436 s after the request
+[12526.971] decoder: 48000.0 Hz (lossy)
+[12526.989] playerInfo: Paused Cold Water
+[12527.042] playerInfo: Playing Cold Water
+[12540.741] 44100 Hz fill 1536 scalar 0.999995528 under 212992 over 0
+[12570.747] 44100 Hz fill 0 scalar 0.999995528 under 213504 over 0
+[12600.755] 44100 Hz fill 512 scalar 0.999995528 under 214528 over 0
+[12630.756] 44100 Hz fill 0 scalar 0.999995528 under 215040 over 0
+[12660.760] 44100 Hz fill 0 scalar 0.999995528 under 215552 over 0
+[12690.771] 44100 Hz fill 0 scalar 0.999995528 under 216064 over 0
+[12720.771] 44100 Hz fill 0 scalar 0.999995528 under 216576 over 0
+[12750.785] 44100 Hz fill 0 scalar 0.999995528 under 217088 over 0
+[12780.795] 44100 Hz fill 0 scalar 0.999995528 under 217600 over 0
+[12810.805] 44100 Hz fill 0 scalar 0.999995528 under 218112 over 0
+[12840.807] 44100 Hz fill 0 scalar 0.999995528 under 218624 over 0
+[12850.296] playerInfo: Playing Wanna Mess You Around
+[12850.296] new track Wanna Mess You Around: the newest decoder line (48000 Hz, 323.343 s before Playing) may be the previous track's; waiting 1 s for its own
+[12851.304] no newer decoder line for Wanna Mess You Around within 1 s; the earlier one decides
+[12851.309] new track Wanna Mess You Around: decoder 48000.0 Hz lossy (seen 323.343 s before Playing), DAC 44100 Hz -> switch to 48000
+[12851.324] playerInfo: Playing Wanna Mess You Around
+[12851.330] switch 12: Wanna Mess You Around needs 48000 Hz (DAC 44100); not latched: cut at the play position; paused; boundary reached 0.020 s
+[12851.352] virtual device -> 48000: 0
+[12851.353] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[12852.911]   DAC ready after 1.557 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[12852.912] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[12852.914] decoder: 44100.0 Hz (lossless)
+[12852.914] playerInfo: Paused Wanna Mess You Around
+[12852.985]   rewound to 0.000 (was 1.107, played ~1.073 s), play; switch 12 done 1.676 s after the request
+[12852.999] decoder: 44100.0 Hz (lossless)
+[12853.086] playerInfo: Paused Wanna Mess You Around
+[12853.100] playerInfo: Playing Wanna Mess You Around
+[12853.101] lossless decoder at 44100.0 Hz after a lossy start; switching again
+[12853.154] switch 13: (lossless upgrade) needs 44100 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.053 s
+[12853.173] virtual device -> 44100: 0
+[12853.173] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[12854.487]   DAC ready after 1.313 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[12854.488] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[12854.488] playerInfo: Playing Wanna Mess You Around
+[12854.488] decoder: 44100.0 Hz (lossless)
+[12854.488] playerInfo: Paused Wanna Mess You Around
+[12854.567]   rewound to 0.000 (was 0.000, played ~0.050 s), play; switch 13 done 1.466 s after the request
+[12854.664] playerInfo: Paused Wanna Mess You Around
+[12854.679] playerInfo: Playing Wanna Mess You Around
+[12870.812] 44100 Hz fill 1024 scalar 0.999995528 under 219136 over 0
+[12900.819] 44100 Hz fill 0 scalar 0.999995528 under 219648 over 0
+[12930.826] 44100 Hz fill 0 scalar 0.999995528 under 220672 over 0
+[12941.292] playerInfo: Playing Radio W-OO-10
+[12941.292] new track Radio W-OO-10: the newest decoder line (44100 Hz, 86.706 s before Playing) may be the previous track's; waiting 1 s for its own
+[12942.296] no newer decoder line for Radio W-OO-10 within 1 s; the earlier one decides
+[12942.297] new track Radio W-OO-10: decoder 44100.0 Hz lossless (seen 86.706 s before Playing), DAC 44100 Hz
+[12960.838] 44100 Hz fill 0 scalar 0.999995528 under 221184 over 0
+[12969.400] decoder: 44100.0 Hz (lossy)
+[12969.647] playerInfo: Playing Not for You
+[12969.648] new track Not for You: decoder 44100.0 Hz lossy (seen 0.238 s before Playing), DAC 44100 Hz
+[12990.844] 44100 Hz fill 0 scalar 0.999995528 under 221696 over 0
+[13020.847] 44100 Hz fill 0 scalar 0.999995528 under 222208 over 0
+[13050.859] 44100 Hz fill 0 scalar 0.999995528 under 222720 over 0
+[13080.868] 44100 Hz fill 512 scalar 0.999995528 under 223232 over 0
+[13110.876] 44100 Hz fill 0 scalar 0.999995528 under 223744 over 0
+[13140.879] 44100 Hz fill 0 scalar 0.999995528 under 224256 over 0
+[13170.883] 44100 Hz fill 0 scalar 0.999995528 under 224768 over 0
+[13200.888] 44100 Hz fill 0 scalar 0.999995528 under 225280 over 0
+[13230.893] 44100 Hz fill 0 scalar 0.999995528 under 225792 over 0
+[13260.896] 44100 Hz fill 0 scalar 0.999995528 under 226304 over 0
+[13290.904] 44100 Hz fill 512 scalar 0.999995528 under 226816 over 0
+[13320.916] 44100 Hz fill 512 scalar 0.999995528 under 227328 over 0
+[13322.425] playerInfo: Playing Double Stripper Double Sax
+[13322.485] new track Double Stripper Double Sax: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[13325.496] no decoder line for Double Stripper Double Sax within 3 s; playing at 44100 Hz
+[13350.924] 44100 Hz fill 0 scalar 0.999995528 under 227840 over 0
+[13380.936] 44100 Hz fill 0 scalar 0.999995528 under 228352 over 0
+[13387.327] playerInfo: Playing Interpretation #1
+[13387.453] new track Interpretation #1: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[13390.464] no decoder line for Interpretation #1 within 3 s; playing at 44100 Hz
+[13410.945] 44100 Hz fill 0 scalar 0.999995528 under 228864 over 0
+[13440.946] 44100 Hz fill 0 scalar 0.999995528 under 229376 over 0
+[13470.948] 44100 Hz fill 0 scalar 0.999995528 under 229888 over 0
+[13500.958] 44100 Hz fill 0 scalar 0.999995528 under 230400 over 0
+[13530.965] 44100 Hz fill 0 scalar 0.999995528 under 230912 over 0
+[13539.764] playerInfo: Playing Stinkfist
+[13539.910] new track Stinkfist: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[13542.910] no decoder line for Stinkfist within 3 s; playing at 44100 Hz
+[13560.967] 44100 Hz fill 0 scalar 0.999995528 under 231424 over 0
+[13590.975] 44100 Hz fill 512 scalar 0.999995528 under 232448 over 0
+[13620.986] 44100 Hz fill 0 scalar 0.999995528 under 232448 over 0
+[13650.991] 44100 Hz fill 0 scalar 0.999995528 under 232960 over 0
+[13680.997] 44100 Hz fill 512 scalar 0.999995528 under 233984 over 0
+[13710.998] 44100 Hz fill 512 scalar 0.999995528 under 234496 over 0
+[13741.007] 44100 Hz fill 512 scalar 0.999995528 under 235008 over 0
+[13771.020] 44100 Hz fill 512 scalar 0.999995528 under 235520 over 0
+[13801.032] 44100 Hz fill 512 scalar 0.999995528 under 236032 over 0
+[13831.032] 44100 Hz fill 512 scalar 0.999995528 under 236544 over 0
+[13851.047] decoder: 44100.0 Hz (lossy)
+[13851.530] playerInfo: Playing Truenorth
+[13851.531] new track Truenorth: decoder 44100.0 Hz lossy (seen 0.478 s before Playing), DAC 44100 Hz
+[13861.044] 44100 Hz fill 512 scalar 0.999995528 under 237056 over 0
+[13891.045] 44100 Hz fill 0 scalar 0.999995528 under 237568 over 0
+[13921.046] 44100 Hz fill 0 scalar 0.999995528 under 238080 over 0
+[13951.061] 44100 Hz fill 512 scalar 0.999995528 under 238592 over 0
+[13981.067] 44100 Hz fill 0 scalar 0.999995528 under 239104 over 0
+[14011.067] 44100 Hz fill 0 scalar 0.999995528 under 239616 over 0
+[14041.069] 44100 Hz fill 0 scalar 0.999995528 under 240128 over 0
+[14071.072] 44100 Hz fill 512 scalar 0.999995528 under 240640 over 0
+[14101.083] 44100 Hz fill 512 scalar 0.999995528 under 241152 over 0
+[14131.085] 44100 Hz fill 512 scalar 0.999995528 under 241664 over 0
+[14161.093] 44100 Hz fill 0 scalar 0.999995528 under 242176 over 0
+[14191.093] 44100 Hz fill 0 scalar 0.999995528 under 242688 over 0
+[14221.102] 44100 Hz fill 512 scalar 0.999995528 under 243200 over 0
+[14251.103] 44100 Hz fill 0 scalar 0.999995528 under 243712 over 0
+[14281.116] 44100 Hz fill 0 scalar 0.999995528 under 244224 over 0
+[14311.117] 44100 Hz fill 512 scalar 0.999995528 under 244736 over 0
+[14341.129] 44100 Hz fill 0 scalar 0.999995528 under 245248 over 0
+[14371.129] 44100 Hz fill 0 scalar 0.999995528 under 245760 over 0
+[14401.141] 44100 Hz fill 0 scalar 0.999995528 under 246272 over 0
+[14431.145] 44100 Hz fill 512 scalar 0.999995528 under 246784 over 0
+[14461.155] 44100 Hz fill 512 scalar 0.999995528 under 247296 over 0
+[14491.164] 44100 Hz fill 0 scalar 0.999995528 under 247808 over 0
+[14521.165] 44100 Hz fill 0 scalar 0.999995528 under 248320 over 0
+[14551.171] 44100 Hz fill 512 scalar 0.999995528 under 248832 over 0
+[14581.175] 44100 Hz fill 0 scalar 0.999995528 under 249344 over 0
+[14611.185] 44100 Hz fill 0 scalar 0.999995528 under 249856 over 0
+[14622.717] decoder: 44100.0 Hz (lossy)
+[14622.967] playerInfo: Playing Rush
+[14622.968] new track Rush: decoder 44100.0 Hz lossy (seen 0.245 s before Playing), DAC 44100 Hz
+[14641.198] 44100 Hz fill 0 scalar 0.999995528 under 250368 over 0
+[14671.204] 44100 Hz fill 512 scalar 0.999995528 under 250880 over 0
+[14701.207] 44100 Hz fill 0 scalar 0.999995528 under 251392 over 0
+[14731.215] 44100 Hz fill 512 scalar 0.999995528 under 251904 over 0
+[14761.222] 44100 Hz fill 0 scalar 0.999995528 under 252416 over 0
+[14791.223] 44100 Hz fill 0 scalar 0.999995528 under 252928 over 0
+[14821.231] 44100 Hz fill 0 scalar 0.999995528 under 253440 over 0
+[14851.234] 44100 Hz fill 0 scalar 0.999995528 under 253952 over 0
+[14881.246] 44100 Hz fill 0 scalar 0.999995528 under 254464 over 0
+[14903.957] decoder: 48000.0 Hz (lossy)
+[14904.206] next track needs 48000 Hz; 0.11 s left, arming the boundary latch in 0.00 s
+[14904.206] boundary latch armed at in frame 652165120
+[14904.221] latched at ring 651814329 (fill 71)
+[14904.285] playerInfo: Playing Biko (Live)
+[14904.287] new track Biko (Live): decoder 48000.0 Hz lossy (seen 0.328 s before Playing), DAC 44100 Hz -> switch to 48000
+[14904.311] switch 14: Biko (Live) needs 48000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.025 s
+[14904.337] virtual device -> 48000: 0
+[14904.337] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[14905.806]   DAC ready after 1.468 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[14905.807] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[14905.807] playerInfo: Playing Biko (Live)
+[14905.808] decoder: 48000.0 Hz (lossy)
+[14905.808] playerInfo: Paused Biko (Live)
+[14906.129]   rewound to 0.000 (was 0.133, played ~0.062 s), play; switch 14 done 1.842 s after the request
+[14906.182] decoder: 48000.0 Hz (lossy)
+[14906.183] playerInfo: Paused Biko (Live)
+[14906.183] playerInfo: Playing Biko (Live)
+[14911.258] 48000 Hz fill 1536 scalar 0.999995528 under 254976 over 0
+[14941.265] 48000 Hz fill 512 scalar 0.999995528 under 255488 over 0
+[14957.387] clock: ring at 0 frames before the lock (target 2048); refilling first
+[14957.901] clock lock: phase0 39542.778, fill 1536, cycles A 1278779 B 1278609
+[14971.276] 48000 Hz fill 1536 scalar 0.999998623 under 255488 over 0
+[15001.276] 48000 Hz fill 2048 scalar 0.999993562 under 255488 over 0
+[15031.279] 48000 Hz fill 2048 scalar 0.999994975 under 255488 over 0
+[15061.288] 48000 Hz fill 2048 scalar 0.999995426 under 255488 over 0
+[15091.304] 48000 Hz fill 1536 scalar 0.999995895 under 255488 over 0
+[15121.317] 48000 Hz fill 2048 scalar 0.999995735 under 255488 over 0
+[15151.329] 48000 Hz fill 1536 scalar 0.999995573 under 255488 over 0
+[15181.332] 48000 Hz fill 1536 scalar 0.999995971 under 255488 over 0
+[15211.338] 48000 Hz fill 1536 scalar 0.999994661 under 255488 over 0
+[15241.343] 48000 Hz fill 1536 scalar 0.999995321 under 255488 over 0
+[15271.353] 48000 Hz fill 1536 scalar 0.999995792 under 255488 over 0
+[15297.682] decoder: 44100.0 Hz (lossy)
+[15297.882] next track needs 44100 Hz; -0.04 s left, arming the boundary latch in 0.00 s
+[15297.883] boundary latch armed at in frame 671054336
+[15297.899] latched at ring 670638560 (fill 1536)
+[15297.928] playerInfo: Playing Utopia
+[15297.930] new track Utopia: decoder 44100.0 Hz lossy (seen 0.250 s before Playing), DAC 48000 Hz -> switch to 44100
+[15298.009] switch 15: Utopia needs 44100 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.079 s
+[15298.025] virtual device -> 44100: 0
+[15298.026] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[15299.309]   DAC ready after 1.283 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[15299.310] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[15299.310] playerInfo: Playing Utopia
+[15299.310] playerInfo: Paused Utopia
+[15299.352]   rewound to 0.000 (was 0.206, played ~0.060 s), play; switch 15 done 1.422 s after the request
+[15299.415] playerInfo: Paused Utopia
+[15299.427] playerInfo: Playing Utopia
+[15299.854] clock: DAC scalar 0.998942 not settled; waiting to lock
+[15301.353] 44100 Hz fill 2048 scalar 0.999995692 under 255488 over 0
+[15331.357] 44100 Hz fill 0 scalar 0.999995692 under 255488 over 0
+[15361.366] 44100 Hz fill 512 scalar 0.999995692 under 257024 over 0
+[15391.375] 44100 Hz fill 512 scalar 0.999995692 under 257536 over 0
+[15421.382] 44100 Hz fill 0 scalar 0.999995692 under 258048 over 0
+[15451.387] 44100 Hz fill 0 scalar 0.999995692 under 258560 over 0
+[15481.396] 44100 Hz fill 0 scalar 0.999995692 under 259072 over 0
+[15511.402] 44100 Hz fill 512 scalar 0.999995692 under 259584 over 0
+[15541.411] 44100 Hz fill 0 scalar 0.999995692 under 260096 over 0
+[15571.424] 44100 Hz fill 512 scalar 0.999995692 under 260608 over 0
+[15597.731] playerInfo: Playing Anytime You Want Me (A Cappella Version)
+[15597.786] new track Anytime You Want Me (A Cappella Version): no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[15600.799] no decoder line for Anytime You Want Me (A Cappella Version) within 3 s; playing at 44100 Hz
+[15601.425] 44100 Hz fill 512 scalar 0.999995692 under 261120 over 0
+[15631.430] 44100 Hz fill 0 scalar 0.999995692 under 261632 over 0
+[15661.441] 44100 Hz fill 0 scalar 0.999995692 under 262144 over 0
+[15691.454] 44100 Hz fill 0 scalar 0.999995692 under 262656 over 0
+[15721.458] 44100 Hz fill 512 scalar 0.999995692 under 263168 over 0
+[15749.319] decoder: 44100.0 Hz (lossy)
+[15749.757] playerInfo: Playing Motherly Love
+[15749.758] new track Motherly Love: decoder 44100.0 Hz lossy (seen 0.433 s before Playing), DAC 44100 Hz
+[15751.466] 44100 Hz fill 0 scalar 0.999995692 under 263680 over 0
+[15781.468] 44100 Hz fill 0 scalar 0.999995692 under 264192 over 0
+[15811.472] 44100 Hz fill 512 scalar 0.999995692 under 264704 over 0
+[15841.479] 44100 Hz fill 0 scalar 0.999995692 under 265216 over 0
+[15871.486] 44100 Hz fill 0 scalar 0.999995692 under 265728 over 0
+[15901.491] 44100 Hz fill 0 scalar 0.999995692 under 266240 over 0
+[15915.345] decoder: 44100.0 Hz (lossy)
+[15915.625] playerInfo: Playing Exit Music (For a Film) [BBC Radio 1 Evening Session 28/5/97]
+[15915.625] new track Exit Music (For a Film) [BBC Radio 1 Evening Session 28/5/97]: decoder 44100.0 Hz lossy (seen 0.275 s before Playing), DAC 44100 Hz
+[15931.499] 44100 Hz fill 0 scalar 0.999995692 under 266752 over 0
+[15961.506] 44100 Hz fill 0 scalar 0.999995692 under 267264 over 0
+[15991.508] 44100 Hz fill 512 scalar 0.999995692 under 267776 over 0
+[16021.516] 44100 Hz fill 0 scalar 0.999995692 under 268288 over 0
+[16051.520] 44100 Hz fill 0 scalar 0.999995692 under 268800 over 0
+[16081.527] 44100 Hz fill 0 scalar 0.999995692 under 269312 over 0
+[16111.535] 44100 Hz fill 0 scalar 0.999995692 under 269824 over 0
+[16141.544] 44100 Hz fill 0 scalar 0.999995692 under 270336 over 0
+[16171.554] 44100 Hz fill 512 scalar 0.999995692 under 270848 over 0
+[16190.759] decoder: 96000.0 Hz (lossless)
+[16190.772] next track needs 96000 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[16190.772] boundary latch armed at in frame 710424576
+[16190.782] latched at ring 709958073 (fill 512)
+[16191.128] playerInfo: Playing To Whom It May Concern
+[16191.132] new track To Whom It May Concern: decoder 96000.0 Hz lossless (seen 0.362 s before Playing), DAC 44100 Hz -> switch to 96000
+[16191.176] switch 16: To Whom It May Concern needs 96000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.044 s
+[16191.200] virtual device -> 96000: 0
+[16191.204] DAC format -> 96000.0 Hz 2 ch 24 bit flags 76: 0
+[16192.560]   DAC ready after 1.355 s: phys 96000.0 Hz 2 ch 24 bit flags 76 / virt 96000.0 Hz 2 ch 24 bit flags 76
+[16192.561] B writes int24 in 3 bytes, channels 1/2 (virtual format 96000.0 Hz 2 ch 24 bit flags 76)
+[16192.561] playerInfo: Playing To Whom It May Concern
+[16192.561] decoder: 96000.0 Hz (lossless)
+[16192.561] playerInfo: Paused To Whom It May Concern
+[16192.907]   rewound to 0.000 (was 0.214, played ~0.065 s), play; switch 16 done 1.775 s after the request
+[16192.982] decoder: 96000.0 Hz (lossless)
+[16192.982] playerInfo: Paused To Whom It May Concern
+[16192.982] playerInfo: Playing To Whom It May Concern
+[16201.567] 96000 Hz fill 1024 scalar 0.999995692 under 271360 over 0
+[16231.575] 96000 Hz fill 512 scalar 0.999995692 under 271872 over 0
+[16238.556] clock: ring at 512 frames before the lock (target 2048); refilling first
+[16239.065] clock lock: phase0 68953.677, fill 1536, cycles A 1396535 B 1396214
+[16261.575] 96000 Hz fill 2048 scalar 0.999981275 under 271872 over 0
+[16291.576] 96000 Hz fill 2048 scalar 0.999994230 under 271872 over 0
+[16321.584] 96000 Hz fill 2048 scalar 0.999995114 under 271872 over 0
+[16351.590] 96000 Hz fill 2048 scalar 0.999995262 under 271872 over 0
+[16381.603] 96000 Hz fill 1536 scalar 0.999995669 under 271872 over 0
+[16411.610] 96000 Hz fill 1536 scalar 0.999995860 under 271872 over 0
+[16441.617] 96000 Hz fill 2048 scalar 0.999995478 under 271872 over 0
+[16471.625] 96000 Hz fill 1536 scalar 0.999995768 under 271872 over 0
+[16501.632] 96000 Hz fill 2048 scalar 0.999996001 under 271872 over 0
+[16504.525] decoder: 44100.0 Hz (lossy)
+[16504.712] next track needs 44100 Hz; -0.29 s left, arming the boundary latch in 0.00 s
+[16504.712] boundary latch armed at in frame 740528128
+[16504.728] latched at ring 739942848 (fill 1536)
+[16504.764] playerInfo: Playing Forget about the future
+[16504.766] new track Forget about the future: decoder 44100.0 Hz lossy (seen 0.244 s before Playing), DAC 96000 Hz -> switch to 44100
+[16505.839] switch 17: Forget about the future needs 44100 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 1.073 s
+[16505.858] virtual device -> 44100: 0
+[16505.864] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[16507.172]   DAC ready after 1.308 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[16507.173] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[16507.174] playerInfo: Playing Forget about the future
+[16507.174] playerInfo: Paused Forget about the future
+[16507.207]   rewound to 0.000 (was 1.450, played ~0.055 s), play; switch 17 done 2.440 s after the request
+[16507.283] playerInfo: Paused Forget about the future
+[16507.283] playerInfo: Playing Forget about the future
+[16507.712] clock: DAC scalar 0.999007 not settled; waiting to lock
+[16531.637] 44100 Hz fill 512 scalar 0.999995819 under 271872 over 0
+[16561.643] 44100 Hz fill 0 scalar 0.999995819 under 272896 over 0
+[16591.646] 44100 Hz fill 0 scalar 0.999995819 under 273408 over 0
+[16621.656] 44100 Hz fill 0 scalar 0.999995819 under 273920 over 0
+[16651.663] 44100 Hz fill 0 scalar 0.999995819 under 274432 over 0
+[16681.670] 44100 Hz fill 0 scalar 0.999995819 under 274944 over 0
+[16711.683] 44100 Hz fill 0 scalar 0.999995819 under 275456 over 0
+[16741.685] 44100 Hz fill 0 scalar 0.999995819 under 275968 over 0
+[16771.691] 44100 Hz fill 512 scalar 0.999995819 under 276480 over 0
+[16801.702] 44100 Hz fill 0 scalar 0.999995819 under 276992 over 0
+[16807.702] decoder: 44100.0 Hz (lossy)
+[16819.252] playerInfo: Playing Earth On Hell
+[16819.254] new track Earth On Hell: decoder 44100.0 Hz lossy (seen 11.555 s before Playing), DAC 44100 Hz
+[16831.706] 44100 Hz fill 0 scalar 0.999995819 under 277504 over 0
+[16861.712] 44100 Hz fill 0 scalar 0.999995819 under 278016 over 0
+[16891.714] 44100 Hz fill 512 scalar 0.999995819 under 279040 over 0
+[16921.721] 44100 Hz fill 512 scalar 0.999995819 under 279552 over 0
+[16951.735] 44100 Hz fill 512 scalar 0.999995819 under 280064 over 0
+[16981.740] 44100 Hz fill 512 scalar 0.999995819 under 280576 over 0
+[16999.187] decoder: 44100.0 Hz (lossy)
+[17010.113] playerInfo: Playing Learning To Fly (2019 Remix)
+[17010.114] new track Learning To Fly (2019 Remix): decoder 44100.0 Hz lossy (seen 10.928 s before Playing), DAC 44100 Hz
+[17011.741] 44100 Hz fill 512 scalar 0.999995819 under 281088 over 0
+[17041.749] 44100 Hz fill 512 scalar 0.999995819 under 281600 over 0
+[17071.761] 44100 Hz fill 512 scalar 0.999995819 under 282112 over 0
+[17101.764] 44100 Hz fill 512 scalar 0.999995819 under 282624 over 0
+[17131.774] 44100 Hz fill 512 scalar 0.999995819 under 283136 over 0
+[17161.776] 44100 Hz fill 512 scalar 0.999995819 under 283648 over 0
+[17191.786] 44100 Hz fill 512 scalar 0.999995819 under 284160 over 0
+[17221.788] 44100 Hz fill 512 scalar 0.999995819 under 284672 over 0
+[17251.796] 44100 Hz fill 0 scalar 0.999995819 under 285184 over 0
+[17281.796] 44100 Hz fill 0 scalar 0.999995819 under 285696 over 0
+[17303.214] playerInfo: Playing You Got Lucky
+[17303.307] new track You Got Lucky: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[17306.315] no decoder line for You Got Lucky within 3 s; playing at 44100 Hz
+[17311.798] 44100 Hz fill 512 scalar 0.999995819 under 286208 over 0
+[17341.799] 44100 Hz fill 512 scalar 0.999995819 under 286720 over 0
+[17371.813] 44100 Hz fill 512 scalar 0.999995819 under 287232 over 0
+[17401.826] 44100 Hz fill 512 scalar 0.999995819 under 287744 over 0
+[17431.830] 44100 Hz fill 0 scalar 0.999995819 under 288256 over 0
+[17461.839] 44100 Hz fill 512 scalar 0.999995819 under 288768 over 0
+[17491.846] 44100 Hz fill 512 scalar 0.999995819 under 289280 over 0
+[17518.858] decoder: 44100.0 Hz (lossy)
+[17519.443] playerInfo: Playing 32 Things
+[17519.444] new track 32 Things: decoder 44100.0 Hz lossy (seen 0.582 s before Playing), DAC 44100 Hz
+[17521.856] 44100 Hz fill 0 scalar 0.999995819 under 289792 over 0
+[17551.866] 44100 Hz fill 0 scalar 0.999995819 under 290304 over 0
+[17581.875] 44100 Hz fill 512 scalar 0.999995819 under 290816 over 0
+[17611.881] 44100 Hz fill 512 scalar 0.999995819 under 291328 over 0
+[17641.898] 44100 Hz fill 512 scalar 0.999995819 under 291840 over 0
+[17671.901] 44100 Hz fill 0 scalar 0.999995819 under 292352 over 0
+[17701.903] 44100 Hz fill 0 scalar 0.999995819 under 292864 over 0
+[17731.915] 44100 Hz fill 0 scalar 0.999995819 under 293376 over 0
+[17761.916] 44100 Hz fill 512 scalar 0.999995819 under 293888 over 0
+[17791.919] 44100 Hz fill 512 scalar 0.999995819 under 294400 over 0
+[17821.926] 44100 Hz fill 0 scalar 0.999995819 under 294912 over 0
+[17851.928] 44100 Hz fill 0 scalar 0.999995819 under 295424 over 0
+[17881.936] 44100 Hz fill 512 scalar 0.999995819 under 295936 over 0
+[17905.152] decoder: 44100.0 Hz (lossy)
+[17905.376] playerInfo: Playing That's The Way
+[17905.377] new track That's The Way: decoder 44100.0 Hz lossy (seen 0.225 s before Playing), DAC 44100 Hz
+[17911.941] 44100 Hz fill 512 scalar 0.999995819 under 296448 over 0
+[17941.948] 44100 Hz fill 512 scalar 0.999995819 under 296960 over 0
+[17971.954] 44100 Hz fill 512 scalar 0.999995819 under 297472 over 0
+[17973.508] decoder: 44100.0 Hz (lossless)
+[17973.839] playerInfo: Playing Gospel - Kievan Chant
+[17973.840] new track Gospel - Kievan Chant: decoder 44100.0 Hz lossless (seen 0.320 s before Playing), DAC 44100 Hz
+[18001.959] 44100 Hz fill 0 scalar 0.999995819 under 297984 over 0
+[18031.974] 44100 Hz fill 0 scalar 0.999995819 under 298496 over 0
+[18061.981] 44100 Hz fill 512 scalar 0.999995819 under 299008 over 0
+[18091.992] 44100 Hz fill 512 scalar 0.999995819 under 299520 over 0
+[18122.001] 44100 Hz fill 512 scalar 0.999995819 under 300032 over 0
+[18152.006] 44100 Hz fill 0 scalar 0.999995819 under 300544 over 0
+[18182.013] 44100 Hz fill 512 scalar 0.999995819 under 301056 over 0
+[18212.023] 44100 Hz fill 512 scalar 0.999995819 under 301568 over 0
+[18242.030] 44100 Hz fill 512 scalar 0.999995819 under 302080 over 0
+[18253.658] playerInfo: Playing Fly Famous Mockingbird
+[18253.780] new track Fly Famous Mockingbird: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[18256.790] no decoder line for Fly Famous Mockingbird within 3 s; playing at 44100 Hz
+[18272.031] 44100 Hz fill 0 scalar 0.999995819 under 302592 over 0
+[18302.042] 44100 Hz fill 0 scalar 0.999995819 under 303104 over 0
+[18332.047] 44100 Hz fill 512 scalar 0.999995819 under 303616 over 0
+[18362.059] 44100 Hz fill 0 scalar 0.999995819 under 304128 over 0
+[18392.061] 44100 Hz fill 512 scalar 0.999995819 under 304640 over 0
+[18422.068] 44100 Hz fill 0 scalar 0.999995819 under 305152 over 0
+[18452.071] 44100 Hz fill 512 scalar 0.999995819 under 305664 over 0
+[18482.079] 44100 Hz fill 0 scalar 0.999995819 under 306176 over 0
+[18512.089] 44100 Hz fill 0 scalar 0.999995819 under 306688 over 0
+[18542.098] 44100 Hz fill 512 scalar 0.999995819 under 307200 over 0
+[18572.111] 44100 Hz fill 512 scalar 0.999995819 under 307712 over 0
+[18602.113] 44100 Hz fill 0 scalar 0.999995819 under 308224 over 0
+[18632.125] 44100 Hz fill 0 scalar 0.999995819 under 308736 over 0
+[18662.128] 44100 Hz fill 0 scalar 0.999995819 under 309248 over 0
+[18692.134] 44100 Hz fill 512 scalar 0.999995819 under 309760 over 0
+[18722.143] 44100 Hz fill 512 scalar 0.999995819 under 310272 over 0
+[18724.362] decoder: 44100.0 Hz (lossy)
+[18724.639] playerInfo: Playing Jennifer Jones
+[18724.641] new track Jennifer Jones: decoder 44100.0 Hz lossy (seen 0.287 s before Playing), DAC 44100 Hz
+[18752.150] 44100 Hz fill 0 scalar 0.999995819 under 310784 over 0
+[18782.153] 44100 Hz fill 0 scalar 0.999995819 under 311296 over 0
+[18812.154] 44100 Hz fill 0 scalar 0.999995819 under 311808 over 0
+[18842.164] 44100 Hz fill 0 scalar 0.999995819 under 312320 over 0
+[18872.176] 44100 Hz fill 0 scalar 0.999995819 under 312832 over 0
+[18902.179] 44100 Hz fill 512 scalar 0.999995819 under 313344 over 0
+[18932.188] 44100 Hz fill 0 scalar 0.999995819 under 313856 over 0
+[18962.197] 44100 Hz fill 0 scalar 0.999995819 under 314368 over 0
+[18981.642] playerInfo: Playing Hand Over Fist
+[18981.697] new track Hand Over Fist: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[18984.702] no decoder line for Hand Over Fist within 3 s; playing at 44100 Hz
+[18992.197] 44100 Hz fill 0 scalar 0.999995819 under 314880 over 0
+[19022.197] 44100 Hz fill 0 scalar 0.999995819 under 315392 over 0
+[19052.208] 44100 Hz fill 0 scalar 0.999995819 under 315904 over 0
+[19082.210] 44100 Hz fill 0 scalar 0.999995819 under 316416 over 0
+[19112.224] 44100 Hz fill 0 scalar 0.999995819 under 316928 over 0
+[19142.235] 44100 Hz fill 0 scalar 0.999995819 under 317440 over 0
+[19172.248] 44100 Hz fill 0 scalar 0.999995819 under 317952 over 0
+[19202.253] 44100 Hz fill 0 scalar 0.999995819 under 318464 over 0
+[19232.255] 44100 Hz fill 0 scalar 0.999995819 under 318976 over 0
+[19232.518] decoder: 44100.0 Hz (lossless)
+[19232.897] playerInfo: Playing Isaiah
+[19232.898] new track Isaiah: decoder 44100.0 Hz lossless (seen 0.382 s before Playing), DAC 44100 Hz
+[19262.269] 44100 Hz fill 0 scalar 0.999995819 under 319488 over 0
+[19292.281] 44100 Hz fill 0 scalar 0.999995819 under 320000 over 0
+[19322.288] 44100 Hz fill 0 scalar 0.999995819 under 320512 over 0
+[19352.292] 44100 Hz fill 0 scalar 0.999995819 under 321024 over 0
+[19382.302] 44100 Hz fill 0 scalar 0.999995819 under 321536 over 0
+[19412.312] 44100 Hz fill 0 scalar 0.999995819 under 322048 over 0
+[19416.370] decoder: 44100.0 Hz (lossy)
+[19416.603] playerInfo: Playing Potter's Field
+[19416.604] new track Potter's Field: decoder 44100.0 Hz lossy (seen 0.236 s before Playing), DAC 44100 Hz
+[19442.315] 44100 Hz fill 0 scalar 0.999995819 under 322560 over 0
+[19472.327] 44100 Hz fill 0 scalar 0.999995819 under 323072 over 0
+[19502.340] 44100 Hz fill 0 scalar 0.999995819 under 323584 over 0
+[19532.345] 44100 Hz fill 512 scalar 0.999995819 under 324608 over 0
+[19562.351] 44100 Hz fill 512 scalar 0.999995819 under 325120 over 0
+[19592.362] 44100 Hz fill 0 scalar 0.999995819 under 325120 over 0
+[19622.377] 44100 Hz fill 512 scalar 0.999995819 under 326144 over 0
+[19652.390] 44100 Hz fill 512 scalar 0.999995819 under 326656 over 0
+[19682.391] 44100 Hz fill 512 scalar 0.999995819 under 327168 over 0
+[19712.399] 44100 Hz fill 512 scalar 0.999995819 under 327680 over 0
+[19742.400] 44100 Hz fill 512 scalar 0.999995819 under 328192 over 0
+[19772.405] 44100 Hz fill 512 scalar 0.999995819 under 328704 over 0
+[19802.415] 44100 Hz fill 512 scalar 0.999995819 under 329216 over 0
+[19832.428] 44100 Hz fill 512 scalar 0.999995819 under 329728 over 0
+[19862.431] 44100 Hz fill 512 scalar 0.999995819 under 330240 over 0
+[19892.432] 44100 Hz fill 512 scalar 0.999995819 under 330752 over 0
+[19922.432] 44100 Hz fill 512 scalar 0.999995819 under 331264 over 0
+[19939.750] playerInfo: Playing What A Wonderful World
+[19940.290] new track What A Wonderful World: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[19943.295] no decoder line for What A Wonderful World within 3 s; playing at 44100 Hz
+[19952.437] 44100 Hz fill 512 scalar 0.999995819 under 331776 over 0
+[19982.447] 44100 Hz fill 512 scalar 0.999995819 under 332288 over 0
+[20012.456] 44100 Hz fill 512 scalar 0.999995819 under 332800 over 0
+[20042.469] 44100 Hz fill 512 scalar 0.999995819 under 333312 over 0
+[20072.472] 44100 Hz fill 0 scalar 0.999995819 under 333824 over 0
+[20102.486] 44100 Hz fill 512 scalar 0.999995819 under 334336 over 0
+[20118.546] playerInfo: Playing Powder
+[20118.650] new track Powder: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[20121.658] no decoder line for Powder within 3 s; playing at 44100 Hz
+[20132.492] 44100 Hz fill 512 scalar 0.999995819 under 334848 over 0
+[20162.495] 44100 Hz fill 0 scalar 0.999995819 under 335360 over 0
+[20192.495] 44100 Hz fill 0 scalar 0.999995819 under 335872 over 0
+[20222.507] 44100 Hz fill 512 scalar 0.999995819 under 336384 over 0
+[20252.518] 44100 Hz fill 512 scalar 0.999995819 under 336896 over 0
+[20282.519] 44100 Hz fill 0 scalar 0.999995819 under 337408 over 0
+[20312.527] 44100 Hz fill 512 scalar 0.999995819 under 337920 over 0
+[20342.538] 44100 Hz fill 512 scalar 0.999995819 under 338432 over 0
+[20349.363] playerInfo: Playing Cocoon
+[20349.452] new track Cocoon: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[20352.458] no decoder line for Cocoon within 3 s; playing at 44100 Hz
+[20372.550] 44100 Hz fill 512 scalar 0.999995819 under 338944 over 0
+[20402.563] 44100 Hz fill 512 scalar 0.999995819 under 339456 over 0
+[20432.570] 44100 Hz fill 512 scalar 0.999995819 under 339968 over 0
+[20462.576] 44100 Hz fill 512 scalar 0.999995819 under 340480 over 0
+[20492.577] 44100 Hz fill 0 scalar 0.999995819 under 340992 over 0
+[20522.577] 44100 Hz fill 0 scalar 0.999995819 under 341504 over 0
+[20552.589] 44100 Hz fill 0 scalar 0.999995819 under 342016 over 0
+[20582.599] 44100 Hz fill 512 scalar 0.999995819 under 342528 over 0
+[20600.335] decoder: 44100.0 Hz (lossy)
+[20600.856] playerInfo: Playing The Ancient, Pt. 5 (Remix)
+[20600.860] new track The Ancient, Pt. 5 (Remix): decoder 44100.0 Hz lossy (seen 0.511 s before Playing), DAC 44100 Hz
+[20612.606] 44100 Hz fill 512 scalar 0.999995819 under 343040 over 0
+[20642.610] 44100 Hz fill 512 scalar 0.999995819 under 343552 over 0
+[20672.615] 44100 Hz fill 0 scalar 0.999995819 under 344064 over 0
+[20702.623] 44100 Hz fill 512 scalar 0.999995819 under 344576 over 0
+[20732.628] 44100 Hz fill 512 scalar 0.999995819 under 345088 over 0
+[20762.641] 44100 Hz fill 512 scalar 0.999995819 under 345600 over 0
+[20792.653] 44100 Hz fill 512 scalar 0.999995819 under 346112 over 0
+[20822.654] 44100 Hz fill 512 scalar 0.999995819 under 346624 over 0
+[20844.598] decoder: 44100.0 Hz (lossy)
+[20844.842] playerInfo: Playing Why So Heavy, O My Soul?
+[20844.843] new track Why So Heavy, O My Soul?: decoder 44100.0 Hz lossy (seen 0.242 s before Playing), DAC 44100 Hz
+[20852.662] 44100 Hz fill 0 scalar 0.999995819 under 347136 over 0
+[20882.670] 44100 Hz fill 0 scalar 0.999995819 under 347648 over 0
+[20912.671] 44100 Hz fill 0 scalar 0.999995819 under 348160 over 0
+[20942.673] 44100 Hz fill 0 scalar 0.999995819 under 348672 over 0
+[20972.674] 44100 Hz fill 0 scalar 0.999995819 under 349184 over 0
+[21001.091] decoder: 48000.0 Hz (lossless)
+[21001.103] next track needs 48000 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[21001.105] boundary latch armed at in frame 938871296
+[21001.122] latched at ring 938232761 (fill 583)
+[21001.459] playerInfo: Playing More Than This (The Polyphonic Spree Mix)
+[21001.462] new track More Than This (The Polyphonic Spree Mix): decoder 48000.0 Hz lossless (seen 0.358 s before Playing), DAC 44100 Hz -> switch to 48000
+[21001.928] switch 18: More Than This (The Polyphonic Spree Mix) needs 48000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.466 s
+[21001.971] virtual device -> 48000: 0
+[21001.974] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[21003.235]   DAC ready after 1.260 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[21003.237] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[21003.237] playerInfo: Playing More Than This (The Polyphonic Spree Mix)
+[21003.237] decoder: 48000.0 Hz (lossless)
+[21003.237] playerInfo: Paused More Than This (The Polyphonic Spree Mix)
+[21003.581]   rewound to 0.000 (was 0.666, played ~0.062 s), play; switch 18 done 2.119 s after the request
+[21003.638] 48000 Hz fill 1536 scalar 0.999995819 under 349696 over 0
+[21003.653] decoder: 48000.0 Hz (lossless)
+[21003.653] playerInfo: Paused More Than This (The Polyphonic Spree Mix)
+[21003.653] playerInfo: Playing More Than This (The Polyphonic Spree Mix)
+[21033.586] 48000 Hz fill 512 scalar 0.999995819 under 349696 over 0
+[21054.783] clock: ring at 512 frames before the lock (target 2048); refilling first
+[21055.286] clock lock: phase0 29598.338, fill 2048, cycles A 1838791 B 1838504
+[21063.598] 48000 Hz fill 1536 scalar 0.999989601 under 350208 over 0
+[21093.601] 48000 Hz fill 2048 scalar 0.999993296 under 350208 over 0
+[21123.609] 48000 Hz fill 1536 scalar 0.999994328 under 350208 over 0
+[21153.612] 48000 Hz fill 2048 scalar 0.999995362 under 350208 over 0
+[21183.613] 48000 Hz fill 2048 scalar 0.999995554 under 350208 over 0
+[21213.616] 48000 Hz fill 2048 scalar 0.999995663 under 350208 over 0
+[21243.623] 48000 Hz fill 2048 scalar 0.999995618 under 350208 over 0
+[21273.633] 48000 Hz fill 2048 scalar 0.999996314 under 350208 over 0
+[21303.636] 48000 Hz fill 2048 scalar 0.999995316 under 350208 over 0
+[21311.927] decoder: 44100.0 Hz (lossy)
+[21312.124] next track needs 44100 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[21312.124] boundary latch armed at in frame 953789440
+[21312.135] latched at ring 953095648 (fill 2048)
+[21312.171] playerInfo: Playing Freight Train Boogie
+[21312.174] new track Freight Train Boogie: decoder 44100.0 Hz lossy (seen 0.243 s before Playing), DAC 48000 Hz -> switch to 44100
+[21312.213] switch 19: Freight Train Boogie needs 44100 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.039 s
+[21312.248] virtual device -> 44100: 0
+[21312.249] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[21313.600]   DAC ready after 1.350 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[21313.601] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[21313.601] playerInfo: Playing Freight Train Boogie
+[21313.601] playerInfo: Paused Freight Train Boogie
+[21313.641]   rewound to 0.000 (was 0.068, played ~0.056 s), play; switch 19 done 1.468 s after the request
+[21313.707] playerInfo: Paused Freight Train Boogie
+[21313.707] playerInfo: Playing Freight Train Boogie
+[21314.152] clock: DAC scalar 0.998963 not settled; waiting to lock
+[21333.640] 44100 Hz fill 512 scalar 0.999995051 under 350208 over 0
+[21363.649] 44100 Hz fill 0 scalar 0.999995051 under 351232 over 0
+[21393.651] 44100 Hz fill 512 scalar 0.999995051 under 352256 over 0
+[21423.651] 44100 Hz fill 512 scalar 0.999995051 under 352768 over 0
+[21453.651] 44100 Hz fill 512 scalar 0.999995051 under 353280 over 0
+[21473.115] playerInfo: Playing Walk On
+[21473.263] new track Walk On: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[21476.274] no decoder line for Walk On within 3 s; playing at 44100 Hz
+[21483.658] 44100 Hz fill 512 scalar 0.999995051 under 353792 over 0
+[21513.670] 44100 Hz fill 512 scalar 0.999995051 under 354304 over 0
+[21543.682] 44100 Hz fill 512 scalar 0.999995051 under 354816 over 0
+[21573.686] 44100 Hz fill 512 scalar 0.999995051 under 355328 over 0
+[21603.688] 44100 Hz fill 0 scalar 0.999995051 under 355840 over 0
+[21633.693] 44100 Hz fill 512 scalar 0.999995051 under 356352 over 0
+[21663.702] 44100 Hz fill 0 scalar 0.999995051 under 356864 over 0
+[21693.714] 44100 Hz fill 0 scalar 0.999995051 under 357376 over 0
+[21723.722] 44100 Hz fill 512 scalar 0.999995051 under 357888 over 0
+[21753.731] 44100 Hz fill 512 scalar 0.999995051 under 358400 over 0
+[21769.300] decoder: 44100.0 Hz (lossless)
+[21769.668] playerInfo: Playing The Path
+[21769.670] new track The Path: decoder 44100.0 Hz lossless (seen 0.367 s before Playing), DAC 44100 Hz
+[21783.743] 44100 Hz fill 512 scalar 0.999995051 under 358912 over 0
+[21813.743] 44100 Hz fill 512 scalar 0.999995051 under 359424 over 0
+[21843.757] 44100 Hz fill 512 scalar 0.999995051 under 359936 over 0
+[21873.768] 44100 Hz fill 512 scalar 0.999995051 under 360448 over 0
+[21903.773] 44100 Hz fill 0 scalar 0.999995051 under 360960 over 0
+[21933.787] 44100 Hz fill 0 scalar 0.999995051 under 361472 over 0
+[21936.168] decoder: 48000.0 Hz (lossless)
+[21936.190] next track needs 48000 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[21936.190] boundary latch armed at in frame 981303296
+[21936.216] latched at ring 980555705 (fill 583)
+[21936.357] playerInfo: Playing Carnival
+[21936.360] new track Carnival: decoder 48000.0 Hz lossless (seen 0.183 s before Playing), DAC 44100 Hz -> switch to 48000
+[21936.401] switch 20: Carnival needs 48000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.041 s
+[21936.422] virtual device -> 48000: 0
+[21936.423] DAC format -> 48000.0 Hz 2 ch 24 bit flags 76: 0
+[21937.711]   DAC ready after 1.286 s: phys 48000.0 Hz 2 ch 24 bit flags 76 / virt 48000.0 Hz 2 ch 24 bit flags 76
+[21937.714] B writes int24 in 3 bytes, channels 1/2 (virtual format 48000.0 Hz 2 ch 24 bit flags 76)
+[21937.714] playerInfo: Playing Carnival
+[21937.714] playerInfo: Paused Carnival
+[21938.047]   rewound to 0.000 (was 0.104, played ~0.059 s), play; switch 20 done 1.688 s after the request
+[21938.100] decoder: 48000.0 Hz (lossless)
+[21938.101] playerInfo: Paused Carnival
+[21938.101] playerInfo: Playing Carnival
+[21963.791] 48000 Hz fill 512 scalar 0.999995051 under 361472 over 0
+[21989.726] clock: ring at 0 frames before the lock (target 2048); refilling first
+[21990.229] clock: DAC scalar 0.999896 not settled; waiting to lock
+[21990.732] clock lock: phase0 30213.476, fill 1536, cycles A 1921705 B 1921331
+[21993.800] 48000 Hz fill 1536 scalar 0.999964520 under 361984 over 0
+[22023.803] 48000 Hz fill 1536 scalar 0.999993216 under 361984 over 0
+[22053.808] 48000 Hz fill 1536 scalar 0.999994148 under 361984 over 0
+[22083.811] 48000 Hz fill 1536 scalar 0.999995415 under 361984 over 0
+[22113.818] 48000 Hz fill 1536 scalar 0.999995587 under 361984 over 0
+[22143.820] 48000 Hz fill 2048 scalar 0.999995321 under 361984 over 0
+[22173.827] 48000 Hz fill 1536 scalar 0.999995527 under 361984 over 0
+[22203.832] 48000 Hz fill 1536 scalar 0.999995744 under 361984 over 0
+[22233.838] 48000 Hz fill 1536 scalar 0.999996230 under 361984 over 0
+[22235.230] decoder: 44100.0 Hz (lossy)
+[22235.427] next track needs 44100 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[22235.427] boundary latch armed at in frame 995658240
+[22235.443] latched at ring 994854880 (fill 1536)
+[22235.468] playerInfo: Playing Ruby Dear (2005 Remastered)
+[22235.470] new track Ruby Dear (2005 Remastered): decoder 44100.0 Hz lossy (seen 0.239 s before Playing), DAC 48000 Hz -> switch to 44100
+[22235.519] switch 21: Ruby Dear (2005 Remastered) needs 44100 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.049 s
+[22235.539] virtual device -> 44100: 0
+[22235.539] DAC format -> 44100.0 Hz 2 ch 24 bit flags 76: 0
+[22236.809]   DAC ready after 1.270 s: phys 44100.0 Hz 2 ch 24 bit flags 76 / virt 44100.0 Hz 2 ch 24 bit flags 76
+[22236.810] B writes int24 in 3 bytes, channels 1/2 (virtual format 44100.0 Hz 2 ch 24 bit flags 76)
+[22236.810] playerInfo: Playing Ruby Dear (2005 Remastered)
+[22236.810] playerInfo: Paused Ruby Dear (2005 Remastered)
+[22236.858]   rewound to 0.000 (was 0.084, played ~0.054 s), play; switch 21 done 1.388 s after the request
+[22236.916] playerInfo: Paused Ruby Dear (2005 Remastered)
+[22236.929] playerInfo: Playing Ruby Dear (2005 Remastered)
+[22237.362] clock: DAC scalar 0.998939 not settled; waiting to lock
+[22263.844] 44100 Hz fill 512 scalar 0.999996379 under 361984 over 0
+[22293.846] 44100 Hz fill 512 scalar 0.999996379 under 363520 over 0
+[22323.859] 44100 Hz fill 512 scalar 0.999996379 under 364032 over 0
+[22353.867] 44100 Hz fill 512 scalar 0.999996379 under 364544 over 0
+[22383.869] 44100 Hz fill 512 scalar 0.999996379 under 365056 over 0
+[22413.877] 44100 Hz fill 0 scalar 0.999996379 under 365568 over 0
+[22443.881] 44100 Hz fill 512 scalar 0.999996379 under 366080 over 0
+[22454.443] decoder: 44100.0 Hz (lossy)
+[22467.650] playerInfo: Playing Villians
+[22467.652] new track Villians: decoder 44100.0 Hz lossy (seen 13.202 s before Playing), DAC 44100 Hz
+[22473.889] 44100 Hz fill 0 scalar 0.999996379 under 366592 over 0
+[22503.892] 44100 Hz fill 512 scalar 0.999996379 under 367104 over 0
+[22533.894] 44100 Hz fill 512 scalar 0.999996379 under 367616 over 0
+[22563.901] 44100 Hz fill 0 scalar 0.999996379 under 368128 over 0
+[22593.908] 44100 Hz fill 0 scalar 0.999996379 under 368640 over 0
+[22623.922] 44100 Hz fill 0 scalar 0.999996379 under 369152 over 0
+[22653.927] 44100 Hz fill 512 scalar 0.999996379 under 369664 over 0
+[22683.936] 44100 Hz fill 0 scalar 0.999996379 under 370176 over 0
+[22713.940] 44100 Hz fill 512 scalar 0.999996379 under 370688 over 0
+[22737.039] decoder: 44100.0 Hz (lossless)
+[22737.309] playerInfo: Playing The Three Sunrises
+[22737.309] new track The Three Sunrises: decoder 44100.0 Hz lossless (seen 0.280 s before Playing), DAC 44100 Hz
+[22743.942] 44100 Hz fill 0 scalar 0.999996379 under 371200 over 0
+[22773.943] 44100 Hz fill 0 scalar 0.999996379 under 371712 over 0
+[22803.948] 44100 Hz fill 0 scalar 0.999996379 under 372224 over 0
+[22833.953] 44100 Hz fill 512 scalar 0.999996379 under 372736 over 0
+[22863.958] 44100 Hz fill 0 scalar 0.999996379 under 373248 over 0
+[22893.969] 44100 Hz fill 0 scalar 0.999996379 under 373760 over 0
+[22923.972] 44100 Hz fill 0 scalar 0.999996379 under 374272 over 0
+[22953.977] 44100 Hz fill 512 scalar 0.999996379 under 374784 over 0
+[22968.817] decoder: 44100.0 Hz (lossy)
+[22969.061] playerInfo: Playing Incomplete
+[22969.062] new track Incomplete: decoder 44100.0 Hz lossy (seen 0.235 s before Playing), DAC 44100 Hz
+[22983.987] 44100 Hz fill 512 scalar 0.999996379 under 375296 over 0
+[23013.988] 44100 Hz fill 512 scalar 0.999996379 under 375808 over 0
+[23043.996] 44100 Hz fill 0 scalar 0.999996379 under 376320 over 0
+[23074.000] 44100 Hz fill 512 scalar 0.999996379 under 376832 over 0
+[23104.002] 44100 Hz fill 0 scalar 0.999996379 under 377344 over 0
+[23134.007] 44100 Hz fill 0 scalar 0.999996379 under 377856 over 0
+[23148.217] decoder: 44100.0 Hz (lossless)
+[23148.486] playerInfo: Playing Hello Skinny
+[23148.486] new track Hello Skinny: decoder 44100.0 Hz lossless (seen 0.268 s before Playing), DAC 44100 Hz
+[23164.012] 44100 Hz fill 512 scalar 0.999996379 under 378368 over 0
+[23194.016] 44100 Hz fill 0 scalar 0.999996379 under 378880 over 0
+[23224.031] 44100 Hz fill 0 scalar 0.999996379 under 379392 over 0
+[23254.035] 44100 Hz fill 512 scalar 0.999996379 under 379904 over 0
+[23284.039] 44100 Hz fill 0 scalar 0.999996379 under 380416 over 0
+[23312.431] decoder: 44100.0 Hz (lossy)
+[23312.655] playerInfo: Playing Carouselambra
+[23312.657] new track Carouselambra: decoder 44100.0 Hz lossy (seen 0.234 s before Playing), DAC 44100 Hz
+[23314.047] 44100 Hz fill 512 scalar 0.999996379 under 380928 over 0
+[23344.057] 44100 Hz fill 512 scalar 0.999996379 under 381440 over 0
+[23374.063] 44100 Hz fill 0 scalar 0.999996379 under 381952 over 0
+[23404.070] 44100 Hz fill 512 scalar 0.999996379 under 382464 over 0
+[23434.072] 44100 Hz fill 0 scalar 0.999996379 under 382976 over 0
+[23464.082] 44100 Hz fill 512 scalar 0.999996379 under 383488 over 0
+[23494.085] 44100 Hz fill 0 scalar 0.999996379 under 384000 over 0
+[23524.086] 44100 Hz fill 0 scalar 0.999996379 under 384512 over 0
+[23554.093] 44100 Hz fill 512 scalar 0.999996379 under 385024 over 0
+[23584.099] 44100 Hz fill 0 scalar 0.999996379 under 385536 over 0
+[23614.111] 44100 Hz fill 0 scalar 0.999996379 under 386048 over 0
+[23644.121] 44100 Hz fill 0 scalar 0.999996379 under 386560 over 0
+[23674.123] 44100 Hz fill 0 scalar 0.999996379 under 387072 over 0
+[23704.128] 44100 Hz fill 0 scalar 0.999996379 under 387584 over 0
+[23734.136] 44100 Hz fill 0 scalar 0.999996379 under 388096 over 0
+[23764.140] 44100 Hz fill 0 scalar 0.999996379 under 388608 over 0
+[23794.140] 44100 Hz fill 512 scalar 0.999996379 under 389120 over 0
+[23824.151] 44100 Hz fill 0 scalar 0.999996379 under 389632 over 0
+[23854.152] 44100 Hz fill 0 scalar 0.999996379 under 390144 over 0
+[23884.154] 44100 Hz fill 0 scalar 0.999996379 under 390656 over 0
+[23914.156] 44100 Hz fill 0 scalar 0.999996379 under 391168 over 0
+[23944.165] 44100 Hz fill 0 scalar 0.999996379 under 391680 over 0
+[23946.773] decoder: 44100.0 Hz (lossless)
+[23947.106] playerInfo: Playing Tsukemono
+[23947.106] new track Tsukemono: decoder 44100.0 Hz lossless (seen 0.338 s before Playing), DAC 44100 Hz
+[23974.170] 44100 Hz fill 512 scalar 0.999996379 under 392704 over 0
+[24004.171] 44100 Hz fill 512 scalar 0.999996379 under 393216 over 0
+[24034.176] 44100 Hz fill 0 scalar 0.999996379 under 393728 over 0
+[24064.186] 44100 Hz fill 512 scalar 0.999996379 under 394240 over 0
+[24094.196] 44100 Hz fill 512 scalar 0.999996379 under 394752 over 0
+[24124.201] 44100 Hz fill 512 scalar 0.999996379 under 395264 over 0
+[24150.633] decoder: 44100.0 Hz (lossy)
+[24150.892] playerInfo: Playing Are You Lonesome Tonight
+[24150.893] new track Are You Lonesome Tonight: decoder 44100.0 Hz lossy (seen 0.259 s before Playing), DAC 44100 Hz
+[24154.203] 44100 Hz fill 512 scalar 0.999996379 under 395776 over 0
+[24184.212] 44100 Hz fill 0 scalar 0.999996379 under 396288 over 0
+[24214.212] 44100 Hz fill 0 scalar 0.999996379 under 396800 over 0
+[24244.215] 44100 Hz fill 512 scalar 0.999996379 under 397312 over 0
+[24274.226] 44100 Hz fill 512 scalar 0.999996379 under 397824 over 0
+[24304.233] 44100 Hz fill 512 scalar 0.999996379 under 398336 over 0
+[24334.239] 44100 Hz fill 512 scalar 0.999996379 under 398848 over 0
+[24337.220] decoder: 44100.0 Hz (lossy)
+[24337.673] playerInfo: Playing Thursday
+[24337.674] new track Thursday: decoder 44100.0 Hz lossy (seen 0.461 s before Playing), DAC 44100 Hz
+[24364.252] 44100 Hz fill 512 scalar 0.999996379 under 399360 over 0
+[24394.257] 44100 Hz fill 0 scalar 0.999996379 under 399872 over 0
+[24424.259] 44100 Hz fill 0 scalar 0.999996379 under 400384 over 0
+[24454.268] 44100 Hz fill 512 scalar 0.999996379 under 400896 over 0
+[24484.275] 44100 Hz fill 512 scalar 0.999996379 under 401408 over 0
+[24514.285] 44100 Hz fill 512 scalar 0.999996379 under 401920 over 0
+[24544.294] 44100 Hz fill 0 scalar 0.999996379 under 402432 over 0
+[24544.781] decoder: 44100.0 Hz (lossy)
+[24545.049] playerInfo: Playing A Love Supreme, Part IV-Psalm
+[24545.050] new track A Love Supreme, Part IV-Psalm: decoder 44100.0 Hz lossy (seen 0.270 s before Playing), DAC 44100 Hz
+[24574.307] 44100 Hz fill 512 scalar 0.999996379 under 402944 over 0
+[24604.321] 44100 Hz fill 512 scalar 0.999996379 under 403456 over 0
+[24634.326] 44100 Hz fill 0 scalar 0.999996379 under 403968 over 0
+[24664.339] 44100 Hz fill 0 scalar 0.999996379 under 404480 over 0
+[24694.349] 44100 Hz fill 0 scalar 0.999996379 under 404992 over 0
+[24724.355] 44100 Hz fill 512 scalar 0.999996379 under 405504 over 0
+[24754.365] 44100 Hz fill 0 scalar 0.999996379 under 406016 over 0
+[24784.372] 44100 Hz fill 512 scalar 0.999996379 under 406528 over 0
+[24814.373] 44100 Hz fill 0 scalar 0.999996379 under 407040 over 0
+[24844.377] 44100 Hz fill 512 scalar 0.999996379 under 407552 over 0
+[24874.378] 44100 Hz fill 512 scalar 0.999996379 under 408064 over 0
+[24904.385] 44100 Hz fill 0 scalar 0.999996379 under 408576 over 0
+[24934.389] 44100 Hz fill 0 scalar 0.999996379 under 409088 over 0
+[24964.390] 44100 Hz fill 512 scalar 0.999996379 under 409600 over 0
+[24970.201] decoder: 44100.0 Hz (lossless)
+[24970.505] playerInfo: Playing Take Your Clothes Off When You Dance
+[24970.506] new track Take Your Clothes Off When You Dance: decoder 44100.0 Hz lossless (seen 0.298 s before Playing), DAC 44100 Hz
+[24994.394] 44100 Hz fill 512 scalar 0.999996379 under 410112 over 0
+[25024.399] 44100 Hz fill 0 scalar 0.999996379 under 410624 over 0
+[25054.400] 44100 Hz fill 0 scalar 0.999996379 under 411136 over 0
+[25063.340] playerInfo: Playing Otis
+[25063.382] new track Otis: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[25066.383] no decoder line for Otis within 3 s; playing at 44100 Hz
+[25084.402] 44100 Hz fill 0 scalar 0.999996379 under 411648 over 0
+[25114.408] 44100 Hz fill 512 scalar 0.999996379 under 412160 over 0
+[25144.414] 44100 Hz fill 512 scalar 0.999996379 under 412672 over 0
+[25174.419] 44100 Hz fill 512 scalar 0.999996379 under 413184 over 0
+[25204.426] 44100 Hz fill 0 scalar 0.999996379 under 413696 over 0
+[25234.426] 44100 Hz fill 0 scalar 0.999996379 under 414208 over 0
+[25264.429] 44100 Hz fill 512 scalar 0.999996379 under 414720 over 0
+[25294.441] 44100 Hz fill 512 scalar 0.999996379 under 415232 over 0
+[25324.453] 44100 Hz fill 512 scalar 0.999996379 under 415744 over 0
+[25348.059] decoder: 44100.0 Hz (lossy)
+[25348.411] playerInfo: Playing Fanfare for the Common Man [Single Version]
+[25348.411] new track Fanfare for the Common Man [Single Version]: decoder 44100.0 Hz lossy (seen 0.358 s before Playing), DAC 44100 Hz
+[25354.454] 44100 Hz fill 512 scalar 0.999996379 under 416256 over 0
+[25384.464] 44100 Hz fill 512 scalar 0.999996379 under 416768 over 0
+[25414.465] 44100 Hz fill 512 scalar 0.999996379 under 417280 over 0
+[25444.477] 44100 Hz fill 512 scalar 0.999996379 under 417792 over 0
+[25474.484] 44100 Hz fill 0 scalar 0.999996379 under 418304 over 0
+[25504.490] 44100 Hz fill 0 scalar 0.999996379 under 418816 over 0
+[25528.243] playerInfo: Playing You Shook Me
+[25528.371] new track You Shook Me: no decoder line for it yet; playing on at 44100 Hz until one comes (3 s)
+[25531.375] no decoder line for You Shook Me within 3 s; playing at 44100 Hz
+[25534.495] 44100 Hz fill 0 scalar 0.999996379 under 419328 over 0
+[25564.496] 44100 Hz fill 0 scalar 0.999996379 under 419840 over 0
+[25594.504] 44100 Hz fill 0 scalar 0.999996379 under 420352 over 0
+[25624.515] 44100 Hz fill 0 scalar 0.999996379 under 420864 over 0
+[25654.528] 44100 Hz fill 0 scalar 0.999996379 under 421376 over 0
+[25684.532] 44100 Hz fill 0 scalar 0.999996379 under 421888 over 0
+[25714.540] 44100 Hz fill 0 scalar 0.999996379 under 422400 over 0
+[25744.542] 44100 Hz fill 0 scalar 0.999996379 under 422912 over 0
+[25774.545] 44100 Hz fill 0 scalar 0.999996379 under 423424 over 0
+[25804.550] 44100 Hz fill 0 scalar 0.999996379 under 423936 over 0
+[25834.553] 44100 Hz fill 0 scalar 0.999996379 under 424448 over 0
+[25841.337] decoder: 44100.0 Hz (lossless)
+[25841.778] playerInfo: Playing Sequel
+[25841.780] new track Sequel: decoder 44100.0 Hz lossless (seen 0.443 s before Playing), DAC 44100 Hz
+[25864.562] 44100 Hz fill 0 scalar 0.999996379 under 424960 over 0
+[25894.574] 44100 Hz fill 0 scalar 0.999996379 under 425472 over 0
+[25924.580] 44100 Hz fill 0 scalar 0.999996379 under 425984 over 0
+[25954.581] 44100 Hz fill 0 scalar 0.999996379 under 426496 over 0
+[25984.586] 44100 Hz fill 0 scalar 0.999996379 under 427008 over 0
+[26014.598] 44100 Hz fill 0 scalar 0.999996379 under 427520 over 0
+[26044.601] 44100 Hz fill 0 scalar 0.999996379 under 428032 over 0
+[26074.610] 44100 Hz fill 0 scalar 0.999996379 under 428544 over 0
+[26104.621] 44100 Hz fill 0 scalar 0.999996379 under 429056 over 0
+[26134.630] 44100 Hz fill 0 scalar 0.999996379 under 429568 over 0
+[26164.635] 44100 Hz fill 0 scalar 0.999996379 under 430080 over 0
+[26166.470] decoder: 44100.0 Hz (lossy)
+[26166.741] playerInfo: Playing How Many More Times
+[26166.743] new track How Many More Times: decoder 44100.0 Hz lossy (seen 0.260 s before Playing), DAC 44100 Hz
+[26194.642] 44100 Hz fill 0 scalar 0.999996379 under 430592 over 0
+[26224.650] 44100 Hz fill 0 scalar 0.999996379 under 431104 over 0
+[26254.651] 44100 Hz fill 512 scalar 0.999996379 under 432128 over 0
+[26284.652] 44100 Hz fill 0 scalar 0.999996379 under 432640 over 0
+[26314.652] 44100 Hz fill 0 scalar 0.999996379 under 433152 over 0
+[26344.661] 44100 Hz fill 512 scalar 0.999996379 under 433664 over 0
+[26374.664] 44100 Hz fill 0 scalar 0.999996379 under 434176 over 0
+[26404.670] 44100 Hz fill 512 scalar 0.999996379 under 434688 over 0
+[26434.672] 44100 Hz fill 512 scalar 0.999996379 under 435200 over 0
+[26464.680] 44100 Hz fill 512 scalar 0.999996379 under 435712 over 0
+[26494.682] 44100 Hz fill 512 scalar 0.999996379 under 436224 over 0
+[26524.683] 44100 Hz fill 512 scalar 0.999996379 under 436736 over 0
+[26554.690] 44100 Hz fill 512 scalar 0.999996379 under 437248 over 0
+[26584.703] 44100 Hz fill 512 scalar 0.999996379 under 437760 over 0
+[26614.704] 44100 Hz fill 512 scalar 0.999996379 under 438272 over 0
+[26644.712] 44100 Hz fill 0 scalar 0.999996379 under 438784 over 0
+[26674.574] decoder: 44100.0 Hz (lossless)
+[26674.712] 44100 Hz fill 0 scalar 0.999996379 under 439296 over 0
+[26674.991] playerInfo: Playing Talk Tonight (Live at Bath Pavilion)
+[26674.993] new track Talk Tonight (Live at Bath Pavilion): decoder 44100.0 Hz lossless (seen 0.414 s before Playing), DAC 44100 Hz
+[26704.715] 44100 Hz fill 512 scalar 0.999996379 under 439808 over 0
+[26734.720] 44100 Hz fill 512 scalar 0.999996379 under 440320 over 0
+[26764.734] 44100 Hz fill 512 scalar 0.999996379 under 440832 over 0
+[26794.746] 44100 Hz fill 0 scalar 0.999996379 under 441344 over 0
+[26819.601] decoder: 44100.0 Hz (lossless)
+[26824.748] 44100 Hz fill 0 scalar 0.999996379 under 441856 over 0
+[26854.751] 44100 Hz fill 512 scalar 0.999996379 under 442368 over 0
+[26884.760] 44100 Hz fill 0 scalar 0.999996379 under 442880 over 0
+[26897.253] playerInfo: Playing Waltz for Dewayne Pomeroy
+[26897.254] new track Waltz for Dewayne Pomeroy: decoder 44100.0 Hz lossless (seen 77.642 s before Playing), DAC 44100 Hz
+[26914.763] 44100 Hz fill 512 scalar 0.999996379 under 443392 over 0
+[26944.778] 44100 Hz fill 512 scalar 0.999996379 under 443904 over 0
+[26974.787] 44100 Hz fill 512 scalar 0.999996379 under 444416 over 0

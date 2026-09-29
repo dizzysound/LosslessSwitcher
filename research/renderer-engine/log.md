@@ -521,3 +521,18 @@ resumed by setUp); (b) probe for the stuck context at the step-aside (a short si
 Music is paused) and relaunch then, so the listener never waits the 7.5 s; (c) run IOProc B in a
 helper process that is restarted per take-back. Avoidance (fewer or spaced DAC config changes) needs
 a reliable repro before it can be judged.
+
+# Bench: 893638b on coffee (DragonFly Black), 2026-09-28 21:25 to 2026-09-29 04:53
+Data: data/2026-09-29-coffee-893638b/coffee-overnight-engine.log (RendererIdleSeconds 10).
+- Step-aside probe: 7 step-asides, each "DAC probe: start 0 after 0.07-0.08 s"; 7 take-backs, each
+  start B 0, DAC ready ~0.5 s, rewound ~0.17 s before the pause. The probe doesn't disturb the
+  normal path. The stuck context didn't recur, so the 35 -> relaunch path is UNTESTED on the bench.
+- NEW, separate: after switch 9 (48k -> 44.1k, t=1282, ~21:46) the clock never locked for ~5.8 h
+  ("clock: DAC scalar 0.998949 not settled; waiting to lock"; locked briefly at t=21055 and 21990,
+  lost again within ~5 min each time). The ring sat at 0-512 frames (target 2048) and underruns grew
+  ~512 frames per 30 s all night (18432 at t=1288 -> 442880 at t=26884): likely an ~12 ms dropout
+  about every 30 s while Music played. Not investigated beyond the log; the measured DAC scalar
+  (~0.99895) is ~1000 ppm from 1 and "not settled" keeps the steering off.
+- Restored: app quit cleanly (default DragonFly, int24 mixable, hog -1, -48.0 dB); RendererIdleSeconds
+  and RendererLastRelaunch deleted. Music came back paused after the quit although it was playing
+  (tearDown's resumeMusic) and was restarted by hand.
