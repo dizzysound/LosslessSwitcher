@@ -707,3 +707,19 @@ The owner turned Exclusive Mode off while Music played (Ulaid, 44.1k) and heard 
   relaunches, switches and take-backs), not a fixed result of the toggle. Open: what puts Music
   there. If it recurs: check DeviceIsRunningSomewhere on the DAC and Music's player position before
   restarting Music; tools/running.swift (device running/hog/default).
+
+# Does macOS dither after a digital volume change? (source reading, 2026-09-29)
+Question from the owner. Not measured: the Babyface can't answer it (RME's own HAL driver does its
+conversion, and its 32-bit integer stream holds every float32 value exactly, so nothing is rounded),
+and the DragonFly (Apple's USB class driver, int24) has only analog outputs.
+- Apple's published source (github.com/apple-oss-distributions): IOAudioFamily-740.1 (2026-04) and
+  AppleOnboardAudio-258.3.1 (2009) contain no "dither" at all. IOAudioFamily leaves float -> integer to
+  each driver's clipOutputSamples(). AppleOnboardAudio's AppleDBDMAClip.c (Float32ToNativeInt16/24/32)
+  scales to 32 bits, adds a fixed half-LSB rounding constant (32768 for 16-bit, 128 for 24-bit) and
+  keeps the high bits: plain rounding, no dither. PowerPC-era code (__fctiw).
+- AppleUSBAudio (the DragonFly's driver) isn't in that mirror; today's USB path (DriverKit/HAL) isn't
+  published. So: no evidence of dither anywhere in Apple's published output path; the modern USB path
+  is unverified. Music's volume and Sound Check are float32 gains before that conversion.
+- Consequence: on a 24-bit DAC the undithered rounding sits near -144 dBFS (below any DAC's noise); on
+  a 16-bit DAC near -96 dBFS, where TPDF dither is worth having. Deciding test, if wanted: the
+  DragonFly's analog out into the Babyface's input, a quiet tone at Music volume 90.
