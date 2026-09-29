@@ -151,7 +151,19 @@ final class VirtualDeviceEngine {
     private var armAt: Date?
     private var armedAt: Date?
     private var lateArmAt: Date? // a pre-roll line that came early: arm again 1.5 s before the end
-    private var armForSkip = false // armAt is for a skip (the gap already went through A)
+    private var armForSkip = false
+    // Source depth from the samples themselves (A counts Music's nonzero samples off the 16- and 24-bit
+    // grids; Music at volume 100 hands its decoder's samples through unchanged, so a 16-bit source sits
+    // on multiples of 2^-15 and a 24-bit one on 2^-23). The log's depth shows until this has 2 s.
+    private let gridNZ = Atomic<Int>(0), gridOff16 = Atomic<Int>(0), gridOff24 = Atomic<Int>(0)
+    private var gridLast = (0, 0, 0)     // A's counters at the last check
+    private var gridTotal = (0, 0, 0)    // clean windows of this track
+    private var gridPending: (Int, Int, Int)? // the last clean window, counted once the next is clean too
+    private var lastInfoAt = Date.distantPast
+    private var gridSince: Date?
+    private var gridVerdict: Int? // 16, 24, or 0 = on neither grid
+    private var logBits: Int?     // the depth Music's log gave for the track
+    private var sourceLossy = false // armAt is for a skip (the gap already went through A)
     private var latchedAt: Date?
     private var gatePending = false
     private var lastNewTrackAt: Date?
@@ -376,13 +388,14 @@ final class VirtualDeviceEngine {
             if let up = pendingUpgrade, playing, !inRoutine {
                 pendingUpgrade = nil
                 trackRate = up.rate
-                RendererOutput.shared.set(sourceBits: up.bits, lossy: false)
+                resetGrid()
+                setSource(up.bits, lossy: false)
                 if let r = neededRate(up.rate) {
                     log("lossless decoder at \(up.rate) Hz after a lossy start; switching again")
                     switchRate(r, name: "(lossless upgrade)", tPlay: Date())
                 }
             }
-            if now.timeIntervalSince(lastPLL) >= 0.5 { lastPLL = now; pll(); steerOthers() }
+            if now.timeIntervalSince(lastPLL) >= 0.5 { lastPLL = now; pll(); steerOthers(); checkGrid() }
             if playing { idleSince = nil } else if idleSince == nil { idleSince = now }
             let isp = OvershootProtection.shared.isOn
             if isp != overshootLogged {
@@ -984,6 +997,7 @@ final class VirtualDeviceEngine {
     // MARK: - Music events
 
     private func handleInfo(_ info: [AnyHashable: Any], at: Date) {
+        lastInfoAt = at
         let state = info["Player State"] as? String ?? "?"
         let name = info["Name"] as? String ?? ""
         // stations and Browse streams have no PersistentID: tell tracks apart by name
@@ -1061,7 +1075,7 @@ final class VirtualDeviceEngine {
                 // lossless: true as before (a lossy mark would arm the stream upgrade path); the menu
                 // still learns the file is lossy
                 decide(st.sampleRate, bits: st.sourceBits, lossless: true, seenAgo: 0, name: name + " (file header, no decoder line)", tPlay: at)
-                if st.lossy { RendererOutput.shared.set(sourceBits: nil, lossy: true) }
+                if st.lossy { setSource(nil, lossy: true) }
                 return
             }
             awaiting = (name, at, Date().addingTimeInterval(3), nil)
@@ -1095,9 +1109,59 @@ final class VirtualDeviceEngine {
         return nil
     }
 
+    /// The menu's source depth: measured from the samples once known, else Music's log.
+    private func setSource(_ bits: Int?, lossy: Bool) {
+        logBits = bits; sourceLossy = lossy
+        publishSource()
+    }
+
+    private func publishSource() {
+        let shown = gridVerdict.flatMap { $0 == 0 ? nil : $0 } ?? logBits
+        RendererOutput.shared.set(sourceBits: sourceLossy ? nil : shown, lossy: sourceLossy)
+        RendererOutput.shared.set(offGrid: !sourceLossy && gridVerdict == 0)
+    }
+
+    /// A new track (or decoder): measure its depth from here.
+    private func resetGrid() {
+        gridLast = (gridNZ.load(ordering: .acquiring), gridOff16.load(ordering: .acquiring), gridOff24.load(ordering: .acquiring))
+        gridTotal = (0, 0, 0); gridPending = nil
+        gridSince = Date(); gridVerdict = nil
+        RendererOutput.shared.set(offGrid: false)
+    }
+
+    /// Every 0.5 s: counts the window if Music played steadily through it (Music ramps the level at a
+    /// pause, ~50 ms off every grid on the pastor Mac: a window within 1 s of a play, pause or track
+    /// notice is dropped, and so is the window before a pause). From 2 s into the track, with 0.5 s of
+    /// nonzero samples counted, the depth the samples need; only ever up (16 -> 24 -> neither).
+    private func checkGrid() {
+        let snap = (gridNZ.load(ordering: .acquiring), gridOff16.load(ordering: .acquiring), gridOff24.load(ordering: .acquiring))
+        let win = (snap.0 &- gridLast.0, snap.1 &- gridLast.1, snap.2 &- gridLast.2)
+        gridLast = snap
+        guard let since = gridSince else { return }
+        let now = Date()
+        let clean = playing && !inRoutine && now.timeIntervalSince(lastInfoAt) > 1 && now.timeIntervalSince(since) >= 1
+        if clean {
+            if let p = gridPending { gridTotal = (gridTotal.0 + p.0, gridTotal.1 + p.1, gridTotal.2 + p.2) }
+            gridPending = win
+        } else {
+            gridPending = nil
+        }
+        guard now.timeIntervalSince(since) >= 2 else { return }
+        let (nz, o16, o24) = gridTotal
+        guard nz >= Int(curRate) else { return }
+        let v = o24 > 0 ? 0 : o16 > 0 ? 24 : 16
+        guard v != gridVerdict, gridVerdict.map({ $0 != 0 && (v == 0 || v > $0) }) ?? true else { return }
+        gridVerdict = v
+        let why = v == 0 ? "on neither the 16- nor the 24-bit grid (\(o24) of \(nz) samples): \(sourceLossy ? "lossy" : "Music changes them (volume, Sound Check, EQ) or the source is float")"
+            : v == 24 ? "\(o16) of \(nz) samples off the 16-bit grid, all on the 24-bit grid" : "all \(nz) on the 16-bit grid"
+        log("source depth from the samples: \(v == 0 ? "neither 16 nor 24 bit" : "\(v) bit") (\(why))\(logBits.map { $0 != v ? "; Music's log said \($0) bit" : "" } ?? "")")
+        publishSource()
+    }
+
     private func decide(_ rate: Float64, bits: Int?, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date) {
+        resetGrid()
         trackRate = rate
-        RendererOutput.shared.set(sourceBits: bits, lossy: !lossless)
+        setSource(bits, lossy: !lossless)
         if !lossless { lossyTrackAt = Date() }
         let need = neededRate(rate)
         log("new track \(name): decoder \(rate) Hz \(lossless ? "lossless" : "lossy") (seen \(String(format: "%.3f", seenAgo)) s before Playing), DAC \(Int(curRate)) Hz\(need.map { " -> switch to \(Int($0))" } ?? "")")
@@ -1125,7 +1189,7 @@ final class VirtualDeviceEngine {
         // ALAC logs a 'qlac' line without the depth, then 'alac ... from N-bit source': a line in the
         // track's own window at its rate fills in the depth the menu shows
         if let b = bits, lossless, rate == trackRate, let own = ownLinesUntil, at <= own {
-            RendererOutput.shared.set(sourceBits: b, lossy: false)
+            setSource(b, lossy: false)
         }
         if let aw = awaiting, !inRoutine {
             awaiting = nil
@@ -1157,7 +1221,7 @@ final class VirtualDeviceEngine {
                 decide(f.rate, bits: f.bits, lossless: f.lossless, seenAgo: aw.tPlay.timeIntervalSince(f.date), name: aw.name, tPlay: aw.tPlay)
             } else {
                 log("no decoder line for \(aw.name) within 3 s; playing at \(Int(curRate)) Hz")
-                RendererOutput.shared.set(sourceBits: nil, lossy: false)
+                setSource(nil, lossy: false)
                 if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
                 releaseGate("no decoder line")
             }
@@ -1341,8 +1405,9 @@ final class VirtualDeviceEngine {
             let fileStats = own == nil ? LocalTrack.currentStats(attempts: 2) : nil
             let file = fileStats?.sampleRate
             rate = own ?? file ?? recent
-            if let l = ownLine { RendererOutput.shared.set(sourceBits: l.bits, lossy: !l.lossless) }
-            else { RendererOutput.shared.set(sourceBits: fileStats?.sourceBits, lossy: fileStats?.lossy ?? false) }
+            resetGrid()
+            if let l = ownLine { setSource(l.bits, lossy: !l.lossless) }
+            else { setSource(fileStats?.sourceBits, lossy: fileStats?.lossy ?? false) }
             log("resume: \(name) at \(rate.map { "\(Int($0)) Hz" } ?? "the DAC's rate") (\(own != nil ? "its decoder line" : file != nil ? "file header" : recent != nil ? "newest decoder line, may be another track's" : "nothing says"))")
         }
         let target = rate.flatMap { neededRate($0) } ?? curRate
@@ -1673,6 +1738,16 @@ final class VirtualDeviceEngine {
             f = UnsafePointer(d.assumingMemoryBound(to: Float.self))
         }
         let w0 = ring.written
+        var cnz = 0, c16 = 0, c24 = 0
+        for i in 0..<(n * 2) {
+            let x = f[i]
+            if x != 0 {
+                cnz += 1
+                let a = x * 32768
+                if a != a.rounded() { c16 += 1; let b = x * 8388608; if b != b.rounded() { c24 += 1 } }
+            }
+        }
+        if cnz > 0 { gridNZ.wrappingAdd(cnz, ordering: .releasing); gridOff16.wrappingAdd(c16, ordering: .releasing); gridOff24.wrappingAdd(c24, ordering: .releasing) }
         let gl = gapLen.load(ordering: .relaxed)
         for i in 0..<n {
             if f[i * 2] == 0 && f[i * 2 + 1] == 0 {
@@ -2732,6 +2807,14 @@ final class RendererOutput: ObservableObject {
     /// whether it's lossy (AAC has no bit depth). The menu shows it while the engine holds a DAC.
     @Published private(set) var sourceBits: Int?
     @Published private(set) var sourceLossy = false
+    /// Music's samples fit neither the 16- nor the 24-bit grid on a lossless track: Music changes them.
+    @Published private(set) var offGrid = false
+
+    /// Any thread.
+    func set(offGrid v: Bool) {
+        DispatchQueue.main.async { if self.offGrid != v { self.offGrid = v } }
+    }
+
     /// Where other apps' audio goes while the engine holds the DAC (Bit-Perfect Check); nil otherwise.
     @Published private(set) var othersRoute: (text: String, ok: Bool)?
 

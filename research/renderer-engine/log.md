@@ -940,3 +940,16 @@ Data: data/2026-09-29-pastor-skips-0.35/ (engine.log, segments; .f32 on disk onl
   (3-8 s run). No new-track audio before any flush (before: 5-260 ms in 4 of 6). PASS.
 - Margin is thin: B was 25-85 ms short of the gap when the report came. A later report falls back to
   the old cut at B's read position (a few ms leak). Option if heard: trail 0.5 s. Owner to listen.
+
+## Source depth from the samples (owner: "BUILD IT!"), 2026-09-29 ~12:55
+Why: Music logs a decoder line only when it sets one up, not per track (coffee: none for Another Story
+and Fear Inoculum over 5 min), so the menu showed "? bit"; AppleScript has no depth for streams (bit
+rate missing value).
+- A counts Music's nonzero samples off the 16-bit (2^-15) and 24-bit (2^-23) grids. The engine counts
+  0.5 s windows in which Music played steadily (no play/pause/track notice within 1 s; the window before
+  a pause dropped: Music's pause fade is ~50 ms off every grid, pastor musiconly-115 alone run: 1099
+  off-16 samples in the last 0.05 s, none at the play from 0). From 2 s in, with >= 1 s of samples: 16,
+  24, or neither (-> Bit-Perfect Check: "Music is changing the samples"). Shown instead of the log's.
+- Offline on the 0.35 s skip recording (11 tracks, 8 s each, 0.5 s trimmed at each end): 24-bit
+  tracks 99.5-99.7 % off the 16-bit grid, 0 off the 24-bit grid; The Ten Commandments 0 off either
+  (16 bit). None "neither".
