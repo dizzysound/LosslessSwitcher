@@ -69,7 +69,7 @@ final class OtherAppsOutput: ObservableObject {
     }
 
     func refresh() {
-        devices = CA.devices().filter { CA.hasOutput($0) && CA.string($0, kAudioDevicePropertyDeviceUID) != VirtualDeviceEngine.deviceUID }
+        devices = CA.devices().filter { CA.hasOutput($0) && CA.string($0, kAudioDevicePropertyDeviceUID) != VirtualDeviceEngine.deviceUID && !VirtualDeviceEngine.isPrivateAggregate(CA.string($0, kAudioObjectPropertyName)) }
             .map { (CA.string($0, kAudioDevicePropertyDeviceUID), CA.string($0, kAudioObjectPropertyName)) }
         let d = controlled
         controlledName = d == 0 ? "" : CA.string(d, kAudioObjectPropertyName)

@@ -116,6 +116,14 @@ struct MenuView: View {
                 if defaults.userPreferRendererEngine {
                     Divider()
                     Toggle("Release DAC When Music Is Idle", isOn: $defaults.rendererReleaseWhenIdle)
+                    Menu {
+                        ForEach(SwitchGap.allCases, id: \.self) { m in
+                            Toggle("\(m.rawValue) (\(String(format: "%.2f", m.margin)) s)", isOn: Binding(get: { defaults.switchMargin == m }, set: { if $0 { defaults.switchMargin = m } }))
+                        }
+                    } label: {
+                        Text("Switch Margin")
+                    }
+                    .help("How far the DAC plays behind Music, so a skip to a track at another sample rate is cut cleanly between the tracks (Music reports a skip about 0.3 s late). Longer is safer; play, pause and seek respond that much later. Takes effect at the next sample-rate change.")
                     Toggle("Inter-sample Overshoot Protection", isOn: $defaults.overshootProtection)
                         .help(overshootHelp)
                     // only a 16/24-bit integer DAC is requantized; a 32-bit or float one needs none
