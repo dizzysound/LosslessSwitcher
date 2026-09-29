@@ -62,6 +62,17 @@ Engine log: ~/Library/Logs/LosslessSwitcher-ExclusiveMode.log (recreated at each
    the output stays bit-exact (a loopback capture matches the undithered one); with Overshoot
    Protection on, a quiet fade-out has a steady ±1 LSB noise floor instead of gritty low-level
    distortion. Turn it off: "TPDF dither off".
+12. Regular path at a natural transition (upstream #210; decides whether its 5 s log window needs
+   changing). Turn Exclusive Mode, Pause While Switching and Detect Local Files off; quit the app and
+   start it from Terminal so its prints show: `~/Applications/"LosslessSwitcher Dev.app"/Contents/MacOS/*`.
+   Let tracks change on their own, no skipping or seeking: (a) a local album with a 96k track followed
+   by a 44.1k one, gapless, and the reverse; (b) an Apple Music station or playlist that crosses rates.
+   At each boundary note the time, the menu-bar rate and Audio MIDI Setup's rate for the DAC, and
+   whether the Terminal shows "detected stat" or only "[getAllStats] []". Then save the decoder lines:
+   `log show --last 30m --style compact --predicate 'process == "Music" AND eventMessage CONTAINS
+   "Input format:"' > decoder.txt`. A miss is a boundary where the rate stayed wrong; for each miss the
+   useful number is how long before the boundary the new track's "Input format:" line was logged. Also
+   report any mid-track rate change (the risk a wider window would bring).
 
 ## Rules (the owner)
 - No gap or pause unless there's a sample-rate switch.
