@@ -908,3 +908,4 @@ said 44.1 kHz; "it seems to happen when skipping forward and back". Not related 
   detection returns nothing (the engine owns switching) and the label is only re-read when the
   default output changes (start, stop, step-aside), never at a switch. Fix: applyRate reports the
   rate to OutputDevices.updateSampleRate (the label; it runs no user script while the engine is on).
+- 449866b on pastor: owner confirmed the menu bar rate now follows each switch ("perfect").
