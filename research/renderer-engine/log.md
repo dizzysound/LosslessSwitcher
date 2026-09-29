@@ -925,3 +925,8 @@ data/2026-09-29-pastor-skips/ (engine.log, segments; .f32 on disk only): 10 x `n
   in sync; costs ~0.3 s on play/pause/seek response. (2) Hold B at every >=10 ms zero run after audio
   until the engine decides (adds a pause at digital silence mid-track). (3) Cut at B's read position
   instead of A's write position: shortens the leak by ~46 ms at most, doesn't remove it.
+- Owner chose option (1). b-trail 0.35 s (targetFill = 0.35 s at the rate; RendererTargetFrames still
+  overrides); A keeps a history of gaps (>= 10 ms zeros); a skip's arm and a new track's switch stop B
+  at the earliest gap of the last 0.6 s that B hasn't played ("latched at the gap before it, after the
+  fact"). Plug-in 1.1.6: 'LSlt' (frames) reported as the output latency (harness: output 15435, input
+  0). Not yet on the bench.
