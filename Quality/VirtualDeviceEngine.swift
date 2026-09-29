@@ -1196,6 +1196,15 @@ final class VirtualDeviceEngine {
         if let b = bits, lossless, rate == trackRate, let own = ownLinesUntil, at <= own {
             setSource(b, lossy: false)
         }
+        // The track's own decoder can come just after the decision, which took it as lossless for want
+        // of a line (pastor: "Uniform", lossy line 18 ms later; its samples fit no grid and the
+        // Bit-Perfect Check blamed Music). A lossy line at its rate in its own window says otherwise;
+        // a later lossless line upgrades it as usual (lossyTrackAt).
+        if !lossless, !sourceLossy, rate == trackRate, let own = ownLinesUntil, at <= own {
+            log("the track's own decoder is lossy (\(Int(rate)) Hz)")
+            lossyTrackAt = at
+            setSource(nil, lossy: true)
+        }
         if let aw = awaiting, !inRoutine {
             awaiting = nil
             decide(rate, bits: bits, lossless: lossless, seenAgo: -at.timeIntervalSince(aw.tPlay), name: aw.name, tPlay: aw.tPlay)
