@@ -31,24 +31,32 @@ final class LogExport: ObservableObject {
         panel.message = "The zip holds the engine logs, audio device details, settings, and the last \(Self.hours) hours of audio-related system log. Track names appear in it."
         NSApp.activate(ignoringOtherApps: true)
         guard panel.runModal() == .OK, let dest = panel.url else { return }
+        export(to: dest, stamp: stamp) { error in
+            if let error {
+                let alert = NSAlert()
+                alert.messageText = "Export Logs failed"
+                alert.informativeText = "\(error)"
+                alert.runModal()
+            } else {
+                NSWorkspace.shared.activateFileViewerSelecting([dest])
+            }
+        }
+    }
+
+    /// Main thread. `done` runs on the main thread with nil or the failure.
+    func export(to dest: URL, stamp: String = fileStamp.string(from: Date()), done: @escaping (Error?) -> Void) {
+        guard !busy else { done(NSError(domain: "LogExport", code: 2, userInfo: [NSLocalizedDescriptionKey: "an export is already running"])); return }
         busy = true
         DispatchQueue.global(qos: .userInitiated).async {
             let result = Result { try Self.build(to: dest, stamp: stamp) }
             DispatchQueue.main.async {
                 self.busy = false
-                switch result {
-                case .success: NSWorkspace.shared.activateFileViewerSelecting([dest])
-                case .failure(let error):
-                    let alert = NSAlert()
-                    alert.messageText = "Export Logs failed"
-                    alert.informativeText = "\(error)"
-                    alert.runModal()
-                }
+                if case .failure(let error) = result { done(error) } else { done(nil) }
             }
         }
     }
 
-    private static let fileStamp: DateFormatter = { let f = DateFormatter(); f.dateFormat = "yyyyMMdd-HHmmss"; return f }()
+    static let fileStamp: DateFormatter = { let f = DateFormatter(); f.dateFormat = "yyyyMMdd-HHmmss"; return f }()
 
     private static func build(to dest: URL, stamp: String) throws {
         let fm = FileManager.default
@@ -280,5 +288,27 @@ enum AudioSnapshot {
     private static func fourCC(_ v: UInt32) -> String {
         let b = [24, 16, 8, 0].map { UInt8((v >> UInt32($0)) & 0xFF) }
         return b.allSatisfy({ $0 >= 32 && $0 < 127 }) ? String(bytes: b, encoding: .ascii)! : "\(v)"
+    }
+}
+
+/// AppleScript: `tell application id "<bundle id>" to export logs to "~/Desktop"` (with a timeout of a
+/// few minutes). Lets a bench export over SSH when the menu-bar icon is out of reach (on a notched
+/// MacBook it can sit under the notch).
+final class ExportLogsCommand: NSScriptCommand {
+    override func performDefaultImplementation() -> Any? {
+        let fm = FileManager.default
+        let given = (evaluatedArguments?["destination"] as? String).map { ($0 as NSString).expandingTildeInPath }
+        var dest = URL(fileURLWithPath: given ?? fm.urls(for: .desktopDirectory, in: .userDomainMask).first!.path)
+        var isDir: ObjCBool = false
+        if fm.fileExists(atPath: dest.path, isDirectory: &isDir), isDir.boolValue {
+            dest.appendPathComponent("LosslessSwitcher-Logs-\(LogExport.fileStamp.string(from: Date())).zip")
+        }
+        suspendExecution()
+        DispatchQueue.main.async {
+            LogExport.shared.export(to: dest) { error in
+                self.resumeExecution(withResult: error.map { "error: \($0.localizedDescription)" } ?? dest.path)
+            }
+        }
+        return nil
     }
 }
