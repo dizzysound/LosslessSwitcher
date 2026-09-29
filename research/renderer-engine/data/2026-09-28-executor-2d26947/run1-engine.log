@@ -1,0 +1,224 @@
+[  0.000] engine started (virtual device)
+[  0.094] microphone permission: not determined; asking, and leaving the output alone until it is answered
+[  1.088] microphone permission granted
+[  1.103] attached (pid 94802): 0
+[  1.110] default output -> virtual device: 0
+[  1.113] virtual device 129 @ 96000.0 Hz; scalar reset 0
+[  1.121] A: output streams off: 0
+[  1.160] start A: 0
+[  1.162] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 96000.0 Hz, hog owner -1, my pid 94802
+[  1.368] hog DAC: 0, hogged
+[  1.380] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[  1.386] B: DAC inputs off: 0
+[  1.442] start B: 0
+[ 13.451] DAC NOT ready after 12.008 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[ 13.452] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[ 13.452] format listeners: 0 0
+[ 13.452] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[ 13.961] clock lock: phase0 1228077.196, fill 1536, cycles A 2403 B 909
+[ 14.467] clock: phase jumped 47999 frames (a device restarted?); re-locking
+[ 14.970] clock lock: phase0 1323692.072, fill 2048, cycles A 2592 B 985
+[ 15.479] clock: phase jumped 47615 frames (a device restarted?); re-locking
+[ 15.979] clock lock: phase0 1418154.956, fill 1536, cycles A 2781 B 1064
+[ 16.483] clock: phase jumped 46847 frames (a device restarted?); re-locking
+[ 16.989] clock lock: phase0 1512233.824, fill 2048, cycles A 2971 B 1144
+[ 17.489] clock: phase jumped 47999 frames (a device restarted?); re-locking
+[ 17.991] clock lock: phase0 1608232.644, fill 2048, cycles A 3159 B 1218
+[ 18.494] clock: phase jumped 47999 frames (a device restarted?); re-locking
+[ 19.006] clock lock: phase0 1703847.480, fill 1536, cycles A 3349 B 1296
+[ 19.508] clock: phase jumped 47615 frames (a device restarted?); re-locking
+[ 20.021] clock lock: phase0 1799078.324, fill 1536, cycles A 3539 B 1374
+[ 20.530] clock: phase jumped 47615 frames (a device restarted?); re-locking
+[ 21.035] clock lock: phase0 1894693.164, fill 1536, cycles A 3729 B 1451
+[ 43.460] 96000 Hz fill 1536 scalar 0.999995111 under 0 over 0
+[ 63.583] playerInfo: Paused I Get Noise
+[ 63.596] playerInfo: Playing I Get Noise
+[ 63.633] new track I Get Noise: no decoder line for it yet; holding at the gate until one comes (3 s)
+[ 63.633] gate: output started at ring 5998592; waiting for the track's rate
+[ 66.641] no decoder line for I Get Noise within 3 s; playing at 96000 Hz
+[ 66.641] gate held 3008 ms (no decoder line); restarting the play
+[ 66.645] switch 1: (current track) restarts at 96000 Hz (no rate change); held at the gate; paused; boundary reached 0.004 s
+[ 66.771]   rewound to 108.734 (was 111.892, played ~3.058 s), play; switch 1 done 0.130 s after the request
+[ 66.783] playerInfo: Playing I Get Noise
+[ 66.783] decoder: 96000.0 Hz (lossless)
+[ 66.784] playerInfo: Paused I Get Noise
+[ 66.784] playerInfo: Paused I Get Noise
+[ 66.784] playerInfo: Playing I Get Noise
+[ 67.077] clock lock: phase0 1894693.074, fill 1536, cycles A 12362 B 10084
+[ 73.464] 96000 Hz fill 1536 scalar 0.999992510 under 0 over 0
+[ 73.947] decoder: 48000.0 Hz (lossless)
+[ 73.954] next track needs 48000 Hz; 87.37 s left, arming the boundary latch in 0.00 s and again in 85.87 s
+[ 73.954] boundary latch armed at in frame 6989824
+[ 78.957] no boundary within 5 s; disarmed
+[103.473] 96000 Hz fill 1536 scalar 0.999994569 under 0 over 0
+[133.476] 96000 Hz fill 1536 scalar 0.999994787 under 0 over 0
+[159.837] pre-roll came early; arming the boundary latch again
+[159.837] boundary latch armed at in frame 15234560
+[161.341] latched at ring 15378137 (fill 1536)
+[161.458] playerInfo: Playing Silencio
+[161.458] new track Silencio: decoder 48000.0 Hz lossless (seen 87.511 s before Playing), DAC 96000 Hz -> switch to 48000
+[161.463] switch 2: Silencio needs 48000 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 0.005 s
+[161.677] virtual device -> 48000: 0
+[161.677] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[163.491]   DAC ready after 1.814 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[163.492] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[163.492] playerInfo: Playing Silencio
+[163.492] playerInfo: Paused Silencio
+[163.492] decoder: 48000.0 Hz (lossless)
+[163.492] playerInfo: Paused Ticking
+[163.492] decoder: 48000.0 Hz (lossless)
+[163.544]   rewound to 0.000 (was 0.000, played ~0.062 s), play; switch 2 done 2.085 s after the request
+[163.562] 48000 Hz fill 2048 scalar 0.999994813 under 0 over 0
+[163.573] decoder: 48000.0 Hz (lossless)
+[163.574] playerInfo: Paused Ticking
+[163.574] playerInfo: Playing Ticking
+[163.574] new track Ticking: decoder 48000.0 Hz lossless (seen 0.026 s before Playing), DAC 48000 Hz
+[164.050] clock lock: phase0 49605.078, fill 1536, cycles A 30293 B 27959
+[173.833] playerInfo: Playing Deadbeat Drag
+[173.833] new track Deadbeat Drag: decoder 48000.0 Hz lossless (seen 10.259 s before Playing), DAC 48000 Hz
+[174.293] decoder: 44100.0 Hz (lossless)
+[186.027] playerInfo: Playing Earth
+[186.027] new track Earth: decoder 44100.0 Hz lossless (seen 11.737 s before Playing), DAC 48000 Hz -> switch to 44100
+[186.044] switch 3: Earth needs 44100 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.017 s
+[186.255] virtual device -> 44100: 0
+[186.256] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[188.793]   DAC ready after 2.537 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[188.794] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[188.794] playerInfo: Playing Earth
+[188.794] playerInfo: Paused Earth
+[188.794] decoder: 48000.0 Hz (lossless)
+[188.840]   rewound to 0.000 (was 0.000, played ~0.052 s), play; switch 3 done 2.812 s after the request
+[188.874] decoder: 48000.0 Hz (lossless)
+[188.874] playerInfo: Paused Earth
+[188.874] playerInfo: Playing Earth
+[189.345] clock: DAC scalar 0.999050 not settled; waiting to lock
+[191.366] clock lock: phase0 44086.066, fill 1536, cycles A 32789 B 30387
+[193.552] 44100 Hz fill 2048 scalar 0.999956827 under 0 over 0
+[223.553] 44100 Hz fill 2048 scalar 0.999994771 under 0 over 0
+[242.165] Selected Device changed to MacBook Pro Speakers; following it
+[242.180] playerInfo: Playing Earth
+[242.251] decoder: 48000.0 Hz (lossless)
+[242.270] next track needs 48000 Hz; 220.66 s left, arming the boundary latch in 0.00 s and again in 219.16 s
+[242.277] playerInfo: Paused Earth
+[242.277] Paused on the same track; disarmed
+[242.298] DAC mixable again: 0
+[242.657] hog released: 0, owner -1
+[242.657] DAC MacBook Pro Speakers (BuiltInSpeakerDevice) @ 96000.0 Hz, hog owner -1, my pid 94802
+[242.658] hog DAC: 0, hogged
+[242.874] virtual device -> 96000: 0
+[242.875] DAC format -> 96000.0 Hz 2 ch 32 bit flags 9: 0
+[242.875] B: DAC inputs off: 0
+[242.962] start B: 0
+[243.570] DAC ready after 0.608 s: phys 96000.0 Hz 2 ch 32 bit flags 9 / virt 96000.0 Hz 2 ch 32 bit flags 9
+[243.570] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 2 ch 32 bit flags 9)
+[243.570] format listeners: 0 0
+[243.587] volume: forwarding to DAC element 0 (-21.5 dB), linear in dB, 0 to -64 dB (4.0 dB per key step); mute to element 0; slider -> 0.6641: 0, mute -> 0: 0
+[243.590] default output -> virtual device: 0
+[243.599] playerInfo: Paused Earth
+[243.606] playerInfo: Playing Earth
+[244.128] clock: ring at 0 frames before the lock (target 2048); refilling first
+[244.637] clock lock: phase0 -23636.729, fill 2048, cycles A 37502 B 35096
+[253.564] 96000 Hz fill 1536 scalar 0.999988076 under 22528 over 0
+[283.565] 96000 Hz fill 2048 scalar 0.999988424 under 22528 over 0
+[313.574] 96000 Hz fill 1536 scalar 0.999988409 under 22528 over 0
+[343.582] 96000 Hz fill 2048 scalar 0.999988299 under 22528 over 0
+[361.351] Selected Device changed to MT 48; following it
+[361.368] playerInfo: Playing Earth
+[361.430] decoder: 48000.0 Hz (lossless)
+[361.445] next track needs 48000 Hz; 102.94 s left, arming the boundary latch in 0.00 s and again in 101.44 s
+[361.452] playerInfo: Paused Earth
+[361.452] Paused on the same track; disarmed
+[361.500] hog released: 0, owner -1
+[361.502] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 44100.0 Hz, hog owner -1, my pid 94802
+[361.707] hog DAC: 0, hogged
+[361.933] virtual device -> 44100: 0
+[361.934] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[361.937] B: DAC inputs off: 0
+[362.022] start B: 0
+[362.995] DAC ready after 0.973 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[362.995] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[362.995] format listeners: 0 0
+[362.996] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[362.997] default output -> virtual device: 0
+[363.008] playerInfo: Paused Earth
+[363.008] playerInfo: Playing Earth
+[363.535] clock lock: phase0 11870.462, fill 2048, cycles A 59606 B 57103
+[366.973] inter-sample overshoot protection on: output -3.0 dB, not bit-perfect
+[372.419] inter-sample overshoot protection off: output unchanged
+[373.591] 44100 Hz fill 2048 scalar 0.999982641 under 27136 over 0
+[389.038] playerInfo: Playing Earth
+[389.109] decoder: 48000.0 Hz (lossless)
+[389.128] next track needs 48000 Hz; 76.95 s left, arming the boundary latch in 0.00 s and again in 75.45 s
+[389.128] boundary latch armed at in frame 31646720
+[389.139] playerInfo: Paused Earth
+[389.139] gate: output started at ring 31444409; waiting for the track's rate
+[390.650] gate released (no Playing within 1.5 s) 1511 ms after the output started
+[390.663] gate closed again after 1578 ms of silence
+[394.131] no boundary within 5 s; disarmed
+[399.144] Music idle 10 s: stepping aside (DAC and default output given back)
+[399.165] DAC mixable again: 0
+[399.532] hog released: 0, owner -1
+[399.533] virtual device scalar reset: 0
+[399.548] default output restored to MT 48: 0
+[402.595] default output after 3 s: MT 48
+[402.596] detached (pid 0): 0
+[403.461] playerInfo: Paused Earth
+[403.473] playerInfo: Playing Earth
+[403.473] playback began while stepped aside (Earth); taking the output back
+[403.555] playerInfo: Playing Earth
+[403.632] decoder: 48000.0 Hz (lossless)
+[403.644] playerInfo: Paused Earth
+[403.654] attached (pid 94802): 0
+[403.659] default output -> virtual device: 0
+[403.664] virtual device 129 @ 44100.0 Hz; scalar reset 0
+[403.669] A: output streams off: 0
+[403.701] start A: 0
+[403.702] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 44100.0 Hz, hog owner -1, my pid 94802
+[403.924] hog DAC: 0, hogged
+[403.930] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[403.937] B: DAC inputs off: 0
+[403.985] start B: 0
+[404.978] DAC ready after 0.992 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[404.978] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[404.979] format listeners: 0 0
+[404.979] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[404.987] switch 4: Earth needs 48000 Hz (DAC 44100); not latched: cut at the play position; paused; boundary reached 0.008 s
+[405.201] virtual device -> 48000: 0
+[405.201] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[407.533]   DAC ready after 2.331 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[407.534] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[407.589]   rewound to 196.711 (was 196.945, played ~0.134 s), play; switch 4 done 2.610 s after the request
+[407.602] decoder: 48000.0 Hz (lossless)
+[407.602] playerInfo: Paused Earth
+[407.603] 48000 Hz fill 1536 scalar 1.000000000 under 27136 over 0
+[407.614] playerInfo: Playing Earth
+[408.110] clock lock: phase0 49867.688, fill 1536, cycles A 63049 B 60409
+[416.549] decoder: 96000.0 Hz (lossless)
+[416.561] next track needs 96000 Hz; 68.30 s left, arming the boundary latch in 0.00 s and again in 66.80 s
+[416.561] boundary latch armed at in frame 32686592
+[421.570] no boundary within 5 s; disarmed
+[437.603] 48000 Hz fill 1536 scalar 0.999992689 under 27136 over 0
+[441.830] NSRunningApplication lists no Music, but pid 12675 is alive: still running
+[467.611] 48000 Hz fill 1536 scalar 0.999994871 under 27136 over 0
+[483.360] pre-roll came early; arming the boundary latch again
+[483.360] boundary latch armed at in frame 35893248
+[484.941] playerInfo: Playing Billy Came Back
+[484.942] new track Billy Came Back: decoder 96000.0 Hz lossless (seen 68.390 s before Playing), DAC 48000 Hz -> switch to 96000
+[484.955] switch 5: Billy Came Back needs 96000 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.013 s
+[485.173] virtual device -> 96000: 0
+[485.174] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[488.975]   DAC ready after 3.800 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[488.975] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[488.975] playerInfo: Playing Billy Came Back
+[488.975] decoder: 48000.0 Hz (lossless)
+[488.975] decoder: 96000.0 Hz (lossless)
+[488.976] playerInfo: Paused Billy Came Back
+[489.054]   rewound to 0.000 (was 0.162, played ~0.060 s), play; switch 5 done 4.112 s after the request
+[489.055] clock lock: phase0 288750.038, fill 1536, cycles A 70946 B 67911
+[489.103] decoder: 48000.0 Hz (lossless)
+[489.103] decoder: 96000.0 Hz (lossless)
+[489.103] decoder: 48000.0 Hz (lossless)
+[489.103] decoder: 96000.0 Hz (lossless)
+[489.103] playerInfo: Paused Billy Came Back
+[489.103] playerInfo: Playing Billy Came Back
+[497.618] 96000 Hz fill 1536 scalar 0.999994745 under 27136 over 0

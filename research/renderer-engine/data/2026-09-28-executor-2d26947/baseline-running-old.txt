@@ -1,0 +1,6 @@
+MT 48 | rate=96000 hog=17891 vol- mute=- | int32 nonmixable 96000 | AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2
+MacBook Pro Speakers | SYSTEM rate=96000 hog=-1 vol- e0=-21.5dB mute=e0=0 | float32 mixable 96000 | BuiltInSpeakerDevice
+LosslessSwitcher | DEFAULT rate=96000 hog=-1 vol- e0=6.0dB mute=e0=0 | float32 mixable 96000 | LSOutput_UID
+Loopback Audio | rate=48000 hog=-1 vol- e0=0.0dB mute=e0=0 | float32 mixable 48000 | com.rogueamoeba.Loopback:969C0F08-3C28-4800-B74F-E900434DEDE8
+ZoomAudioDevice | rate=48000 hog=-1 vol- e0=-96.0dB mute=e0=0 | float32 mixable 48000 | zoom.us.zoomaudiodevice.001
+playing, 100, true, I Get Noise

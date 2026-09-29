@@ -1,0 +1,21 @@
+Timestamp               Ty Process[PID:TID]
+2026-09-28 20:25:42.223 Df Music[12675:5b7f938] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68823480) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:42.223 Df Music[12675:5b7f938] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68823480) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:42.780 Df Music[12675:5b7e2c1] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68820500) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:42.781 Df Music[12675:5b7e2c1] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68820500) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:42.793 Df Music[12675:5b7e2c1] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb64d36a80) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:42.793 Df Music[12675:5b7e2c1] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb64d36a80) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:44.222 Df Music[12675:5b7f93c] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68871900) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:44.224 Df Music[12675:5b7f93c] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68871900) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:44.262 Df Music[12675:5b7f91a] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68872300) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:44.263 Df Music[12675:5b7f91a] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68872300) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:54.979 Df Music[12675:5b7ffd0] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb6883e580) Input format:  2 ch,  44100 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:25:54.980 Df Music[12675:5b7ffd0] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb6883e580) Input format:  2 ch,  44100 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:26:07.213 Df Music[12675:5b80218] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb64d35680) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:26:07.214 Df Music[12675:5b80218] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb64d35680) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:26:07.322 Df Music[12675:5b80202] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68938c80) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:26:07.323 Df Music[12675:5b80202] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68938c80) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:26:09.519 Df Music[12675:5b80218] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68860f00) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:26:09.520 Df Music[12675:5b80218] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68860f00) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:26:09.540 Df Music[12675:5b7ffd6] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68861900) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet
+2026-09-28 20:26:09.541 Df Music[12675:5b7ffd6] [com.apple.coreaudio:ac] ACAppleLosslessDecoder.cpp:680   (0xb68861900) Input format:  2 ch,  48000 Hz, alac (0x00000003) from 24-bit source, 4096 frames/packet

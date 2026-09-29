@@ -1,0 +1,282 @@
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+track I Get Noise-Arab Strap-Half-Told Tales I Get Noise
+[Exclusive Mode] virtual-device engine: start requested
+[Exclusive Mode] [  0.000] engine started (virtual device)
+[Exclusive Mode] [  0.094] microphone permission: not determined; asking, and leaving the output alone until it is answered
+[Exclusive Mode] [  1.088] microphone permission granted
+[Exclusive Mode] [  1.103] attached (pid 94802): 0
+[Exclusive Mode] [  1.110] default output -> virtual device: 0
+[Exclusive Mode] [  1.113] virtual device 129 @ 96000.0 Hz; scalar reset 0
+[Exclusive Mode] [  1.121] A: output streams off: 0
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [  1.160] start A: 0
+[Exclusive Mode] [  1.162] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 96000.0 Hz, hog owner -1, my pid 94802
+[Exclusive Mode] [  1.368] hog DAC: 0, hogged
+[Exclusive Mode] [  1.380] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[Exclusive Mode] [  1.386] B: DAC inputs off: 0
+[Exclusive Mode] [  1.442] start B: 0
+[TrackBoundary] device keeps stopping (19 starts); restarting silent output
+[TrackBoundary] not ready: matches=true running=true nominal=96000.0 actual=96000.0 measured=false starts=24 restarts=1 steadyFor=0.01 s
+[Exclusive Mode] [ 13.451] DAC NOT ready after 12.008 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[Exclusive Mode] [ 13.452] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[Exclusive Mode] [ 13.452] format listeners: 0 0
+[Exclusive Mode] [ 13.452] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[Exclusive Mode] [ 13.961] clock lock: phase0 1228077.196, fill 1536, cycles A 2403 B 909
+[Exclusive Mode] [ 14.467] clock: phase jumped 47999 frames (a device restarted?); re-locking
+[Exclusive Mode] [ 14.970] clock lock: phase0 1323692.072, fill 2048, cycles A 2592 B 985
+[Exclusive Mode] [ 15.479] clock: phase jumped 47615 frames (a device restarted?); re-locking
+[Exclusive Mode] [ 15.979] clock lock: phase0 1418154.956, fill 1536, cycles A 2781 B 1064
+[Exclusive Mode] [ 16.483] clock: phase jumped 46847 frames (a device restarted?); re-locking
+[Exclusive Mode] [ 16.989] clock lock: phase0 1512233.824, fill 2048, cycles A 2971 B 1144
+[Exclusive Mode] [ 17.489] clock: phase jumped 47999 frames (a device restarted?); re-locking
+[Exclusive Mode] [ 17.991] clock lock: phase0 1608232.644, fill 2048, cycles A 3159 B 1218
+[Exclusive Mode] [ 18.494] clock: phase jumped 47999 frames (a device restarted?); re-locking
+[Exclusive Mode] [ 19.006] clock lock: phase0 1703847.480, fill 1536, cycles A 3349 B 1296
+[Exclusive Mode] [ 19.508] clock: phase jumped 47615 frames (a device restarted?); re-locking
+[Exclusive Mode] [ 20.021] clock lock: phase0 1799078.324, fill 1536, cycles A 3539 B 1374
+[Exclusive Mode] [ 20.530] clock: phase jumped 47615 frames (a device restarted?); re-locking
+[Exclusive Mode] [ 21.035] clock lock: phase0 1894693.164, fill 1536, cycles A 3729 B 1451
+[Exclusive Mode] [ 43.460] 96000 Hz fill 1536 scalar 0.999995111 under 0 over 0
+[Exclusive Mode] [ 63.583] playerInfo: Paused I Get Noise
+[Exclusive Mode] [ 63.596] playerInfo: Playing I Get Noise
+[Exclusive Mode] [ 63.633] new track I Get Noise: no decoder line for it yet; holding at the gate until one comes (3 s)
+[Exclusive Mode] [ 63.633] gate: output started at ring 5998592; waiting for the track's rate
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+track I Get Noise-Arab Strap-Half-Told Tales I Get Noise
+[Exclusive Mode] [ 66.641] no decoder line for I Get Noise within 3 s; playing at 96000 Hz
+[Exclusive Mode] [ 66.641] gate held 3008 ms (no decoder line); restarting the play
+[Exclusive Mode] [ 66.645] switch 1: (current track) restarts at 96000 Hz (no rate change); held at the gate; paused; boundary reached 0.004 s
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [ 66.771]   rewound to 108.734 (was 111.892, played ~3.058 s), play; switch 1 done 0.130 s after the request
+[Exclusive Mode] [ 66.783] playerInfo: Playing I Get Noise
+[Exclusive Mode] [ 66.783] decoder: 96000.0 Hz (lossless)
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [ 66.784] playerInfo: Paused I Get Noise
+[Exclusive Mode] [ 66.784] playerInfo: Paused I Get Noise
+[Exclusive Mode] [ 66.784] playerInfo: Playing I Get Noise
+track I Get Noise-Arab Strap-Half-Told Tales I Get Noise
+[Exclusive Mode] [ 67.077] clock lock: phase0 1894693.074, fill 1536, cycles A 12362 B 10084
+track I Get Noise-Arab Strap-Half-Told Tales I Get Noise
+[Exclusive Mode] [ 73.464] 96000 Hz fill 1536 scalar 0.999992510 under 0 over 0
+[Exclusive Mode] [ 73.947] decoder: 48000.0 Hz (lossless)
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 48000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [ 73.954] next track needs 48000 Hz; 87.37 s left, arming the boundary latch in 0.00 s and again in 85.87 s
+[Exclusive Mode] [ 73.954] boundary latch armed at in frame 6989824
+[Exclusive Mode] [ 78.957] no boundary within 5 s; disarmed
+[MediaRemoteController] MediaRemoteAdapter helper exited; restarting in 1 s
+track I Get Noise-Arab Strap-Half-Told Tales I Get Noise
+[Exclusive Mode] [103.473] 96000 Hz fill 1536 scalar 0.999994569 under 0 over 0
+[Exclusive Mode] [133.476] 96000 Hz fill 1536 scalar 0.999994787 under 0 over 0
+[MediaRemoteController] MediaRemoteAdapter helper exited; restarting in 1 s
+track I Get Noise-Arab Strap-Half-Told Tales I Get Noise
+[MediaRemoteController] MediaRemoteAdapter helper exited; restarting in 1 s
+track I Get Noise-Arab Strap-Half-Told Tales I Get Noise
+[MediaRemoteController] MediaRemoteAdapter helper exited; restarting in 2 s
+track I Get Noise-Arab Strap-Half-Told Tales I Get Noise
+[Exclusive Mode] [159.837] pre-roll came early; arming the boundary latch again
+[Exclusive Mode] [159.837] boundary latch armed at in frame 15234560
+[Exclusive Mode] [161.341] latched at ring 15378137 (fill 1536)
+[Exclusive Mode] [161.458] playerInfo: Playing Silencio
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 48000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [161.458] new track Silencio: decoder 48000.0 Hz lossless (seen 87.511 s before Playing), DAC 96000 Hz -> switch to 48000
+[Exclusive Mode] [161.463] switch 2: Silencio needs 48000 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 0.005 s
+track Silencio-U2-Carnaval De Luz Silencio
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [161.677] virtual device -> 48000: 0
+[Exclusive Mode] [161.677] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+track Ticking-Kristin Hersh-Sugar on Blackstone Ticking
+track Ticking-Kristin Hersh-Sugar on Blackstone Ticking
+track Ticking-Kristin Hersh-Sugar on Blackstone Ticking
+track Ticking-Kristin Hersh-Sugar on Blackstone Ticking
+[Exclusive Mode] [163.491]   DAC ready after 1.814 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[Exclusive Mode] [163.492] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[Exclusive Mode] [163.492] playerInfo: Playing Silencio
+[Exclusive Mode] [163.492] playerInfo: Paused Silencio
+[Exclusive Mode] [163.492] decoder: 48000.0 Hz (lossless)
+[Exclusive Mode] [163.492] playerInfo: Paused Ticking
+[Exclusive Mode] [163.492] decoder: 48000.0 Hz (lossless)
+[Exclusive Mode] [163.544]   rewound to 0.000 (was 0.000, played ~0.062 s), play; switch 2 done 2.085 s after the request
+[Exclusive Mode] [163.562] 48000 Hz fill 2048 scalar 0.999994813 under 0 over 0
+[Exclusive Mode] [163.573] decoder: 48000.0 Hz (lossless)
+[Exclusive Mode] [163.574] playerInfo: Paused Ticking
+[Exclusive Mode] [163.574] playerInfo: Playing Ticking
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 48000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [163.574] new track Ticking: decoder 48000.0 Hz lossless (seen 0.026 s before Playing), DAC 48000 Hz
+same track, ignore cache
+track Ticking-Kristin Hersh-Sugar on Blackstone Ticking
+same track, ignore cache
+[Exclusive Mode] [164.050] clock lock: phase0 49605.078, fill 1536, cycles A 30293 B 27959
+same track, ignore cache
+same track, ignore cache
+same track, ignore cache
+same track, ignore cache
+[Exclusive Mode] [173.833] playerInfo: Playing Deadbeat Drag
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 48000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [173.833] new track Deadbeat Drag: decoder 48000.0 Hz lossless (seen 10.259 s before Playing), DAC 48000 Hz
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+track Deadbeat Drag-Cartel-Learning How to Cope Deadbeat Drag
+track Deadbeat Drag-Cartel-Learning How to Cope Deadbeat Drag
+[Exclusive Mode] [174.293] decoder: 44100.0 Hz (lossless)
+track Deadbeat Drag-Cartel-Learning How to Cope Deadbeat Drag
+same track, ignore cache
+same track, ignore cache
+same track, ignore cache
+same track, ignore cache
+same track, ignore cache
+[Exclusive Mode] [186.027] playerInfo: Playing Earth
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 44100.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [186.027] new track Earth: decoder 44100.0 Hz lossless (seen 11.737 s before Playing), DAC 48000 Hz -> switch to 44100
+[Exclusive Mode] [186.044] switch 3: Earth needs 44100 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.017 s
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+track Earth-Index-Vis Inertiae Earth
+[Exclusive Mode] [186.255] virtual device -> 44100: 0
+[Exclusive Mode] [186.256] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+track Earth-Index-Vis Inertiae Earth
+track Earth-Index-Vis Inertiae Earth
+track Earth-Index-Vis Inertiae Earth
+same track, ignore cache
+[Exclusive Mode] [188.793]   DAC ready after 2.537 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[Exclusive Mode] [188.794] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[Exclusive Mode] [188.794] playerInfo: Playing Earth
+[Exclusive Mode] [188.794] playerInfo: Paused Earth
+[Exclusive Mode] [188.794] decoder: 48000.0 Hz (lossless)
+[Exclusive Mode] [188.840]   rewound to 0.000 (was 0.000, played ~0.052 s), play; switch 3 done 2.812 s after the request
+[Exclusive Mode] [188.874] decoder: 48000.0 Hz (lossless)
+[Exclusive Mode] [188.874] playerInfo: Paused Earth
+[Exclusive Mode] [188.874] playerInfo: Playing Earth
+track Earth-Index-Vis Inertiae Earth
+[Exclusive Mode] [189.345] clock: DAC scalar 0.999050 not settled; waiting to lock
+same track, ignore cache
+[Exclusive Mode] [191.366] clock lock: phase0 44086.066, fill 1536, cycles A 32789 B 30387
+same track, ignore cache
+[Exclusive Mode] [193.552] 44100 Hz fill 2048 scalar 0.999956827 under 0 over 0
+same track, ignore cache
+same track, ignore cache
+[Exclusive Mode] [223.553] 44100 Hz fill 2048 scalar 0.999994771 under 0 over 0
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | REVIEW: Alert sounds mix into this device
+[Exclusive Mode] [242.165] Selected Device changed to MacBook Pro Speakers; following it
+[Exclusive Mode] [242.180] playerInfo: Playing Earth
+[Exclusive Mode] [242.251] decoder: 48000.0 Hz (lossless)
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 48000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [242.270] next track needs 48000 Hz; 220.66 s left, arming the boundary latch in 0.00 s and again in 219.16 s
+[Exclusive Mode] [242.277] playerInfo: Paused Earth
+[Exclusive Mode] [242.277] Paused on the same track; disarmed
+[Exclusive Mode] [242.298] DAC mixable again: 0
+track Earth-Index-Vis Inertiae Earth
+[Exclusive Mode] [242.657] hog released: 0, owner -1
+[Exclusive Mode] [242.657] DAC MacBook Pro Speakers (BuiltInSpeakerDevice) @ 96000.0 Hz, hog owner -1, my pid 94802
+[Exclusive Mode] [242.658] hog DAC: 0, hogged
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [242.874] virtual device -> 96000: 0
+[Exclusive Mode] [242.875] DAC format -> 96000.0 Hz 2 ch 32 bit flags 9: 0
+[Exclusive Mode] [242.875] B: DAC inputs off: 0
+[Exclusive Mode] [242.962] start B: 0
+[Exclusive Mode] [243.570] DAC ready after 0.608 s: phys 96000.0 Hz 2 ch 32 bit flags 9 / virt 96000.0 Hz 2 ch 32 bit flags 9
+[Exclusive Mode] [243.570] B writes float32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 2 ch 32 bit flags 9)
+[Exclusive Mode] [243.570] format listeners: 0 0
+[Exclusive Mode] [243.587] volume: forwarding to DAC element 0 (-21.5 dB), linear in dB, 0 to -64 dB (4.0 dB per key step); mute to element 0; slider -> 0.6641: 0, mute -> 0: 0
+[Exclusive Mode] [243.590] default output -> virtual device: 0
+[Exclusive Mode] [243.599] playerInfo: Paused Earth
+[Exclusive Mode] [243.606] playerInfo: Playing Earth
+track Earth-Index-Vis Inertiae Earth
+[Exclusive Mode] [244.128] clock: ring at 0 frames before the lock (target 2048); refilling first
+[Exclusive Mode] [244.637] clock lock: phase0 -23636.729, fill 2048, cycles A 37502 B 35096
+[Exclusive Mode] [253.564] 96000 Hz fill 1536 scalar 0.999988076 under 22528 over 0
+[Exclusive Mode] [283.565] 96000 Hz fill 2048 scalar 0.999988424 under 22528 over 0
+[Exclusive Mode] [313.574] 96000 Hz fill 1536 scalar 0.999988409 under 22528 over 0
+[Exclusive Mode] [343.582] 96000 Hz fill 2048 scalar 0.999988299 under 22528 over 0
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | REVIEW: Alert sounds mix into this device
+[Exclusive Mode] [361.351] Selected Device changed to MT 48; following it
+[Exclusive Mode] [361.368] playerInfo: Playing Earth
+[Exclusive Mode] [361.430] decoder: 48000.0 Hz (lossless)
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 48000.0, mFormatID: 1819304813, mFormatFlags: 9, mBytesPerPacket: 8, mFramesPerPacket: 1, mBytesPerFrame: 8, mChannelsPerFrame: 2, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [361.445] next track needs 48000 Hz; 102.94 s left, arming the boundary latch in 0.00 s and again in 101.44 s
+[Exclusive Mode] [361.452] playerInfo: Paused Earth
+[Exclusive Mode] [361.452] Paused on the same track; disarmed
+[Exclusive Mode] [361.500] hog released: 0, owner -1
+[Exclusive Mode] [361.502] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 44100.0 Hz, hog owner -1, my pid 94802
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+track Earth-Index-Vis Inertiae Earth
+[Exclusive Mode] [361.707] hog DAC: 0, hogged
+[Exclusive Mode] [361.933] virtual device -> 44100: 0
+[Exclusive Mode] [361.934] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[Exclusive Mode] [361.937] B: DAC inputs off: 0
+[Exclusive Mode] [362.022] start B: 0
+[Exclusive Mode] [362.995] DAC ready after 0.973 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[Exclusive Mode] [362.995] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[Exclusive Mode] [362.995] format listeners: 0 0
+[Exclusive Mode] [362.996] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[Exclusive Mode] [362.997] default output -> virtual device: 0
+[Exclusive Mode] [363.008] playerInfo: Paused Earth
+[Exclusive Mode] [363.008] playerInfo: Playing Earth
+track Earth-Index-Vis Inertiae Earth
+[Exclusive Mode] [363.535] clock lock: phase0 11870.462, fill 2048, cycles A 59606 B 57103
+[Exclusive Mode] [366.973] inter-sample overshoot protection on: output -3.0 dB, not bit-perfect
+[Exclusive Mode] [372.419] inter-sample overshoot protection off: output unchanged
+[Exclusive Mode] [373.591] 44100 Hz fill 2048 scalar 0.999982641 under 27136 over 0
+[Exclusive Mode] [389.038] playerInfo: Playing Earth
+[Exclusive Mode] [389.109] decoder: 48000.0 Hz (lossless)
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 48000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [389.128] next track needs 48000 Hz; 76.95 s left, arming the boundary latch in 0.00 s and again in 75.45 s
+[Exclusive Mode] [389.128] boundary latch armed at in frame 31646720
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [389.139] playerInfo: Paused Earth
+[Exclusive Mode] [389.139] gate: output started at ring 31444409; waiting for the track's rate
+track Earth-Index-Vis Inertiae Earth
+[Exclusive Mode] [390.650] gate released (no Playing within 1.5 s) 1511 ms after the output started
+[Exclusive Mode] [390.663] gate closed again after 1578 ms of silence
+[Exclusive Mode] [394.131] no boundary within 5 s; disarmed
+[Exclusive Mode] [399.144] Music idle 10 s: stepping aside (DAC and default output given back)
+[Exclusive Mode] [399.165] DAC mixable again: 0
+[Exclusive Mode] [399.532] hog released: 0, owner -1
+[Exclusive Mode] [399.533] virtual device scalar reset: 0
+[Exclusive Mode] [399.548] default output restored to MT 48: 0
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [402.595] default output after 3 s: MT 48
+[Exclusive Mode] [402.596] detached (pid 0): 0
+[Exclusive Mode] [403.461] playerInfo: Paused Earth
+[Exclusive Mode] [403.473] playerInfo: Playing Earth
+[Exclusive Mode] [403.473] playback began while stepped aside (Earth); taking the output back
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [403.555] playerInfo: Playing Earth
+[Exclusive Mode] [403.632] decoder: 48000.0 Hz (lossless)
+[Exclusive Mode] [403.644] playerInfo: Paused Earth
+[Exclusive Mode] [403.654] attached (pid 94802): 0
+[Exclusive Mode] [403.659] default output -> virtual device: 0
+[Exclusive Mode] [403.664] virtual device 129 @ 44100.0 Hz; scalar reset 0
+[Exclusive Mode] [403.669] A: output streams off: 0
+[Exclusive Mode] [403.701] start A: 0
+[Exclusive Mode] [403.702] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 44100.0 Hz, hog owner -1, my pid 94802
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+[Exclusive Mode] [403.924] hog DAC: 0, hogged
+[Exclusive Mode] [403.930] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[Exclusive Mode] [403.937] B: DAC inputs off: 0
+[Exclusive Mode] [403.985] start B: 0
+[Exclusive Mode] [404.978] DAC ready after 0.992 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[Exclusive Mode] [404.978] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[Exclusive Mode] [404.979] format listeners: 0 0
+[Exclusive Mode] [404.979] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 48000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [404.987] switch 4: Earth needs 48000 Hz (DAC 44100); not latched: cut at the play position; paused; boundary reached 0.008 s
+[Exclusive Mode] [405.201] virtual device -> 48000: 0
+[Exclusive Mode] [405.201] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[Exclusive Mode] [407.533]   DAC ready after 2.331 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[Exclusive Mode] [407.534] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[Exclusive Mode] [407.589]   rewound to 196.711 (was 196.945, played ~0.134 s), play; switch 4 done 2.610 s after the request
+[Exclusive Mode] [407.602] decoder: 48000.0 Hz (lossless)
+[Exclusive Mode] [407.602] playerInfo: Paused Earth
+[Exclusive Mode] [407.603] 48000 Hz fill 1536 scalar 1.000000000 under 27136 over 0
+[Exclusive Mode] [407.614] playerInfo: Playing Earth
+[BitPerfectCheck] ok: Music volume 100% | ok: Sound Enhancer off | ok: Sound Check off | ok: Dolby Atmos off | ?: Check in Music: Equalizer and Crossfade off | ok: Alert sounds play on another device
+track Earth-Index-Vis Inertiae Earth
+[Exclusive Mode] [408.110] clock lock: phase0 49867.688, fill 1536, cycles A 63049 B 60409
+track Earth-Index-Vis Inertiae Earth
+[Exclusive Mode] [416.549] decoder: 96000.0 Hz (lossless)
+NEAREST FORMAT [__C.AudioStreamBasicDescription(mSampleRate: 96000.0, mFormatID: 1819304813, mFormatFlags: 12, mBytesPerPacket: 64, mFramesPerPacket: 1, mBytesPerFrame: 64, mChannelsPerFrame: 16, mBitsPerChannel: 32, mReserved: 0)]
+[Exclusive Mode] [416.561] next track needs 96000 Hz; 68.30 s left, arming the boundary latch in 0.00 s and again in 66.80 s
+[Exclusive Mode] [416.561] boundary latch armed at in frame 32686592
+[Exclusive Mode] [421.570] no boundary within 5 s; disarmed
+[Exclusive Mode] [437.603] 48000 Hz fill 1536 scalar 0.99

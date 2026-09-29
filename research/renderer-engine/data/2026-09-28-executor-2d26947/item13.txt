@@ -1,0 +1,8 @@
+20:24:36 killed 94806, new helper 97136 after 1.16 s
+app cpu after 3s:   0.0
+== rapid series
+20:25:15 killed 97136, new helper 97734 after 1.15 s
+20:25:18 killed 97734, new helper 98092 after 1.10 s
+20:25:23 killed 98092, new helper 98408 after 2.17 s
+app cpu:   0.1
+94802  0.3 

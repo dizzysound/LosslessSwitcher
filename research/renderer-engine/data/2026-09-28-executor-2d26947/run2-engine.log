@@ -1,0 +1,35 @@
+[  0.000] engine started (virtual device)
+[  0.000] at launch: recovering the output after an unclean exit: DAC MT 48, mixable 0, default output (was MacBook Pro Speakers) 0
+[  0.093] microphone permission: granted
+[  0.104] attached (pid 5308): 0
+[  0.107] default output -> virtual device: 0
+[  0.111] virtual device 159 @ 96000.0 Hz; scalar reset 0
+[  0.118] A: output streams off: 0
+[  0.147] start A: 0
+[  0.149] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 96000.0 Hz, hog owner -1, my pid 5308
+[  0.429] hog DAC: 0, hogged
+[  0.449] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[  0.452] B: DAC inputs off: 0
+[  0.504] start B: 0
+[  4.175] DAC ready after 3.670 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[  4.176] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[  4.176] format listeners: 0 0
+[  4.177] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)
+[  4.187] playerInfo: Playing Billy Came Back
+[  4.278] new track Billy Came Back: no decoder line for it yet; holding at the gate until one comes (3 s)
+[  4.278] decoder: 96000.0 Hz (lossless)
+[  4.278] new track Billy Came Back: decoder 96000.0 Hz lossless (seen -0.434 s before Playing), DAC 96000 Hz
+[  4.278] playerInfo: Paused Billy Came Back
+[  4.285] playerInfo: Paused Billy Came Back
+[  4.285] playerInfo: Playing Billy Came Back
+[  4.285] gate released (same track) < 10 ms after the output started
+[  4.792] clock lock: phase0 338033.395, fill 2048, cycles A 875 B 438
+[ 34.293] 96000 Hz fill 2048 scalar 0.999995582 under 0 over 0
+[ 48.133] decoder: 96000.0 Hz (lossless)
+[ 49.088] DAC mixable again: 0
+[ 49.292] hog released: 0, owner -1
+[ 49.295] virtual device scalar reset: 0
+[ 49.303] default output restored to MacBook Pro Speakers: 0
+[ 52.322] default output after 3 s: MacBook Pro Speakers
+[ 52.324] detached (pid 0): 0
+[ 52.335] engine stopped

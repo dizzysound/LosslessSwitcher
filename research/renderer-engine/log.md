@@ -372,3 +372,58 @@ Built on the Xcode Mac with make_portable_dev_app.sh, run on the bench Mac.
   with the -3 dB gain to 16-bit: undithered fundamental 0.958 LSB (should be 0.733) with H3/H5 at
   -12 dBc, dithered 0.733 LSB with H3/H5 at the noise floor (-50/-45 dBc in a 1 Hz bin).
 - Bench: BENCH-BRIEF item 11.
+
+# Bench: 2d26947 on Executor (M5 Pro, MT 48), 2026-09-28 evening
+Build: research/typecheck/make_xcode_dev_app.sh from a detached worktree at origin/renderer-vdevice
+2d26947 (MediaRemoteAdapter resolved to dizzysound/mediaremote-adapter lossless-switcher 2e59752).
+Replaced the 19:15 Dev build in /Applications; LSOutput.driver kept (1.1.2, installed 07:04; same
+source, a different binary build, not reinstalled). Scripted items only (1, 4, 5 by log, 7, 8, 9, 10
+by log, 11 label, 13); no listening checks. Raw logs, stdout and the probe/driver scripts:
+data/2026-09-28-executor-2d26947/ (engine t=0 is about 20:23:00.8 in run 1).
+- 1, DAC: MT 48 offers int32 non-mixable (flags 76); "hog DAC: 0, hogged", B writes int32. Ready
+  after 12.008 s (NOT ready) on the first launch, with stdout "[TrackBoundary] device keeps stopping
+  (19 starts); restarting silent output" and 7 "clock: phase jumped ~47999 frames" re-locks in the next
+  8 s (0.5 s of frames at 96k, one per PLL tick); steady from 21 s (under 0 over 0). Not reproduced:
+  later starts 3.670 s and 2.049 s, no phase jumps. Switches 1.8-2.5 s.
+- 2 (by log only): "volume: DAC has no settable output volume; the volume keys change nothing".
+- 4: "Selected Device changed to MacBook Pro Speakers; following it", and back to MT 48. The virtual
+  device isn't in the list. The follow keeps the new DAC's current rate (setUpDAC: applyRate(CA.nominal
+  (d))): Earth then played at 96k on the speakers (menu "96.0 kHz", Bit-Perfect Check silent about it)
+  until a later switch. The follow back found the MT 48 at 44.1k from before and used that.
+- 5: speakers float32 mixable, "clock: ring at 0 frames before the lock (target 2048); refilling
+  first", then lock at fill 2048. under 22528 once (the refill), flat for the next 60 s. Volume
+  forwarded to element 0 (-21.5 dB). The virtual device's own volume went +6.0 dB -> -51.0 dB then
+  and stayed there after the follow back (audio at unity per the log; noted, not changed back).
+- 7: kill -9 -> default left the virtual device after 4.13 s, to MacBook Pro Speakers (not the MT 48
+  the engine had restored from); the helper outlived the app. Relaunch: "at launch: recovering the
+  output after an unclean exit: DAC MT 48, mixable 0, default output (was MacBook Pro Speakers) 0" and
+  "[MediaRemoteController] stopped an orphaned MediaRemoteAdapter helper, pid 98408: 0".
+- 8: quit -> "default output restored to MacBook Pro Speakers" (the default recorded at the recovery
+  launch), MT 48 un-hogged, mixable, no run.pl left, no restart message.
+- 9 (RendererIdleSeconds 10): "Music idle 10 s: stepping aside", MT 48 un-hogged and default. Play:
+  "playback began while stepped aside (Earth); taking the output back", "rewound to 196.711 (was
+  196.945, played ~0.134 s)". Press to rewind logged 4.36 s, but that included switch 4 (below).
+- 10: "inter-sample overshoot protection on: output -3.0 dB, not bit-perfect" / "off: output
+  unchanged". Level not measured.
+- 11: menu reads "TPDF Dither (not needed: DAC takes 32-bit)".
+- 13: helper killed at 97 s: new helper after 1.16 s; then three kills 3-5 s apart: 1.15, 1.10, 2.17 s;
+  stdout "restarting in 1 s" x3 then "in 2 s". App CPU 0.0-0.3 %. Rate switches after the restarts
+  still worked (96k -> 48k, 48k -> 44.1k).
+
+## Found: a skipped-to track takes the previous track's decoder line
+Reproduced twice in one run (AppleScript "next track" on a shuffled Apple Music station, ~12 s apart),
+confirmed against Music's own log (data/.../music-decoder-skips.txt) and Music's "sample rate" of the
+current track (Earth: 48000).
+- Deadbeat Drag: Playing at 173.833 (20:25:54.59); engine "decoder 48000.0 Hz (seen 10.259 s before
+  Playing)", which is Ticking's line from its own rewind at 163.574. Music logged Deadbeat Drag's
+  decoder, 44100 Hz, at 20:25:54.979, 0.39 s after Playing. No switch: it played at 48k.
+- Earth: Playing at 186.027; engine took that 44100 line ("seen 11.737 s before Playing") -> switch 3
+  to 44100. Music's line for Earth, 48000 Hz, came at 20:26:07.21, 0.42 s after Playing. Earth ran
+  at 44.1k for ~3.5 min until the step-aside resume re-decided "switch 4: Earth needs 48000 Hz".
+- Cause (traced, VirtualDeviceEngine playerInfo handler): a new track takes decoderRates.last(where:
+  date > lastNewTrackAt). The previous track's own line can come after its Playing (a skip: ~0.4 s;
+  a switch's rewind re-creates the decoder just after Playing), so it passes that test and is taken
+  for the next track. Natural transitions weren't tested; the early pre-roll line there may mask it.
+- Possible fix direction (not written): drop lines logged within ~1 s after the previous track's
+  Playing when a later line exists, or, on a Playing that follows a skip, wait for a line newer than
+  the notification (the existing 3 s "awaiting" path).
