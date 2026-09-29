@@ -222,3 +222,12 @@ updateSampleRate). It applies only while the post-change timer or the 48k rechec
 after a same-track now-playing update (trackDidChange records previous == current, then returns):
 a lower prefetched decoder line on those rechecks no longer switches down. Up-switches are unchanged
 (the Round 10 case was 44.1 -> 48, still covered only by the real-track-change gate). Not benched.
+
+## Selected Device read the previous device (2026-09-28, desk only)
+OutputDevices' `$selectedOutputDevice.sink` ignored the emitted value and called getDeviceSampleRate(),
+which read self.selectedOutputDevice. @Published emits in willSet, so that was still the old device
+(checked with a Combine script: A -> B emits B while the property reads A). Choosing a device showed
+the old device's rate, set previousSampleRate to it and ran the user script with it; with Bit Depth
+Switching off, a next track at the old device's rate then skipped setNominalSampleRate (line ~279) and
+left the new device at the wrong rate. The sink now passes the new device (or the default for
+"Default Device") to getDeviceSampleRate(of:). Not benched.

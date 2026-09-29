@@ -69,8 +69,10 @@ class OutputDevices: ObservableObject {
                 self.getDeviceSampleRate()
             })
         
-        outputSelectionCancellable = $selectedOutputDevice.sink(receiveValue: { _ in
-            self.getDeviceSampleRate()
+        // @Published emits before the property changes, so read the new device from the value,
+        // not self.selectedOutputDevice (still the old one here)
+        outputSelectionCancellable = $selectedOutputDevice.sink(receiveValue: { device in
+            self.getDeviceSampleRate(of: device ?? self.defaultOutputDevice)
         })
         
         enableBitDepthDetectionCancellable = Defaults.shared.$userPreferBitDepthDetection.sink(receiveValue: { newValue in
@@ -110,8 +112,11 @@ class OutputDevices: ObservableObject {
     }
     
     func getDeviceSampleRate() {
-        let defaultDevice = self.selectedOutputDevice ?? self.defaultOutputDevice
-        guard let sampleRate = defaultDevice?.nominalSampleRate else { return }
+        getDeviceSampleRate(of: self.selectedOutputDevice ?? self.defaultOutputDevice)
+    }
+
+    func getDeviceSampleRate(of device: AudioDevice?) {
+        guard let sampleRate = device?.nominalSampleRate else { return }
         self.updateSampleRate(sampleRate, bitDepth: nil)
     }
     
