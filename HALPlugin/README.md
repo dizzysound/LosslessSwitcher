@@ -15,7 +15,10 @@ Custom properties (CFNumber / CFDictionary, device object):
 - `'LSmx'` Music's pid (1.1.4; 0 = off, as 1.1.3). In ProcessOutput (per client, before the HAL's
   mix) every client of another pid is summed into a second ring and zeroed, so the mix is exactly
   Music's; that ring is read back on input channels 3-4. Cleared when the renderer detaches.
-  `'LSst'` counts it (processOutputCalls, musicClientCalls, othersFramesMoved, musicPID).
+  `'LSst'` counts it (processOutputCalls, musicClientCalls, othersFramesMoved, musicPID; 1.1.5 adds
+  othersPeakIn / othersPeakRead, reset on each read, and othersMaxTimeDelta / othersTimeDeltaCycles).
+  1.1.5: a client's frames are added unless they lie past everything written so far (then they
+  replace an old lap); 1.1.4 replaced on each new sample time and lost other apps' audio.
 
 Build: `./build.sh` (clang, ad-hoc signed; the app's build scripts run it and copy the bundle into
 Contents/Resources). Test in-process before installing: `clang -O1 -o harness harness.c -framework

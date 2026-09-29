@@ -229,13 +229,27 @@ int main(int argc, char** argv)
         I->DoIOOperation(drv, kDev, kIn, 1, kAudioServerPlugInIOOperationReadInput, frames, &cyc, in, NULL);
         int stale = 0; for(UInt32 i = 0; i < frames; i++) if(in[i * 4 + 2] != wCopy[i * 2]) { stale++; break; }
         CHECK(stale == 0, "an unread earlier lap is replaced, not summed");
+        // two other apps whose ProcessOutput times differ by 8 frames in one cycle, one of them silent
+        // (1.1.4 replaced on each "new" time and lost the audible one: pastor Mac, YouTube silent)
+        {
+            float silentBuf[frames * 2]; memset(silentBuf, 0, sizeof silentBuf);
+            FILL(); Float64 t0 = 50000;
+            cyc.mOutputTime.mSampleTime = t0;
+            I->DoIOOperation(drv, kDev, kOut, 12, kAudioServerPlugInIOOperationProcessOutput, frames, &cyc, w, NULL);
+            cyc.mOutputTime.mSampleTime = t0 + 8;
+            I->DoIOOperation(drv, kDev, kOut, 13, kAudioServerPlugInIOOperationProcessOutput, frames, &cyc, silentBuf, NULL);
+            cyc.mInputTime.mSampleTime = t0; memset(in, 0xff, sizeof in);
+            I->DoIOOperation(drv, kDev, kIn, 1, kAudioServerPlugInIOOperationReadInput, frames, &cyc, in, NULL);
+            int lost = 0; for(UInt32 i = 0; i < frames; i++) if(in[i * 4 + 2] != wCopy[i * 2] || in[i * 4 + 3] != wCopy[i * 2 + 1]) { lost++; }
+            CHECK(lost == 0, "clients at different sample times in one cycle: the audible one survives a silent one (%d frames lost)", lost);
+        }
         a.mSelector = 'LSst'; got = NULL; sz = sizeof got; I->GetPropertyData(drv, kDev, 0, &a, 0, NULL, sz, &sz, &got);
         double calls = 0, mcalls = 0, moved = 0, mpid = 0;
         CFNumberGetValue(CFDictionaryGetValue(got, CFSTR("processOutputCalls")), kCFNumberFloat64Type, &calls);
         CFNumberGetValue(CFDictionaryGetValue(got, CFSTR("musicClientCalls")), kCFNumberFloat64Type, &mcalls);
         CFNumberGetValue(CFDictionaryGetValue(got, CFSTR("othersFramesMoved")), kCFNumberFloat64Type, &moved);
         CFNumberGetValue(CFDictionaryGetValue(got, CFSTR("musicPID")), kCFNumberFloat64Type, &mpid); CFRelease(got);
-        CHECK(calls == 14 && mcalls == 6 && moved == 8 * frames && mpid == 500, "status counts per-client calls (%.0f calls, %.0f Music, %.0f frames moved, pid %.0f)", calls, mcalls, moved, mpid);
+        CHECK(calls == 16 && mcalls == 6 && moved == 10 * frames && mpid == 500, "status counts per-client calls (%.0f calls, %.0f Music, %.0f frames moved, pid %.0f)", calls, mcalls, moved, mpid);
         // 'LSmx' = 0: as 1.1.3, everything mixed on ch 1-2, 3-4 silent, buffers untouched
         SETMX(0); CHECK(mxs == 0, "set 'LSmx' = 0");
         FILL(); CYCLE(20000);
