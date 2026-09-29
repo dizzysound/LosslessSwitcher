@@ -1005,3 +1005,18 @@ last sound to the new track's first): 46 ms trail (pastor-skips) 1.69 1.89 1.02 
 whose own intro is silent: first sound 6.08 s into its A-side segment vs 1.40-1.47 s for the rest).
 The ring refills with the virtual device's silence while the DAC settles, so B starts with the full
 trail and the old and new tracks are delayed alike. The margin costs response to play/pause/seek only.
+
+# Bench: gapless transition to another rate (pastor, eebe7e9, 0.5 s margin), 2026-09-29 ~14:10
+Owner: "test gapless". Data: data/2026-09-29-pastor-gapless/ (.f32 on disk only). Generated ALAC tones
+with no zero sample anywhere, 15 s each: A 44.1k 440 Hz, B 48k 1000 Hz from sample 0, C 44.1k 660 Hz;
+a temporary playlist A, B, C played through naturally (no skips). All removed afterwards (tracks,
+playlist, ~/Music/LS-gapless-temp, Music's copy of B in Unknown Artist/Unknown Album).
+- Music is not gapless across a rate change: it put 27653 (0.63 s at 44.1k) and 29750 frames of zeros
+  between A-B and B-C in the loopback.
+- Both switches "latched at the old track's end" (armed 8.7-8.9 s ahead from the pre-roll line).
+- B's output: before flush 1 the last audio is 441 Hz (A), after it 996 Hz at 48k (B); before flush 2
+  996 Hz (B), after 657 Hz at 44.1k (C). A leak would read 919 Hz (B at 44.1k) or 718 Hz (C at 48k).
+  PASS: no wrong-rate audio.
+- A first attempt with the files in /tmp failed ("File permission error" setting tags) after adding A;
+  cleaned up and redone from ~/Music without tag edits.
+- Music reports shuffle off afterwards and ignored `set shuffle enabled to true` with nothing queued.
