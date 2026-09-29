@@ -777,3 +777,30 @@ next time: Music's "reason: error" pause and -12785, not our ae_Pause.
 - harness.c (fake host, 4 clients: 2 Music, a browser, Facebook): all passed. Music bit-exact on ch 1-2
   incl. the ring wrap, others zeroed before the mix, ch 3-4 = their sum, 'LSmx' = 0 = 1.1.3 (whole mix
   on 1-2, 3-4 silent, buffers untouched), counters.
+
+# Bench: Music only, d59b7ee + plug-in 1.1.4 on the pastor Mac (Babyface Pro), 2026-09-29 10:27-10:40
+Data: data/2026-09-29-pastor-musiconly/ (RendererDebugRecord runs silence, alone, with; the .f32 audio,
+75 MB, is kept on disk in the benchlog worktree, not in git); scripts
+tools/musiconly_bench.sh (on the Mac) and tools/musiconly_check.py. "Another app" = afplay looping
+Submarine.aiff to the default output (the virtual device; clients.swift: afplay's pid on
+"LosslessSwitcher" only). Track: "Short Glide Tone" (ALAC 44.1k, the DAC's rate: no switch).
+- The owner updated the plug-in 1.1.3 -> 1.1.4 from the menu. Before that, d59b7ee with 1.1.3 ran as
+  before (2-ch loopback; "no 'LSmx' ... other apps mix into Music").
+- coreaudiod calls ProcessOutput per client: 'LSst' after 31 s: 14301 calls, 3505 of them Music's pid,
+  5.5 M other-app frames moved (several silent clients as well as afplay). So the ProcessOutput
+  approach holds in the real host; MixOutput was never needed.
+- silence (Music paused, afplay playing, 37.8 s): A's input (loopback ch 1-2) and B's output (the
+  DAC) have 0 nonzero frames. PASS.
+- alone vs with (the same track from 0, 30 s each; with = afplay throughout): anchored on a 4096-frame
+  chunk 5 s in, found exactly in the other run: 1115953 frames (25.3 s) bit-exact; the only
+  differences are the tail, run B's pause fade-out and then A's (each run paused at a different track
+  position). Music's fade-in after play/seek makes first-nonzero alignment useless (~0.09 % apart).
+  B's output = A's input exactly (1336530 audio frames). PASS: the DAC got only Music, bit-exact.
+- Others path: MacBook Pro Speakers, fill 1789-2322 around the 2205 target, varispeed 0.99989-0.99996
+  (the speakers ~40-110 ppm apart from the Babyface clock), dry 0x, over 0 while running.
+- Step-aside (Music idle 60 s): the player stopped, "music only off ('LSmx' = 0)", 'LSmx' read back 0.
+- Alert sounds: with the alert device set to the Babyface, starting the engine left it on MacBook Pro
+  Speakers and quitting put it back on the Babyface, also after kill -9 + relaunch. But the engine logged
+  no move: macOS moves the alert device off a hogged device by itself (and back on release), before
+  startOthers looks. Fix (next commit): the engine reads the alert device before the hog, saves that
+  one for the restore, and logs macOS's move; the restore reports "on X again" when macOS already did.
