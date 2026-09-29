@@ -413,6 +413,17 @@ enum SwitchGap: String, CaseIterable {
         case .long: return 1
         }
     }
+
+    /// Exclusive Mode's Switch Margin: how far the DAC trails Music, in seconds. Music reports a skip
+    /// ~0.25-0.3 s after the new track began; at 0.35 s the gap was caught with 2.6-85 ms to spare
+    /// (pastor Mac, 2026-09-29).
+    var margin: Double {
+        switch self {
+        case .short: return 0.35
+        case .normal: return 0.5
+        case .long: return 0.75
+        }
+    }
 }
 
 enum MusicPlayer {

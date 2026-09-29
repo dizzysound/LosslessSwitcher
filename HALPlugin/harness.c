@@ -78,8 +78,18 @@ int main(int argc, char** argv)
 
     a.mSelector = kAudioObjectPropertyCustomPropertyInfoList;
     CHECK(I->HasProperty(drv, kDev, 0, &a), "custom property list");
-    AudioServerPlugInCustomPropertyInfo ci[5]; sz = 0; I->GetPropertyDataSize(drv, kDev, 0, &a, 0, NULL, &sz);
-    CHECK(sz == sizeof ci, "5 custom properties");
+    AudioServerPlugInCustomPropertyInfo ci[6]; sz = 0; I->GetPropertyDataSize(drv, kDev, 0, &a, 0, NULL, &sz);
+    CHECK(sz == sizeof ci && (I->GetPropertyData(drv, kDev, 0, &a, 0, NULL, sz, &sz, ci), ci[5].mSelector == 'LSlt'), "6 custom properties, the 6th 'LSlt'");
+    {   // 'LSlt': the output reports it as its latency; the input doesn't
+        AudioObjectPropertyAddress la = { 'LSlt', kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain };
+        SInt32 fr = 15435; CFNumberRef nn = CFNumberCreate(NULL, kCFNumberSInt32Type, &fr);
+        CHECK(I->SetPropertyData(drv, kDev, 0, &la, 0, NULL, sizeof nn, &nn) == 0, "set 'LSlt' 15435"); CFRelease(nn);
+        AudioObjectPropertyAddress lat = { kAudioDevicePropertyLatency, kAudioObjectPropertyScopeOutput, kAudioObjectPropertyElementMain };
+        UInt32 lo = 9, li = 9, lz = 4; I->GetPropertyData(drv, kDev, 0, &lat, 0, NULL, lz, &lz, &lo);
+        lat.mScope = kAudioObjectPropertyScopeInput; lz = 4; I->GetPropertyData(drv, kDev, 0, &lat, 0, NULL, lz, &lz, &li);
+        CHECK(lo == 15435 && li == 0, "latency: output %u, input %u", lo, li);
+        fr = 0; nn = CFNumberCreate(NULL, kCFNumberSInt32Type, &fr); I->SetPropertyData(drv, kDev, 0, &la, 0, NULL, sizeof nn, &nn); CFRelease(nn);
+    }
     CHECK(I->GetPropertyData(drv, kDev, 0, &a, 0, NULL, sz, &sz, ci) == 0 && ci[0].mSelector == 'LSrs' && ci[1].mSelector == 'LSst' && ci[4].mSelector == 'LSmx', "custom properties LSrs, LSst, ..., LSmx");
 
     // rate change: set -> request -> perform

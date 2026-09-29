@@ -236,6 +236,10 @@ static UInt64								gOthers_FramesMoved				= 0;	//	non-Music client frames move
 static UInt64								gOthers_ProcessCalls			= 0;	//	ProcessOutput calls
 static UInt64								gOthers_MusicCalls				= 0;	//	... of those, for a Music client
 #define										kLS_InputChannels				4
+//	Latency ('LSlt', CFNumber, frames; 1.1.6): what the renderer adds after the loopback (its ring to
+//	the DAC). Reported as the output's latency so clients (video) keep in sync. 0 = none.
+static const AudioObjectPropertySelector	kLS_Latency						= 'LSlt';
+static volatile UInt32						gLatency_Frames					= 0;
 #define										kLS_OutputChannels				2
 static os_log_t								gLog							= NULL;
 
@@ -703,7 +707,7 @@ static void LS_SetAttached(pid_t inPID)
 {
 	if(gAttached_PID == inPID) return;
 	gAttached_PID = inPID;
-	if(inPID == 0) gMusic_PID = 0;	//	the renderer left (or died): mix everything again, as 1.1.3
+	if(inPID == 0) { gMusic_PID = 0; gLatency_Frames = 0; }	//	the renderer left (or died): mix everything again, no added latency
 	static const AudioObjectPropertyAddress theAddresses[3] = {
 		{ kAudioDevicePropertyDeviceCanBeDefaultDevice, kAudioObjectPropertyScopeOutput, kAudioObjectPropertyElementMain },
 		{ kAudioDevicePropertyDeviceCanBeDefaultDevice, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain },
@@ -2123,6 +2127,7 @@ static Boolean	NullAudio_HasDeviceProperty(AudioServerPlugInDriverRef inDriver, 
 		case kLS_Hold:
 		case kLS_Attached:
 		case kLS_MusicPID:
+		case kLS_Latency:
 			theAnswer = true;
 			break;
 			
@@ -2204,6 +2209,7 @@ static OSStatus	NullAudio_IsDevicePropertySettable(AudioServerPlugInDriverRef in
 		case kLS_Hold:
 		case kLS_Attached:
 		case kLS_MusicPID:
+		case kLS_Latency:
 			*outIsSettable = true;
 			break;
 
@@ -2351,7 +2357,7 @@ static OSStatus	NullAudio_GetDevicePropertyDataSize(AudioServerPlugInDriverRef i
 			break;
 
 		case kAudioObjectPropertyCustomPropertyInfoList:
-			*outDataSize = 5 * sizeof(AudioServerPlugInCustomPropertyInfo);
+			*outDataSize = 6 * sizeof(AudioServerPlugInCustomPropertyInfo);
 			break;
 
 		case kLS_RateScalar:
@@ -2359,6 +2365,7 @@ static OSStatus	NullAudio_GetDevicePropertyDataSize(AudioServerPlugInDriverRef i
 		case kLS_Hold:
 		case kLS_Attached:
 		case kLS_MusicPID:
+		case kLS_Latency:
 			*outDataSize = sizeof(CFPropertyListRef);
 			break;
 		
@@ -2616,7 +2623,7 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 			//	This property returns the presentation latency of the device. For this,
 			//	device, the value is 0 due to the fact that it always vends silence.
 			FailWithAction(inDataSize < sizeof(UInt32), theAnswer = kAudioHardwareBadPropertySizeError, Done, "NullAudio_GetDevicePropertyData: not enough space for the return value of kAudioDevicePropertyLatency for the device");
-			*((UInt32*)outData) = 0;
+			*((UInt32*)outData) = inAddress->mScope == kAudioObjectPropertyScopeInput ? 0 : gLatency_Frames;
 			*outDataSize = sizeof(UInt32);
 			break;
 
@@ -2798,9 +2805,15 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 
 		case kAudioObjectPropertyCustomPropertyInfoList:
 			theNumberItemsToFetch = inDataSize / sizeof(AudioServerPlugInCustomPropertyInfo);
+			if(theNumberItemsToFetch > 6)
+			{
+				theNumberItemsToFetch = 6;
+			}
 			if(theNumberItemsToFetch > 5)
 			{
-				theNumberItemsToFetch = 5;
+				((AudioServerPlugInCustomPropertyInfo*)outData)[5].mSelector = kLS_Latency;
+				((AudioServerPlugInCustomPropertyInfo*)outData)[5].mPropertyDataType = kAudioServerPlugInCustomPropertyDataTypeCFPropertyList;
+				((AudioServerPlugInCustomPropertyInfo*)outData)[5].mQualifierDataType = kAudioServerPlugInCustomPropertyDataTypeNone;
 			}
 			if(theNumberItemsToFetch > 4)
 			{
@@ -2851,6 +2864,15 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 				FailWithAction(inDataSize < sizeof(CFPropertyListRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "LSOutput: no room for the attached pid");
 				SInt32 thePID = gAttached_PID;
 				*((CFPropertyListRef*)outData) = CFNumberCreate(NULL, kCFNumberSInt32Type, &thePID);
+				*outDataSize = sizeof(CFPropertyListRef);
+			}
+			break;
+
+		case kLS_Latency:
+			{
+				FailWithAction(inDataSize < sizeof(CFPropertyListRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "LSOutput: no room for the latency");
+				SInt32 theFrames = (SInt32)gLatency_Frames;
+				*((CFPropertyListRef*)outData) = CFNumberCreate(NULL, kCFNumberSInt32Type, &theFrames);
 				*outDataSize = sizeof(CFPropertyListRef);
 			}
 			break;
@@ -3009,6 +3031,29 @@ static OSStatus	NullAudio_SetDevicePropertyData(AudioServerPlugInDriverRef inDri
 					UInt32 theClients = LS_ClientsOf(thePID);
 					pthread_mutex_unlock(&gClient_Mutex);
 					if(theClients == 0) LS_ScheduleDetachCheck(thePID);	//	it has 3 s to become a client
+				}
+			}
+			break;
+
+		case kLS_Latency:
+			{
+				FailWithAction(inDataSize != sizeof(CFPropertyListRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "LSOutput: wrong size for the latency");
+				CFPropertyListRef theValue = *((const CFPropertyListRef*)inData);
+				FailWithAction(theValue == NULL || CFGetTypeID(theValue) != CFNumberGetTypeID(), theAnswer = kAudioHardwareIllegalOperationError, Done, "LSOutput: the latency must be a CFNumber");
+				SInt32 theFrames = -1;
+				CFNumberGetValue((CFNumberRef)theValue, kCFNumberSInt32Type, &theFrames);
+				FailWithAction(theFrames < 0 || theFrames > 192000, theAnswer = kAudioHardwareIllegalOperationError, Done, "LSOutput: latency out of range");
+				if((UInt32)theFrames != gLatency_Frames)
+				{
+					gLatency_Frames = (UInt32)theFrames;
+					os_log(gLog, "LSOutput: latency %d frames", theFrames);
+					*outNumberPropertiesChanged = 2;
+					outChangedAddresses[0].mSelector = kLS_Latency;
+					outChangedAddresses[0].mScope = kAudioObjectPropertyScopeGlobal;
+					outChangedAddresses[0].mElement = kAudioObjectPropertyElementMain;
+					outChangedAddresses[1].mSelector = kAudioDevicePropertyLatency;
+					outChangedAddresses[1].mScope = kAudioObjectPropertyScopeOutput;
+					outChangedAddresses[1].mElement = kAudioObjectPropertyElementMain;
 				}
 			}
 			break;

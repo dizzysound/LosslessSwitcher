@@ -105,6 +105,10 @@ final class VirtualDeviceEngine {
         return "alert sounds back to \(CA.string(back, kAudioObjectPropertyName)): \(CA.setSystemOutput(back))"
     }
 
+    /// The aggregate Core Audio makes for one process's AVAudioEngine ("CADefaultDeviceAggregate-<pid>-N":
+    /// ours, for the other-apps player). Private to that process; never an output to offer or pick.
+    static func isPrivateAggregate(_ name: String) -> Bool { name.hasPrefix("CADefaultDeviceAggregate") }
+
     /// The Mac's built-in output (speakers), if it isn't `dac`: where other apps play while the engine
     /// holds the DAC for Music.
     static func builtInSpeakers(excluding dac: AudioObjectID) -> AudioObjectID? {
@@ -113,7 +117,7 @@ final class VirtualDeviceEngine {
 
     /// The device the system would pick: built-in output first, else any other output.
     static func fallbackOutput(excluding ls: AudioObjectID) -> AudioObjectID? {
-        let outs = CA.devices().filter { $0 != ls && CA.hasOutput($0) && CA.string($0, kAudioDevicePropertyDeviceUID) != deviceUID }
+        let outs = CA.devices().filter { $0 != ls && CA.hasOutput($0) && CA.string($0, kAudioDevicePropertyDeviceUID) != deviceUID && !isPrivateAggregate(CA.string($0, kAudioObjectPropertyName)) }
         return outs.first { CA.transport($0) == kAudioDeviceTransportTypeBuiltIn } ?? outs.first
     }
 
@@ -151,6 +155,19 @@ final class VirtualDeviceEngine {
     private var armAt: Date?
     private var armedAt: Date?
     private var lateArmAt: Date? // a pre-roll line that came early: arm again 1.5 s before the end
+    private var armForSkip = false
+    // Source depth from the samples themselves (A counts Music's nonzero samples off the 16- and 24-bit
+    // grids; Music at volume 100 hands its decoder's samples through unchanged, so a 16-bit source sits
+    // on multiples of 2^-15 and a 24-bit one on 2^-23). The log's depth shows until this has 2 s.
+    private let gridNZ = Atomic<Int>(0), gridOff16 = Atomic<Int>(0), gridOff24 = Atomic<Int>(0)
+    private var gridLast = (0, 0, 0)     // A's counters at the last check
+    private var gridTotal = (0, 0, 0)    // clean windows of this track
+    private var gridPending: (Int, Int, Int)? // the last clean window, counted once the next is clean too
+    private var lastInfoAt = Date.distantPast
+    private var gridSince: Date?
+    private var gridVerdict: Int? // 16, 24, or 0 = on neither grid
+    private var logBits: Int?     // the depth Music's log gave for the track
+    private var sourceLossy = false // armAt is for a skip (the gap already went through A)
     private var latchedAt: Date?
     private var gatePending = false
     private var lastNewTrackAt: Date?
@@ -201,7 +218,18 @@ final class VirtualDeviceEngine {
     private var switches = 0
     private var scripts: RendererScripts!
     private let log = RendererLog()
-    private let targetFill: Int
+    /// Frames B trails A by: ~0.35 s at the current rate (RendererTargetFrames overrides). A skip is
+    /// reported ~0.25-0.3 s after the new track's audio started (Music's log line and Playing; pastor
+    /// Mac, data/2026-09-29-pastor-skips): with 2048 frames (~46 ms) its start had already played at the
+    /// old rate by then (5-260 ms leaked). 0.35 s keeps the gap between the tracks ahead of B.
+    private let fixedTarget: Int?
+    private let targetFillA = Atomic<Int>(2048)
+    private var targetFill: Int { targetFillA.load(ordering: .relaxed) }
+    // A's history of gaps (>= 10 ms of exact zeros): the ring position where each gap reached 10 ms
+    private let gapHist = UnsafeMutablePointer<Int>.allocate(capacity: 32)
+    private let gapCount = Atomic<Int>(0)
+    private let gapLen = Atomic<Int>(441)
+    private var gapRun = 0 // A only
     // clock lock (PLL on the phase between the two devices' time lines)
     private let tau = 5.0
     private var phase0: Double?
@@ -252,13 +280,15 @@ final class VirtualDeviceEngine {
     init(outputDevices: OutputDevices) {
         self.outputDevices = outputDevices
         let t = UserDefaults.standard.integer(forKey: "RendererTargetFrames")
-        targetFill = t > 0 ? t : 2048
+        fixedTarget = t > 0 ? t : nil
+        targetFillA.store(t > 0 ? t : 2048, ordering: .relaxed)
+        gapHist.initialize(repeating: -1, count: 32)
         scratch.initialize(repeating: 0, count: Self.maxFrames * 2)
         scratchA.initialize(repeating: 0, count: Self.maxFrames * 2)
         scratchO.initialize(repeating: 0, count: Self.maxFrames * 2)
     }
 
-    deinit { scratch.deallocate(); scratchA.deallocate(); scratchO.deallocate() }
+    deinit { scratch.deallocate(); scratchA.deallocate(); scratchO.deallocate(); gapHist.deallocate() }
 
     // MARK: - Lifecycle (main thread)
 
@@ -342,6 +372,11 @@ final class VirtualDeviceEngine {
             log.close()
             return
         }
+        // Music's notices from before setup are stale (pastor Mac: queued while the Microphone prompt
+        // waited ~5 min, then taken as a new track after setup: a switch for a track no longer playing).
+        // setUp reads Music's state itself.
+        inboxLock.lock(); let stale = infoInbox.count; infoInbox = []; inboxLock.unlock()
+        if stale > 0 { log("dropped \(stale) Music notices from before setup") }
         guard setUp() else {
             log("setup failed; engine idle until it is turned off")
             while !shouldStop { Thread.sleep(forTimeInterval: 0.1) }
@@ -361,13 +396,14 @@ final class VirtualDeviceEngine {
             if let up = pendingUpgrade, playing, !inRoutine {
                 pendingUpgrade = nil
                 trackRate = up.rate
-                RendererOutput.shared.set(sourceBits: up.bits, lossy: false)
+                resetGrid()
+                setSource(up.bits, lossy: false)
                 if let r = neededRate(up.rate) {
                     log("lossless decoder at \(up.rate) Hz after a lossy start; switching again")
                     switchRate(r, name: "(lossless upgrade)", tPlay: Date())
                 }
             }
-            if now.timeIntervalSince(lastPLL) >= 0.5 { lastPLL = now; pll(); steerOthers() }
+            if now.timeIntervalSince(lastPLL) >= 0.5 { lastPLL = now; pll(); steerOthers(); checkGrid() }
             if playing { idleSince = nil } else if idleSince == nil { idleSince = now }
             let isp = OvershootProtection.shared.isOn
             if isp != overshootLogged {
@@ -608,6 +644,10 @@ final class VirtualDeviceEngine {
             runUserScript(rate, bits: nil)
         }
         curRate = rate
+        let margin = (SwitchGap(rawValue: UserDefaults.standard.string(forKey: Defaults.kSwitchMargin) ?? "") ?? .normal).margin
+        targetFillA.store(fixedTarget ?? Int(rate * margin), ordering: .releasing)
+        gapLen.store(max(Int(0.01 * rate), 1), ordering: .releasing)
+        setReportedLatency(targetFill)
         // the menu bar's rate: with Exclusive Mode on, OutputDevices' own detection is off and it only
         // re-reads a device when the default output changes, so a switch mid-session never reached it
         // (pastor Mac: "it's clearly switching but the taskbar is not")
@@ -756,6 +796,7 @@ final class VirtualDeviceEngine {
         }
         tearDownDAC()
         clearMusicOnly()
+        setReportedLatency(0)
         if ls != 0 { log("virtual device scalar reset: \(CA.setScalar(ls, 1.0, Self.kRateScalar))") }
         // the default the user had (with a Selected Device the DAC can be another device)
         let back = defaultBefore != 0 && defaultBefore != ls && CA.hasOutput(defaultBefore) ? defaultBefore : dac
@@ -965,6 +1006,7 @@ final class VirtualDeviceEngine {
     // MARK: - Music events
 
     private func handleInfo(_ info: [AnyHashable: Any], at: Date) {
+        lastInfoAt = at
         let state = info["Player State"] as? String ?? "?"
         let name = info["Name"] as? String ?? ""
         // stations and Browse streams have no PersistentID: tell tracks apart by name
@@ -1042,7 +1084,7 @@ final class VirtualDeviceEngine {
                 // lossless: true as before (a lossy mark would arm the stream upgrade path); the menu
                 // still learns the file is lossy
                 decide(st.sampleRate, bits: st.sourceBits, lossless: true, seenAgo: 0, name: name + " (file header, no decoder line)", tPlay: at)
-                if st.lossy { RendererOutput.shared.set(sourceBits: nil, lossy: true) }
+                if st.lossy { setSource(nil, lossy: true) }
                 return
             }
             awaiting = (name, at, Date().addingTimeInterval(3), nil)
@@ -1076,14 +1118,64 @@ final class VirtualDeviceEngine {
         return nil
     }
 
+    /// The menu's source depth: measured from the samples once known, else Music's log.
+    private func setSource(_ bits: Int?, lossy: Bool) {
+        logBits = bits; sourceLossy = lossy
+        publishSource()
+    }
+
+    private func publishSource() {
+        let shown = gridVerdict.flatMap { $0 == 0 ? nil : $0 } ?? logBits
+        RendererOutput.shared.set(sourceBits: sourceLossy ? nil : shown, lossy: sourceLossy)
+        RendererOutput.shared.set(offGrid: !sourceLossy && gridVerdict == 0)
+    }
+
+    /// A new track (or decoder): measure its depth from here.
+    private func resetGrid() {
+        gridLast = (gridNZ.load(ordering: .acquiring), gridOff16.load(ordering: .acquiring), gridOff24.load(ordering: .acquiring))
+        gridTotal = (0, 0, 0); gridPending = nil
+        gridSince = Date(); gridVerdict = nil
+        RendererOutput.shared.set(offGrid: false)
+    }
+
+    /// Every 0.5 s: counts the window if Music played steadily through it (Music ramps the level at a
+    /// pause, ~50 ms off every grid on the pastor Mac: a window within 1 s of a play, pause or track
+    /// notice is dropped, and so is the window before a pause). From 2 s into the track, with 0.5 s of
+    /// nonzero samples counted, the depth the samples need; only ever up (16 -> 24 -> neither).
+    private func checkGrid() {
+        let snap = (gridNZ.load(ordering: .acquiring), gridOff16.load(ordering: .acquiring), gridOff24.load(ordering: .acquiring))
+        let win = (snap.0 &- gridLast.0, snap.1 &- gridLast.1, snap.2 &- gridLast.2)
+        gridLast = snap
+        guard let since = gridSince else { return }
+        let now = Date()
+        let clean = playing && !inRoutine && now.timeIntervalSince(lastInfoAt) > 1 && now.timeIntervalSince(since) >= 1
+        if clean {
+            if let p = gridPending { gridTotal = (gridTotal.0 + p.0, gridTotal.1 + p.1, gridTotal.2 + p.2) }
+            gridPending = win
+        } else {
+            gridPending = nil
+        }
+        guard now.timeIntervalSince(since) >= 2 else { return }
+        let (nz, o16, o24) = gridTotal
+        guard nz >= Int(curRate) else { return }
+        let v = o24 > 0 ? 0 : o16 > 0 ? 24 : 16
+        guard v != gridVerdict, gridVerdict.map({ $0 != 0 && (v == 0 || v > $0) }) ?? true else { return }
+        gridVerdict = v
+        let why = v == 0 ? "on neither the 16- nor the 24-bit grid (\(o24) of \(nz) samples): \(sourceLossy ? "lossy" : "Music changes them (volume, Sound Check, EQ) or the source is float")"
+            : v == 24 ? "\(o16) of \(nz) samples off the 16-bit grid, all on the 24-bit grid" : "all \(nz) on the 16-bit grid"
+        log("source depth from the samples: \(v == 0 ? "neither 16 nor 24 bit" : "\(v) bit") (\(why))\(logBits.map { $0 != v ? "; Music's log said \($0) bit" : "" } ?? "")")
+        publishSource()
+    }
+
     private func decide(_ rate: Float64, bits: Int?, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date) {
+        resetGrid()
         trackRate = rate
-        RendererOutput.shared.set(sourceBits: bits, lossy: !lossless)
+        setSource(bits, lossy: !lossless)
         if !lossless { lossyTrackAt = Date() }
         let need = neededRate(rate)
         log("new track \(name): decoder \(rate) Hz \(lossless ? "lossless" : "lossy") (seen \(String(format: "%.3f", seenAgo)) s before Playing), DAC \(Int(curRate)) Hz\(need.map { " -> switch to \(Int($0))" } ?? "")")
         if let r = need {
-            switchRate(r, name: name, tPlay: tPlay)
+            switchRate(r, name: name, tPlay: tPlay, newTrack: true)
         } else {
             if latchedAt != nil || latchZeros.load(ordering: .acquiring) > 0 || armAt != nil { disarm("same rate after all") }
             releaseGate("same rate", name: name, tPlay: tPlay)
@@ -1106,7 +1198,16 @@ final class VirtualDeviceEngine {
         // ALAC logs a 'qlac' line without the depth, then 'alac ... from N-bit source': a line in the
         // track's own window at its rate fills in the depth the menu shows
         if let b = bits, lossless, rate == trackRate, let own = ownLinesUntil, at <= own {
-            RendererOutput.shared.set(sourceBits: b, lossy: false)
+            setSource(b, lossy: false)
+        }
+        // The track's own decoder can come just after the decision, which took it as lossless for want
+        // of a line (pastor: "Uniform", lossy line 18 ms later; its samples fit no grid and the
+        // Bit-Perfect Check blamed Music). A lossy line at its rate in its own window says otherwise;
+        // a later lossless line upgrades it as usual (lossyTrackAt).
+        if !lossless, !sourceLossy, rate == trackRate, let own = ownLinesUntil, at <= own {
+            log("the track's own decoder is lossy (\(Int(rate)) Hz)")
+            lossyTrackAt = at
+            setSource(nil, lossy: true)
         }
         if let aw = awaiting, !inRoutine {
             awaiting = nil
@@ -1122,6 +1223,7 @@ final class VirtualDeviceEngine {
         let left = scripts.remaining() ?? 0
         let delay = left > 13 ? 0 : max(0, left - 1.5)
         armAt = Date().addingTimeInterval(delay)
+        armForSkip = left > 13
         // More than 13 s left: a skip (Music leaves zeros now), or a pre-roll set up early (Babyface
         // bench: 105 s before the end of a streamed track; the 5 s arm expired and the boundary cut
         // at the play position). Cover both: arm now, and again 1.5 s before the end.
@@ -1137,7 +1239,7 @@ final class VirtualDeviceEngine {
                 decide(f.rate, bits: f.bits, lossless: f.lossless, seenAgo: aw.tPlay.timeIntervalSince(f.date), name: aw.name, tPlay: aw.tPlay)
             } else {
                 log("no decoder line for \(aw.name) within 3 s; playing at \(Int(curRate)) Hz")
-                RendererOutput.shared.set(sourceBits: nil, lossy: false)
+                setSource(nil, lossy: false)
                 if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
                 releaseGate("no decoder line")
             }
@@ -1150,9 +1252,17 @@ final class VirtualDeviceEngine {
         }
         if let a = armAt, Date() >= a {
             armAt = nil
-            latchZeros.store(max(Int(0.01 * curRate), 1), ordering: .releasing)
             armedAt = Date()
-            log("boundary latch armed at in frame \(inFrames.load(ordering: .relaxed))")
+            // a skip is reported after its gap went through A: stop at that gap if B hasn't played it
+            if armForSkip, marker.load(ordering: .acquiring) < 0, let g = retroGap() {
+                atBoundary.store(0, ordering: .relaxed)
+                marker.store(g, ordering: .releasing)
+                log("boundary latch: the skip's gap is \(ring.written - g) frames back, B \(g - ring.readPos) frames before it; latched there")
+            } else {
+                latchZeros.store(max(Int(0.01 * curRate), 1), ordering: .releasing)
+                log("boundary latch armed at in frame \(inFrames.load(ordering: .relaxed))")
+            }
+            armForSkip = false
         }
         let m = marker.load(ordering: .acquiring)
         if let a = armedAt, m < 0, Date().timeIntervalSince(a) > 5 {
@@ -1313,8 +1423,9 @@ final class VirtualDeviceEngine {
             let fileStats = own == nil ? LocalTrack.currentStats(attempts: 2) : nil
             let file = fileStats?.sampleRate
             rate = own ?? file ?? recent
-            if let l = ownLine { RendererOutput.shared.set(sourceBits: l.bits, lossy: !l.lossless) }
-            else { RendererOutput.shared.set(sourceBits: fileStats?.sourceBits, lossy: fileStats?.lossy ?? false) }
+            resetGrid()
+            if let l = ownLine { setSource(l.bits, lossy: !l.lossless) }
+            else { setSource(fileStats?.sourceBits, lossy: fileStats?.lossy ?? false) }
             log("resume: \(name) at \(rate.map { "\(Int($0)) Hz" } ?? "the DAC's rate") (\(own != nil ? "its decoder line" : file != nil ? "file header" : recent != nil ? "newest decoder line, may be another track's" : "nothing says"))")
         }
         let target = rate.flatMap { neededRate($0) } ?? curRate
@@ -1365,10 +1476,35 @@ final class VirtualDeviceEngine {
         return fmt.mSampleRate
     }
 
+    /// Where B should stop for a skip reported late: the earliest gap A saw in the last 0.6 s that B
+    /// hasn't played yet (nil: none; B then stops where it is, as before).
+    private func retroGap() -> Int? {
+        let c = gapCount.load(ordering: .acquiring)
+        let rd = ring.readPos, w = ring.written, window = Int(0.6 * curRate)
+        var best: Int?
+        for k in max(0, c - 32)..<c {
+            let p = gapHist[k & 31]
+            if p > rd, p >= w - window, p <= w { best = min(best ?? p, p) }
+        }
+        return best
+    }
+
+    /// Plug-in 1.1.6: the device reports B's trail as its output latency, so video stays in sync.
+    private static let kLatency: AudioObjectPropertySelector = 0x4C53_6C74 // 'LSlt'
+    private var reportedLatency = -1
+    private func setReportedLatency(_ frames: Int) {
+        guard ls != 0, frames != reportedLatency else { return }
+        var a = CA.addr(Self.kLatency)
+        guard AudioObjectHasProperty(ls, &a) else { return }
+        let st = CA.setCFNumber(ls, Self.kLatency, NSNumber(value: Int32(frames)))
+        if st == noErr { reportedLatency = frames }
+        log("virtual device latency -> \(frames) frames: \(st)")
+    }
+
     // MARK: - The switch routine
 
     /// `pausedAt`: when Music was paused, if a caller paused it already (resume from idle).
-    private func switchRate(_ r: Float64, name: String, tPlay: Date, pausedAt: Date? = nil) {
+    private func switchRate(_ r: Float64, name: String, tPlay: Date, pausedAt: Date? = nil, newTrack: Bool = false) {
         inRoutine = true
         defer { inRoutine = false }
         switches += 1
@@ -1379,8 +1515,11 @@ final class VirtualDeviceEngine {
         let tPlay = gatePending ? min(tPlay, gateMarkedAt ?? tPlay) : tPlay
         _ = scripts.pause()
         var m = marker.load(ordering: .acquiring)
-        let how = m < 0 ? "not latched: cut at the play position" : (gatePending ? "held at the gate" : "latched at the old track's end")
-        if m < 0 { atBoundary.store(0, ordering: .releasing); m = ring.readPos; marker.store(m, ordering: .releasing) }
+        // a new track reported late (a skip): the gap before it, if B hasn't played it yet
+        let retro = m < 0 && newTrack ? retroGap() : nil
+        let how = m >= 0 ? (gatePending ? "held at the gate" : "latched at the old track's end")
+            : retro.map { "latched at the gap before it (after the fact, \(ring.written - $0) frames back; B \($0 - ring.readPos) frames before it)" } ?? "not latched: cut at the play position"
+        if m < 0 { atBoundary.store(0, ordering: .releasing); m = retro ?? ring.readPos; marker.store(m, ordering: .releasing) }
         latchZeros.store(0, ordering: .releasing); gate.store(0, ordering: .releasing)
         gatePending = false; gateMarkedAt = nil; armAt = nil; armedAt = nil; latchedAt = nil
         let reached = wait(1) { self.atBoundary.load(ordering: .acquiring) != 0 }
@@ -1617,6 +1756,27 @@ final class VirtualDeviceEngine {
             f = UnsafePointer(d.assumingMemoryBound(to: Float.self))
         }
         let w0 = ring.written
+        var cnz = 0, c16 = 0, c24 = 0
+        for i in 0..<(n * 2) {
+            let x = f[i]
+            if x != 0 {
+                cnz += 1
+                let a = x * 32768
+                if a != a.rounded() { c16 += 1; let b = x * 8388608; if b != b.rounded() { c24 += 1 } }
+            }
+        }
+        if cnz > 0 { gridNZ.wrappingAdd(cnz, ordering: .releasing); gridOff16.wrappingAdd(c16, ordering: .releasing); gridOff24.wrappingAdd(c24, ordering: .releasing) }
+        let gl = gapLen.load(ordering: .relaxed)
+        for i in 0..<n {
+            if f[i * 2] == 0 && f[i * 2 + 1] == 0 {
+                gapRun += 1
+                if gapRun == gl {
+                    let c = gapCount.load(ordering: .relaxed)
+                    gapHist[c & 31] = w0 + i + 1
+                    gapCount.store(c + 1, ordering: .releasing)
+                }
+            } else { gapRun = 0 }
+        }
         if marker.load(ordering: .acquiring) < 0 {
             let lz = latchZeros.load(ordering: .acquiring)
             if lz > 0 {
@@ -2665,6 +2825,14 @@ final class RendererOutput: ObservableObject {
     /// whether it's lossy (AAC has no bit depth). The menu shows it while the engine holds a DAC.
     @Published private(set) var sourceBits: Int?
     @Published private(set) var sourceLossy = false
+    /// Music's samples fit neither the 16- nor the 24-bit grid on a lossless track: Music changes them.
+    @Published private(set) var offGrid = false
+
+    /// Any thread.
+    func set(offGrid v: Bool) {
+        DispatchQueue.main.async { if self.offGrid != v { self.offGrid = v } }
+    }
+
     /// Where other apps' audio goes while the engine holds the DAC (Bit-Perfect Check); nil otherwise.
     @Published private(set) var othersRoute: (text: String, ok: Bool)?
 

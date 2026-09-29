@@ -46,7 +46,7 @@ class OutputDevices: ObservableObject {
     /// process-tap engine's private aggregate "LosslessSwitcher renderer" (visible to this process
     /// only). Selecting either would point the app at itself.
     static func selectable(_ devices: [AudioDevice]) -> [AudioDevice] {
-        devices.filter { $0.uid != VirtualDeviceEngine.deviceUID && !$0.name.hasPrefix("LosslessSwitcher") }
+        devices.filter { $0.uid != VirtualDeviceEngine.deviceUID && !$0.name.hasPrefix("LosslessSwitcher") && !VirtualDeviceEngine.isPrivateAggregate($0.name) }
     }
 
     init() {

@@ -909,3 +909,91 @@ said 44.1 kHz; "it seems to happen when skipping forward and back". Not related 
   default output changes (start, stop, step-aside), never at a switch. Fix: applyRate reports the
   rate to OutputDevices.updateSampleRate (the label; it runs no user script while the engine is on).
 - 449866b on pastor: owner confirmed the menu bar rate now follows each switch ("perfect").
+
+## Found: wrong-rate start leaks through on skips (pastor, 449866b, 12:06-12:08)
+Owner: shuffling a playlist, "glitches at beginning of track" on the Babyface. Data:
+data/2026-09-29-pastor-skips/ (engine.log, segments; .f32 on disk only): 10 x `next track` 8 s apart,
+6 needed a switch.
+- Switches 1 and 6 latched at the gap between the tracks (clean). Switches 2-5 "not latched: cut at the
+  play position": B's output before the flush holds 16, 260, 5 and 79 ms of audio after the gap (the new
+  track at the old rate).
+- Why: Music's decoder line reaches the engine ~0.28 s after Music set the decoder up (log stream
+  delivery) and its Playing ~0.25 s after; the new track's audio starts about then, and B trails A by
+  only ~46 ms (target 2048 frames). The latch arms after the gap has already gone through.
+- Options (for the owner): (1) B trails A by ~0.35 s so a late arm can still mark the gap (retroactive
+  latch over a history of A's zero runs), with the plug-in reporting the extra latency so video stays
+  in sync; costs ~0.3 s on play/pause/seek response. (2) Hold B at every >=10 ms zero run after audio
+  until the engine decides (adds a pause at digital silence mid-track). (3) Cut at B's read position
+  instead of A's write position: shortens the leak by ~46 ms at most, doesn't remove it.
+- Owner chose option (1). b-trail 0.35 s (targetFill = 0.35 s at the rate; RendererTargetFrames still
+  overrides); A keeps a history of gaps (>= 10 ms zeros); a skip's arm and a new track's switch stop B
+  at the earliest gap of the last 0.6 s that B hasn't played ("latched at the gap before it, after the
+  fact"). Plug-in 1.1.6: 'LSlt' (frames) reported as the output latency (harness: output 15435, input
+  0). Not yet on the bench.
+
+# Bench: skips with the 0.35 s trail (4915970, plug-in 1.1.6), pastor, 2026-09-29 ~12:30
+Data: data/2026-09-29-pastor-skips-0.35/ (engine.log, segments; .f32 on disk only). Same test: 10 x
+`next track` 8 s apart; 7 needed a switch. "virtual device latency -> 15434/16800/33600 frames".
+- All 7: "boundary latch: the skip's gap is 13035-30796 frames back, B 1192-3797 frames before it;
+  latched there" (6 at the arm; switch 7 at the switch: "latched at the gap before it (after the fact)").
+- B's output before each flush: 24376-50944 frames of zeros (B stopped at the gap), then the old track
+  (3-8 s run). No new-track audio before any flush (before: 5-260 ms in 4 of 6). PASS.
+- Margin is thin: B was 25-85 ms short of the gap when the report came. A later report falls back to
+  the old cut at B's read position (a few ms leak). Option if heard: trail 0.5 s. Owner to listen.
+
+## Source depth from the samples (owner: "BUILD IT!"), 2026-09-29 ~12:55
+Why: Music logs a decoder line only when it sets one up, not per track (coffee: none for Another Story
+and Fear Inoculum over 5 min), so the menu showed "? bit"; AppleScript has no depth for streams (bit
+rate missing value).
+- A counts Music's nonzero samples off the 16-bit (2^-15) and 24-bit (2^-23) grids. The engine counts
+  0.5 s windows in which Music played steadily (no play/pause/track notice within 1 s; the window before
+  a pause dropped: Music's pause fade is ~50 ms off every grid, pastor musiconly-115 alone run: 1099
+  off-16 samples in the last 0.05 s, none at the play from 0). From 2 s in, with >= 1 s of samples: 16,
+  24, or neither (-> Bit-Perfect Check: "Music is changing the samples"). Shown instead of the log's.
+- Offline on the 0.35 s skip recording (11 tracks, 8 s each, 0.5 s trimmed at each end): 24-bit
+  tracks 99.5-99.7 % off the 16-bit grid, 0 off the 24-bit grid; The Ten Commandments 0 off either
+  (16 bit). None "neither".
+- 0147f80 on pastor (owner granted Microphone): Short Glide Tone "16 bit (all 44752 on the 16-bit
+  grid)"; Oh, Blest Is He That Came (96k) "24 bit (96903 of 97275 samples off the 16-bit grid, all on
+  the 24-bit grid)" twice; the hymn at Music volume 90 "neither 16 nor 24 bit (52044 of 1815728
+  samples)", Music's log said 24 bit. Volume back to 100. The verdict only rises, so a track flagged
+  "neither" stays flagged until the next one.
+- Seen in passing: `play (track X)` while another plays gave "not latched: cut at the play position"
+  twice (switches 2 and 3): the retroactive gap didn't apply on that path. To look at.
+
+## Checked: `play (track X)` at another rate (pastor, 0147f80, 13:25)
+Data: data/2026-09-29-pastor-playtrack/. Hymn (96k, 24 bit) and Short Glide Tone (44.1k, 16 bit)
+alternated with `play (track)`, 8 s each, 6 switches. 5 "held at the gate" (Music goes through
+Stopped before the new track, so the gate marks its first frame), 1 "latched at the gap before it
+(after the fact ... B 115 frames before it)": a 2.6 ms margin. B's output before every flush: zeros,
+then the OLD track, identified by its grid (before -> 44.1k: 0.4 % on the 16-bit grid = the 24-bit
+hymn; before -> 96k: 99.5 % = the 16-bit tone, less its stop fade). No leak.
+- The earlier "not latched" switches 1 and 3: 3 was a take-back (Music paused before setup; nothing in
+  the ring to leak); 1 was stale: Music notices queued during the ~5 min Microphone wait were handled
+  after setup, one named a track no longer current (Music's rate lookup failed on the name, an old
+  decoder line decided). Fix: drop queued Music notices before setUp (it reads Music's state itself).
+- Owner: make the trail an option. Advanced > Switch Margin (Exclusive Mode on): Short 0.35 s, Normal
+  0.5 s (default), Long 0.75 s; key RendererSwitchMargin, read at the next rate change or start
+  (resizing mid-play would insert or drop audio); the plug-in's reported latency follows.
+  Not the regular path's Gap After Switching (0/0.25/1 s wait, hidden in Exclusive Mode).
+- Owner asked about finding the sample rate from the samples like the depth: not possible (the rate
+  isn't in the sample values). An FFT bandwidth estimate could hint at upsampling (nothing above
+  ~22 kHz on a 96k track) but real hi-res recordings can look the same; not built.
+
+## Bench attempts at the 0.5 s margin (b1c4314, pastor, 13:40-14:00): no switch to measure
+- Both Macs started at Normal (0.5 s): "virtual device latency -> 22050 frames" (coffee, 44.1k),
+  48000 (pastor, 96k). Owner on coffee: no skip glitch heard.
+- Run 1: Music's context was a single library track (after the play-track test): `next track` did
+  nothing. Run 2: "Everything" on shuffle: all 44.1k (mostly lossy): no switch. Found: "Uniform (12"
+  German version)*" decided lossless for want of a line; its lossy line came 18 ms later; the
+  samples fit no grid and the Bit-Perfect Check blamed Music. Fix (committed): a lossy line at the
+  track's rate in its own window marks it lossy.
+- Run 3: temporary playlist "LS bench (temp)" (owner's OK; deleted after, shuffle restored): Music
+  skipped all four 96k hymns in it and played Bobby's Song (library 48000) at 44.1k: no switch.
+- Stopped there (checkpoint rule). Evidence stands on the 0.35 s run (7 of 7 clean) and the owner's
+  listening; 0.5 s only widens the margin. Depth from the samples: 16/24 right on every track here.
+
+## Hidden: our private AVAudioEngine aggregate in the device menus (owner, coffee)
+"CADefaultDeviceAggregate-39063-0" showed in Selected Device and Other Apps & Alerts; pid 39063 = our
+app (the other-apps player's AVAudioEngine). Filtered by that name prefix from both menus, the Other
+Apps window and the fallback output; aggregates made in Audio MIDI Setup stay listed.
