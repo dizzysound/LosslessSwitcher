@@ -8,7 +8,7 @@ for f in files:
     for r in rows:
         t=float(r['t']);rb=float(r['dacScalarHAL']);e=float(r['err'])
         if (e==0.0 and cur) or (cur and t-cur[-1][0]>2): segs.append(cur);cur=[]
-        cur.append((t,rb,int(float(r['rate']))))
+        cur.append((t,rb,int(float(r.get('rate') or 0))))
     if cur: segs.append(cur)
     out=[]
     for s in segs:
