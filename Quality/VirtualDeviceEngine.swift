@@ -105,6 +105,10 @@ final class VirtualDeviceEngine {
         return "alert sounds back to \(CA.string(back, kAudioObjectPropertyName)): \(CA.setSystemOutput(back))"
     }
 
+    /// The aggregate Core Audio makes for one process's AVAudioEngine ("CADefaultDeviceAggregate-<pid>-N":
+    /// ours, for the other-apps player). Private to that process; never an output to offer or pick.
+    static func isPrivateAggregate(_ name: String) -> Bool { name.hasPrefix("CADefaultDeviceAggregate") }
+
     /// The Mac's built-in output (speakers), if it isn't `dac`: where other apps play while the engine
     /// holds the DAC for Music.
     static func builtInSpeakers(excluding dac: AudioObjectID) -> AudioObjectID? {
@@ -113,7 +117,7 @@ final class VirtualDeviceEngine {
 
     /// The device the system would pick: built-in output first, else any other output.
     static func fallbackOutput(excluding ls: AudioObjectID) -> AudioObjectID? {
-        let outs = CA.devices().filter { $0 != ls && CA.hasOutput($0) && CA.string($0, kAudioDevicePropertyDeviceUID) != deviceUID }
+        let outs = CA.devices().filter { $0 != ls && CA.hasOutput($0) && CA.string($0, kAudioDevicePropertyDeviceUID) != deviceUID && !isPrivateAggregate(CA.string($0, kAudioObjectPropertyName)) }
         return outs.first { CA.transport($0) == kAudioDeviceTransportTypeBuiltIn } ?? outs.first
     }
 

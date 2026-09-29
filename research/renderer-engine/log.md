@@ -992,3 +992,8 @@ hymn; before -> 96k: 99.5 % = the 16-bit tone, less its stop fade). No leak.
   skipped all four 96k hymns in it and played Bobby's Song (library 48000) at 44.1k: no switch.
 - Stopped there (checkpoint rule). Evidence stands on the 0.35 s run (7 of 7 clean) and the owner's
   listening; 0.5 s only widens the margin. Depth from the samples: 16/24 right on every track here.
+
+## Hidden: our private AVAudioEngine aggregate in the device menus (owner, coffee)
+"CADefaultDeviceAggregate-39063-0" showed in Selected Device and Other Apps & Alerts; pid 39063 = our
+app (the other-apps player's AVAudioEngine). Filtered by that name prefix from both menus, the Other
+Apps window and the fallback output; aggregates made in Audio MIDI Setup stay listed.
