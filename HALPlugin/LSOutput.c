@@ -698,6 +698,7 @@ static void LS_SetAttached(pid_t inPID)
 {
 	if(gAttached_PID == inPID) return;
 	gAttached_PID = inPID;
+	if(inPID == 0) gMusic_PID = 0;	//	the renderer left (or died): mix everything again, as 1.1.3
 	static const AudioObjectPropertyAddress theAddresses[3] = {
 		{ kAudioDevicePropertyDeviceCanBeDefaultDevice, kAudioObjectPropertyScopeOutput, kAudioObjectPropertyElementMain },
 		{ kAudioDevicePropertyDeviceCanBeDefaultDevice, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain },
