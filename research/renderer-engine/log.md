@@ -499,3 +499,25 @@ run1-stepaside-*; engine t=0 = 20:54:05.03 in run 2).
   failed. A new process gets a new context, which is why the first start at launch always works.
 - So 2fd8f41's wind-down wait and the timing near Music's Paused are incidental. Stop+start B again in
   the same process can't help (the count only moves by pause/resume pairs, which net zero).
+- Reproduced without the app: research/renderer-engine/tools/stuckstart.swift cycles the DragonFly
+  the way take-back and step-aside do (hog, non-mixable, IOProc start 0.4 s, stop, destroy, mixable,
+  hog released; silence out). Coffee, 21:04: start 35 after 7.5 s at cycle 5; stop+start: 35 again
+  after 7.5 s; cycle 6 (after a full teardown and 0.6 s): 35 again. Its unified log shows the same
+  clamp ("R1 R0 R0 P1": a resume at 0, then the count never goes below 1). Each cycle produces ~60
+  pause/resume notifications on our context, not one or two.
+- Recovery in the same process, tried and failed: stop+start the IOProc; tear down and set up again
+  (cycle 6 above; run 1's take-backs minutes apart); AudioHardwareUnload() then a new IOProc (35
+  after 7.5 s, three cycles in a row). A fresh process always starts (the next harness run, and the
+  app's first start at launch).
+- The trigger is intermittent: 2 of ~12 harness processes, both at cycle 5, both within seconds of
+  Music having played (paused 1 s before the run). 25-cycle runs and seeded 8-cycle batches mostly
+  pass; hog only (no format changes) 32/32 and 500 ms gaps between the changes 32/32 passed, but so
+  did an interleaved control with no changes (32/32), so those zeros say nothing yet.
+- Coffee restored afterwards: DragonFly default, int24 mixable, hog -1, -48.0 dB, Music playing, no
+  RendererIdleSeconds.
+Next (the owner's call): the only recovery shown to work is a new process. Options: (a) on a 35 at
+take-back, relaunch the app (the launch path already recovers the output; Music is paused and
+resumed by setUp); (b) probe for the stuck context at the step-aside (a short silent start while
+Music is paused) and relaunch then, so the listener never waits the 7.5 s; (c) run IOProc B in a
+helper process that is restarted per take-back. Avoidance (fewer or spaced DAC config changes) needs
+a reliable repro before it can be judged.
