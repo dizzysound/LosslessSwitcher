@@ -447,3 +447,34 @@ current track (Earth: 48000).
   installed 1.1.2. Engine: RendererVolumeTopDB/RendererVolumeRangeDB removed (the window must match
   the plug-in); a DAC without volume (MT 48) holds the virtual device at 0 dB, unmuted; stop leaves
   it at 0 dB. Needs the plug-in update (menu, admin password).
+
+# Bench: coffee (MacBook Air M2, macOS 27.0, AudioQuest DragonFly Black v1.5), 2026-09-28 night
+First Exclusive Mode run on this Mac: plug-in 1.1.3 installed from the menu (owner's password).
+Data: data/2026-09-28-coffee-5d75e9a/ (run 1 = 5d75e9a, run 2 = 2fd8f41).
+- DAC: int24 non-mixable (flags 76), hogged, ready after 0.506-0.512 s; 48k -> 44.1k switch 1.285 s.
+- Run 1 (5d75e9a), resume from the idle step-aside: 13 of 13 take-backs failed. start B blocked
+  ~7.3 s and returned 35, "setup failed; staying stepped aside", then scripts.play() -> Music played to
+  the DAC directly -> "playback began while stepped aside" -> another take-back, every ~11 s. Pausing
+  Music didn't stop it (the failure path plays). Stopped with SIGTERM; DragonFly restored by hand
+  (data/2026-09-28-executor-2d26947/mixable.swift, setdefault.swift). The first start at launch
+  (Music not playing) was fine: start B 0.24 s.
+- 2fd8f41: (a) setUpDAC waits up to 2 s for kAudioDevicePropertyDeviceIsRunningSomewhere to clear;
+  (b) a failed take-back ignores Playing for 30 s; (c) volume in dB without a dB -> scalar conversion.
+  - (a) Three take-backs passed ("DAC was still running for another client; stopped after 0.043-0.046
+    s", start B 0, ready 0.511 s, rewound ~0.2 s before the pause). Then one FAILED again at 44.1k
+    with the DAC NOT running somewhere at hog time (no wait line): start B 35 after 7.35 s. So the
+    wind-down wait is not the cause, or not the whole of it. OPEN.
+    Differences to chase: the failure came 0.10 s after Music's Paused (the passes: DAC still busy,
+    ~45 ms wait); rate 44.1k vs 48k; the take-back overlapped a "new track ... holding at the gate"
+    (Urban Disco, a local AAC file, whose Playing arrived 1 s after the first). Next: log
+    DeviceIsRunning / IsAlive / hog owner right before AudioDeviceStart, time AudioDeviceStart itself,
+    and try stop+start B once on a 35 before giving up (the switch path's "keeps stopping" restart).
+    Is 35 AudioDeviceStart's own status or a stalled start timing out in coreaudiod?
+  - (b) Worked: one failure, then "no take-back for 30 s", Music played on, no loop.
+  - (c) Worked: "set in dB (no dB -> scalar on the DAC)"; slider 0.25 -> DAC -48.0 dB, virtual device
+    reads -48.0 dB (5d75e9a read 0.0 dB against a DAC at -16/-36 dB: DragonFly has a -64..0 dB range
+    and a dB value but kAudioDevicePropertyVolumeDecibelsToScalar returns 'who?').
+- Item 14 (skips) not exercised: the queue was a library playlist (local AAC, 44.1k); two of three
+  "next track"s left Music paused (the owner was also at the Mac). The first skip took its own 44.1k
+  line (0.172 s before Playing) and switched correctly.
+- Owner lowered the DragonFly with the keys while stepped aside: -16 -> -48 dB (not the engine).
