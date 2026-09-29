@@ -935,6 +935,58 @@ final class VirtualDeviceEngine {
         tearDown(restoreDefault: true, resumeMusic: false)
         procA = nil
         steppedAside = true
+        probeAfterStepAside()
+    }
+
+    /// Coffee bench (DragonFly Black, data/2026-09-28-coffee-5d75e9a): the step-aside's config changes
+    /// on the DAC (mixable format, hog released) make coreaudiod pause and resume this process's IO
+    /// context for the DAC, and the HAL client handles those on several threads. A resume handled
+    /// before its pause is clamped at 0 and the pause stays. The context outlives the IOProcs, so every
+    /// later start on that DAC in this process blocks 7.5 s and fails (35, "IO is still disabled
+    /// after waiting"). Nothing in the process clears it (stop+start, setting up again,
+    /// AudioHardwareUnload); a new process does. A short silent start here, while Music is paused and
+    /// after tearDown's 3 s hold, finds it before a take-back would; then the app relaunches.
+    private func probeAfterStepAside() {
+        let d = dac
+        guard d != 0, CA.devices().contains(d) else { return }
+        var proc: AudioDeviceIOProcID?
+        let cst = AudioDeviceCreateIOProcIDWithBlock(&proc, d, nil) { _, _, _, out, _ in
+            for b in UnsafeMutableAudioBufferListPointer(out) { if let p = b.mData { memset(p, 0, Int(b.mDataByteSize)) } }
+        }
+        guard cst == noErr, let proc else { log("DAC probe: IOProc \(cst)"); return }
+        let t = Date()
+        let st = AudioDeviceStart(d, proc)
+        let took = ms(t)
+        AudioDeviceStop(d, proc)
+        AudioDeviceDestroyIOProcID(d, proc)
+        guard st == 35 else {
+            log("DAC probe: start \(st) after \(took)\(st == noErr ? "" : " (not the stuck context; no relaunch)")")
+            return
+        }
+        let last = UserDefaults.standard.object(forKey: Self.lastRelaunchKey) as? Date
+        if let last, Date().timeIntervalSince(last) < 600 {
+            log("DAC probe: start 35 after \(took): the DAC's IO context is stuck, but the app relaunched \(Int(Date().timeIntervalSince(last))) s ago; not again within 10 min (a take-back will fail)")
+            return
+        }
+        log("DAC probe: start 35 after \(took): the DAC's IO context is stuck in this process; relaunching the app")
+        UserDefaults.standard.set(Date(), forKey: Self.lastRelaunchKey)
+        UserDefaults.standard.set("[Exclusive Mode] relaunched after a step-aside left the DAC's IO context paused (probe: start 35 after \(took)); the log before it is \(Self.logBeforeRelaunch)", forKey: Self.recoveryNoteKey)
+        DispatchQueue.main.async { Self.relaunch() }
+    }
+
+    private static let lastRelaunchKey = "RendererLastRelaunch"
+    private static let logBeforeRelaunch = "LosslessSwitcher-ExclusiveMode-before-relaunch.log"
+
+    /// A detached shell waits for this process to exit, keeps the engine log, and opens the app again;
+    /// the quit itself is the normal one (the engine stops and restores the output).
+    private static func relaunch() {
+        let logs = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs").path
+        let p = Process()
+        p.executableURL = URL(fileURLWithPath: "/bin/sh")
+        p.arguments = ["-c", "while kill -0 \(getpid()) 2>/dev/null; do sleep 0.2; done; cd \"$1\" && mv -f LosslessSwitcher-ExclusiveMode.log \"$2\"; /usr/bin/open \"$3\"",
+                       "relaunch", logs, logBeforeRelaunch, Bundle.main.bundlePath]
+        do { try p.run() } catch { print("[Exclusive Mode] relaunch failed: \(error)"); return }
+        NSApp.terminate(nil)
     }
 
     /// Music started playing while stepped aside (straight to the DAC): pause it, take the output
