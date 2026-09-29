@@ -73,6 +73,14 @@ Engine log: ~/Library/Logs/LosslessSwitcher-ExclusiveMode.log (recreated at each
    "Input format:"' > decoder.txt`. A miss is a boundary where the rate stayed wrong; for each miss the
    useful number is how long before the boundary the new track's "Input format:" line was logged. Also
    report any mid-track rate change (the risk a wider window would bring).
+13. Track-change helper restart (MediaRemoteAdapter now comes from dizzysound/mediaremote-adapter,
+   branch lossless-switcher). Start the app from Terminal as in item 12, Exclusive Mode on, Music
+   playing. Kill the helper: `pkill -f 'MediaRemoteAdapter_MediaRemoteAdapter.bundle.*run.pl.*loop'`.
+   Expect in Terminal "MediaRemoteAdapter helper exited; restarting in 1 s", a new helper in
+   `pgrep -fl run.pl` within ~1 s, the app's CPU in Activity Monitor staying near 0 % (the old pin held
+   one core at 100 %), and the next track change still switching the rate. Then, at least 30 s after
+   launch, kill it three times, each within 30 s of the last restart: the restarts wait 1, 1, 2 s.
+   Quit the app: no `run.pl ... loop` left and no restart message.
 
 ## Rules (the owner)
 - No gap or pause unless there's a sample-rate switch.
@@ -94,6 +102,14 @@ Engine log: ~/Library/Logs/LosslessSwitcher-ExclusiveMode.log (recreated at each
   crashes, grab ~/Library/Logs/DiagnosticReports/LosslessSwitcher-*.ips.
 - Latency ~70-80 ms at 44.1k (accepted).
 - Ad-hoc build: no notarization (the owner's Developer account isn't set up); hardened runtime off.
+
+## For the build (the owner's Mac, before zipping)
+- The package source moved from ejbills/mediaremote-adapter to the owner's fork. Before
+  research/typecheck/make_xcode_dev_app.sh, run `xcodebuild -resolvePackageDependencies -project
+  Quality.xcodeproj -scheme LosslessSwitcher` and check it prints "Fetching from
+  https://github.com/dizzysound/mediaremote-adapter" and "Checking out lossless-switcher (2e59752)".
+  If Xcode already had the project open, File > Packages > Reset Package Caches first; a cached
+  ejbills checkout would build the old pin.
 
 ## References
 Code: Quality/VirtualDeviceEngine.swift, Quality/VirtualOutputPlugin.swift, HALPlugin/.
