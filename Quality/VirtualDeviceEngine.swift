@@ -338,7 +338,10 @@ final class VirtualDeviceEngine {
             }
             if now.timeIntervalSince(lastStatus) >= 30 {
                 lastStatus = now
-                log("\(Int(curRate)) Hz fill \(ring.fill) scalar \(String(format: "%.9f", lsScalar)) under \(ring.underruns.load(ordering: .relaxed)) over \(ring.overruns.load(ordering: .relaxed))")
+                // wall clock and clock-lock state: the overnight coffee log needed both
+                let dacScalar = stampB.get().map { String(format: "%.6f", $0.2) } ?? "-"
+                let clock = procB == nil ? "stepped aside" : phase0 != nil ? "locked" : waitingForScalar ? "waiting (DAC scalar not settled)" : "not locked"
+                log("\(Int(curRate)) Hz fill \(ring.fill) scalar \(String(format: "%.9f", lsScalar)) under \(ring.underruns.load(ordering: .relaxed)) over \(ring.overruns.load(ordering: .relaxed)); clock \(clock), DAC scalar \(dacScalar); \(RendererLog.wallClock.string(from: now))")
             }
             Thread.sleep(forTimeInterval: 0.01)
         }
@@ -955,10 +958,17 @@ final class VirtualDeviceEngine {
         }
         guard cst == noErr, let proc else { log("DAC probe: IOProc \(cst)"); return }
         let t = Date()
-        let st = AudioDeviceStart(d, proc)
+        var st = AudioDeviceStart(d, proc)
         let took = ms(t)
         AudioDeviceStop(d, proc)
         AudioDeviceDestroyIOProcID(d, proc)
+        // bench hook (one shot): `defaults write <bundle id> RendererProbeForceStuck -bool true` makes
+        // this probe act as if it got 35, to test the relaunch
+        if UserDefaults.standard.bool(forKey: "RendererProbeForceStuck") {
+            UserDefaults.standard.removeObject(forKey: "RendererProbeForceStuck")
+            log("DAC probe: start \(st) after \(took); RendererProbeForceStuck set: acting as if it were 35 (once)")
+            st = 35
+        }
         guard st == 35 else {
             log("DAC probe: start \(st) after \(took)\(st == noErr ? "" : " (not the stuck context; no relaunch)")")
             return
@@ -970,21 +980,19 @@ final class VirtualDeviceEngine {
         }
         log("DAC probe: start 35 after \(took): the DAC's IO context is stuck in this process; relaunching the app")
         UserDefaults.standard.set(Date(), forKey: Self.lastRelaunchKey)
-        UserDefaults.standard.set("[Exclusive Mode] relaunched after a step-aside left the DAC's IO context paused (probe: start 35 after \(took)); the log before it is \(Self.logBeforeRelaunch)", forKey: Self.recoveryNoteKey)
+        UserDefaults.standard.set("[Exclusive Mode] relaunched after a step-aside left the DAC's IO context paused (probe: start 35 after \(took)); the run before it is LosslessSwitcher-ExclusiveMode.1.log", forKey: Self.recoveryNoteKey)
         DispatchQueue.main.async { Self.relaunch() }
     }
 
     private static let lastRelaunchKey = "RendererLastRelaunch"
-    private static let logBeforeRelaunch = "LosslessSwitcher-ExclusiveMode-before-relaunch.log"
 
-    /// A detached shell waits for this process to exit, keeps the engine log, and opens the app again;
-    /// the quit itself is the normal one (the engine stops and restores the output).
+    /// A detached shell waits for this process to exit and opens the app again (the new run's log
+    /// start keeps this run's as .1); the quit itself is the normal one (the engine stops and
+    /// restores the output).
     private static func relaunch() {
-        let logs = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs").path
         let p = Process()
         p.executableURL = URL(fileURLWithPath: "/bin/sh")
-        p.arguments = ["-c", "while kill -0 \(getpid()) 2>/dev/null; do sleep 0.2; done; cd \"$1\" && mv -f LosslessSwitcher-ExclusiveMode.log \"$2\"; /usr/bin/open \"$3\"",
-                       "relaunch", logs, logBeforeRelaunch, Bundle.main.bundlePath]
+        p.arguments = ["-c", "while kill -0 \(getpid()) 2>/dev/null; do sleep 0.2; done; /usr/bin/open \"$1\"", "relaunch", Bundle.main.bundlePath]
         do { try p.run() } catch { print("[Exclusive Mode] relaunch failed: \(error)"); return }
         NSApp.terminate(nil)
     }
