@@ -909,3 +909,19 @@ said 44.1 kHz; "it seems to happen when skipping forward and back". Not related 
   default output changes (start, stop, step-aside), never at a switch. Fix: applyRate reports the
   rate to OutputDevices.updateSampleRate (the label; it runs no user script while the engine is on).
 - 449866b on pastor: owner confirmed the menu bar rate now follows each switch ("perfect").
+
+## Found: wrong-rate start leaks through on skips (pastor, 449866b, 12:06-12:08)
+Owner: shuffling a playlist, "glitches at beginning of track" on the Babyface. Data:
+data/2026-09-29-pastor-skips/ (engine.log, segments; .f32 on disk only): 10 x `next track` 8 s apart,
+6 needed a switch.
+- Switches 1 and 6 latched at the gap between the tracks (clean). Switches 2-5 "not latched: cut at the
+  play position": B's output before the flush holds 16, 260, 5 and 79 ms of audio after the gap (the new
+  track at the old rate).
+- Why: Music's decoder line reaches the engine ~0.28 s after Music set the decoder up (log stream
+  delivery) and its Playing ~0.25 s after; the new track's audio starts about then, and B trails A by
+  only ~46 ms (target 2048 frames). The latch arms after the gap has already gone through.
+- Options (for the owner): (1) B trails A by ~0.35 s so a late arm can still mark the gap (retroactive
+  latch over a history of A's zero runs), with the plug-in reporting the extra latency so video stays
+  in sync; costs ~0.3 s on play/pause/seek response. (2) Hold B at every >=10 ms zero run after audio
+  until the engine decides (adds a pause at digital silence mid-track). (3) Cut at B's read position
+  instead of A's write position: shortens the leak by ~46 ms at most, doesn't remove it.
