@@ -15,6 +15,10 @@ struct ContentView: View {
     
     private var sampleRateText: String? {
         guard let currentSampleRate = outputDevices.currentSampleRate else { return nil }
+        // Exclusive Mode: the source depth the engine decided (see SampleRateLabel)
+        if renderer.dacName != nil {
+            return String(format: "%.1f kHz / ", currentSampleRate) + renderer.sourceText
+        }
         if outputDevices.enableBitDepthDetection {
             if let bitDepth = outputDevices.currentBitDepth {
                 return String(format: "%.1f kHz / %d bit", currentSampleRate, bitDepth)

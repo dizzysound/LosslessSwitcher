@@ -312,6 +312,7 @@ final class VirtualDeviceEngine {
             if let up = pendingUpgrade, playing, !inRoutine {
                 pendingUpgrade = nil
                 trackRate = up.rate
+                RendererOutput.shared.set(sourceBits: up.bits, lossy: false)
                 if let r = neededRate(up.rate) {
                     log("lossless decoder at \(up.rate) Hz after a lossy start; switching again")
                     switchRate(r, name: "(lossless upgrade)", tPlay: Date())
@@ -801,7 +802,10 @@ final class VirtualDeviceEngine {
             // m2: none logged for Wish You Were Here after Have a Cigar). A local file's own header
             // decides; a stream waits for its line.
             if let st = LocalTrack.currentStats(attempts: 3) {
-                decide(st.sampleRate, lossless: true, seenAgo: 0, name: name + " (file header, no decoder line)", tPlay: at)
+                // lossless: true as before (a lossy mark would arm the stream upgrade path); the menu
+                // still learns the file is lossy
+                decide(st.sampleRate, bits: st.sourceBits, lossless: true, seenAgo: 0, name: name + " (file header, no decoder line)", tPlay: at)
+                if st.lossy { RendererOutput.shared.set(sourceBits: nil, lossy: true) }
                 return
             }
             awaiting = (name, at, Date().addingTimeInterval(3), nil)
@@ -817,11 +821,12 @@ final class VirtualDeviceEngine {
             log("new track \(name): the newest decoder line (\(Int(line.rate)) Hz, \(String(format: "%.3f", at.timeIntervalSince(line.date))) s before Playing) may be the previous track's; waiting 1 s for its own")
             return
         }
-        decide(line.rate, lossless: line.lossless, seenAgo: at.timeIntervalSince(line.date), name: name, tPlay: at)
+        decide(line.rate, bits: line.bits, lossless: line.lossless, seenAgo: at.timeIntervalSince(line.date), name: name, tPlay: at)
     }
 
-    private func decide(_ rate: Float64, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date) {
+    private func decide(_ rate: Float64, bits: Int?, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date) {
         trackRate = rate
+        RendererOutput.shared.set(sourceBits: bits, lossy: !lossless)
         if !lossless { lossyTrackAt = Date() }
         let need = neededRate(rate)
         log("new track \(name): decoder \(rate) Hz \(lossless ? "lossless" : "lossy") (seen \(String(format: "%.3f", seenAgo)) s before Playing), DAC \(Int(curRate)) Hz\(need.map { " -> switch to \(Int($0))" } ?? "")")
@@ -846,9 +851,14 @@ final class VirtualDeviceEngine {
         if lossless, let t = lossyTrackAt, at.timeIntervalSince(t) < 10 { pendingUpgrade = (rate, bits); lossyTrackAt = nil }
         decoderRates.append((at, rate, bits, lossless))
         if decoderRates.count > 200 { decoderRates.removeFirst(100) }
+        // ALAC logs a 'qlac' line without the depth, then 'alac ... from N-bit source': a line in the
+        // track's own window at its rate fills in the depth the menu shows
+        if let b = bits, lossless, rate == trackRate, let own = ownLinesUntil, at <= own {
+            RendererOutput.shared.set(sourceBits: b, lossy: false)
+        }
         if let aw = awaiting, !inRoutine {
             awaiting = nil
-            decide(rate, lossless: lossless, seenAgo: -at.timeIntervalSince(aw.tPlay), name: aw.name, tPlay: aw.tPlay)
+            decide(rate, bits: bits, lossless: lossless, seenAgo: -at.timeIntervalSince(aw.tPlay), name: aw.name, tPlay: aw.tPlay)
             return
         }
         // A decoder for another rate while playing: the next track's pre-roll (8-12 s before the end:
@@ -872,9 +882,10 @@ final class VirtualDeviceEngine {
             awaiting = nil
             if let f = aw.fallback {
                 log("no newer decoder line for \(aw.name) within 1 s; the earlier one decides")
-                decide(f.rate, lossless: f.lossless, seenAgo: aw.tPlay.timeIntervalSince(f.date), name: aw.name, tPlay: aw.tPlay)
+                decide(f.rate, bits: f.bits, lossless: f.lossless, seenAgo: aw.tPlay.timeIntervalSince(f.date), name: aw.name, tPlay: aw.tPlay)
             } else {
                 log("no decoder line for \(aw.name) within 3 s; playing at \(Int(curRate)) Hz")
+                RendererOutput.shared.set(sourceBits: nil, lossy: false)
                 if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
                 releaseGate("no decoder line")
             }
@@ -1045,9 +1056,13 @@ final class VirtualDeviceEngine {
                 _ = wait(2) { self.decoderRates.last.map { $0.date > since } ?? false }
                 log("resume: \(decoderRates.last.map { $0.date > since } ?? false ? "decoder line after \(String(format: "%.2f", Date().timeIntervalSince(t0))) s" : "no decoder line within 2 s")")
             }
-            let own = decoderRates.last.flatMap { $0.date > since ? $0.rate : nil }
-            let file = own == nil ? LocalTrack.currentStats(attempts: 2)?.sampleRate : nil
+            let ownLine = decoderRates.last.flatMap { $0.date > since ? $0 : nil }
+            let own = ownLine?.rate
+            let fileStats = own == nil ? LocalTrack.currentStats(attempts: 2) : nil
+            let file = fileStats?.sampleRate
             rate = own ?? file ?? recent
+            if let l = ownLine { RendererOutput.shared.set(sourceBits: l.bits, lossy: !l.lossless) }
+            else { RendererOutput.shared.set(sourceBits: fileStats?.sourceBits, lossy: fileStats?.lossy ?? false) }
             log("resume: \(name) at \(rate.map { "\(Int($0)) Hz" } ?? "the DAC's rate") (\(own != nil ? "its decoder line" : file != nil ? "file header" : recent != nil ? "newest decoder line, may be another track's" : "nothing says"))")
         }
         let target = rate.flatMap { neededRate($0) } ?? curRate
@@ -2235,9 +2250,24 @@ struct MusicSettingsView: View {
 final class RendererOutput: ObservableObject {
     static let shared = RendererOutput()
     @Published private(set) var dacName: String?
+    /// The playing track's source, as the engine decided it: its bit depth (nil: not known) and
+    /// whether it's lossy (AAC has no bit depth). The menu shows it while the engine holds a DAC.
+    @Published private(set) var sourceBits: Int?
+    @Published private(set) var sourceLossy = false
 
     /// Any thread.
     func set(dacName name: String?) {
         DispatchQueue.main.async { if self.dacName != name { self.dacName = name } }
     }
+
+    /// Any thread.
+    func set(sourceBits bits: Int?, lossy: Bool) {
+        DispatchQueue.main.async {
+            if self.sourceBits != bits { self.sourceBits = bits }
+            if self.sourceLossy != lossy { self.sourceLossy = lossy }
+        }
+    }
+
+    /// "24 bit", "lossy" or "? bit".
+    var sourceText: String { sourceLossy ? "lossy" : sourceBits.map { "\($0) bit" } ?? "? bit" }
 }
