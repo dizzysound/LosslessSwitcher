@@ -626,7 +626,8 @@ one "under 0", clock locked throughout.
   0.999553): the closest to the +-300 ppm clamp seen. 11 min, under 0.
 - A library "Intruder" (Peter Gabriel) is 44.1k lossy; the 48k one in the repro was another version.
 
-# Bench: 13c74f8 on the pastor Mac (MacBook Pro 18,3, macOS 27.0, Babyface Pro), 2026-09-29 06:23-
+# Bench: 13c74f8 on the pastor Mac (MacBook Pro 18,3, macOS 27.0, Babyface Pro), 2026-09-29 06:23-06:59
+Data: data/2026-09-29-pastor-13c74f8/ (engine log; the run before the plug-in update). PASS.
 Replaced build 24 (no commit stamp; kept at ~/lsbench/old-build24); the owner answered Microphone and
 updated the plug-in 1.1.2 -> 1.1.3 from the menu over Remote Desktop (the engine stopped and restarted
 cleanly for it). Music AppleScript over SSH timed out until then.
@@ -637,7 +638,8 @@ cleanly for it). Music AppleScript over SSH timed out until then.
 - 96k (Oh, Blest Is He That Came, switch 1.3 s): steady at 1.000005 after 3.5 s; 3 min, no new
   underruns. Then Music stopped (single-track play), idle step-aside ("under 5120" counted at the
   teardown, fill 0, clock stepped aside).
-- Back to 44.1k (The Right Rite, switch 1.34 s): steady at 1.000005 after 3.6 s.
+- Back to 44.1k (The Right Rite, switch 1.34 s): steady at 1.000005 after 3.6 s; 10.5 min locked, underruns
+  flat (5120, all from the step-aside teardown), fill 1536-2048. Afterwards Music paused (as found).
 - Babyface scalar: 1.000003-1.000008 throughout; the gate adds ~3.5 s before each lock (the old one
   locked at once), with no cost seen.
 
