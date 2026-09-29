@@ -639,6 +639,7 @@ final class RendererScripts {
     private let volumeScript = compile("tell application \"Music\" to get sound volume")
     private let stateScript = compile("tell application \"Music\" to get player state as string")
     private let eqScript = compile("tell application \"Music\" to get EQ enabled")
+    private let trackRateScript = compile("tell application \"Music\" to get {name, sample rate} of current track")
 
     private static func compile(_ source: String) -> NSAppleScript? {
         let s = NSAppleScript(source: source)
@@ -662,6 +663,13 @@ final class RendererScripts {
     func volume() -> Int? { run(volumeScript).map { Int($0.int32Value) } }
     func playerState() -> String? { run(stateScript)?.stringValue }
     func eqEnabled() -> Bool? { run(eqScript)?.booleanValue }
+    /// The current track's name and sample rate as Music reports them (rate nil: "missing value", as
+    /// right at a track change).
+    func trackRate() -> (name: String, rate: Double?)? {
+        guard let d = run(trackRateScript), d.numberOfItems >= 2 else { return nil }
+        let r = d.atIndex(2).map { $0.doubleValue } ?? 0
+        return (d.atIndex(1)?.stringValue ?? "", r > 0 ? r : nil)
+    }
     func setVolume(_ v: Int) -> Bool { run(Self.compile("tell application \"Music\" to set sound volume to \(v)")) != nil }
     func setPosition(_ p: Double) -> Bool { run(Self.compile("tell application \"Music\" to set player position to \(p)")) != nil }
 }
