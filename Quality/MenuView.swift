@@ -20,13 +20,20 @@ struct MenuView: View {
     @ObservedObject private var dither = TPDFDither.shared
     @ObservedObject private var logExport = LogExport.shared
     
-    private var ditherTitle: String {
+    /// Hover text for TPDF Dither: what it does and what it means for the DAC in use (the title
+    /// used to carry the DAC's depth, which read as the track's).
+    private var ditherHelp: String {
+        let what = "Adds triangular (±1 LSB) dither when the output has to be rounded to fit an integer DAC, which happens when Inter-sample Overshoot Protection lowers the level or a track is deeper than the DAC. Without it, rounding leaves low-level distortion on quiet passages and fades; with it, a steady, very low noise floor. A track at or below the DAC's depth passes bit-exact either way."
         switch dither.dacBits {
-        case nil: return "TPDF Dither (DAC format not known yet)"
-        case let bits? where bits >= 32: return "TPDF Dither (not needed: DAC takes 32-bit)"
-        case let bits?: return "TPDF Dither (\(bits)-bit DAC)"
+        case nil: return what + "\n\nThe DAC's format isn't known yet."
+        case let bits? where bits >= 32: return what + "\n\nNot needed here: this DAC takes 32-bit or float samples, so nothing is rounded."
+        case let bits?: return what + "\n\nThis DAC takes \(bits)-bit samples."
         }
     }
+
+    /// Hover text for Inter-sample Overshoot Protection (after Benchmark Media's application note
+    /// "Intersample Overs in CD Recordings").
+    private let overshootHelp = "Lowers Exclusive Mode's output by 3.0 dB so that peaks between samples can't clip. A DAC rebuilds the waveform between the samples, and on loud masters that waveform can rise above 0 dBFS even when no sample does: up to +3.01 dB in theory, +0.8 to +1.5 dB on commercial CDs, often several times a second. Benchmark Media reports that every DAC and sample-rate-converter chip it tested clips these overs in its digital filter, producing bursts of distortion; its own DACs keep 3.5 dB of headroom above 0 dBFS for this. The cost: the output is 3 dB quieter and no longer bit-perfect."
 
     var body: some View {
         VStack {
@@ -92,10 +99,12 @@ struct MenuView: View {
                 if defaults.userPreferRendererEngine {
                     Divider()
                     Toggle("Release DAC When Music Is Idle", isOn: $defaults.rendererReleaseWhenIdle)
-                    Toggle("Inter-sample Overshoot Protection (-3.0 dB)", isOn: $defaults.overshootProtection)
+                    Toggle("Inter-sample Overshoot Protection", isOn: $defaults.overshootProtection)
+                        .help(overshootHelp)
                     // only a 16/24-bit integer DAC is requantized; a 32-bit or float one needs none
-                    Toggle(ditherTitle, isOn: $defaults.tpdfDither)
+                    Toggle("TPDF Dither", isOn: $defaults.tpdfDither)
                         .disabled((dither.dacBits ?? 32) >= 32)
+                        .help(ditherHelp)
                 } else {
                     Toggle("Bit Depth Switching", isOn: $defaults.userPreferBitDepthDetection)
                     Toggle("Detect Local Files", isOn: $defaults.userPreferLocalFileDetection)
