@@ -19,6 +19,7 @@ struct MenuView: View {
     @ObservedObject private var musicSettings = MusicSettingsCheck.shared
     @ObservedObject private var dither = TPDFDither.shared
     @ObservedObject private var logExport = LogExport.shared
+    @ObservedObject private var otherApps = OtherAppsOutput.shared
     
     /// Hover text for TPDF Dither: what it does and what it means for the DAC in use (the title
     /// used to carry the DAC's depth, which read as the track's).
@@ -68,6 +69,22 @@ struct MenuView: View {
                 }
             } label: {
                 Text("Selected Device")
+            }
+
+            // Exclusive Mode sends only Music to the DAC; other apps and alert sounds play here
+            if defaults.userPreferRendererEngine {
+                Menu {
+                    Toggle("Built-in Speakers (automatic)", isOn: Binding(get: { otherApps.choice == nil }, set: { if $0 { otherApps.choice = nil } }))
+                    ForEach(outputDevices.outputDevices, id: \.uid) { device in
+                        Toggle(device.name, isOn: Binding(get: { otherApps.choice == device.uid }, set: { if $0 { otherApps.choice = device.uid } }))
+                    }
+                    Divider()
+                    Toggle("Mute Other Apps", isOn: Binding(get: { otherApps.choice == OtherAppsOutput.mute }, set: { if $0 { otherApps.choice = OtherAppsOutput.mute } }))
+                    Divider()
+                    Button("Volume…") { otherApps.showWindow() }
+                } label: {
+                    Text("Other Apps & Alerts")
+                }
             }
 
             Menu {

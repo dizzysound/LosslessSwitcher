@@ -21,6 +21,9 @@
 //    the new track's rate is known, so a wrong-rate start never reaches the DAC.
 //  Same-rate changes, gapless albums and pause/resume pass through untouched.
 //  Volume keys: the virtual device's volume and mute drive the DAC's own controls (VolumeForwarder).
+//  Music only (plug-in 1.1.4, 'LSmx' = Music's pid): the plug-in moves every other app's output to the
+//  loopback's channels 3-4, so the DAC gets Music alone; OthersPlayer plays those on the built-in
+//  speakers, and alert sounds move there too (restored on stop and at launch after an unclean exit).
 //  Research and measurements: github.com/dizzysound/music-tap-spike (branch vdevice), log.md.
 //
 //  Needs Microphone (reading the virtual device's input) and Automation (Music) permissions.
@@ -44,6 +47,14 @@ final class VirtualDeviceEngine {
     /// 'LSac': the renderer's pid while it plays the device out (0 = none). Plug-in 1.1+ can be the
     /// default output only while it is set, and clears it when that process stops being a client.
     private static let kAttached: AudioObjectPropertySelector = 0x4C53_6163
+    /// 'LSmx' (plug-in 1.1.4): Music's pid (0 = off). Every other client's output then goes to the
+    /// loopback's channels 3-4 instead of into the mix, and the engine plays it on the built-in
+    /// speakers (OthersPlayer); channels 1-2 carry Music alone.
+    private static let kMusicOnly: AudioObjectPropertySelector = 0x4C53_6D78
+    private static let kStatus: AudioObjectPropertySelector = 0x4C53_7374 // 'LSst'
+    /// The alert-sound device before the engine moved it to the speakers, and where it moved it
+    /// (two device UIDs); restored on stop and, after an unclean exit, at launch.
+    private static let alertsMovedKey = "RendererAlertsMoved"
 
     /// The plug-in's device, if the HAL has it.
     static func findDevice() -> AudioObjectID? {
@@ -60,7 +71,8 @@ final class VirtualDeviceEngine {
     /// whatever coreaudiod fell back to (1.1: MacBook Pro Speakers in the kill test). Give the DAC its
     /// mixable format back and make it the default again. Harmless when the engine starts next.
     static func recoverOutput() {
-        let volumeNote = VolumeForwarder.recover()
+        let notes = [VolumeForwarder.recover(), restoreAlerts()].compactMap { $0 }.joined(separator: "; ")
+        let volumeNote = notes.isEmpty ? nil : notes
         let unclean = UserDefaults.standard.bool(forKey: ownsOutputKey)
         let ls = findDevice()
         let current = CA.defaultOutput()
@@ -77,6 +89,26 @@ final class VirtualDeviceEngine {
         print(msg)
         UserDefaults.standard.set(msg, forKey: recoveryNoteKey) // the next engine run logs it
         UserDefaults.standard.removeObject(forKey: ownsOutputKey)
+    }
+
+    /// Puts the alert-sound device back where it was before the engine moved it, if it is still where
+    /// the engine put it (a later choice of the user's stays). Nil when there is nothing to say.
+    static func restoreAlerts() -> String? {
+        guard let moved = UserDefaults.standard.stringArray(forKey: alertsMovedKey), moved.count == 2 else { return nil }
+        UserDefaults.standard.removeObject(forKey: alertsMovedKey)
+        func find(_ uid: String) -> AudioObjectID? { CA.devices().first { CA.string($0, kAudioDevicePropertyDeviceUID) == uid } }
+        let cur = CA.systemOutput()
+        guard let back = find(moved[0]) else { return "alert sounds: \(moved[0]) is gone; left on \(CA.string(cur, kAudioObjectPropertyName))" }
+        // macOS itself moves them back once the DAC's hog is released (pastor Mac, Babyface)
+        if cur == back { return "alert sounds on \(CA.string(back, kAudioObjectPropertyName)) again (as before)" }
+        guard let to = find(moved[1]), cur == to else { return "alert sounds: left on \(CA.string(cur, kAudioObjectPropertyName)) (changed since the engine moved them)" }
+        return "alert sounds back to \(CA.string(back, kAudioObjectPropertyName)): \(CA.setSystemOutput(back))"
+    }
+
+    /// The Mac's built-in output (speakers), if it isn't `dac`: where other apps play while the engine
+    /// holds the DAC for Music.
+    static func builtInSpeakers(excluding dac: AudioObjectID) -> AudioObjectID? {
+        CA.devices().first { $0 != dac && CA.transport($0) == kAudioDeviceTransportTypeBuiltIn && CA.hasOutput($0) && CA.string($0, kAudioDevicePropertyDeviceUID) != deviceUID }
     }
 
     /// The device the system would pick: built-in output first, else any other output.
@@ -138,6 +170,17 @@ final class VirtualDeviceEngine {
     private var resumeInfo: (info: [AnyHashable: Any], at: Date)?
     private var resumeRetryAt: Date? // after a failed take-back: Music plays to the DAC; no retry before this
     private var musicListWrong = false
+    // Music only (plug-in 1.1.4): what 'LSmx' holds (0 = off), the other apps' player
+    private var musicOnlyPID: pid_t = 0
+    private var alertsBefore = AudioObjectID(0) // the alert-sound device before this DAC was hogged
+    private var musicOnlyMissingLogged = false
+    private let others = OthersPlayer()
+    private var othersDevice = AudioObjectID(0) // where other apps should play (0: nowhere); kept while the player is down
+    private var othersChoice: String? // the Other Apps & Alerts choice startOthers followed
+    private var othersRestartAt = Date.distantPast
+    private let othersFeed = Atomic<Int>(0) // 1: A writes loopback channels 3-4 into others.ring
+    private let othersPeakA = Atomic<UInt32>(0) // A: peak |sample| on channels 3-4 since the last meter line (Float bits)
+    private var othersMeterAt = Date()
 
     /// NSRunningApplication once said Music wasn't running while it played on as the same process
     /// (Babyface bench, twice; the "quit" held its audio at the gate for 4 s and dropped the next
@@ -201,6 +244,8 @@ final class VirtualDeviceEngine {
     private var bPlaying = false
     private var ditherRNG: UInt32 = 0x9E3779B9 // TPDF dither state (xorshift32, never 0)
     private let scratch = UnsafeMutablePointer<Float>.allocate(capacity: VirtualDeviceEngine.maxFrames * 2)
+    private let scratchA = UnsafeMutablePointer<Float>.allocate(capacity: VirtualDeviceEngine.maxFrames * 2)  // A: Music (ch 1-2)
+    private let scratchO = UnsafeMutablePointer<Float>.allocate(capacity: VirtualDeviceEngine.maxFrames * 2)  // A: the others (ch 3-4)
     private static let maxFrames = 16384
     private var recorder: VRecorder?
 
@@ -209,9 +254,11 @@ final class VirtualDeviceEngine {
         let t = UserDefaults.standard.integer(forKey: "RendererTargetFrames")
         targetFill = t > 0 ? t : 2048
         scratch.initialize(repeating: 0, count: Self.maxFrames * 2)
+        scratchA.initialize(repeating: 0, count: Self.maxFrames * 2)
+        scratchO.initialize(repeating: 0, count: Self.maxFrames * 2)
     }
 
-    deinit { scratch.deallocate() }
+    deinit { scratch.deallocate(); scratchA.deallocate(); scratchO.deallocate() }
 
     // MARK: - Lifecycle (main thread)
 
@@ -301,12 +348,14 @@ final class VirtualDeviceEngine {
             log.close()
             return
         }
-        var lastCheck = Date(), lastPLL = Date(), lastStatus = Date(), lastFormatCheck = Date()
+        var lastCheck = Date(), lastPLL = Date(), lastStatus = Date(), lastFormatCheck = Date(), lastMusicOnly = Date()
         while !shouldStop {
             pump()
             recorder?.drain()
             let now = Date()
-            if now.timeIntervalSince(lastCheck) >= 1 { lastCheck = now; checkDevicesAndMusic() }
+            if now.timeIntervalSince(lastCheck) >= 1 { lastCheck = now; checkDevicesAndMusic(); followOthersChoice() }
+            // Music relaunched (new pid): its first audio must not go to the speakers for long
+            if now.timeIntervalSince(lastMusicOnly) >= 0.25 { lastMusicOnly = now; if !inRoutine { syncMusicOnly() } }
             tickLatchAndGate()
             if formatDirty.load(ordering: .acquiring) != 0 || now.timeIntervalSince(lastFormatCheck) >= 1 { lastFormatCheck = now; checkFormat() }
             if let up = pendingUpgrade, playing, !inRoutine {
@@ -318,7 +367,7 @@ final class VirtualDeviceEngine {
                     switchRate(r, name: "(lossless upgrade)", tPlay: Date())
                 }
             }
-            if now.timeIntervalSince(lastPLL) >= 0.5 { lastPLL = now; pll() }
+            if now.timeIntervalSince(lastPLL) >= 0.5 { lastPLL = now; pll(); steerOthers() }
             if playing { idleSince = nil } else if idleSince == nil { idleSince = now }
             let isp = OvershootProtection.shared.isOn
             if isp != overshootLogged {
@@ -345,6 +394,7 @@ final class VirtualDeviceEngine {
                 let dacScalar = stampB.get().map { String(format: "%.6f", $0.2) } ?? "-"
                 let clock = procB == nil ? "stepped aside" : phase0 != nil ? "locked" : waitingForScalar ? "waiting (DAC scalar not steady, following it)" : "not locked"
                 log("\(Int(curRate)) Hz fill \(ring.fill) scalar \(String(format: "%.9f", lsScalar)) under \(ring.underruns.load(ordering: .relaxed)) over \(ring.overruns.load(ordering: .relaxed)); clock \(clock), DAC scalar \(dacScalar); \(RendererLog.wallClock.string(from: now))")
+                if musicOnlyPID != 0 { log("music only: \(musicOnlyStatus())") }
             }
             Thread.sleep(forTimeInterval: 0.01)
         }
@@ -421,6 +471,8 @@ final class VirtualDeviceEngine {
         playing = false
         gatePending = true; gateMarkedAt = nil; gate.store(1, ordering: .releasing); trimIdle.store(1, ordering: .releasing)
         attach(true)
+        // before the default moves here: no other app's audio may reach Music's channels meanwhile
+        syncMusicOnly()
         UserDefaults.standard.set(true, forKey: Self.ownsOutputKey)
         if CA.defaultOutput() != ls { defaultBefore = CA.defaultOutput() }
         if CA.defaultOutput() != ls { log("default output -> virtual device: \(CA.setDefaultOutput(ls))") }
@@ -470,6 +522,9 @@ final class VirtualDeviceEngine {
 
     /// Hog + non-mixable on the DAC, virtual device at the DAC's rate, IOProc B on the DAC.
     private func setUpDAC(_ d: AudioObjectID) -> Bool {
+        // before the hog: macOS moves alert sounds off a hogged device by itself (pastor Mac: to the
+        // speakers, and back on release), so what the user had is only visible now
+        alertsBefore = CA.systemOutput()
         dac = d
         dacUID = CA.string(d, kAudioDevicePropertyDeviceUID)
         UserDefaults.standard.set(dacUID, forKey: Self.dacUIDKey)
@@ -526,6 +581,7 @@ final class VirtualDeviceEngine {
         updateOutFormat()
         listenForFormatChanges()
         volume.start(virtual: ls, dac: d)
+        startOthers()
         setUpAt = Date(); inputSeen = false
         recorder?.segmentOut(outFrames.load(ordering: .acquiring), curRate)
         recorder?.segmentIn(inFrames.load(ordering: .acquiring), curRate)
@@ -552,6 +608,7 @@ final class VirtualDeviceEngine {
             runUserScript(rate, bits: nil)
         }
         curRate = rate
+        if others.isRunning, others.rate != rate { restartOthers("the virtual device's rate is now \(Int(rate)) Hz") }
     }
 
     /// Scripting menu: the regular path runs the user's script (rate, bit depth) when it sets a new
@@ -660,6 +717,7 @@ final class VirtualDeviceEngine {
     }
 
     private func tearDownDAC() {
+        stopOthers()
         volume.stop()
         removeFormatListener()
         outFormat.store(0, ordering: .releasing)
@@ -693,6 +751,7 @@ final class VirtualDeviceEngine {
             procA = nil
         }
         tearDownDAC()
+        clearMusicOnly()
         if ls != 0 { log("virtual device scalar reset: \(CA.setScalar(ls, 1.0, Self.kRateScalar))") }
         // the default the user had (with a Selected Device the DAC can be another device)
         let back = defaultBefore != 0 && defaultBefore != ls && CA.hasOutput(defaultBefore) ? defaultBefore : dac
@@ -713,6 +772,7 @@ final class VirtualDeviceEngine {
             log("default output after 3 s: \(CA.string(CA.defaultOutput(), kAudioObjectPropertyName))\(resets > 0 ? " (\(resets) re-restores)" : "")")
         }
         if restoreDefault {
+            if let note = Self.restoreAlerts() { log(note) }
             attach(false)
             UserDefaults.standard.removeObject(forKey: Self.ownsOutputKey)
         }
@@ -750,6 +810,151 @@ final class VirtualDeviceEngine {
             _ = scripts.play()
             if wait(2, until: { self.playing }) { return }
             log("play attempt \(attempt): Music isn't playing")
+        }
+    }
+
+    // MARK: - Music only: other apps to the built-in speakers (plug-in 1.1.4)
+
+    /// 'LSmx' = Music's pid while the engine plays; our own pid while Music isn't running (no client
+    /// of ours plays into the device, so every app goes to the speakers). Plug-in older than 1.1.4:
+    /// other apps still mix into Music (logged once; the Bit-Perfect Check says so).
+    private func syncMusicOnly() {
+        guard !steppedAside, ls != 0 else { return }
+        var a = CA.addr(Self.kMusicOnly)
+        guard AudioObjectHasProperty(ls, &a) else {
+            if !musicOnlyMissingLogged {
+                musicOnlyMissingLogged = true
+                log("virtual device has no 'LSmx' (plug-in older than 1.1.4): other apps mix into Music; update it from the menu")
+            }
+            return
+        }
+        let want: pid_t = musicRunning() && musicPID > 0 ? musicPID : getpid()
+        guard want != musicOnlyPID else { return }
+        let st = CA.setCFNumber(ls, Self.kMusicOnly, NSNumber(value: want))
+        log("music only: 'LSmx' = \(want) (\(want == getpid() ? "Music isn't running: every app goes to the other-apps path" : "Music"); was \(musicOnlyPID)): \(st)")
+        if st == noErr { musicOnlyPID = want }
+    }
+
+    private func clearMusicOnly() {
+        guard musicOnlyPID != 0, ls != 0 else { return }
+        log("music only off ('LSmx' = 0): \(CA.setCFNumber(ls, Self.kMusicOnly, NSNumber(value: Int32(0))))")
+        musicOnlyPID = 0
+    }
+
+    /// The plug-in's per-client counters (ProcessOutput calls, Music's share, frames moved) and the
+    /// others path: the bench's proof that coreaudiod hands each client's buffer to the plug-in.
+    private func musicOnlyStatus() -> String {
+        var a = CA.addr(Self.kStatus)
+        var v: Unmanaged<CFPropertyList>?; var z = UInt32(MemoryLayout<CFPropertyList?>.size)
+        var plug = "plug-in status unreadable"
+        if AudioObjectGetPropertyData(ls, &a, 0, nil, &z, &v) == noErr, let d = v?.takeRetainedValue() as? [String: NSNumber], let calls = d["processOutputCalls"] {
+            plug = "ProcessOutput calls \(calls.int64Value), Music's \(d["musicClientCalls"]?.int64Value ?? -1), other apps' frames \(d["othersFramesMoved"]?.int64Value ?? -1), pid \(d["musicPID"]?.int32Value ?? -1)"
+            // 1.1.5: peaks since the last read (handed in by other apps / read back on ch 3-4) and how far
+            // a ProcessOutput's sample time was from its cycle's WriteMix
+            if let pin = d["othersPeakIn"]?.doubleValue, let pr = d["othersPeakRead"]?.doubleValue {
+                plug += String(format: "; peak in %.4f, read back %.4f; time delta max %.0f frames in %lld cycles", pin, pr, d["othersMaxTimeDelta"]?.doubleValue ?? -1, d["othersTimeDeltaCycles"]?.int64Value ?? -1)
+            }
+        }
+        return plug + "; " + others.status
+    }
+
+    /// With the DAC set up: other apps' audio to the built-in speakers, alert sounds there too. No
+    /// speakers besides the DAC: other apps are muted ('LSmx' keeps them out of Music).
+    private func startOthers() {
+        var a = CA.addr(Self.kMusicOnly)
+        guard ls != 0, AudioObjectHasProperty(ls, &a), CA.streams(ls, kAudioObjectPropertyScopeInput).first.map({ CA.channels($0) == 4 }) ?? false else {
+            RendererOutput.shared.set(othersRoute: "Other apps mix into Music (update the Exclusive Mode driver)", ok: false)
+            return
+        }
+        let (target, note) = OtherAppsOutput.resolve(dac: dac)
+        othersChoice = UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey)
+        guard let sp = target else {
+            log("other apps: MUTED (\(note)); Music alone reaches the DAC")
+            RendererOutput.shared.set(othersRoute: "Other apps muted", ok: true)
+            // alert sounds still leave the DAC: to the built-in speakers if there are any
+            if let b = Self.builtInSpeakers(excluding: dac) { moveAlerts(to: b) }
+            return
+        }
+        let name = CA.string(sp, kAudioObjectPropertyName)
+        othersDevice = sp
+        othersRestartAt = Date()
+        log("other apps and alert sounds: \(name) (\(note))")
+        if others.start(device: sp, rate: curRate, log: { [unowned self] in self.log($0) }) {
+            othersFeed.store(1, ordering: .releasing)
+            RendererOutput.shared.set(othersRoute: "Other apps play on \(name)", ok: true)
+        } else {
+            log("other apps: MUTED (the player on \(name) didn't start)")
+            RendererOutput.shared.set(othersRoute: "Other apps muted (\(name) didn't start)", ok: true)
+        }
+        OtherAppsOutput.shared.setActive(sp)
+        moveAlerts(to: sp)
+    }
+
+    /// Engine thread, each second: the Other Apps & Alerts choice changed, or the chosen device came
+    /// back or went away: play other apps (and alerts) where it now says.
+    private func followOthersChoice() {
+        guard procB != nil, !inRoutine else { return }
+        var a = CA.addr(Self.kMusicOnly)
+        guard ls != 0, AudioObjectHasProperty(ls, &a) else { return }
+        let choice = UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey)
+        let target = OtherAppsOutput.resolve(dac: dac).device ?? 0
+        guard choice != othersChoice || target != othersDevice else { return }
+        log("other apps: the choice is now \(choice ?? "automatic"); moving")
+        stopOthers()
+        startOthers()
+    }
+
+    private func stopOthers() {
+        othersDevice = 0
+        OtherAppsOutput.shared.setActive(0)
+        othersFeed.store(0, ordering: .releasing)
+        if others.isRunning { log("other apps: player stopped (\(others.status))") }
+        others.stop()
+        RendererOutput.shared.set(othersRoute: nil, ok: true)
+    }
+
+    private func restartOthers(_ why: String) {
+        let d = othersDevice
+        guard d != 0 else { return }
+        othersRestartAt = Date()
+        log("other apps: restarting the player (\(why))")
+        othersFeed.store(0, ordering: .releasing)
+        if others.start(device: d, rate: curRate, log: { [unowned self] in self.log($0) }) { othersFeed.store(1, ordering: .releasing) }
+    }
+
+    /// Every 0.5 s: the speakers' varispeed follows the others ring's fill (the two clocks drift).
+    /// The player is rebuilt only when it stopped or left the speakers, at most every 2 s: AVAudioEngine
+    /// posts a configuration change right after every start while it keeps running (pastor Mac, 48k:
+    /// restarting on each notice looped 19 times and left it stopped; other apps were silent).
+    private func steerOthers() {
+        guard othersDevice != 0 else { return }
+        // meter: where other apps' audio is lost, if it is (pastor: YouTube silent on the speakers)
+        if Date().timeIntervalSince(othersMeterAt) >= 10 {
+            othersMeterAt = Date()
+            let a = Float(bitPattern: othersPeakA.exchange(0, ordering: .relaxed)), p = others.takePeak()
+            func db(_ x: Float) -> String { x > 0 ? String(format: "%.1f dBFS", 20 * log10(x)) : "silent" }
+            log("other apps meter (10 s): loopback ch 3-4 peak \(db(a)), player out peak \(db(p)); \(others.status); plug-in: \(musicOnlyStatus().components(separatedBy: "; other apps:").first ?? "")")
+        }
+        if let why = others.problem() {
+            if Date().timeIntervalSince(othersRestartAt) >= 2 { restartOthers(why) }
+            return
+        }
+        others.steer(gain: OtherAppsOutput.shared.softwareGain)
+    }
+
+    /// Alert sounds to the speakers while the engine holds the DAC; the device before is saved (for
+    /// the restore and the unclean-exit recovery) unless an earlier move is still unrestored.
+    private func moveAlerts(to sp: AudioObjectID) {
+        let cur = CA.systemOutput()
+        let before = alertsBefore != 0 ? alertsBefore : cur
+        let saved = UserDefaults.standard.stringArray(forKey: Self.alertsMovedKey) != nil
+        if before != sp, !saved {
+            UserDefaults.standard.set([CA.string(before, kAudioDevicePropertyDeviceUID), CA.string(sp, kAudioDevicePropertyDeviceUID)], forKey: Self.alertsMovedKey)
+        }
+        if cur != sp {
+            log("alert sounds -> \(CA.string(sp, kAudioObjectPropertyName)) (were on \(CA.string(cur, kAudioObjectPropertyName))): \(CA.setSystemOutput(sp))")
+        } else if before != sp {
+            log("alert sounds on \(CA.string(sp, kAudioObjectPropertyName)) (macOS moved them off the hogged DAC; were on \(CA.string(before, kAudioObjectPropertyName)))")
         }
     }
 
@@ -1355,12 +1560,29 @@ final class VirtualDeviceEngine {
 
     // MARK: - IO threads
 
-    /// A: the virtual device's loopback input (2 ch float32) -> ring.
+    /// A: the virtual device's loopback input (float32; plug-in 1.1.4: 4 ch, 1-2 Music, 3-4 the other
+    /// apps; older: 2 ch) -> ring, and the other apps -> others.ring.
     private func renderA(_ inInput: UnsafePointer<AudioBufferList>, _ inTime: UnsafePointer<AudioTimeStamp>) {
         let ins = UnsafeMutableAudioBufferListPointer(UnsafeMutablePointer(mutating: inInput))
-        guard let b = ins.first, let d = b.mData, b.mNumberChannels == 2 else { return }
-        let n = Int(b.mDataByteSize) / 8
-        let f = d.assumingMemoryBound(to: Float.self)
+        guard let b = ins.first, let d = b.mData, b.mNumberChannels == 2 || b.mNumberChannels == 4 else { return }
+        let n: Int
+        let f: UnsafePointer<Float>
+        if b.mNumberChannels == 4 {
+            n = min(Int(b.mDataByteSize) / 16, Self.maxFrames)
+            let src = d.assumingMemoryBound(to: Float.self)
+            for i in 0..<n {
+                scratchA[i * 2] = src[i * 4]; scratchA[i * 2 + 1] = src[i * 4 + 1]
+                scratchO[i * 2] = src[i * 4 + 2]; scratchO[i * 2 + 1] = src[i * 4 + 3]
+            }
+            var pk: Float = 0
+            for i in 0..<(n * 2) { pk = max(pk, abs(scratchO[i])) }
+            if pk > Float(bitPattern: othersPeakA.load(ordering: .relaxed)) { othersPeakA.store(pk.bitPattern, ordering: .relaxed) }
+            if othersFeed.load(ordering: .relaxed) != 0 { others.ring.write(scratchO, n) }
+            f = UnsafePointer(scratchA)
+        } else {
+            n = Int(b.mDataByteSize) / 8
+            f = UnsafePointer(d.assumingMemoryBound(to: Float.self))
+        }
         let w0 = ring.written
         if marker.load(ordering: .acquiring) < 0 {
             let lz = latchZeros.load(ordering: .acquiring)
@@ -1584,6 +1806,130 @@ struct OutFormat: CustomStringConvertible {
     }
 }
 
+// MARK: - Other apps on the built-in speakers
+
+/// Music only (plug-in 1.1.4): what every app but Music played into the virtual device (loopback
+/// channels 3-4, written by A into `ring`) plays on the built-in speakers. Not bit-perfect and not
+/// meant to be: AVAudioEngine converts the virtual device's rate to the speakers', and a varispeed
+/// absorbs the drift between the two clocks (the virtual clock follows the DAC, the speakers have
+/// their own), steered from the ring's fill by a slow P loop.
+final class OthersPlayer {
+    let ring = VRing(frames: 1 << 17)
+    private(set) var device = AudioObjectID(0)
+    private(set) var rate: Double = 0
+    let configChanged = Atomic<Int>(0) // AVAudioEngine stopped itself (the speakers' configuration changed)
+    private var engine: AVAudioEngine?
+    private var varispeed: AVAudioUnitVarispeed?
+    private var observer: NSObjectProtocol?
+    private var target = 2048
+    private var fillAvg = -1.0
+    private var lastRate: Float = 1
+    private final class RenderState: @unchecked Sendable {
+        let started = Atomic<Int>(0)  // 1 once the ring reached the target
+        let restarts = Atomic<Int>(0) // pre-rolls after running dry
+        let peak = Atomic<UInt32>(0)  // peak |sample| played since the last takePeak (Float bits)
+    }
+
+    func takePeak() -> Float { Float(bitPattern: rs.peak.exchange(0, ordering: .relaxed)) }
+    private let rs = RenderState()
+    private let scratch = UnsafeMutablePointer<Float>.allocate(capacity: 16384 * 2)
+
+    init() { scratch.initialize(repeating: 0, count: 16384 * 2) }
+    deinit { stop(); scratch.deallocate() }
+
+    var isRunning: Bool { engine?.isRunning ?? false }
+    var status: String {
+        guard engine != nil else { return "other apps: no player" }
+        return "other apps: fill \(ring.fill) (target \(target)), varispeed \(String(format: "%.6f", lastRate)), dry \(rs.restarts.load(ordering: .relaxed))x, over \(ring.overruns.load(ordering: .relaxed))"
+    }
+
+    /// Plays `ring` (stereo at `rate`) on `device`. False (and stopped) if it can't, or if the output
+    /// isn't `device`: playing into the virtual device would feed the other apps back into themselves.
+    func start(device d: AudioObjectID, rate r: Double, log: (String) -> Void) -> Bool {
+        stop()
+        guard r > 0, let fmt = AVAudioFormat(standardFormatWithSampleRate: r, channels: 2) else { log("other apps: no format at \(r) Hz"); return false }
+        let e = AVAudioEngine()
+        guard let au = e.outputNode.audioUnit else { log("other apps: no output unit"); return false }
+        var dev = d
+        var st = AudioUnitSetProperty(au, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &dev, 4)
+        guard st == noErr else { log("other apps: output device -> \(CA.string(d, kAudioObjectPropertyName)): \(st)"); return false }
+        target = max(2048, Int(r * 0.05))
+        rs.started.store(0, ordering: .releasing)
+        let ring = self.ring, rs = self.rs, scratch = self.scratch, target = self.target
+        let src = AVAudioSourceNode(format: fmt) { _, _, frameCount, abl -> OSStatus in
+            let bufs = UnsafeMutableAudioBufferListPointer(abl)
+            let n = min(Int(frameCount), 16384)
+            guard bufs.count >= 2, let l = bufs[0].mData?.assumingMemoryBound(to: Float.self), let rt = bufs[1].mData?.assumingMemoryBound(to: Float.self) else { return noErr }
+            if rs.started.load(ordering: .relaxed) == 0 {
+                // pre-roll (at start and after running dry): wait for the target, then drop any excess
+                if ring.fill < target { l.update(repeating: 0, count: n); rt.update(repeating: 0, count: n); return noErr }
+                ring.trim(keep: target)
+                rs.started.store(1, ordering: .relaxed)
+            }
+            let got = ring.read(scratch, n)
+            if got < n { rs.started.store(0, ordering: .relaxed); rs.restarts.wrappingAdd(1, ordering: .relaxed) }
+            var pk: Float = 0
+            for i in 0..<n { l[i] = scratch[i * 2]; rt[i] = scratch[i * 2 + 1]; pk = max(pk, abs(l[i]), abs(rt[i])) }
+            if pk > Float(bitPattern: rs.peak.load(ordering: .relaxed)) { rs.peak.store(pk.bitPattern, ordering: .relaxed) }
+            return noErr
+        }
+        let vs = AVAudioUnitVarispeed()
+        e.attach(src); e.attach(vs)
+        e.connect(src, to: vs, format: fmt)
+        e.connect(vs, to: e.mainMixerNode, format: fmt)
+        e.prepare()
+        do { try e.start() } catch { log("other apps: player start failed: \(error)"); e.stop(); return false }
+        var cur = AudioObjectID(0); var z = UInt32(4)
+        st = AudioUnitGetProperty(au, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &cur, &z)
+        guard st == noErr, cur == d else {
+            log("other apps: player output is \(CA.string(cur, kAudioObjectPropertyName)), not \(CA.string(d, kAudioObjectPropertyName)); stopped")
+            e.stop(); return false
+        }
+        engine = e; varispeed = vs; device = d; rate = r; fillAvg = -1; lastRate = 1
+        configChanged.store(0, ordering: .releasing)
+        observer = NotificationCenter.default.addObserver(forName: .AVAudioEngineConfigurationChange, object: e, queue: nil) { [weak self] _ in
+            self?.configChanged.store(1, ordering: .releasing)
+        }
+        log("other apps -> \(CA.string(d, kAudioObjectPropertyName)) at \(Int(r)) Hz (AVAudioEngine + varispeed; target fill \(target) frames)")
+        return true
+    }
+
+    /// Why the player needs a rebuild, if it does: stopped, or its output isn't `device` any more. A
+    /// configuration-change notice alone isn't a reason (one comes after every start).
+    func problem() -> String? {
+        let notice = configChanged.exchange(0, ordering: .acquiringAndReleasing) != 0
+        guard let e = engine else { return "the player isn't running" }
+        guard e.isRunning else { return notice ? "the speakers' configuration changed; the player stopped" : "the player stopped" }
+        var cur = AudioObjectID(0); var z = UInt32(4)
+        if let au = e.outputNode.audioUnit, AudioUnitGetProperty(au, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &cur, &z) == noErr, cur != device {
+            e.stop() // never play into another device (the virtual one would feed back)
+            return "its output moved to \(CA.string(cur, kAudioObjectPropertyName))"
+        }
+        return nil
+    }
+
+    func stop() {
+        if let observer { NotificationCenter.default.removeObserver(observer) }
+        observer = nil
+        engine?.stop()
+        engine = nil; varispeed = nil; device = 0; rate = 0
+        rs.started.store(0, ordering: .releasing)
+        ring.trim(keep: 0) // the reader is gone: the consumer side is ours
+    }
+
+    /// Every 0.5 s: varispeed = 1 + k (fill - target), smoothed, within +-2000 ppm (a few cents; the
+    /// clocks differ by a few hundred ppm). Fill above target -> play faster.
+    func steer(gain: Float) {
+        if let e = engine, e.mainMixerNode.outputVolume != gain { e.mainMixerNode.outputVolume = gain }
+        guard let vs = varispeed, rs.started.load(ordering: .relaxed) != 0 else { return }
+        let f = Double(ring.fill)
+        fillAvg = fillAvg < 0 ? f : fillAvg + 0.2 * (f - fillAvg)
+        let r = 1 + max(-0.002, min(0.002, 5e-7 * (fillAvg - Double(target))))
+        lastRate = Float(r)
+        vs.rate = lastRate
+    }
+}
+
 // MARK: - Ring and time stamps
 
 /// Single-producer single-consumer stereo float ring (A writes, B reads; the consumer alone trims).
@@ -1791,6 +2137,24 @@ enum CA {
     static func setDefaultOutput(_ d: AudioObjectID) -> OSStatus {
         var d = d; var a = addr(kAudioHardwarePropertyDefaultOutputDevice)
         return AudioObjectSetPropertyData(AudioObjectID(kAudioObjectSystemObject), &a, 0, nil, 4, &d)
+    }
+
+    /// The alert-sound device.
+    static func systemOutput() -> AudioObjectID {
+        var d = AudioObjectID(0); var a = addr(kAudioHardwarePropertyDefaultSystemOutputDevice); var z = UInt32(4)
+        AudioObjectGetPropertyData(AudioObjectID(kAudioObjectSystemObject), &a, 0, nil, &z, &d); return d
+    }
+
+    static func setSystemOutput(_ d: AudioObjectID) -> OSStatus {
+        var d = d; var a = addr(kAudioHardwarePropertyDefaultSystemOutputDevice)
+        return AudioObjectSetPropertyData(AudioObjectID(kAudioObjectSystemObject), &a, 0, nil, 4, &d)
+    }
+
+    /// A stream's channel count (its virtual format).
+    static func channels(_ s: AudioStreamID) -> UInt32 {
+        var f = AudioStreamBasicDescription(); var z = UInt32(MemoryLayout<AudioStreamBasicDescription>.size)
+        var a = addr(kAudioStreamPropertyVirtualFormat)
+        return AudioObjectGetPropertyData(s, &a, 0, nil, &z, &f) == noErr ? f.mChannelsPerFrame : 0
     }
 
     static func nominal(_ d: AudioObjectID) -> Float64 { DeviceFormat.nominalSampleRate(d) ?? 0 }
@@ -2268,6 +2632,13 @@ final class RendererOutput: ObservableObject {
     /// whether it's lossy (AAC has no bit depth). The menu shows it while the engine holds a DAC.
     @Published private(set) var sourceBits: Int?
     @Published private(set) var sourceLossy = false
+    /// Where other apps' audio goes while the engine holds the DAC (Bit-Perfect Check); nil otherwise.
+    @Published private(set) var othersRoute: (text: String, ok: Bool)?
+
+    /// Any thread.
+    func set(othersRoute text: String?, ok: Bool) {
+        DispatchQueue.main.async { if self.othersRoute?.text != text { self.othersRoute = text.map { ($0, ok) } } }
+    }
 
     /// Any thread.
     func set(dacName name: String?) {

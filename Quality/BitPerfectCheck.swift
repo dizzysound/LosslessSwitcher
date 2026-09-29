@@ -10,6 +10,7 @@
 //
 
 import AppKit
+import Combine
 import CoreAudio
 import Foundation
 import SimplyCoreAudio
@@ -32,6 +33,7 @@ final class BitPerfectCheck: ObservableObject {
     private let queue = DispatchQueue(label: "bitPerfectCheckQueue", qos: .utility)
     private var observer: NSObjectProtocol?
     private var deviceObservers = [NSObjectProtocol]()
+    private var othersRouteSink: AnyCancellable?
     private var lastRefresh = Date.distantPast // main thread only
 
     init(outputDevice: @escaping () -> AudioObjectID?) {
@@ -47,6 +49,10 @@ final class BitPerfectCheck: ObservableObject {
             deviceObservers.append(NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
                 self?.refreshAfterDeviceChange()
             })
+        }
+        // Exclusive Mode's other-apps route (speakers, muted, or mixed into Music with an old plug-in)
+        othersRouteSink = RendererOutput.shared.$othersRoute.dropFirst().receive(on: DispatchQueue.main).sink { [weak self] _ in
+            self?.refreshAfterDeviceChange()
         }
         refresh()
     }
@@ -68,8 +74,10 @@ final class BitPerfectCheck: ObservableObject {
     func refresh() {
         lastRefresh = Date()
         let device = outputDevice()
+        let others = RendererOutput.shared.othersRoute
         queue.async { [weak self] in
-            let items = Self.check(outputDevice: device)
+            var items = Self.check(outputDevice: device)
+            if let others { items.append(Item(id: "otherApps", ok: others.ok, text: others.text)) }
             print("[BitPerfectCheck] " + items.map { "\($0.ok.map { $0 ? "ok" : "REVIEW" } ?? "?"): \($0.text)" }.joined(separator: " | "))
             DispatchQueue.main.async {
                 self?.items = items
