@@ -536,3 +536,31 @@ Data: data/2026-09-29-coffee-893638b/coffee-overnight-engine.log (RendererIdleSe
 - Restored: app quit cleanly (default DragonFly, int24 mixable, hog -1, -48.0 dB); RendererIdleSeconds
   and RendererLastRelaunch deleted. Music came back paused after the quit although it was playing
   (tearDown's resumeMusic) and was restarted by hand.
+
+# Export Logs and the relaunch test (f065355 .. 216e89f, coffee, 2026-09-29 morning)
+- Relaunch path, forced with the one-shot RendererProbeForceStuck: step-aside -> "DAC probe: ... acting
+  as if it were 35" -> relaunch -> old engine "engine stopped" (clean quit) -> new process 14 s later,
+  no Microphone prompt (same binary), "at launch: relaunched after a step-aside ..." pointing at
+  .1.log; the hook cleared itself. The relaunched process stepped aside (probe start 0) and took the
+  output back (start B 0, ready 0.5 s, rewound 0.17 s before the pause).
+- Engine log: keeps the two runs before it (.1, .2); the first line has the wall clock, version,
+  commit (LSGitCommit, from make_xcode_dev_app.sh, "-dirty" for uncommitted builds), macOS, Mac model;
+  the 30 s status line has the wall clock, the clock-lock state and the DAC's HAL scalar.
+- About > Export Logs… and AppleScript `export logs to "<path>"` (for SSH benches: on the coffee Air
+  the menu-bar icon goes under the notch while the orange microphone indicator shows). The zip: engine
+  logs; audio-devices.txt (every device: default flags, rates, hog owner, running/somewhere, stream
+  physical/virtual/available formats with non-mixable flags, volume in scalar and dB with range, mute,
+  latency, safety offset, buffer); settings.txt (app defaults, Music's AutoMix/Sound Check/Lossless
+  prefs, Music state and current track, installed and bundled plug-in versions, HAL plug-ins);
+  system.txt (processes, sleep/wake events); unified-log extracts for 4 h: hal-client (this process's
+  IO context pause/resume/start/"IO is still disabled"), coreaudiod (config changes, starts, stops,
+  hog, overloads, default device, errors), Music (decoder formats, output selection, play commands),
+  audio-errors (errors and faults from coreaudiod, kernel and the audio subsystems); crash reports of
+  the app or coreaudiod from 14 days. On coffee: 2 min 22 s, ~0.7 MB. A kernel "usbaudio" query was
+  empty there and was replaced; pmset's log on coffee has no Sleep/Wake events at all (80k Assertions).
+- Coffee afterwards: 216e89f running, bench defaults cleared, Music playing. Left for the owner: two
+  export zips on the Desktop, and an older copy at ~/lsbench/new/LosslessSwitcher Dev.app (2fd8f41,
+  same build number, shows as a second "LosslessSwitcher Dev" in Spotlight).
+- The orange microphone indicator and Control Center's Mic Mode (noise reduction) offer come from the
+  engine reading the virtual device's loopback input; avoiding them would need another way to get the
+  samples out of the plug-in (not planned).
