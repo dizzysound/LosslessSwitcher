@@ -226,7 +226,12 @@ static UInt64								gLoop_FramesRead				= 0;
 static const AudioObjectPropertySelector	kLS_MusicPID					= 'LSmx';
 static volatile pid_t						gMusic_PID						= 0;
 static Float32								gOthers_Buffer[kLoop_Frames * 2];
-static Float64								gOthers_CycleSample				= -1.0;	//	the cycle whose span was last cleared
+static Float64								gOthers_WrittenThrough			= -1.0;	//	end (sample time) of everything written so far
+static Float32								gOthers_PeakIn					= 0.0f;	//	diagnostics: loudest non-Music sample handed to ProcessOutput
+static Float32								gOthers_PeakRead				= 0.0f;	//	... read back on input channels 3-4
+static Float64								gOthers_LastPOSample			= -1.0;	//	... the last ProcessOutput's sample time
+static Float64								gOthers_MaxPODelta				= 0.0;	//	... largest |ProcessOutput time - that cycle's WriteMix time|
+static UInt64								gOthers_PODeltaCount			= 0;	//	... WriteMix cycles whose ProcessOutput time differed
 static UInt64								gOthers_FramesMoved				= 0;	//	non-Music client frames moved (per client)
 static UInt64								gOthers_ProcessCalls			= 0;	//	ProcessOutput calls
 static UInt64								gOthers_MusicCalls				= 0;	//	... of those, for a Music client
@@ -2873,7 +2878,7 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 				//	A snapshot for clients that measure the clock and the loopback:
 				//	now, the time line at now, the zero time stamp count, loopback positions.
 				FailWithAction(inDataSize < sizeof(CFPropertyListRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "LSOutput: no room for the status");
-				Float64 theValues[18];
+				Float64 theValues[22];
 				pthread_mutex_lock(&gDevice_IOMutex);
 				UInt64 theNow = mach_absolute_time();
 				theValues[0] = (Float64)theNow;
@@ -2894,12 +2899,16 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 				theValues[15] = (Float64)gOthers_ProcessCalls;
 				theValues[16] = (Float64)gOthers_MusicCalls;
 				theValues[17] = (Float64)gOthers_FramesMoved;
+				theValues[18] = gOthers_PeakIn; gOthers_PeakIn = 0.0f;	//	peaks since the last status read
+				theValues[19] = gOthers_PeakRead; gOthers_PeakRead = 0.0f;
+				theValues[20] = gOthers_MaxPODelta;
+				theValues[21] = (Float64)gOthers_PODeltaCount;
 				pthread_mutex_unlock(&gDevice_IOMutex);
-				CFStringRef theKeys[18] = { CFSTR("hostNow"), CFSTR("sampleNow"), CFSTR("rateScalar"), CFSTR("ticksPerFrame"), CFSTR("zeroStamps"), CFSTR("seed"), CFSTR("lastWrite"), CFSTR("lastRead"), CFSTR("framesWritten"), CFSTR("framesRead"), CFSTR("scalarSets"), CFSTR("holdState"), CFSTR("holds"), CFSTR("lastHoldSeconds"), CFSTR("musicPID"), CFSTR("processOutputCalls"), CFSTR("musicClientCalls"), CFSTR("othersFramesMoved") };
-				CFNumberRef theNumbers[18];
-				for(UInt32 i = 0; i < 18; ++i) { theNumbers[i] = CFNumberCreate(NULL, kCFNumberFloat64Type, &theValues[i]); }
-				CFDictionaryRef theDict = CFDictionaryCreate(NULL, (const void**)theKeys, (const void**)theNumbers, 18, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-				for(UInt32 i = 0; i < 18; ++i) { CFRelease(theNumbers[i]); }
+				CFStringRef theKeys[22] = { CFSTR("hostNow"), CFSTR("sampleNow"), CFSTR("rateScalar"), CFSTR("ticksPerFrame"), CFSTR("zeroStamps"), CFSTR("seed"), CFSTR("lastWrite"), CFSTR("lastRead"), CFSTR("framesWritten"), CFSTR("framesRead"), CFSTR("scalarSets"), CFSTR("holdState"), CFSTR("holds"), CFSTR("lastHoldSeconds"), CFSTR("musicPID"), CFSTR("processOutputCalls"), CFSTR("musicClientCalls"), CFSTR("othersFramesMoved"), CFSTR("othersPeakIn"), CFSTR("othersPeakRead"), CFSTR("othersMaxTimeDelta"), CFSTR("othersTimeDeltaCycles") };
+				CFNumberRef theNumbers[22];
+				for(UInt32 i = 0; i < 22; ++i) { theNumbers[i] = CFNumberCreate(NULL, kCFNumberFloat64Type, &theValues[i]); }
+				CFDictionaryRef theDict = CFDictionaryCreate(NULL, (const void**)theKeys, (const void**)theNumbers, 22, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+				for(UInt32 i = 0; i < 22; ++i) { CFRelease(theNumbers[i]); }
 				*((CFPropertyListRef*)outData) = theDict;
 				*outDataSize = sizeof(CFPropertyListRef);
 			}
@@ -3017,7 +3026,7 @@ static OSStatus	NullAudio_SetDevicePropertyData(AudioServerPlugInDriverRef inDri
 					os_log(gLog, "LSOutput: Music only: pid %d (was %d)", thePID, gMusic_PID);
 					pthread_mutex_lock(&gDevice_IOMutex);
 					gMusic_PID = thePID;
-					gOthers_CycleSample = -1.0;
+					gOthers_WrittenThrough = -1.0;
 					memset(gOthers_Buffer, 0, sizeof(gOthers_Buffer));
 					pthread_mutex_unlock(&gDevice_IOMutex);
 					*outNumberPropertiesChanged = 1;
@@ -4507,7 +4516,7 @@ static OSStatus	NullAudio_StartIO(AudioServerPlugInDriverRef inDriver, AudioObje
 		gLoop_LastReadSample = -1.0;
 		memset(gLoop_Buffer, 0, sizeof(gLoop_Buffer));
 		memset(gOthers_Buffer, 0, sizeof(gOthers_Buffer));
-		gOthers_CycleSample = -1.0;
+		gOthers_WrittenThrough = -1.0;
 		pthread_mutex_unlock(&gDevice_IOMutex);
 		os_log(gLog, "LSOutput: IO start, %.0f Hz, scalar %.9f", gDevice_SampleRate, gClock_RateScalar);
 	}
@@ -4721,15 +4730,23 @@ static OSStatus	NullAudio_DoIOOperation(AudioServerPlugInDriverRef inDriver, Aud
 		Float64 theSampleTime = inIOCycleInfo->mOutputTime.mSampleTime;
 		Float32* theSrc = (Float32*)ioMainBuffer;
 		UInt64 theStart = (UInt64)theSampleTime % kLoop_Frames;
-		//	the first client of a cycle replaces what an earlier lap left there (read or not)
-		bool theFirst = theSampleTime != gOthers_CycleSample;
-		gOthers_CycleSample = theSampleTime;
+		//	Frames past everything written so far hold an earlier lap (read or not): replace them; the rest
+		//	was written this lap by another client: add. Doesn't assume the clients of a cycle share one
+		//	sample time (1.1.4 replaced on the "first client of a cycle" and lost other apps' audio on
+		//	the pastor Mac).
+		if(gOthers_WrittenThrough - theSampleTime > kLoop_Frames / 2) gOthers_WrittenThrough = -1.0;	//	the time line went back
 		for(UInt32 i = 0; i < inIOBufferFrameSize; ++i)
 		{
 			UInt64 k = ((theStart + i) % kLoop_Frames) * 2;
-			if(theFirst) { gOthers_Buffer[k] = theSrc[i * 2]; gOthers_Buffer[k + 1] = theSrc[i * 2 + 1]; }
-			else { gOthers_Buffer[k] += theSrc[i * 2]; gOthers_Buffer[k + 1] += theSrc[i * 2 + 1]; }
+			Float32 l = theSrc[i * 2], r = theSrc[i * 2 + 1];
+			Float32 al = l < 0 ? -l : l, ar = r < 0 ? -r : r;
+			if(al > gOthers_PeakIn) gOthers_PeakIn = al;
+			if(ar > gOthers_PeakIn) gOthers_PeakIn = ar;
+			if(theSampleTime + i >= gOthers_WrittenThrough) { gOthers_Buffer[k] = l; gOthers_Buffer[k + 1] = r; }
+			else { gOthers_Buffer[k] += l; gOthers_Buffer[k + 1] += r; }
 		}
+		if(theSampleTime + inIOBufferFrameSize > gOthers_WrittenThrough) gOthers_WrittenThrough = theSampleTime + inIOBufferFrameSize;
+		gOthers_LastPOSample = theSampleTime;
 		memset(ioMainBuffer, 0, inIOBufferFrameSize * kLS_OutputChannels * sizeof(Float32));
 		gOthers_FramesMoved += inIOBufferFrameSize;
 	}
@@ -4746,6 +4763,12 @@ static OSStatus	NullAudio_DoIOOperation(AudioServerPlugInDriverRef inDriver, Aud
 		}
 		gLoop_LastWriteSample = theSampleTime;
 		gLoop_FramesWritten += inIOBufferFrameSize;
+		if(gMusic_PID != 0 && gOthers_LastPOSample >= 0.0)
+		{
+			Float64 theDelta = gOthers_LastPOSample - theSampleTime; if(theDelta < 0) theDelta = -theDelta;
+			if(theDelta > 0) { ++gOthers_PODeltaCount; if(theDelta > gOthers_MaxPODelta) gOthers_MaxPODelta = theDelta; }
+			gOthers_LastPOSample = -1.0;
+		}
 	}
 	else if(inOperationID == kAudioServerPlugInIOOperationReadInput && inIOCycleInfo->mInputTime.mSampleTime < 0.0)
 	{
@@ -4762,6 +4785,8 @@ static OSStatus	NullAudio_DoIOOperation(AudioServerPlugInDriverRef inDriver, Aud
 			UInt64 k = ((theStart + i) % kLoop_Frames) * 2;
 			theDst[i * 4] = gLoop_Buffer[k]; theDst[i * 4 + 1] = gLoop_Buffer[k + 1];
 			theDst[i * 4 + 2] = gOthers_Buffer[k]; theDst[i * 4 + 3] = gOthers_Buffer[k + 1];
+			Float32 al = gOthers_Buffer[k] < 0 ? -gOthers_Buffer[k] : gOthers_Buffer[k];
+			if(al > gOthers_PeakRead) gOthers_PeakRead = al;
 			gLoop_Buffer[k] = 0; gLoop_Buffer[k + 1] = 0; gOthers_Buffer[k] = 0; gOthers_Buffer[k + 1] = 0;
 		}
 		gLoop_LastReadSample = theSampleTime;

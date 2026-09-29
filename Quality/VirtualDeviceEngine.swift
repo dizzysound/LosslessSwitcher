@@ -849,6 +849,11 @@ final class VirtualDeviceEngine {
         var plug = "plug-in status unreadable"
         if AudioObjectGetPropertyData(ls, &a, 0, nil, &z, &v) == noErr, let d = v?.takeRetainedValue() as? [String: NSNumber], let calls = d["processOutputCalls"] {
             plug = "ProcessOutput calls \(calls.int64Value), Music's \(d["musicClientCalls"]?.int64Value ?? -1), other apps' frames \(d["othersFramesMoved"]?.int64Value ?? -1), pid \(d["musicPID"]?.int32Value ?? -1)"
+            // 1.1.5: peaks since the last read (handed in by other apps / read back on ch 3-4) and how far
+            // a ProcessOutput's sample time was from its cycle's WriteMix
+            if let pin = d["othersPeakIn"]?.doubleValue, let pr = d["othersPeakRead"]?.doubleValue {
+                plug += String(format: "; peak in %.4f, read back %.4f; time delta max %.0f frames in %lld cycles", pin, pr, d["othersMaxTimeDelta"]?.doubleValue ?? -1, d["othersTimeDeltaCycles"]?.int64Value ?? -1)
+            }
         }
         return plug + "; " + others.status
     }
@@ -928,7 +933,7 @@ final class VirtualDeviceEngine {
             othersMeterAt = Date()
             let a = Float(bitPattern: othersPeakA.exchange(0, ordering: .relaxed)), p = others.takePeak()
             func db(_ x: Float) -> String { x > 0 ? String(format: "%.1f dBFS", 20 * log10(x)) : "silent" }
-            log("other apps meter (10 s): loopback ch 3-4 peak \(db(a)), player out peak \(db(p)); \(others.status)")
+            log("other apps meter (10 s): loopback ch 3-4 peak \(db(a)), player out peak \(db(p)); \(others.status); plug-in: \(musicOnlyStatus().components(separatedBy: "; other apps:").first ?? "")")
         }
         if let why = others.problem() {
             if Date().timeIntervalSince(othersRestartAt) >= 2 { restartOthers(why) }
