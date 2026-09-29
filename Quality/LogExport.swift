@@ -72,7 +72,7 @@ final class LogExport: ObservableObject {
             ("unified-hal-client.log", "process == \"\(me)\" AND (eventMessage CONTAINS \"PauseIO\" OR eventMessage CONTAINS \"ResumeIO\" OR eventMessage CONTAINS \"IOThread\" OR eventMessage CONTAINS \"StartAndWait\" OR eventMessage CONTAINS \"StartIO\" OR eventMessage CONTAINS \"StopIO\" OR eventMessage CONTAINS \"IOWorkLoop\" OR eventMessage CONTAINS \"setPlayState\" OR eventMessage CONTAINS \"HALDefaultDevice\" OR messageType == error OR messageType == fault)"),
             ("unified-coreaudiod.log", "process == \"coreaudiod\" AND (eventMessage CONTAINS \"RequestConfigChange\" OR eventMessage CONTAINS \"StartIO\" OR eventMessage CONTAINS \"StopIO\" OR eventMessage CONTAINS \"IO Stopped\" OR eventMessage CONTAINS \"IOWorkLoop\" OR eventMessage CONTAINS[c] \"hog\" OR eventMessage CONTAINS[c] \"overload\" OR eventMessage CONTAINS \"SetDefaultDevice\" OR eventMessage CONTAINS \"_Deactivate\" OR eventMessage CONTAINS \"Activate: activating\" OR messageType == error OR messageType == fault)"),
             ("unified-music.log", "process == \"Music\" AND (eventMessage CONTAINS \"Input format:\" OR eventMessage CONTAINS \"ACAppleLosslessDecoder\" OR eventMessage CONTAINS \"SelectDevice\" OR eventMessage CONTAINS \"play> mpc> cmd>\" OR eventMessage CONTAINS \"setAudioOutputContext\")"),
-            ("unified-usb-audio-kernel.log", "process == \"kernel\" AND (eventMessage CONTAINS[c] \"usbaudio\" OR eventMessage CONTAINS[c] \"AppleUSBAudio\")"),
+            ("unified-audio-errors.log", "(process == \"coreaudiod\" OR process == \"kernel\" OR subsystem BEGINSWITH \"com.apple.coreaudio\" OR subsystem BEGINSWITH \"com.apple.audio\") AND (messageType == error OR messageType == fault)"),
         ]
         let group = DispatchGroup()
         for (name, predicate) in queries {
@@ -113,7 +113,7 @@ final class LogExport: ObservableObject {
 
     private static func readme() -> String {
         """
-        LosslessSwitcher log export, \(Date())
+        LosslessSwitcher log export, \(RendererLog.wallClock.string(from: Date()))
         \(appSummary)
         macOS \(ProcessInfo.processInfo.operatingSystemVersionString), \(sysctl("hw.model")), up \(Int(ProcessInfo.processInfo.systemUptime / 60)) min
 
@@ -128,7 +128,7 @@ final class LogExport: ObservableObject {
           unified-*.log                          the last \(hours) h of the system log, filtered: this process's
                                                  HAL client (IO context pause/resume, start), coreaudiod (config
                                                  changes, starts, stops, errors), Music (decoder formats, output
-                                                 device), kernel USB audio
+                                                 device), audio errors and faults from any process
           DiagnosticReports/                     crash reports of this app or coreaudiod from the last 14 days
         """
     }
@@ -158,12 +158,10 @@ final class LogExport: ObservableObject {
             end if
             """], timeout: 15)
         s += "\n== Virtual output plug-in\n\(VirtualOutputPlugin.installPath): "
-        if let b = Bundle(path: VirtualOutputPlugin.installPath) {
-            s += "\(b.infoDictionary?["CFBundleShortVersionString"] ?? "?") (\(b.infoDictionary?["CFBundleVersion"] ?? "?"))\n"
-        } else { s += "not installed\n" }
-        if let b = Bundle.main.url(forResource: "LSOutput", withExtension: "driver").flatMap({ Bundle(url: $0) }) {
-            s += "bundled with this app: \(b.infoDictionary?["CFBundleShortVersionString"] ?? "?") (\(b.infoDictionary?["CFBundleVersion"] ?? "?"))\n"
-        }
+        let installed = VirtualOutputPlugin.version(of: URL(fileURLWithPath: VirtualOutputPlugin.installPath))
+        s += installed.map { "\($0.short) (\($0.build))\n" } ?? "not installed\n"
+        let bundled = VirtualOutputPlugin.shared.bundledURL.flatMap { VirtualOutputPlugin.version(of: $0) }
+        s += "bundled with this app: " + (bundled.map { "\($0.short) (\($0.build))" } ?? "none") + "\n"
         s += run("/bin/ls", ["-l", "/Library/Audio/Plug-Ins/HAL"], timeout: 10)
         return s
     }
@@ -174,9 +172,13 @@ final class LogExport: ObservableObject {
             .split(separator: "\n").filter { $0.contains("PID") || $0.contains("LosslessSwitcher") || $0.contains("run.pl") || $0.contains("Music.app") || $0.contains("coreaudiod") }
             .joined(separator: "\n")
         s += "\n\n== sleep and wake (pmset -g log, last 100)\n"
-        s += run("/usr/bin/pmset", ["-g", "log"], timeout: 60)
-            .split(separator: "\n").filter { $0.contains(" Sleep ") || $0.contains(" Wake ") || $0.contains(" DarkWake ") }
-            .suffix(100).joined(separator: "\n")
+        // the event type is the column after the time zone; "Wake Lock" assertions aren't wakes
+        let events = run("/usr/bin/pmset", ["-g", "log"], timeout: 60)
+            .split(separator: "\n").filter { line in
+                let f = line.split(separator: " ", maxSplits: 4, omittingEmptySubsequences: true)
+                return f.count > 3 && ["Sleep", "Wake", "DarkWake"].contains(f[3].trimmingCharacters(in: .whitespaces))
+            }.suffix(100)
+        s += events.isEmpty ? "(none in pmset's log)" : events.joined(separator: "\n")
         return s + "\n"
     }
 
@@ -215,7 +217,7 @@ enum AudioSnapshot {
         let defOut = CA.defaultOutput()
         let sysOut = get(AudioObjectID(kAudioObjectSystemObject), kAudioHardwarePropertyDefaultSystemOutputDevice, AudioObjectID(0))
         let defIn = get(AudioObjectID(kAudioObjectSystemObject), kAudioHardwarePropertyDefaultInputDevice, AudioObjectID(0))
-        var s = "Audio devices, \(Date()); this process pid \(getpid())\n"
+        var s = "Audio devices, \(RendererLog.wallClock.string(from: Date())); this process pid \(getpid())\n"
         for d in CA.devices() {
             let out = CA.streams(d, kAudioObjectPropertyScopeOutput), inp = CA.streams(d, kAudioObjectPropertyScopeInput)
             var flags: [String] = []
