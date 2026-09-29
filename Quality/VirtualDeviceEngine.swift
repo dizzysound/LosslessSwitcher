@@ -112,7 +112,8 @@ final class VirtualDeviceEngine {
     private var curRate: Float64 = 0
     private var playing = false
     private var lastTrackID: Int64?
-    private var decoderRates: [(date: Date, rate: Float64, bits: Int?, lossless: Bool)] = []
+    private typealias DecoderLine = (date: Date, rate: Float64, bits: Int?, lossless: Bool)
+    private var decoderRates: [DecoderLine] = []
     private var lossyTrackAt: Date?
     private var pendingUpgrade: (rate: Float64, bits: Int?)?
     private var armAt: Date?
@@ -121,7 +122,12 @@ final class VirtualDeviceEngine {
     private var latchedAt: Date?
     private var gatePending = false
     private var lastNewTrackAt: Date?
-    private var awaiting: (name: String, tPlay: Date, until: Date)? // a new track whose decoder line hasn't come yet
+    // Decoder lines up to this time belong to the playing track: its own setup just after Playing
+    // (streams and skips, ~0.4 s late) or the decoder a switch's rewind re-creates.
+    private var ownLinesUntil: Date?
+    private var trackRate: Float64? // the decoder rate decided for the playing track
+    // a new track whose decoder line hasn't come yet; fallback: the line to use if none comes
+    private var awaiting: (name: String, tPlay: Date, until: Date, fallback: DecoderLine?)?
     private var gateMarkedAt: Date?
     private var gateWaitsForMusic = false // after Music quit: the gate waits longer for its Playing
     private var regateOnSilence = false   // the gate let another sound through: close it when that ends
@@ -302,6 +308,7 @@ final class VirtualDeviceEngine {
             if formatDirty.load(ordering: .acquiring) != 0 || now.timeIntervalSince(lastFormatCheck) >= 1 { lastFormatCheck = now; checkFormat() }
             if let up = pendingUpgrade, playing, !inRoutine {
                 pendingUpgrade = nil
+                trackRate = up.rate
                 if let r = neededRate(up.rate) {
                     log("lossless decoder at \(up.rate) Hz after a lossy start; switching again")
                     switchRate(r, name: "(lossless upgrade)", tPlay: Date())
@@ -737,7 +744,7 @@ final class VirtualDeviceEngine {
         // gate, and the real track played at the old rate until its own line came. If no real one
         // follows, the next decoder line (or 3 s) decides for it.
         if playing, name.isEmpty, info["PersistentID"] == nil {
-            if gatePending, awaiting == nil { awaiting = ("(no name)", at, Date().addingTimeInterval(3)) }
+            if gatePending, awaiting == nil { awaiting = ("(no name)", at, Date().addingTimeInterval(3), nil) }
             log("playerInfo without a name or PersistentID: not a track; gate \(gatePending ? "held" : "open")")
             return
         }
@@ -768,7 +775,10 @@ final class VirtualDeviceEngine {
         // pre-roll, or its own setup). In trial m1 an Apple Music stream reported Playing before its
         // decoder line, and the previous track's 20 s old line was taken for it.
         let prev = lastNewTrackAt
+        let prevOwnUntil = ownLinesUntil
         lastNewTrackAt = at
+        ownLinesUntil = max(at.addingTimeInterval(2), prevOwnUntil ?? .distantPast)
+        trackRate = nil
         guard let line = decoderRates.last(where: { prev == nil || $0.date > prev! }) else {
             // A gapless successor can have its decoder set up before the previous track began (trial
             // m2: none logged for Wish You Were Here after Have a Cigar). A local file's own header
@@ -777,14 +787,24 @@ final class VirtualDeviceEngine {
                 decide(st.sampleRate, lossless: true, seenAgo: 0, name: name + " (file header, no decoder line)", tPlay: at)
                 return
             }
-            awaiting = (name, at, Date().addingTimeInterval(3))
+            awaiting = (name, at, Date().addingTimeInterval(3), nil)
             log("new track \(name): no decoder line for it yet; \(gatePending ? "holding at the gate" : "playing on at \(Int(curRate)) Hz") until one comes (3 s)")
+            return
+        }
+        // A line from the previous track's own window may be that track's late setup, not this one's
+        // (Executor bench: two skips ~12 s apart each took the track before's line, so Deadbeat Drag
+        // played at 48k and Earth was switched to 44.1k; each track's own line came ~0.4 s after its
+        // Playing). Wait briefly for a newer line; if none comes, this one decides.
+        if let own = prevOwnUntil, line.date <= own {
+            awaiting = (name, at, Date().addingTimeInterval(1), line)
+            log("new track \(name): the newest decoder line (\(Int(line.rate)) Hz, \(String(format: "%.3f", at.timeIntervalSince(line.date))) s before Playing) may be the previous track's; waiting 1 s for its own")
             return
         }
         decide(line.rate, lossless: line.lossless, seenAgo: at.timeIntervalSince(line.date), name: name, tPlay: at)
     }
 
     private func decide(_ rate: Float64, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date) {
+        trackRate = rate
         if !lossless { lossyTrackAt = Date() }
         let need = neededRate(rate)
         log("new track \(name): decoder \(rate) Hz \(lossless ? "lossless" : "lossy") (seen \(String(format: "%.3f", seenAgo)) s before Playing), DAC \(Int(curRate)) Hz\(need.map { " -> switch to \(Int($0))" } ?? "")")
@@ -833,9 +853,14 @@ final class VirtualDeviceEngine {
     private func tickLatchAndGate() {
         if let aw = awaiting, Date() > aw.until {
             awaiting = nil
-            log("no decoder line for \(aw.name) within 3 s; playing at \(Int(curRate)) Hz")
-            if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
-            releaseGate("no decoder line")
+            if let f = aw.fallback {
+                log("no newer decoder line for \(aw.name) within 1 s; the earlier one decides")
+                decide(f.rate, lossless: f.lossless, seenAgo: aw.tPlay.timeIntervalSince(f.date), name: aw.name, tPlay: aw.tPlay)
+            } else {
+                log("no decoder line for \(aw.name) within 3 s; playing at \(Int(curRate)) Hz")
+                if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
+                releaseGate("no decoder line")
+            }
         }
         regateIfSilent()
         if let l = lateArmAt, Date() >= l, armAt == nil, armedAt == nil, latchedAt == nil, !inRoutine {
@@ -917,12 +942,16 @@ final class VirtualDeviceEngine {
             _ = scripts.play()
             return
         }
-        // the rate this track needs: its newest decoder line (Music decoded it before pausing), else
-        // the local file's header; the DAC's current rate if neither says
+        // the rate this track needs: the rate decided for it if it's the track that was playing (the
+        // newest line can be the next track's pre-roll: Executor bench, Earth resumed on the next
+        // track's 48k line), else its newest decoder line (Music decoded it before pausing), else the
+        // local file's header; the DAC's current rate if none says
+        let pid = (info["PersistentID"] as? NSNumber)?.int64Value ?? (name.isEmpty ? nil : Int64(truncatingIfNeeded: name.hashValue))
         let recent = decoderRates.last.flatMap { Date().timeIntervalSince($0.date) < 30 ? $0.rate : nil }
-        let rate = recent ?? LocalTrack.currentStats(attempts: 2)?.sampleRate
+        let rate = (pid != nil && pid == lastTrackID ? trackRate : nil) ?? recent ?? LocalTrack.currentStats(attempts: 2)?.sampleRate
         let target = rate.flatMap { neededRate($0) } ?? curRate
-        lastTrackID = (info["PersistentID"] as? NSNumber)?.int64Value ?? (name.isEmpty ? nil : Int64(truncatingIfNeeded: name.hashValue))
+        if pid != lastTrackID { trackRate = rate }
+        lastTrackID = pid
         lastNewTrackAt = at
         switchRate(target, name: name, tPlay: at, pausedAt: pausedAt)
     }
@@ -1019,6 +1048,8 @@ final class VirtualDeviceEngine {
         _ = scripts.setPosition(startPos)
         reclaimDefault() // never let Music start on whatever coreaudiod fell back to
         _ = scripts.play()
+        // the play re-creates this track's decoder: that line is its own, not a next track's
+        ownLinesUntil = max(ownLinesUntil ?? .distantPast, Date().addingTimeInterval(1))
         log("  rewound to \(String(format: "%.3f", startPos)) (was \(String(format: "%.3f", pos)), played ~\(String(format: "%.3f", played)) s), play; switch \(switches) done \(ms(t)) after the request")
     }
 
@@ -1039,7 +1070,7 @@ final class VirtualDeviceEngine {
             // play, wait longer than usual for its Playing, and forget the old lines.
             if armAt != nil || armedAt != nil || latchedAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("Music quit") }
             awaiting = nil; pendingUpgrade = nil; lossyTrackAt = nil
-            decoderRates = []; lastNewTrackAt = nil
+            decoderRates = []; lastNewTrackAt = nil; ownLinesUntil = nil; trackRate = nil
             if !gatePending { gatePending = true; gateMarkedAt = nil; gate.store(1, ordering: .releasing) }
             gateWaitsForMusic = true
             trimIdle.store(1, ordering: .releasing)
