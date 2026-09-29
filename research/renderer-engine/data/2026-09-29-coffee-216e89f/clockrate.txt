@@ -1,0 +1,24 @@
+AudioQuest DragonFly Black v1.5 | DEFAULT rate=44100 hog=-1 vol- e0=-48.0dB mute=e0=0 | int24 mixable 44100 | AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1
+AudioQuest DragonFly Black v1.5: nominal 44100.0 Hz; measuring 60 s
+   10 s: measured 44150.019 Hz (+1134 ppm vs nominal); HAL mRateScalar mean 0.998865 (-1135 ppm)
+   20 s: measured 44150.077 Hz (+1136 ppm vs nominal); HAL mRateScalar mean 0.998865 (-1135 ppm)
+   30 s: measured 44150.099 Hz (+1136 ppm vs nominal); HAL mRateScalar mean 0.998865 (-1135 ppm)
+   40 s: measured 44150.115 Hz (+1136 ppm vs nominal); HAL mRateScalar mean 0.998865 (-1135 ppm)
+   50 s: measured 44150.123 Hz (+1137 ppm vs nominal); HAL mRateScalar mean 0.998865 (-1135 ppm)
+   60 s: measured 44149.096 Hz (+1113 ppm vs nominal); HAL mRateScalar mean 0.998868 (-1132 ppm)
+AudioQuest DragonFly Black v1.5: nominal 48000.0 Hz; measuring 60 s
+   10 s: measured 48050.142 Hz (+1045 ppm vs nominal); HAL mRateScalar mean 0.998957 (-1043 ppm)
+   20 s: measured 48050.205 Hz (+1046 ppm vs nominal); HAL mRateScalar mean 0.998956 (-1044 ppm)
+   30 s: measured 48050.181 Hz (+1045 ppm vs nominal); HAL mRateScalar mean 0.998956 (-1044 ppm)
+   40 s: measured 48046.118 Hz (+961 ppm vs nominal); HAL mRateScalar mean 0.998976 (-1024 ppm)
+   50 s: measured 48036.980 Hz (+770 ppm vs nominal); HAL mRateScalar mean 0.999130 (-870 ppm)
+   60 s: measured 48030.831 Hz (+642 ppm vs nominal); HAL mRateScalar mean 0.999268 (-732 ppm)
+AudioQuest DragonFly Black v1.5: nominal 44100.0 Hz; measuring 60 s
+   10 s: measured 44150.043 Hz (+1135 ppm vs nominal); HAL mRateScalar mean 0.998864 (-1136 ppm)
+   20 s: measured 44150.107 Hz (+1136 ppm vs nominal); HAL mRateScalar mean 0.998864 (-1136 ppm)
+   30 s: measured 44150.123 Hz (+1137 ppm vs nominal); HAL mRateScalar mean 0.998864 (-1136 ppm)
+   40 s: measured 44150.138 Hz (+1137 ppm vs nominal); HAL mRateScalar mean 0.998864 (-1136 ppm)
+   50 s: measured 44150.143 Hz (+1137 ppm vs nominal); HAL mRateScalar mean 0.998864 (-1136 ppm)
+   60 s: measured 44148.863 Hz (+1108 ppm vs nominal); HAL mRateScalar mean 0.998869 (-1131 ppm)
+playing
+AudioQuest DragonFly Black v1.5 | rate=44100 hog=25725 vol- e0=-48.0dB mute=e0=0 | int24 nonmixable 44100 | AppleUSBAudioEngine:AudioQuest:AudioQuest DragonFly Black v1.5:AQDFBL0120002531:1

@@ -564,3 +564,29 @@ Data: data/2026-09-29-coffee-893638b/coffee-overnight-engine.log (RendererIdleSe
 - The orange microphone indicator and Control Center's Mic Mode (noise reduction) offer come from the
   engine reading the virtual device's loopback input; avoiding them would need another way to get the
   samples out of the plug-in (not planned).
+
+# Reproduced: no clock lock at 44.1k on the DragonFly (216e89f, coffee, 2026-09-29 05:27-05:45)
+Data: data/2026-09-29-coffee-216e89f/ (repro-44k-engine.log, clockrate.txt); tool: tools/clockrate.swift.
+- Repro in < 3 min, no idle tricks: Music played 44.1k -> 48k (Intruder) -> 44.1k (St. Stephen).
+  From then on every status line: "clock waiting (DAC scalar not settled)"; DAC HAL scalar 0.99886 ->
+  0.99958 within ~1.5 min; virtual device scalar left at 1.000000000; ring 0-512 (target 2048);
+  underruns +512 frames per 30 s = 17 frames/s = ~390 ppm, matching the DAC scalar's ~420 ppm.
+- The overnight run: both brief locks (t=21055, 21990) were during 48k tracks and ended only because
+  the next track switched to 44.1k (the switch resets the lock); while locked at 48k, underruns stayed
+  flat (350208 for 4 min) and the virtual scalar settled at 0.9999956. Every 44.1k stretch never
+  locked. So: 48k locks within ~1 min; 44.1k never does.
+- clockrate (engine quit, DAC mixable, not hogged, 60 s each): 44.1k +1135 ppm flat for 60 s, twice;
+  48k +1045 ppm falling (cumulative mean +642 ppm at 60 s, so the recent rate near 0). NOT an
+  independent measurement: it uses the HAL's own sample/host timestamps (it mirrors mRateScalar
+  exactly). What it shows is the HAL's timestamp model for this DAC: ~1100 ppm off after every
+  (re)start, converging within ~1 min at 48k, slowly and to ~400 ppm at 44.1k. The ring's underrun
+  drift (the engine's frames consumed vs produced) is the independent signal, and it agrees (~390 ppm).
+- Owner: the DragonFly uses a licensed, unusual USB audio implementation (asynchronous, its own
+  clocking); a real ~400 ppm offset in the 44.1k family is plausible, as is the slow convergence.
+- Cause in the engine: pll() won't lock while abs(rB - 1) > 100e-6 ("not settled"), and meanwhile the
+  virtual device keeps its last scalar (1.0 after a switch), so it runs ~400 ppm slow against this DAC
+  and the ring drains: a ~12 ms dropout about every 30 s for as long as 44.1k plays. The gate assumes
+  a real clock is within 100 ppm of nominal; the DragonFly at 44.1k isn't. Fix direction (not done):
+  gate on the scalar being steady (its change over a few seconds), not near 1; while waiting, follow
+  the DAC's scalar rather than holding 1.0. Check the MT 48 / Babyface logs don't regress.
+- Coffee afterwards: app relaunched (216e89f, no prompt), hogged, Music playing; DAC -48 dB.
