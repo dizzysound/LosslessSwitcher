@@ -136,6 +136,7 @@ final class VirtualDeviceEngine {
     private var steppedAside = false
     private var idleSince: Date?
     private var resumeInfo: (info: [AnyHashable: Any], at: Date)?
+    private var resumeRetryAt: Date? // after a failed take-back: Music plays to the DAC; no retry before this
     private var musicListWrong = false
 
     /// NSRunningApplication once said Music wasn't running while it played on as the same process
@@ -469,6 +470,14 @@ final class VirtualDeviceEngine {
         guard let s = CA.streams(d, kAudioObjectPropertyScopeOutput).first else { log("DAC has no output stream"); return false }
         dacOut = s
         log("DAC \(CA.string(d, kAudioObjectPropertyName)) (\(dacUID)) @ \(CA.nominal(d)) Hz, hog owner \(CA.hogOwner(d)), my pid \(getpid())")
+        // Coffee bench (DragonFly Black): taken right after Music had played to it directly (the
+        // idle step-aside's resume), start B blocked 7.3 s and failed (35), every time. Let another
+        // client's IO wind down first.
+        if CA.runningSomewhere(d) {
+            let t = Date()
+            let stopped = waitPlain(2) { !CA.runningSomewhere(d) }
+            log("DAC was still running for another client; \(stopped ? "stopped" : "STILL running") after \(ms(t))")
+        }
         var me = getpid()
         var a = CA.addr(kAudioDevicePropertyHogMode)
         let st = AudioObjectSetPropertyData(d, &a, 0, nil, 4, &me)
@@ -736,7 +745,10 @@ final class VirtualDeviceEngine {
         guard !inRoutine else { return } // our own pause/play
         if steppedAside {
             // Music plays straight to the DAC now; the run loop takes the output back
-            if playing, resumeInfo == nil { resumeInfo = (info, at) }
+            if playing, resumeInfo == nil {
+                if let r = resumeRetryAt, Date() < r { return } // our own play after a failed take-back
+                resumeInfo = (info, at)
+            }
             return
         }
         // Music can post Playing with no name and no PersistentID just before the real track's
@@ -937,11 +949,15 @@ final class VirtualDeviceEngine {
         inRoutine = false
         steppedAside = false
         guard setUp() else {
-            log("setup failed; staying stepped aside")
+            // Music plays to the DAC directly. Its Playing must not start another take-back: on the
+            // coffee bench that looped every 11 s (and Music's pause didn't stop it, the play did).
+            resumeRetryAt = Date().addingTimeInterval(30)
+            log("setup failed; staying stepped aside, Music plays to the DAC directly; no take-back for 30 s")
             steppedAside = true
             _ = scripts.play()
             return
         }
+        resumeRetryAt = nil
         // the rate this track needs: the rate decided for it if it's the track that was playing (the
         // newest line can be the next track's pre-roll: Executor bench, Earth resumed on the next
         // track's 48k line), else its newest decoder line (Music decoded it before pausing), else the
@@ -1650,6 +1666,12 @@ enum CA {
         AudioObjectGetPropertyData(d, &a, 0, nil, &z, &h); return h
     }
 
+    /// Some process (Music, stepped aside) still has IO running on the device.
+    static func runningSomewhere(_ d: AudioObjectID) -> Bool {
+        var v = UInt32(0); var a = addr(kAudioDevicePropertyDeviceIsRunningSomewhere); var z = UInt32(4)
+        return AudioObjectGetPropertyData(d, &a, 0, nil, &z, &v) == noErr && v != 0
+    }
+
     static func availablePhysicalFormats(_ s: AudioStreamID) -> [AudioStreamRangedDescription] {
         array(s, addr(kAudioStreamPropertyAvailablePhysicalFormats), AudioStreamRangedDescription.self)
     }
@@ -1751,6 +1773,7 @@ final class VolumeForwarder {
     private var topDB: Float32 { Self.topDB }
     private var rangeDB: Float32 { Self.rangeDB }
     private var useDB = false
+    private var dbDirect = false // the DAC has a dB range but no dB -> scalar conversion (DragonFly Black): set its dB
     private var pinned = false // the DAC has no volume: the virtual device stays at 0 dB, unmuted
     // engine thread
     private var listeners: [(AudioObjectID, AudioObjectPropertyAddress, AudioObjectPropertyListenerBlock)] = []
@@ -1771,13 +1794,15 @@ final class VolumeForwarder {
                 active = true
                 return
             }
-            useDB = Self.dbRange(dac, vols[0]) != nil && Self.dbToScalar(dac, vols[0], topDB) != nil
+            let hasRange = Self.dbRange(dac, vols[0]) != nil
+            dbDirect = hasRange && Self.dbToScalar(dac, vols[0], topDB) == nil && Self.settable(dac, kAudioDevicePropertyVolumeDecibels, vols[0])
+            useDB = hasRange && (dbDirect || Self.dbToScalar(dac, vols[0], topDB) != nil)
             // start from the DAC's level, so nothing jumps
             let level = currentSlider() ?? 1
             let muted = mutes.first.flatMap { Self.get(dac, kAudioDevicePropertyMute, $0) }.map { $0 != 0 } ?? false
             let st = Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, level)
             let mst = Self.set(ls, kAudioDevicePropertyMute, 0, muted ? 1 : 0)
-            let map = useDB ? "linear in dB, \(Int(topDB)) to \(Int(topDB - rangeDB)) dB (\(String(format: "%.1f", rangeDB / 16)) dB per key step)" : "DAC scalar (no dB controls)"
+            let map = useDB ? "linear in dB, \(Int(topDB)) to \(Int(topDB - rangeDB)) dB (\(String(format: "%.1f", rangeDB / 16)) dB per key step)\(dbDirect ? ", set in dB (no dB -> scalar on the DAC)" : "")" : "DAC scalar (no dB controls)"
             log("volume: forwarding to DAC element\(vols.count > 1 ? "s" : "") \(vols.map(String.init).joined(separator: ",")) (\(Self.db(dac, vols[0])) dB), \(map); mute \(mutes.isEmpty ? "emulated (DAC has none)" : "to element\(mutes.count > 1 ? "s" : "") \(mutes.map(String.init).joined(separator: ","))"); slider -> \(String(format: "%.4f", level)): \(st), mute -> \(muted ? 1 : 0): \(mst)")
             active = true
         }
@@ -1870,7 +1895,12 @@ final class VolumeForwarder {
             emulatedMute = m
         }
         if !(muteEls.isEmpty && m), let cur = currentSlider(), abs(cur - v) > Self.tolerance || did.contains("unmute") {
-            did.append("DAC \(setDACScalar(dacScalar(forSlider: v))) -> \(Self.db(dac, volumeEls[0])) dB")
+            if dbDirect {
+                let dB = v <= 0.001 ? (Self.dbRange(dac, volumeEls[0])?.min ?? topDB - rangeDB) : topDB - (1 - v) * rangeDB
+                did.append("DAC \(volumeEls.map { Self.set(dac, kAudioDevicePropertyVolumeDecibels, $0, dB) }) -> \(Self.db(dac, volumeEls[0])) dB")
+            } else {
+                did.append("DAC \(setDACScalar(dacScalar(forSlider: v))) -> \(Self.db(dac, volumeEls[0])) dB")
+            }
         }
         if !did.isEmpty { log("volume \(String(format: "%.4f", v))\(m ? " muted" : ""): " + did.joined(separator: ", ")) }
     }
@@ -1932,6 +1962,12 @@ final class VolumeForwarder {
         var a = AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: e)
         if sel == kAudioDevicePropertyMute { var u = UInt32(v != 0 ? 1 : 0); return AudioObjectSetPropertyData(d, &a, 0, nil, 4, &u) }
         var f = v; return AudioObjectSetPropertyData(d, &a, 0, nil, 4, &f)
+    }
+
+    private static func settable(_ d: AudioObjectID, _ sel: AudioObjectPropertySelector, _ e: UInt32) -> Bool {
+        var a = AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: e)
+        var b: DarwinBoolean = false
+        return AudioObjectHasProperty(d, &a) && AudioObjectIsPropertySettable(d, &a, &b) == noErr && b.boolValue
     }
 
     private static func db(_ d: AudioObjectID, _ e: UInt32) -> String {
