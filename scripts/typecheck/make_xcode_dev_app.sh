@@ -14,7 +14,7 @@ DEST=${1:-"$HOME/Desktop/LosslessSwitcher-Dev-$REV.zip"}
 DD=$(mktemp -d /tmp/ls-xcode.XXXX)
 xcodebuild -project Quality.xcodeproj -scheme LosslessSwitcher -configuration Release -derivedDataPath "$DD" \
   CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= ENABLE_HARDENED_RUNTIME=NO \
-  PRODUCT_BUNDLE_IDENTIFIER=com.dizzysound.LosslessSwitcher.dev build 2>&1 | grep -E "error:|BUILD (SUCCEEDED|FAILED)" | sort -u
+  PRODUCT_BUNDLE_IDENTIFIER=com.dizzysound.LosslessSwitcher.dev LS_GIT_COMMIT="$REV$(git diff --quiet HEAD -- Quality HALPlugin || echo -dirty)" build 2>&1 | grep -E "error:|BUILD (SUCCEEDED|FAILED)" | sort -u
 OUT="$DD/out"; mkdir -p "$OUT"
 ditto "$DD/Build/Products/Release/LosslessSwitcher.app" "$OUT/LosslessSwitcher Dev.app"
 codesign --verify --deep --strict "$OUT/LosslessSwitcher Dev.app"

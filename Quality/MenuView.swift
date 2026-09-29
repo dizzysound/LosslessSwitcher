@@ -18,6 +18,7 @@ struct MenuView: View {
     @ObservedObject private var virtualOutput = VirtualOutputPlugin.shared
     @ObservedObject private var musicSettings = MusicSettingsCheck.shared
     @ObservedObject private var dither = TPDFDither.shared
+    @ObservedObject private var logExport = LogExport.shared
     
     private var ditherTitle: String {
         switch dither.dacBits {
@@ -165,6 +166,10 @@ struct MenuView: View {
             Menu {
                 Text("Version - \(currentVersion)")
                 Text("Build - \(currentBuild)")
+                if !currentCommit.isEmpty { Text("Commit - \(currentCommit)") }
+                Divider()
+                Button(logExport.busy ? "Exporting Logs…" : "Export Logs…") { LogExport.shared.export() }
+                    .disabled(logExport.busy)
             } label: {
                 Text("About")
             }

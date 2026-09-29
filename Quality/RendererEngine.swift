@@ -673,13 +673,27 @@ final class RendererLog {
     private var t0 = Date()
     private let lock = NSLock()
 
+    /// Keeps the two runs before this one as .1 and .2: on the coffee bench a relaunch would have
+    /// overwritten the run that showed the failure.
     func start() {
         lock.lock(); defer { lock.unlock() }
-        let url = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs/LosslessSwitcher-ExclusiveMode.log")
-        FileManager.default.createFile(atPath: url.path, contents: nil)
+        let fm = FileManager.default
+        let logs = fm.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs")
+        let url = logs.appendingPathComponent("LosslessSwitcher-ExclusiveMode.log")
+        let one = logs.appendingPathComponent("LosslessSwitcher-ExclusiveMode.1.log"), two = logs.appendingPathComponent("LosslessSwitcher-ExclusiveMode.2.log")
+        if fm.fileExists(atPath: url.path) {
+            try? fm.removeItem(at: two)
+            try? fm.moveItem(at: one, to: two)
+            try? fm.moveItem(at: url, to: one)
+        }
+        fm.createFile(atPath: url.path, contents: nil)
         handle = try? FileHandle(forWritingTo: url)
         t0 = Date()
+        let header = "[  0.000] log started \(Self.wallClock.string(from: t0)); \(appSummary); macOS \(ProcessInfo.processInfo.operatingSystemVersionString), \(LogExport.sysctl("hw.model"))\n"
+        handle?.write(header.data(using: .utf8)!)
     }
+
+    static let wallClock: DateFormatter = { let f = DateFormatter(); f.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS ZZZZZ"; return f }()
 
     func write(_ s: String) {
         let line = String(format: "[%7.3f] ", Date().timeIntervalSince(t0)) + s

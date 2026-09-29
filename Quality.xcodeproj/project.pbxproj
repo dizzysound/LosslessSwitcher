@@ -14,6 +14,7 @@
 		12AA10C92E90000100C0FFEE /* VirtualDeviceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10C82E90000100C0FFEE /* VirtualDeviceEngine.swift */; };
 		12AA10CB2E90000100C0FFEE /* VirtualOutputPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10CA2E90000100C0FFEE /* VirtualOutputPlugin.swift */; };
 		12AA10C52E90000100C0FFEE /* BitPerfectCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10C42E90000100C0FFEE /* BitPerfectCheck.swift */; };
+		3A5E10F22E90000200C0FFEE /* LogExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5E10F12E90000200C0FFEE /* LogExport.swift */; };
 		12AA10C32E90000100C0FFEE /* TrackBoundarySwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AA10C22E90000100C0FFEE /* TrackBoundarySwitcher.swift */; };
 		1234F508281E8372007EC9F5 /* PrivateMediaRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 1234F507281E8372007EC9F5 /* PrivateMediaRemote */; };
 		1234F50A281E83D1007EC9F5 /* MediaRemote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1234F509281E83D1007EC9F5 /* MediaRemote.framework */; };
@@ -62,6 +63,7 @@
 		12AA10C82E90000100C0FFEE /* VirtualDeviceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualDeviceEngine.swift; sourceTree = "<group>"; };
 		12AA10CA2E90000100C0FFEE /* VirtualOutputPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualOutputPlugin.swift; sourceTree = "<group>"; };
 		12AA10C42E90000100C0FFEE /* BitPerfectCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitPerfectCheck.swift; sourceTree = "<group>"; };
+		3A5E10F12E90000200C0FFEE /* LogExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogExport.swift; sourceTree = "<group>"; };
 		12AA10C22E90000100C0FFEE /* TrackBoundarySwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackBoundarySwitcher.swift; sourceTree = "<group>"; };
 		1234F509281E83D1007EC9F5 /* MediaRemote.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaRemote.framework; path = ../../../../../System/Library/PrivateFrameworks/MediaRemote.framework; sourceTree = "<group>"; };
 		1234F50D281E8F07007EC9F5 /* MediaTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTrack.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				1221F3FA280F1EEF003E8B77 /* OutputDevices.swift */,
 				12AA10C02E90000100C0FFEE /* LocalTrack.swift */,
 				12AA10C42E90000100C0FFEE /* BitPerfectCheck.swift */,
+				3A5E10F12E90000200C0FFEE /* LogExport.swift */,
 				12AA10CA2E90000100C0FFEE /* VirtualOutputPlugin.swift */,
 				12AA10C82E90000100C0FFEE /* VirtualDeviceEngine.swift */,
 				12AA10C62E90000100C0FFEE /* RendererEngine.swift */,
@@ -285,6 +288,7 @@
 				1221F3FB280F1EEF003E8B77 /* OutputDevices.swift in Sources */,
 				12AA10C12E90000100C0FFEE /* LocalTrack.swift in Sources */,
 				12AA10C52E90000100C0FFEE /* BitPerfectCheck.swift in Sources */,
+				3A5E10F22E90000200C0FFEE /* LogExport.swift in Sources */,
 				12AA10CB2E90000100C0FFEE /* VirtualOutputPlugin.swift in Sources */,
 				12AA10C92E90000100C0FFEE /* VirtualDeviceEngine.swift in Sources */,
 				12AA10C72E90000100C0FFEE /* RendererEngine.swift in Sources */,
