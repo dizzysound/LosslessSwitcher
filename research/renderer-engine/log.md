@@ -953,3 +953,10 @@ rate missing value).
 - Offline on the 0.35 s skip recording (11 tracks, 8 s each, 0.5 s trimmed at each end): 24-bit
   tracks 99.5-99.7 % off the 16-bit grid, 0 off the 24-bit grid; The Ten Commandments 0 off either
   (16 bit). None "neither".
+- 0147f80 on pastor (owner granted Microphone): Short Glide Tone "16 bit (all 44752 on the 16-bit
+  grid)"; Oh, Blest Is He That Came (96k) "24 bit (96903 of 97275 samples off the 16-bit grid, all on
+  the 24-bit grid)" twice; the hymn at Music volume 90 "neither 16 nor 24 bit (52044 of 1815728
+  samples)", Music's log said 24 bit. Volume back to 100. The verdict only rises, so a track flagged
+  "neither" stays flagged until the next one.
+- Seen in passing: `play (track X)` while another plays gave "not latched: cut at the play position"
+  twice (switches 2 and 3): the retroactive gap didn't apply on that path. To look at.
