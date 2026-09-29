@@ -20,6 +20,7 @@ class Defaults: ObservableObject {
     private let kUserPreferRendererEngine = "PreferRendererEngine"
     static let kRendererReleaseWhenIdle = "RendererReleaseWhenIdle"
     static let kOvershootProtection = "OvershootProtection"
+    static let kTPDFDither = "TPDFDither"
     
     private init() {
         UserDefaults.standard.register(defaults: [
@@ -30,7 +31,8 @@ class Defaults: ObservableObject {
             kUserPreferPauseWhileSwitching : false,
             kUserPreferRendererEngine : false,
             Self.kRendererReleaseWhenIdle : true,
-            Self.kOvershootProtection : false
+            Self.kOvershootProtection : false,
+            Self.kTPDFDither : false
         ])
         
         self.shellScriptPath = UserDefaults.standard.string(forKey: kShellScriptPath)
@@ -43,7 +45,9 @@ class Defaults: ObservableObject {
         self.userPreferRendererEngine = UserDefaults.standard.bool(forKey: kUserPreferRendererEngine)
         self.rendererReleaseWhenIdle = UserDefaults.standard.bool(forKey: Self.kRendererReleaseWhenIdle)
         self.overshootProtection = UserDefaults.standard.bool(forKey: Self.kOvershootProtection)
+        self.tpdfDither = UserDefaults.standard.bool(forKey: Self.kTPDFDither)
         OvershootProtection.shared.set(self.overshootProtection)
+        TPDFDither.shared.set(self.tpdfDither)
     }
 
     /// Exclusive Mode, Advanced: Inter-sample Overshoot Protection (a fixed -3.0 dB on the output).
@@ -51,6 +55,14 @@ class Defaults: ObservableObject {
         willSet {
             UserDefaults.standard.set(newValue, forKey: Self.kOvershootProtection)
             OvershootProtection.shared.set(newValue)
+        }
+    }
+
+    /// Exclusive Mode, Advanced: TPDF dither when B requantizes to an integer DAC under 32 bits.
+    @Published var tpdfDither: Bool {
+        willSet {
+            UserDefaults.standard.set(newValue, forKey: Self.kTPDFDither)
+            TPDFDither.shared.set(newValue)
         }
     }
 

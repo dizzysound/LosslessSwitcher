@@ -17,7 +17,16 @@ struct MenuView: View {
     @EnvironmentObject private var bitPerfectCheck: BitPerfectCheck
     @ObservedObject private var virtualOutput = VirtualOutputPlugin.shared
     @ObservedObject private var musicSettings = MusicSettingsCheck.shared
+    @ObservedObject private var dither = TPDFDither.shared
     
+    private var ditherTitle: String {
+        switch dither.dacBits {
+        case nil: return "TPDF Dither (DAC format not known yet)"
+        case let bits? where bits >= 32: return "TPDF Dither (not needed: DAC takes 32-bit)"
+        case let bits?: return "TPDF Dither (\(bits)-bit DAC)"
+        }
+    }
+
     var body: some View {
         VStack {
             if !musicSettings.problems.isEmpty {
@@ -83,6 +92,9 @@ struct MenuView: View {
                     Divider()
                     Toggle("Release DAC When Music Is Idle", isOn: $defaults.rendererReleaseWhenIdle)
                     Toggle("Inter-sample Overshoot Protection (-3.0 dB)", isOn: $defaults.overshootProtection)
+                    // only a 16/24-bit integer DAC is requantized; a 32-bit or float one needs none
+                    Toggle(ditherTitle, isOn: $defaults.tpdfDither)
+                        .disabled((dither.dacBits ?? 32) >= 32)
                 } else {
                     Toggle("Bit Depth Switching", isOn: $defaults.userPreferBitDepthDetection)
                     Toggle("Detect Local Files", isOn: $defaults.userPreferLocalFileDetection)
