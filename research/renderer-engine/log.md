@@ -997,3 +997,11 @@ hymn; before -> 96k: 99.5 % = the 16-bit tone, less its stop fade). No leak.
 "CADefaultDeviceAggregate-39063-0" showed in Selected Device and Other Apps & Alerts; pid 39063 = our
 app (the other-apps player's AVAudioEngine). Filtered by that name prefix from both menus, the Other
 Apps window and the fallback output; aggregates made in Audio MIDI Setup stay listed.
+
+## Does the margin lengthen a rate switch? No (measured, 2026-09-29)
+Owner asked whether the trail reuses the DAC settle. Silence at each switch in B's output (old track's
+last sound to the new track's first): 46 ms trail (pastor-skips) 1.69 1.89 1.02 1.36 1.24 1.91 s, mean
+1.52; 0.35 s trail (pastor-skips-0.35) 1.39 1.43 1.34 1.43 1.13 1.44 s (plus 6.60 s at Back-Woods Song,
+whose own intro is silent: first sound 6.08 s into its A-side segment vs 1.40-1.47 s for the rest).
+The ring refills with the virtual device's silence while the DAC settles, so B starts with the full
+trail and the old and new tracks are delayed alike. The margin costs response to play/pause/seek only.
