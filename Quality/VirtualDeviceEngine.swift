@@ -608,6 +608,10 @@ final class VirtualDeviceEngine {
             runUserScript(rate, bits: nil)
         }
         curRate = rate
+        // the menu bar's rate: with Exclusive Mode on, OutputDevices' own detection is off and it only
+        // re-reads a device when the default output changes, so a switch mid-session never reached it
+        // (pastor Mac: "it's clearly switching but the taskbar is not")
+        outputDevices.updateSampleRate(rate, bitDepth: nil)
         if others.isRunning, others.rate != rate { restartOthers("the virtual device's rate is now \(Int(rate)) Hz") }
     }
 
@@ -1016,6 +1020,20 @@ final class VirtualDeviceEngine {
         lastNewTrackAt = at
         ownLinesUntil = max(at.addingTimeInterval(2), prevOwnUntil ?? .distantPast)
         trackRate = nil
+        // Music's own rate for the track decides when it gives one: on skips forward and back Music logs
+        // decoder lines for the track it leaves, the one it goes to and its pre-roll, and the newest
+        // line was another track's (pastor Mac, 2026-09-29: As Alive As You Need Me To Be, 48k, played
+        // at 44.1k on a line 15.5 s old; Afraid of Time, 44.1k, switched to 48k on a line 0.4 s after
+        // its Playing). Polled every 0.3 s over 3 min of skipping, Music's rate for the current track
+        // was right at once for every track; once "missing value" right at the change.
+        if let r = musicTrackRate(name: name) {
+            let newest = decoderRates.last(where: { prev == nil || $0.date > prev! })
+            let own = decoderRates.last(where: { (prev == nil || $0.date > prev!) && $0.rate == r })
+            if let n = newest, n.rate != r { log("new track \(name): the newest decoder line says \(Int(n.rate)) Hz, Music says \(Int(r)) Hz for the track; Music's decides") }
+            decide(r, bits: own?.bits, lossless: own?.lossless ?? true, seenAgo: own.map { at.timeIntervalSince($0.date) } ?? 0,
+                   name: name + (own == nil ? " (Music's rate for the track; no decoder line at it yet)" : " (Music's rate for the track)"), tPlay: at)
+            return
+        }
         guard let line = decoderRates.last(where: { prev == nil || $0.date > prev! }) else {
             // A gapless successor can have its decoder set up before the previous track began (trial
             // m2: none logged for Wish You Were Here after Have a Cigar). A local file's own header
@@ -1041,6 +1059,21 @@ final class VirtualDeviceEngine {
             return
         }
         decide(line.rate, bits: line.bits, lossless: line.lossless, seenAgo: at.timeIntervalSince(line.date), name: name, tPlay: at)
+    }
+
+    /// Music's sample rate for the current track, if the current track is `name` (up to ~1 s of retries:
+    /// it can read "missing value", or still the previous track, right at a change). Nil: Music didn't
+    /// say; the decoder lines decide.
+    private func musicTrackRate(name: String) -> Double? {
+        let t0 = Date()
+        for attempt in 0..<6 {
+            if attempt > 0 { Thread.sleep(forTimeInterval: 0.15) }
+            guard let t = scripts.trackRate() else { continue }
+            if !name.isEmpty, t.name != name { continue }
+            if let r = t.rate { return r }
+        }
+        log("new track \(name): Music gave no sample rate for it within \(ms(t0)); using the decoder lines")
+        return nil
     }
 
     private func decide(_ rate: Float64, bits: Int?, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date) {
