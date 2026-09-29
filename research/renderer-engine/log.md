@@ -960,3 +960,15 @@ rate missing value).
   "neither" stays flagged until the next one.
 - Seen in passing: `play (track X)` while another plays gave "not latched: cut at the play position"
   twice (switches 2 and 3): the retroactive gap didn't apply on that path. To look at.
+
+## Checked: `play (track X)` at another rate (pastor, 0147f80, 13:25)
+Data: data/2026-09-29-pastor-playtrack/. Hymn (96k, 24 bit) and Short Glide Tone (44.1k, 16 bit)
+alternated with `play (track)`, 8 s each, 6 switches. 5 "held at the gate" (Music goes through
+Stopped before the new track, so the gate marks its first frame), 1 "latched at the gap before it
+(after the fact ... B 115 frames before it)": a 2.6 ms margin. B's output before every flush: zeros,
+then the OLD track, identified by its grid (before -> 44.1k: 0.4 % on the 16-bit grid = the 24-bit
+hymn; before -> 96k: 99.5 % = the 16-bit tone, less its stop fade). No leak.
+- The earlier "not latched" switches 1 and 3: 3 was a take-back (Music paused before setup; nothing in
+  the ring to leak); 1 was stale: Music notices queued during the ~5 min Microphone wait were handled
+  after setup, one named a track no longer current (Music's rate lookup failed on the name, an old
+  decoder line decided). Fix: drop queued Music notices before setUp (it reads Music's state itself).
