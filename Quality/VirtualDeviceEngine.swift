@@ -165,6 +165,7 @@ final class VirtualDeviceEngine {
     private var dacScalarEst = 0.0, integ = 0.0, lsScalar = 1.0
     private var lockAfterCycles = (0, 0)
     private var waitingForScalar = false
+    private var takingBack = false // resumeFromIdle's setup: a busy DAC is refused, not taken
     private var scalarHistory: [(t: Double, r: Double)] = [] // the DAC's HAL scalar at each pll() since the last reset
     private var waitingSince: Double?
     private var refillAsked = false
@@ -481,8 +482,22 @@ final class VirtualDeviceEngine {
         // client's IO wind down first.
         if CA.runningSomewhere(d) {
             let t = Date()
-            let stopped = waitPlain(2) { !CA.runningSomewhere(d) }
+            var stopped = waitPlain(2) { !CA.runningSomewhere(d) }
             log("DAC was still running for another client; \(stopped ? "stopped" : "STILL running") after \(ms(t))")
+            // Coffee, 08:13:59: taken back while Music still streamed to the DAC (STILL running after
+            // 2 s); hog and the non-mixable format went ahead and the left channel stayed distorted
+            // until Exclusive Mode was turned off and on. Pause Music again and wait; on a take-back,
+            // never take a DAC another client is still playing to.
+            if !stopped {
+                _ = scripts.pause()
+                let t2 = Date()
+                stopped = waitPlain(3) { !CA.runningSomewhere(d) }
+                log("paused Music again: DAC \(stopped ? "stopped" : "STILL running") after \(ms(t2))")
+                if !stopped && takingBack {
+                    log("not taking the DAC while another client plays to it")
+                    return false
+                }
+            }
         }
         var me = getpid()
         var a = CA.addr(kAudioDevicePropertyHogMode)
@@ -1024,7 +1039,10 @@ final class VirtualDeviceEngine {
         // taken as a new track, and switched before the DAC was set up: NOT ready after 12 s).
         // switchRate below pauses, rewinds and plays anyway.
         steppedAside = false
-        guard setUp() else {
+        takingBack = true
+        let setUpOK = setUp()
+        takingBack = false
+        guard setUpOK else {
             inRoutine = false
             // Music plays to the DAC directly. Its Playing must not start another take-back: on the
             // coffee bench that looped every 11 s (and Music's pause didn't stop it, the play did).
