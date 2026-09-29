@@ -804,3 +804,17 @@ Submarine.aiff to the default output (the virtual device; clients.swift: afplay'
   no move: macOS moves the alert device off a hogged device by itself (and back on release), before
   startOthers looks. Fix (next commit): the engine reads the alert device before the hog, saves that
   one for the restore, and logs macOS's move; the restore reports "on X again" when macOS already did.
+
+## Found: other apps silent after a rate switch (pastor, feb166c, 10:38-10:41)
+The owner played a YouTube video (WebKit GPU process -> the virtual device) and "blurry" in Music
+(48k, a take-back with a switch). YouTube was silent. Log: after "restarting the player (the virtual
+device's rate is now 48000 Hz)", 19 x "restarting the player (the speakers' configuration changed)" in
+0.5 s steps, then no player: our app wasn't a client of the speakers (clients.swift), others ring full
+(fill 131072, over 1.65 M), counters still moving YouTube's frames out of Music's channels (the DAC side
+was right). Reproduced on Executor (scratchpad avloop.swift): every AVAudioEngine build on the built-in
+speakers posts one AVAudioEngineConfigurationChange right after start while it keeps running (3 builds,
+3 notices, running true). Restarting on each notice loops; steerOthers only acted on a running player,
+so once a rebuild left it stopped nothing restarted it.
+Fix: a notice alone isn't a reason; rebuild only if the player stopped or its output left the
+speakers (then it is stopped at once: never into the virtual device), at most every 2 s, and keep
+retrying while the engine wants other apps there (othersDevice).
