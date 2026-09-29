@@ -164,7 +164,8 @@ class OutputDevices: ObservableObject {
         if let first = allStats.first, defaultDevice?.nominalSampleRates != nil {
             let sampleRate = Float64(first.sampleRate)
             
-            if self.currentTrack == self.previousTrack, let prevSampleRate = currentSampleRate, prevSampleRate > sampleRate {
+            // previousSampleRate is in Hz like sampleRate (currentSampleRate is the menu's kHz)
+            if self.currentTrack == self.previousTrack, let prevSampleRate = previousSampleRate, prevSampleRate > sampleRate {
                 print("same track, prev sample rate is higher")
                 return
             }

@@ -212,3 +212,13 @@ Verification: prefetch_test.sh (installed build, station) 3.5 + 10 min, 5 tracks
 at track changes (e.g. Shadows 48k -> Murmurations 44.1k at the boundary). One mid-track prefetch
 decoder line (17:46:29, 44.1k, same rate as current) and no mid-track now-playing update occurred,
 so the exact trigger was NOT reproduced; the fix is reasoned from the 17:39 evidence.
+
+## Same-track down-switch guard units (2026-09-28, desk only)
+Round 10 says the regular path's "only guard blocks down-switches on the same track". It never did:
+switchLatestSampleRate compared currentSampleRate (kHz, the menu's value, e.g. 96.0) with the log
+line's rate in Hz (44100), so `96.0 > 44100` was always false; dead since upstream 802f027 (found in
+the 2026-09-28 adversarial review). Now it compares previousSampleRate (Hz, set synchronously in
+updateSampleRate). It applies only while the post-change timer or the 48k recheck is still running
+after a same-track now-playing update (trackDidChange records previous == current, then returns):
+a lower prefetched decoder line on those rechecks no longer switches down. Up-switches are unchanged
+(the Round 10 case was 44.1 -> 48, still covered only by the real-track-change gate). Not benched.
