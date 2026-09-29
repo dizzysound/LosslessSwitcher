@@ -997,3 +997,35 @@ hymn; before -> 96k: 99.5 % = the 16-bit tone, less its stop fade). No leak.
 "CADefaultDeviceAggregate-39063-0" showed in Selected Device and Other Apps & Alerts; pid 39063 = our
 app (the other-apps player's AVAudioEngine). Filtered by that name prefix from both menus, the Other
 Apps window and the fallback output; aggregates made in Audio MIDI Setup stay listed.
+
+## Does the margin lengthen a rate switch? No (measured, 2026-09-29)
+Owner asked whether the trail reuses the DAC settle. Silence at each switch in B's output (old track's
+last sound to the new track's first): 46 ms trail (pastor-skips) 1.69 1.89 1.02 1.36 1.24 1.91 s, mean
+1.52; 0.35 s trail (pastor-skips-0.35) 1.39 1.43 1.34 1.43 1.13 1.44 s (plus 6.60 s at Back-Woods Song,
+whose own intro is silent: first sound 6.08 s into its A-side segment vs 1.40-1.47 s for the rest).
+The ring refills with the virtual device's silence while the DAC settles, so B starts with the full
+trail and the old and new tracks are delayed alike. The margin costs response to play/pause/seek only.
+
+# Bench: gapless transition to another rate (pastor, eebe7e9, 0.5 s margin), 2026-09-29 ~14:10
+Owner: "test gapless". Data: data/2026-09-29-pastor-gapless/ (.f32 on disk only). Generated ALAC tones
+with no zero sample anywhere, 15 s each: A 44.1k 440 Hz, B 48k 1000 Hz from sample 0, C 44.1k 660 Hz;
+a temporary playlist A, B, C played through naturally (no skips). All removed afterwards (tracks,
+playlist, ~/Music/LS-gapless-temp, Music's copy of B in Unknown Artist/Unknown Album).
+- Music is not gapless across a rate change: it put 27653 (0.63 s at 44.1k) and 29750 frames of zeros
+  between A-B and B-C in the loopback.
+- Both switches "latched at the old track's end" (armed 8.7-8.9 s ahead from the pre-roll line).
+- B's output: before flush 1 the last audio is 441 Hz (A), after it 996 Hz at 48k (B); before flush 2
+  996 Hz (B), after 657 Hz at 44.1k (C). A leak would read 919 Hz (B at 44.1k) or 718 Hz (C at 48k).
+  PASS: no wrong-rate audio.
+- A first attempt with the files in /tmp failed ("File permission error" setting tags) after adding A;
+  cleaned up and redone from ~/Music without tag edits.
+- Music reports shuffle off afterwards and ignored `set shuffle enabled to true` with nothing queued.
+
+# Bench: skips at the 0.5 s margin (eebe7e9), pastor, Apple Music playlist (owner started it), ~14:25
+Data: data/2026-09-29-pastor-skips-0.5/ (.f32 on disk only). 10 x `next track` 9 s apart; 5 needed a
+switch (48k <-> 44.1k, TRON: Ares and others).
+- All 5 "boundary latch: the skip's gap is 11931-16672 frames back, B 6880-10085 frames before it;
+  latched there": 143-229 ms to spare (0.35 s: 2.6-85 ms).
+- B's output before each flush: 0.51-0.62 s zeros (stopped at the gap), then 6.94-9.08 s of the old
+  track. No new-track audio. Silence per switch 1.53-1.86 s (46 ms trail: 1.02-1.91 s). PASS.
+- Music left playing (as found).
