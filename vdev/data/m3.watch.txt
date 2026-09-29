@@ -1,0 +1,8 @@
+1790593787.481 6B4EB2B50BF782DD	96000	missing value	Wish You Were Here	/Volumes/Extreme SSD/Music/Media.localized/Music/Pink Floyd/Wish You Were Here/04 Wish You Were Here.m4a
+1790593787.873 440CEEAAEE670D06	88200	0.21099999547	Orlande de Lassus: Veni, dilecte mi	/Volumes/Extreme SSD/Music/Media.localized/Music/Stile Antico/Song of Songs/07 Orlande de Lassus_ Veni, dilecte mi.m4a
+1790593814.999 D5BEC2A6604FF550	44100	0.098999999464	Unsleep	/Volumes/Extreme SSD/Music/Media.localized/Music/Colin Edwin/Third Vessel (outakes)/03 Unsleep.m4a
+1790593833.461 26DFF3CCD934DC4F	48000	0.266999989748	Don't Give Up	/Volumes/Extreme SSD/Music/Media.localized/Music/Peter Gabriel/New Blood [Special Edition]/1-10 Don't Give Up.m4a
+1790593846.460 77AC8F0632ECBA3F	44100	0.0	Age of Anxiety I	
+1790593874.712 6B4EB2B50BF782DD	96000	0.395000010729	Wish You Were Here	/Volumes/Extreme SSD/Music/Media.localized/Music/Pink Floyd/Wish You Were Here/04 Wish You Were Here.m4a
+1790593880.662 FC3BD926B8276552	96000	0.273999989033	Have a Cigar	/Volumes/Extreme SSD/Music/Media.localized/Music/Pink Floyd/Wish You Were Here/03 Have a Cigar.m4a
+1790593903.579 6B4EB2B50BF782DD	96000	0.218999996781	Wish You Were Here	/Volumes/Extreme SSD/Music/Media.localized/Music/Pink Floyd/Wish You Were Here/04 Wish You Were Here.m4a

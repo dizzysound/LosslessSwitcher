@@ -1,0 +1,3 @@
+06:22:42 default before: MT 48 @ 96000.0
+06:23:16 default while running: MT 48
+06:27:00 default after quit: MT 48 @ 96000.0

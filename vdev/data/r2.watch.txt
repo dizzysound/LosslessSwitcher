@@ -1,0 +1,10 @@
+1790593933.422 6B4EB2B50BF782DD	96000	missing value	Wish You Were Here	/Volumes/Extreme SSD/Music/Media.localized/Music/Pink Floyd/Wish You Were Here/04 Wish You Were Here.m4a
+1790593933.794 3787AAC715FC284B	88200	0.186000004411	Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 	/Volumes/Extreme SSD/Music/Media.localized/Music/BBC Symphony Orchestra _ Leonard Slatkin, conductor/J.S. Bach_ The Conductors' Transcriptions/03 Cantata, BWV 147_ Chorale Prelude, _Jesu bleibet meine Freude_ (arr. E. Ormandy)_.m4a
+1790593961.368 440CEEAAEE670D06	88200	0.745999991894	Orlande de Lassus: Veni, dilecte mi	/Volumes/Extreme SSD/Music/Media.localized/Music/Stile Antico/Song of Songs/07 Orlande de Lassus_ Veni, dilecte mi.m4a
+1790593973.784 8137B932B4C2DCB9	192000	0.300999999046	Columbine	/Volumes/Extreme SSD/Music/Media.localized/Music/The Modern Jazz Quartet/The Comedy/02 Columbine.m4a
+1790593990.052 19F459AAF2E317EC	192000	0.312000006437	VI. Mishima / Closing	/Volumes/Extreme SSD/Music/Media.localized/Music/Modern Mandolin Quartet/Americana/15 VI. Mishima _ Closing.m4a
+1790594006.576 7F1413091C9E8A0C	96000	0.204999998212	It Slipped My Mind	/Volumes/Extreme SSD/Music/Media.localized/Music/The Doors/Full Circle/8-08 It Slipped My Mind.m4a
+1790594023.554 63D7EE3A52D2B8CA	176400	0.25799998641	Ca Ira - Opera in Three Acts: The Commune de Paris	/Volumes/Extreme SSD/Music/Media.localized/Music/Roger Waters/Ca ira (English Version)/2-05 Ca Ira - Opera in Three Acts_ The Commune de Paris.m4a
+1790594040.121 D2749AB46C9BB68E	48000	0.123999997973	May It Be (feat. Enya)	/Volumes/Extreme SSD/Music/Media.localized/Music/Howard Shore/The Lord of the Rings_ The Fellowship Of The Ring/36 May It Be (feat. Enya).m4a
+1790594056.763 A34A6EAF155ADF84	176400	0.185000002384	Ca Ira - Opera in Three Acts: "Flushed with Wine..."	/Volumes/Extreme SSD/Music/Media.localized/Music/Roger Waters/Ca ira (English Version)/1-18 Ca Ira - Opera in Three Acts_ _Flushed with Wine..._.m4a
+1790594072.910 8278D012518E9C13	44100	0.00800000038	I Hear A Rhapsody	/Volumes/Extreme SSD/Music/Media.localized/Music/John Coltrane/Lush Life/05 I Hear A Rhapsody.m4a

@@ -1,0 +1,135 @@
+[  0.000] engine started (virtual device: LosslessSwitcher Output)
+[  0.087] debug recording to /Users/chrisgillespie/Developer/music-tap-spike/.claude/worktrees/friendly-easley-685c9c/vdev/data/m3.* (900 s)
+[  0.090] microphone permission: not determined; requesting (reading the virtual device's input needs it)
+[  0.109] default output -> LosslessSwitcher Output: 0
+[  0.112] virtual device 255 @ 96000.0 Hz; scalar reset 0
+[  0.977] microphone permission granted
+[  0.987] A: output streams off: 0
+[  1.063] start A: 0
+[  1.064] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 96000.0 Hz, hog owner -1, my pid 77577
+[  1.066] hog DAC: 0, hogged
+[  1.070] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[  1.079] B: DAC inputs off: 0
+[  2.540] start B: 0
+[  5.226] DAC ready after 2.685 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[  5.227] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[  5.227] format listeners: 0 0
+[  5.730] clock lock: phase0 351933.257, fill 1536, cycles A 877 B 95
+[  5.925] playerInfo: Stopped 
+[  5.938] decoder: 88200.0 Hz 24-bit (lossless)
+[  6.021] gate: output started at ring 476161; waiting for the track's rate
+[  6.157] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[  6.158] new track Orlande de Lassus: Veni, dilecte mi: decoder 88200.0 Hz lossless (seen 0.228 s before Playing), DAC 96000 Hz -> switch to 88200
+[  6.212] switch 1: Orlande de Lassus: Veni, dilecte mi needs 88200 Hz (DAC 96000); held at the gate; paused; boundary reached 0.055 s
+[  6.228] virtual device -> 88200: 0
+[  6.229] DAC format -> 88200.0 Hz 16 ch 32 bit flags 76: 0
+[  9.078]   DAC keeps stopping; restarting B
+[ 11.287]   DAC ready after 5.058 s: phys 88200.0 Hz 16 ch 32 bit flags 76 / virt 88200.0 Hz 16 ch 32 bit flags 76
+[ 11.288] B writes int32 in 4 bytes, channels 1/2 (virtual format 88200.0 Hz 16 ch 32 bit flags 76)
+[ 11.288] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[ 11.288] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[ 11.288] playerInfo: Paused Orlande de Lassus: Veni, dilecte mi
+[ 11.345]   rewound to 0.000 (was 0.211, played ~5.197 s), play; switch 1 done 5.187 s after the request
+[ 11.346] clock: DAC scalar 1.000843 not settled; waiting to lock
+[ 11.358] playerInfo: Paused Orlande de Lassus: Veni, dilecte mi
+[ 11.358] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[ 11.854] clock lock: phase0 388278.311, fill 1536, cycles A 1912 B 283
+[ 15.879] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[ 15.917] playerInfo: Paused Orlande de Lassus: Veni, dilecte mi
+[ 20.884] playerInfo: Paused Orlande de Lassus: Veni, dilecte mi
+[ 20.894] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[ 32.962] decoder: 44100.0 Hz 24-bit (lossless)
+[ 32.977] next track needs 44100 Hz; 192.34 s left, arming the boundary latch in 0.00 s
+[ 32.978] boundary latch armed at in frame 2842112
+[ 32.990] latched at ring 2408818 (fill 1536)
+[ 33.101] playerInfo: Playing Unsleep
+[ 33.102] new track Unsleep: decoder 44100.0 Hz lossless (seen 0.136 s before Playing), DAC 88200 Hz -> switch to 44100
+[ 33.111] switch 2: Unsleep needs 44100 Hz (DAC 88200); latched at the old track's end; paused; boundary reached 0.010 s
+[ 33.127] virtual device -> 44100: 0
+[ 33.127] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[ 34.728]   DAC ready after 1.600 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[ 34.729] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[ 34.729] playerInfo: Playing Unsleep
+[ 34.729] playerInfo: Playing Unsleep
+[ 34.729] playerInfo: Paused Unsleep
+[ 34.778]   rewound to 0.000 (was 0.099, played ~1.699 s), play; switch 2 done 1.676 s after the request
+[ 34.792] playerInfo: Paused Unsleep
+[ 34.804] playerInfo: Playing Unsleep
+[ 35.231] 44100 Hz fill 1536 scalar 0.999982334 under 0 over 0
+[ 35.279] clock lock: phase0 41883.955, fill 1536, cycles A 5747 B 3992
+[ 45.061] decoder: 48000.0 Hz 24-bit (lossless)
+[ 45.076] next track needs 48000 Hz; 5.83 s left, arming the boundary latch in 4.33 s
+[ 49.411] boundary latch armed at in frame 3565568
+[ 51.119] latched at ring 3141352 (fill 1536)
+[ 51.422] playerInfo: Playing Don't Give Up
+[ 51.423] new track Don't Give Up: decoder 48000.0 Hz lossless (seen 6.351 s before Playing), DAC 44100 Hz -> switch to 48000
+[ 51.450] switch 3: Don't Give Up needs 48000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.027 s
+[ 51.465] virtual device -> 48000: 0
+[ 51.466] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[ 53.554]   DAC ready after 2.087 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[ 53.555] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[ 53.558] playerInfo: Playing Don't Give Up
+[ 53.558] playerInfo: Paused Don't Give Up
+[ 53.605]   rewound to 0.000 (was 0.267, played ~2.209 s), play; switch 3 done 2.182 s after the request
+[ 53.622] playerInfo: Paused Don't Give Up
+[ 53.622] playerInfo: Playing Don't Give Up
+[ 54.110] clock lock: phase0 45819.061, fill 1536, cycles A 7374 B 5437
+[ 61.664] playerInfo: Playing Don't Give Up
+[ 61.702] playerInfo: Paused Don't Give Up
+[ 61.714] gate: output started at ring 3546624; waiting for the track's rate
+[ 63.214] gate released (no Playing within 1.5 s) 1501 ms after the output started
+[ 64.730] playerInfo: Stopped 
+[ 64.743] playerInfo: Playing Age of Anxiety I
+[ 64.785] new track Age of Anxiety I: no decoder line for it yet; holding at the gate until one comes (3 s)
+[ 64.822] playerInfo: Playing Age of Anxiety I
+[ 65.106] decoder: 96000.0 Hz (lossless)
+[ 65.107] new track Age of Anxiety I: decoder 96000.0 Hz lossless (seen -0.353 s before Playing), DAC 48000 Hz -> switch to 96000
+[ 65.141] switch 4: Age of Anxiety I needs 96000 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.035 s
+[ 65.156] virtual device -> 96000: 0
+[ 65.157] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[ 68.141]   DAC keeps stopping; restarting B
+[ 70.048]   DAC ready after 4.890 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[ 70.048] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[ 70.048] playerInfo: Playing Age of Anxiety I
+[ 70.048] playerInfo: Paused Age of Anxiety I
+[ 70.108]   rewound to 0.000 (was 0.000, played ~5.368 s), play; switch 4 done 5.002 s after the request
+[ 70.109] clock lock: phase0 406702.934, fill 1536, cycles A 9310 B 6483
+[ 70.110] 96000 Hz fill 1536 scalar 0.999992000 under 0 over 0
+[ 70.121] playerInfo: Paused Age of Anxiety I
+[ 70.121] playerInfo: Playing Age of Anxiety I
+[ 70.121] decoder: 96000.0 Hz (lossless)
+[ 89.684] playerInfo: Playing Age of Anxiety I
+[ 89.744] decoder: 96000.0 Hz (lossless)
+[ 89.771] playerInfo: Paused Age of Anxiety I
+[ 92.727] playerInfo: Stopped 
+[ 92.727] decoder: 96000.0 Hz 24-bit (lossless)
+[ 92.813] gate: output started at ring 5896192; waiting for the track's rate
+[ 92.897] playerInfo: Playing Wish You Were Here
+[ 92.898] new track Wish You Were Here: decoder 96000.0 Hz lossless (seen 0.169 s before Playing), DAC 96000 Hz
+[ 92.898] gate released (same rate) 85 ms after the output started
+[ 92.943] playerInfo: Playing Wish You Were Here
+[ 94.697] playerInfo: Playing Wish You Were Here
+[ 94.745] playerInfo: Paused Wish You Were Here
+[ 95.775] playerInfo: Stopped 
+[ 95.787] decoder: 96000.0 Hz 24-bit (lossless)
+[ 95.836] playerInfo: Playing Wish You Were Here
+[ 97.721] playerInfo: Playing Wish You Were Here
+[ 97.749] playerInfo: Paused Wish You Were Here
+[ 98.781] playerInfo: Stopped 
+[ 98.792] decoder: 96000.0 Hz 24-bit (lossless)
+[ 98.877] gate: output started at ring 6477824; waiting for the track's rate
+[ 98.974] playerInfo: Playing Have a Cigar
+[ 98.976] new track Have a Cigar: decoder 96000.0 Hz lossless (seen 0.180 s before Playing), DAC 96000 Hz
+[ 98.977] gate released (same rate) 100 ms after the output started
+[100.111] 96000 Hz fill 10240 scalar 0.999992115 under 0 over 0
+[121.976] playerInfo: Playing Wish You Were Here
+[122.081] new track Wish You Were Here (file header, no decoder line): decoder 96000.0 Hz lossless (seen 0.000 s before Playing), DAC 96000 Hz
+[122.092] playerInfo: Playing Wish You Were Here
+[130.113] 96000 Hz fill 10240 scalar 0.999994435 under 0 over 0
+[141.752] playerInfo: Playing Wish You Were Here
+[141.799] playerInfo: Paused Wish You Were Here
+[141.855] DAC mixable again: 0
+[141.857] hog released: 0, owner -1
+[141.858] virtual device scalar reset: 0
+[141.866] default output restored to MT 48: 0
+[141.945] engine stopped

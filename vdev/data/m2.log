@@ -1,0 +1,106 @@
+[  0.000] engine started (virtual device: LosslessSwitcher Output)
+[  0.085] debug recording to /Users/chrisgillespie/Developer/music-tap-spike/.claude/worktrees/friendly-easley-685c9c/vdev/data/m2.* (900 s)
+[  0.088] microphone permission: not determined; requesting (reading the virtual device's input needs it)
+[  0.110] default output -> LosslessSwitcher Output: 0
+[  0.113] virtual device 255 @ 96000.0 Hz; scalar reset 0
+[  1.184] microphone permission granted
+[  1.185] A: output streams off: 0
+[  1.276] start A: 0
+[  1.276] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 96000.0 Hz, hog owner -1, my pid 70796
+[  1.278] hog DAC: 0, hogged
+[  1.279] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[  1.286] B: DAC inputs off: 0
+[  1.479] start B: 0
+[  5.051] DAC ready after 3.561 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[  5.052] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[  5.052] format listeners: 0 0
+[  5.161] decoder: 176400.0 Hz 24-bit (lossless)
+[  5.267] gate: output started at ring 382977; waiting for the track's rate
+[  5.451] playerInfo: Playing Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[  5.451] new track Ca Ira - Opera in Three Acts: "Flushed with Wine...": decoder 176400.0 Hz lossless (seen 0.284 s before Playing), DAC 96000 Hz -> switch to 176400
+[  5.479] switch 1: Ca Ira - Opera in Three Acts: "Flushed with Wine..." needs 176400 Hz (DAC 96000); held at the gate; paused; boundary reached 0.028 s
+[  5.497] virtual device -> 176400: 0
+[  5.498] DAC format -> 176400.0 Hz 16 ch 32 bit flags 76: 0
+[  8.293]   DAC keeps stopping; restarting B
+[  9.562]   DAC ready after 4.064 s: phys 176400.0 Hz 16 ch 32 bit flags 76 / virt 176400.0 Hz 16 ch 32 bit flags 76
+[  9.563] B writes int32 in 4 bytes, channels 1/2 (virtual format 176400.0 Hz 16 ch 32 bit flags 76)
+[  9.563] playerInfo: Playing Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[  9.563] playerInfo: Paused Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[  9.611]   rewound to 0.000 (was 0.242, played ~4.184 s), play; switch 1 done 4.160 s after the request
+[  9.612] clock lock: phase0 601330.220, fill 2048, cycles A 2160 B 97
+[  9.625] playerInfo: Paused Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[  9.625] playerInfo: Playing Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[ 15.115] playerInfo: Playing Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[ 15.162] playerInfo: Paused Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[ 20.133] playerInfo: Paused Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[ 20.133] playerInfo: Playing Ca Ira - Opera in Three Acts: "Flushed with Wine..."
+[ 32.214] decoder: 48000.0 Hz 24-bit (lossless)
+[ 32.244] next track needs 48000 Hz; 271.72 s left, arming the boundary latch in 0.00 s
+[ 32.244] boundary latch armed at in frame 5097984
+[ 32.256] playerInfo: Playing Don't Give Up
+[ 32.257] new track Don't Give Up: decoder 48000.0 Hz lossless (seen 0.037 s before Playing), DAC 176400 Hz -> switch to 48000
+[ 32.389] switch 2: Don't Give Up needs 48000 Hz (DAC 176400); latched at the old track's end; paused; boundary reached 0.132 s
+[ 32.406] virtual device -> 48000: 0
+[ 32.407] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[ 34.483]   DAC ready after 2.076 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[ 34.484] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[ 34.484] playerInfo: Playing Don't Give Up
+[ 34.484] playerInfo: Paused Don't Give Up
+[ 34.537]   rewound to 0.000 (was 0.000, played ~2.308 s), play; switch 2 done 2.280 s after the request
+[ 34.549] playerInfo: Paused Don't Give Up
+[ 34.561] playerInfo: Playing Don't Give Up
+[ 35.042] clock lock: phase0 44643.185, fill 2048, cycles A 10241 B 7997
+[ 35.056] 48000 Hz fill 2048 scalar 0.999991250 under 0 over 0
+[ 44.332] decoder: 96000.0 Hz 24-bit (lossless)
+[ 44.344] next track needs 96000 Hz; 5.81 s left, arming the boundary latch in 4.31 s
+[ 48.653] boundary latch armed at in frame 5896704
+[ 50.348] latched at ring 5190503 (fill 2048)
+[ 50.612] playerInfo: Playing It Slipped My Mind
+[ 50.612] new track It Slipped My Mind: decoder 96000.0 Hz lossless (seen 6.279 s before Playing), DAC 48000 Hz -> switch to 96000
+[ 50.621] switch 3: It Slipped My Mind needs 96000 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.009 s
+[ 50.635] virtual device -> 96000: 0
+[ 50.636] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[ 53.278]   DAC ready after 2.642 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[ 53.278] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[ 53.278] playerInfo: Playing It Slipped My Mind
+[ 53.278] playerInfo: Paused It Slipped My Mind
+[ 53.320]   rewound to 0.000 (was 0.161, played ~2.734 s), play; switch 3 done 2.708 s after the request
+[ 53.333] playerInfo: Paused It Slipped My Mind
+[ 53.333] playerInfo: Playing It Slipped My Mind
+[ 53.832] clock lock: phase0 192581.072, fill 2048, cycles A 12276 B 9562
+[ 60.827] playerInfo: Playing It Slipped My Mind
+[ 60.872] playerInfo: Paused It Slipped My Mind
+[ 63.887] playerInfo: Stopped 
+[ 63.899] playerInfo: Playing Age of Anxiety I
+[ 63.899] new track Age of Anxiety I: no decoder line for it yet; holding at the gate until one comes (3 s)
+[ 63.985] playerInfo: Playing Age of Anxiety I
+[ 64.293] decoder: 96000.0 Hz (lossless)
+[ 64.293] new track Age of Anxiety I: decoder 96000.0 Hz lossless (seen -0.399 s before Playing), DAC 96000 Hz
+[ 65.066] 96000 Hz fill 2048 scalar 0.999996748 under 0 over 0
+[ 88.861] playerInfo: Playing Age of Anxiety I
+[ 88.924] decoder: 96000.0 Hz (lossless)
+[ 88.938] playerInfo: Paused Age of Anxiety I
+[ 91.895] playerInfo: Stopped 
+[ 91.908] decoder: 96000.0 Hz 24-bit (lossless)
+[ 91.968] playerInfo: Playing Wish You Were Here
+[ 91.968] new track Wish You Were Here: decoder 96000.0 Hz lossless (seen 0.056 s before Playing), DAC 96000 Hz
+[ 92.135] playerInfo: Playing Wish You Were Here
+[ 93.874] playerInfo: Playing Wish You Were Here
+[ 93.921] playerInfo: Paused Wish You Were Here
+[ 94.945] playerInfo: Stopped 
+[ 94.956] decoder: 96000.0 Hz 24-bit (lossless)
+[ 95.003] playerInfo: Playing Have a Cigar
+[ 95.003] new track Have a Cigar: decoder 96000.0 Hz lossless (seen 0.049 s before Playing), DAC 96000 Hz
+[ 95.076] 96000 Hz fill 2048 scalar 0.999994110 under 0 over 0
+[118.119] playerInfo: Playing Wish You Were Here
+[118.123] new track Wish You Were Here: no decoder line for it yet; playing on at 96000 Hz until one comes (3 s)
+[118.204] playerInfo: Playing Wish You Were Here
+[121.130] no decoder line for Wish You Were Here within 3 s; playing at 96000 Hz
+[125.086] 96000 Hz fill 2048 scalar 0.999992709 under 0 over 0
+[137.905] playerInfo: Playing Wish You Were Here
+[137.942] playerInfo: Paused Wish You Were Here
+[138.027] DAC mixable again: 0
+[138.029] hog released: 0, owner -1
+[138.031] virtual device scalar reset: 0
+[138.054] default output restored to MT 48: 0
+[138.142] engine stopped
