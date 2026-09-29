@@ -608,6 +608,10 @@ final class VirtualDeviceEngine {
             runUserScript(rate, bits: nil)
         }
         curRate = rate
+        // the menu bar's rate: with Exclusive Mode on, OutputDevices' own detection is off and it only
+        // re-reads a device when the default output changes, so a switch mid-session never reached it
+        // (pastor Mac: "it's clearly switching but the taskbar is not")
+        outputDevices.updateSampleRate(rate, bitDepth: nil)
         if others.isRunning, others.rate != rate { restartOthers("the virtual device's rate is now \(Int(rate)) Hz") }
     }
 

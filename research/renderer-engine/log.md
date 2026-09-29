@@ -902,3 +902,9 @@ said 44.1 kHz; "it seems to happen when skipping forward and back". Not related 
 - Fix: on a new track, Music's {name, sample rate} of the current track decides when the name matches
   (retries up to ~1 s); a decoder line at that rate only supplies the depth; no answer -> the old
   decoder-line logic. Logs "Music says X Hz" when the newest line disagrees.
+- 03e4ffd on pastor: every skip decided by Music's rate ("the newest decoder line says 44100 Hz, Music
+  says 48000 Hz for the track; Music's decides" for Init, As Alive, Afraid of Time) and switched right.
+  Owner: "it's clearly switching but the taskbar is not". Cause: with Exclusive Mode on, OutputDevices'
+  detection returns nothing (the engine owns switching) and the label is only re-read when the
+  default output changes (start, stop, step-aside), never at a switch. Fix: applyRate reports the
+  rate to OutputDevices.updateSampleRate (the label; it runs no user script while the engine is on).
