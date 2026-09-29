@@ -1029,3 +1029,17 @@ switch (48k <-> 44.1k, TRON: Ares and others).
 - B's output before each flush: 0.51-0.62 s zeros (stopped at the gap), then 6.94-9.08 s of the old
   track. No new-track audio. Silence per switch 1.53-1.86 s (46 ms trail: 1.02-1.91 s). PASS.
 - Music left playing (as found).
+
+# Tap watchdog (2026-09-29, desk only, not benched)
+From the comparables survey: MacEQ (github.com/ksvan/MacEQ, same process-tap API) reports that a tap
+can start delivering all-zero buffers after long uptime and rebuilds it from a watchdog. The Renderer
+only rebuilt on no pipeline or a rate change (`needsRebuild()`), and since the tap mutes Music a dead
+tap would be silence with nothing in the log.
+- `checkTapSilence()` (engine thread, once a second): pipeline built while playing, Music Playing, no
+  switch running or pending, not armed or latched, and the tap exact zeros for 8 s counted from the
+  later of the last playerInfo and the pipeline build -> the ordinary rebuild (`runSwitch`, format nil)
+  with tPlay set back by the silent time, so Music rewinds to where the silence began.
+- Once per silent stretch (`watchdogNZ` = lastTapNZ when it fired): a track with 8+ s of real digital
+  silence costs one rebuild and a replay of that silence, not a rebuild every 8 s.
+- Not covered: an IOProc that stops calling back (frames stop, so the silent time stops growing).
+- Not reproduced: the dead-tap quirk itself hasn't been seen here. Built (Debug) only; no bench.

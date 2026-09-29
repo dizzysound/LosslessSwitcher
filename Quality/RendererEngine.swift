@@ -34,6 +34,7 @@ final class RendererEngine {
     static let delay: TimeInterval = 0.2 // output delay line
     static let settle: TimeInterval = 0.12 // Music's output steady this long before the tap is built
     static let quiet: TimeInterval = 0.04 // tap silent this long after the rewind's pause before unmuting
+    static let tapSilentLimit: TimeInterval = 8 // tap all zeros this long while Music plays: rebuild (watchdog)
     private static let savedVolumeKey = "RendererSavedMusicVolume"
 
     private unowned let outputDevices: OutputDevices
@@ -55,6 +56,8 @@ final class RendererEngine {
     private var devUID = ""
     private var pipe: Pipeline?
     private var pipeBuiltPlaying = false
+    private var pipeBuiltAt = Date.distantPast
+    private var watchdogNZ: Int? // lastTapNZ when the watchdog last rebuilt: once per silent stretch
     private var pipeRate: Float64 = 0
     private var generation = 0
     private var playing = false
@@ -197,7 +200,7 @@ final class RendererEngine {
         var lastCheck = Date()
         while !shouldStop {
             pump()
-            if Date().timeIntervalSince(lastCheck) >= 1 { lastCheck = Date(); checkDeviceAndMusic() }
+            if Date().timeIntervalSince(lastCheck) >= 1 { lastCheck = Date(); checkDeviceAndMusic(); checkTapSilence() }
             if let a = armAt, Date() >= a, !armed, !muteIn, pipe != nil {
                 armAt = nil; zeroRun = 0; armZero = max(Int(0.01 * nominal(dev)), 1); armedAt = Date(); armed = true
                 log("boundary latch armed at frame \(frames)")
@@ -360,6 +363,7 @@ final class RendererEngine {
         log("switch: Music \(playing ? "playing" : "NOT playing"), output \(run ? "steady" : "not running") after \(ms(th)) of hold; building")
         pipe = buildPipeline()
         pipeBuiltPlaying = pipe != nil
+        pipeBuiltAt = Date()
         pipeRate = nominal(dev)
         keepAlive?.stop()
         guard pipe != nil else {
@@ -433,6 +437,25 @@ final class RendererEngine {
             lastTrackID = nil
             volumeHeld = false // Music's volume went with it; it restores its own on launch
         }
+    }
+
+    /// Watchdog: a process tap can keep delivering all-zero buffers (MacEQ reports it after long uptime),
+    /// and since the tap also mutes Music that is plain silence. When the tap has been exact zeros for
+    /// `tapSilentLimit` while Music plays, rebuild and rewind to where the silence began. Once per silent
+    /// stretch: a track that really is that silent costs one rebuild, not one every 8 s.
+    private func checkTapSilence() {
+        guard pipe != nil, pipeBuiltPlaying, playing, !inRoutine, request == nil, !armed, !muteIn else { return }
+        let nz = lastTapNZ
+        if watchdogNZ == nz { return }
+        let rate = nominal(dev)
+        guard rate > 0 else { return }
+        // silent since the last nonzero sample, but only counting since this play began
+        let silent = min(Double(frames - nz) / rate, Date().timeIntervalSince(max(lastInfo, pipeBuiltAt)))
+        guard silent >= Self.tapSilentLimit else { return }
+        watchdogNZ = nz
+        log("watchdog: tap all zeros for \(String(format: "%.1f", silent)) s while Music plays (frame \(frames)); rebuilding")
+        muteOut = true
+        request = SwitchRequest(format: nil, name: "(current track)", reason: "tap silent while playing", tPlay: Date().addingTimeInterval(-silent))
     }
 
     // MARK: - Pipeline
