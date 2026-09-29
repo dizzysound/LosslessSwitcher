@@ -723,3 +723,14 @@ and the DragonFly (Apple's USB class driver, int24) has only analog outputs.
 - Consequence: on a 24-bit DAC the undithered rounding sits near -144 dBFS (below any DAC's noise); on
   a 16-bit DAC near -96 dBFS, where TPDF dither is worth having. Deciding test, if wanted: the
   DragonFly's analog out into the Babyface's input, a quiet tone at Music volume 90.
+
+## Not ours: a stream that failed to load stopped a playlist (coffee, 11bd0c6, 2026-09-29 08:03)
+Owner: "went from lossy to lossless and the playback stopped; bit depth ? bit". Music's own log: after a
+skipNext, the stream for "Here Come The Bastards - Bassnectar Mix" never became ready
+(FailedToBecomeReadyForPlayback, CoreMediaErrorDomain -12785; MPCEnginePlayerError 16 "Player item
+failed"), and Music paused itself ("UserEvent.pause ... reason: error", PlaybackStopForError); again when
+skipped back to (08:03:28). No ae_Pause (ours sends that), no rate switch (all 44.1k); the engine only
+saw Playing then Paused, and "no decoder line ... within 3 s", hence "? bit" (correct: nothing decoded).
+The owner then played the same track with Exclusive Mode off and on: fine both ways (engine: decoder
+44100 Hz lossless). -12785 in Music's log this morning: this track only, plus one near 05:00. Tell for
+next time: Music's "reason: error" pause and -12785, not our ae_Pause.
