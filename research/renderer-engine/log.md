@@ -853,3 +853,6 @@ side (the DAC path silent); ch 3-4 were never measured. My miss.
   something it interacted with. The time-delta fields read 0, but they compare only the LAST
   ProcessOutput of a cycle with its WriteMix, so they neither confirm nor rule out differing times
   among the clients: cause traced, not proven. Owner to confirm by ear.
+- Owner, by ear on pastor (after PR #4, ba09e5e): YouTube plays from the MacBook Pro Speakers; no
+  lip-sync problem noticed. Coffee's plug-in went to 1.1.5 (the owner, from the menu); its engine log
+  not checked yet. Still open: the bit-exact Music run on 1.1.5 (needs pastor free).
