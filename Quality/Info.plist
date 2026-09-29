@@ -8,6 +8,8 @@
 	<string>Exclusive Mode reads Music's audio back from the LosslessSwitcher Output virtual device (its loopback input) to play it to your DAC unchanged.</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
+	<key>LSGitCommit</key>
+	<string>$(LS_GIT_COMMIT)</string>
 	<key>OSAScriptingDefinition</key>
 	<string>LosslessSwitcher.sdef</string>
 </dict>

@@ -112,7 +112,8 @@ final class VirtualDeviceEngine {
     private var curRate: Float64 = 0
     private var playing = false
     private var lastTrackID: Int64?
-    private var decoderRates: [(date: Date, rate: Float64, bits: Int?, lossless: Bool)] = []
+    private typealias DecoderLine = (date: Date, rate: Float64, bits: Int?, lossless: Bool)
+    private var decoderRates: [DecoderLine] = []
     private var lossyTrackAt: Date?
     private var pendingUpgrade: (rate: Float64, bits: Int?)?
     private var armAt: Date?
@@ -121,7 +122,12 @@ final class VirtualDeviceEngine {
     private var latchedAt: Date?
     private var gatePending = false
     private var lastNewTrackAt: Date?
-    private var awaiting: (name: String, tPlay: Date, until: Date)? // a new track whose decoder line hasn't come yet
+    // Decoder lines up to this time belong to the playing track: its own setup just after Playing
+    // (streams and skips, ~0.4 s late) or the decoder a switch's rewind re-creates.
+    private var ownLinesUntil: Date?
+    private var trackRate: Float64? // the decoder rate decided for the playing track
+    // a new track whose decoder line hasn't come yet; fallback: the line to use if none comes
+    private var awaiting: (name: String, tPlay: Date, until: Date, fallback: DecoderLine?)?
     private var gateMarkedAt: Date?
     private var gateWaitsForMusic = false // after Music quit: the gate waits longer for its Playing
     private var regateOnSilence = false   // the gate let another sound through: close it when that ends
@@ -130,6 +136,7 @@ final class VirtualDeviceEngine {
     private var steppedAside = false
     private var idleSince: Date?
     private var resumeInfo: (info: [AnyHashable: Any], at: Date)?
+    private var resumeRetryAt: Date? // after a failed take-back: Music plays to the DAC; no retry before this
     private var musicListWrong = false
 
     /// NSRunningApplication once said Music wasn't running while it played on as the same process
@@ -158,6 +165,8 @@ final class VirtualDeviceEngine {
     private var dacScalarEst = 0.0, integ = 0.0, lsScalar = 1.0
     private var lockAfterCycles = (0, 0)
     private var waitingForScalar = false
+    private var scalarHistory: [(t: Double, r: Double)] = [] // the DAC's HAL scalar at each pll() since the last reset
+    private var waitingSince: Double?
     private var refillAsked = false
     private var scriptRate: Float64 = 0 // the rate the user's script (Scripting menu) last heard
     private var overshootLogged: Bool?
@@ -302,6 +311,8 @@ final class VirtualDeviceEngine {
             if formatDirty.load(ordering: .acquiring) != 0 || now.timeIntervalSince(lastFormatCheck) >= 1 { lastFormatCheck = now; checkFormat() }
             if let up = pendingUpgrade, playing, !inRoutine {
                 pendingUpgrade = nil
+                trackRate = up.rate
+                RendererOutput.shared.set(sourceBits: up.bits, lossy: false)
                 if let r = neededRate(up.rate) {
                     log("lossless decoder at \(up.rate) Hz after a lossy start; switching again")
                     switchRate(r, name: "(lossless upgrade)", tPlay: Date())
@@ -330,7 +341,10 @@ final class VirtualDeviceEngine {
             }
             if now.timeIntervalSince(lastStatus) >= 30 {
                 lastStatus = now
-                log("\(Int(curRate)) Hz fill \(ring.fill) scalar \(String(format: "%.9f", lsScalar)) under \(ring.underruns.load(ordering: .relaxed)) over \(ring.overruns.load(ordering: .relaxed))")
+                // wall clock and clock-lock state: the overnight coffee log needed both
+                let dacScalar = stampB.get().map { String(format: "%.6f", $0.2) } ?? "-"
+                let clock = procB == nil ? "stepped aside" : phase0 != nil ? "locked" : waitingForScalar ? "waiting (DAC scalar not steady, following it)" : "not locked"
+                log("\(Int(curRate)) Hz fill \(ring.fill) scalar \(String(format: "%.9f", lsScalar)) under \(ring.underruns.load(ordering: .relaxed)) over \(ring.overruns.load(ordering: .relaxed)); clock \(clock), DAC scalar \(dacScalar); \(RendererLog.wallClock.string(from: now))")
             }
             Thread.sleep(forTimeInterval: 0.01)
         }
@@ -462,6 +476,14 @@ final class VirtualDeviceEngine {
         guard let s = CA.streams(d, kAudioObjectPropertyScopeOutput).first else { log("DAC has no output stream"); return false }
         dacOut = s
         log("DAC \(CA.string(d, kAudioObjectPropertyName)) (\(dacUID)) @ \(CA.nominal(d)) Hz, hog owner \(CA.hogOwner(d)), my pid \(getpid())")
+        // Coffee bench (DragonFly Black): taken right after Music had played to it directly (the
+        // idle step-aside's resume), start B blocked 7.3 s and failed (35), every time. Let another
+        // client's IO wind down first.
+        if CA.runningSomewhere(d) {
+            let t = Date()
+            let stopped = waitPlain(2) { !CA.runningSomewhere(d) }
+            log("DAC was still running for another client; \(stopped ? "stopped" : "STILL running") after \(ms(t))")
+        }
         var me = getpid()
         var a = CA.addr(kAudioDevicePropertyHogMode)
         let st = AudioObjectSetPropertyData(d, &a, 0, nil, 4, &me)
@@ -729,7 +751,10 @@ final class VirtualDeviceEngine {
         guard !inRoutine else { return } // our own pause/play
         if steppedAside {
             // Music plays straight to the DAC now; the run loop takes the output back
-            if playing, resumeInfo == nil { resumeInfo = (info, at) }
+            if playing, resumeInfo == nil {
+                if let r = resumeRetryAt, Date() < r { return } // our own play after a failed take-back
+                resumeInfo = (info, at)
+            }
             return
         }
         // Music can post Playing with no name and no PersistentID just before the real track's
@@ -737,7 +762,7 @@ final class VirtualDeviceEngine {
         // gate, and the real track played at the old rate until its own line came. If no real one
         // follows, the next decoder line (or 3 s) decides for it.
         if playing, name.isEmpty, info["PersistentID"] == nil {
-            if gatePending, awaiting == nil { awaiting = ("(no name)", at, Date().addingTimeInterval(3)) }
+            if gatePending, awaiting == nil { awaiting = ("(no name)", at, Date().addingTimeInterval(3), nil) }
             log("playerInfo without a name or PersistentID: not a track; gate \(gatePending ? "held" : "open")")
             return
         }
@@ -768,23 +793,40 @@ final class VirtualDeviceEngine {
         // pre-roll, or its own setup). In trial m1 an Apple Music stream reported Playing before its
         // decoder line, and the previous track's 20 s old line was taken for it.
         let prev = lastNewTrackAt
+        let prevOwnUntil = ownLinesUntil
         lastNewTrackAt = at
+        ownLinesUntil = max(at.addingTimeInterval(2), prevOwnUntil ?? .distantPast)
+        trackRate = nil
         guard let line = decoderRates.last(where: { prev == nil || $0.date > prev! }) else {
             // A gapless successor can have its decoder set up before the previous track began (trial
             // m2: none logged for Wish You Were Here after Have a Cigar). A local file's own header
             // decides; a stream waits for its line.
             if let st = LocalTrack.currentStats(attempts: 3) {
-                decide(st.sampleRate, lossless: true, seenAgo: 0, name: name + " (file header, no decoder line)", tPlay: at)
+                // lossless: true as before (a lossy mark would arm the stream upgrade path); the menu
+                // still learns the file is lossy
+                decide(st.sampleRate, bits: st.sourceBits, lossless: true, seenAgo: 0, name: name + " (file header, no decoder line)", tPlay: at)
+                if st.lossy { RendererOutput.shared.set(sourceBits: nil, lossy: true) }
                 return
             }
-            awaiting = (name, at, Date().addingTimeInterval(3))
+            awaiting = (name, at, Date().addingTimeInterval(3), nil)
             log("new track \(name): no decoder line for it yet; \(gatePending ? "holding at the gate" : "playing on at \(Int(curRate)) Hz") until one comes (3 s)")
             return
         }
-        decide(line.rate, lossless: line.lossless, seenAgo: at.timeIntervalSince(line.date), name: name, tPlay: at)
+        // A line from the previous track's own window may be that track's late setup, not this one's
+        // (Executor bench: two skips ~12 s apart each took the track before's line, so Deadbeat Drag
+        // played at 48k and Earth was switched to 44.1k; each track's own line came ~0.4 s after its
+        // Playing). Wait briefly for a newer line; if none comes, this one decides.
+        if let own = prevOwnUntil, line.date <= own {
+            awaiting = (name, at, Date().addingTimeInterval(1), line)
+            log("new track \(name): the newest decoder line (\(Int(line.rate)) Hz, \(String(format: "%.3f", at.timeIntervalSince(line.date))) s before Playing) may be the previous track's; waiting 1 s for its own")
+            return
+        }
+        decide(line.rate, bits: line.bits, lossless: line.lossless, seenAgo: at.timeIntervalSince(line.date), name: name, tPlay: at)
     }
 
-    private func decide(_ rate: Float64, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date) {
+    private func decide(_ rate: Float64, bits: Int?, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date) {
+        trackRate = rate
+        RendererOutput.shared.set(sourceBits: bits, lossy: !lossless)
         if !lossless { lossyTrackAt = Date() }
         let need = neededRate(rate)
         log("new track \(name): decoder \(rate) Hz \(lossless ? "lossless" : "lossy") (seen \(String(format: "%.3f", seenAgo)) s before Playing), DAC \(Int(curRate)) Hz\(need.map { " -> switch to \(Int($0))" } ?? "")")
@@ -809,9 +851,14 @@ final class VirtualDeviceEngine {
         if lossless, let t = lossyTrackAt, at.timeIntervalSince(t) < 10 { pendingUpgrade = (rate, bits); lossyTrackAt = nil }
         decoderRates.append((at, rate, bits, lossless))
         if decoderRates.count > 200 { decoderRates.removeFirst(100) }
+        // ALAC logs a 'qlac' line without the depth, then 'alac ... from N-bit source': a line in the
+        // track's own window at its rate fills in the depth the menu shows
+        if let b = bits, lossless, rate == trackRate, let own = ownLinesUntil, at <= own {
+            RendererOutput.shared.set(sourceBits: b, lossy: false)
+        }
         if let aw = awaiting, !inRoutine {
             awaiting = nil
-            decide(rate, lossless: lossless, seenAgo: -at.timeIntervalSince(aw.tPlay), name: aw.name, tPlay: aw.tPlay)
+            decide(rate, bits: bits, lossless: lossless, seenAgo: -at.timeIntervalSince(aw.tPlay), name: aw.name, tPlay: aw.tPlay)
             return
         }
         // A decoder for another rate while playing: the next track's pre-roll (8-12 s before the end:
@@ -833,9 +880,15 @@ final class VirtualDeviceEngine {
     private func tickLatchAndGate() {
         if let aw = awaiting, Date() > aw.until {
             awaiting = nil
-            log("no decoder line for \(aw.name) within 3 s; playing at \(Int(curRate)) Hz")
-            if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
-            releaseGate("no decoder line")
+            if let f = aw.fallback {
+                log("no newer decoder line for \(aw.name) within 1 s; the earlier one decides")
+                decide(f.rate, bits: f.bits, lossless: f.lossless, seenAgo: aw.tPlay.timeIntervalSince(f.date), name: aw.name, tPlay: aw.tPlay)
+            } else {
+                log("no decoder line for \(aw.name) within 3 s; playing at \(Int(curRate)) Hz")
+                RendererOutput.shared.set(sourceBits: nil, lossy: false)
+                if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
+                releaseGate("no decoder line")
+            }
         }
         regateIfSilent()
         if let l = lateArmAt, Date() >= l, armAt == nil, armedAt == nil, latchedAt == nil, !inRoutine {
@@ -898,6 +951,63 @@ final class VirtualDeviceEngine {
         tearDown(restoreDefault: true, resumeMusic: false)
         procA = nil
         steppedAside = true
+        probeAfterStepAside()
+    }
+
+    /// Coffee bench (DragonFly Black, data/2026-09-28-coffee-5d75e9a): the step-aside's config changes
+    /// on the DAC (mixable format, hog released) make coreaudiod pause and resume this process's IO
+    /// context for the DAC, and the HAL client handles those on several threads. A resume handled
+    /// before its pause is clamped at 0 and the pause stays. The context outlives the IOProcs, so every
+    /// later start on that DAC in this process blocks 7.5 s and fails (35, "IO is still disabled
+    /// after waiting"). Nothing in the process clears it (stop+start, setting up again,
+    /// AudioHardwareUnload); a new process does. A short silent start here, while Music is paused and
+    /// after tearDown's 3 s hold, finds it before a take-back would; then the app relaunches.
+    private func probeAfterStepAside() {
+        let d = dac
+        guard d != 0, CA.devices().contains(d) else { return }
+        var proc: AudioDeviceIOProcID?
+        let cst = AudioDeviceCreateIOProcIDWithBlock(&proc, d, nil) { _, _, _, out, _ in
+            for b in UnsafeMutableAudioBufferListPointer(out) { if let p = b.mData { memset(p, 0, Int(b.mDataByteSize)) } }
+        }
+        guard cst == noErr, let proc else { log("DAC probe: IOProc \(cst)"); return }
+        let t = Date()
+        var st = AudioDeviceStart(d, proc)
+        let took = ms(t)
+        AudioDeviceStop(d, proc)
+        AudioDeviceDestroyIOProcID(d, proc)
+        // bench hook (one shot): `defaults write <bundle id> RendererProbeForceStuck -bool true` makes
+        // this probe act as if it got 35, to test the relaunch
+        if UserDefaults.standard.bool(forKey: "RendererProbeForceStuck") {
+            UserDefaults.standard.removeObject(forKey: "RendererProbeForceStuck")
+            log("DAC probe: start \(st) after \(took); RendererProbeForceStuck set: acting as if it were 35 (once)")
+            st = 35
+        }
+        guard st == 35 else {
+            log("DAC probe: start \(st) after \(took)\(st == noErr ? "" : " (not the stuck context; no relaunch)")")
+            return
+        }
+        let last = UserDefaults.standard.object(forKey: Self.lastRelaunchKey) as? Date
+        if let last, Date().timeIntervalSince(last) < 600 {
+            log("DAC probe: start 35 after \(took): the DAC's IO context is stuck, but the app relaunched \(Int(Date().timeIntervalSince(last))) s ago; not again within 10 min (a take-back will fail)")
+            return
+        }
+        log("DAC probe: start 35 after \(took): the DAC's IO context is stuck in this process; relaunching the app")
+        UserDefaults.standard.set(Date(), forKey: Self.lastRelaunchKey)
+        UserDefaults.standard.set("[Exclusive Mode] relaunched after a step-aside left the DAC's IO context paused (probe: start 35 after \(took)); the run before it is LosslessSwitcher-ExclusiveMode.1.log", forKey: Self.recoveryNoteKey)
+        DispatchQueue.main.async { Self.relaunch() }
+    }
+
+    private static let lastRelaunchKey = "RendererLastRelaunch"
+
+    /// A detached shell waits for this process to exit and opens the app again (the new run's log
+    /// start keeps this run's as .1); the quit itself is the normal one (the engine stops and
+    /// restores the output).
+    private static func relaunch() {
+        let p = Process()
+        p.executableURL = URL(fileURLWithPath: "/bin/sh")
+        p.arguments = ["-c", "while kill -0 \(getpid()) 2>/dev/null; do sleep 0.2; done; /usr/bin/open \"$1\"", "relaunch", Bundle.main.bundlePath]
+        do { try p.run() } catch { print("[Exclusive Mode] relaunch failed: \(error)"); return }
+        NSApp.terminate(nil)
     }
 
     /// Music started playing while stepped aside (straight to the DAC): pause it, take the output
@@ -909,21 +1019,57 @@ final class VirtualDeviceEngine {
         _ = scripts.pause()
         let pausedAt = Date()
         _ = wait(1) { !self.playing }
-        inRoutine = false
+        // Music's notices stay ignored through the setup and the rate decision: they echo our own
+        // pause, which can take over 1 s (pastor Mac: Badlands' late Playing came after the wait, was
+        // taken as a new track, and switched before the DAC was set up: NOT ready after 12 s).
+        // switchRate below pauses, rewinds and plays anyway.
         steppedAside = false
         guard setUp() else {
-            log("setup failed; staying stepped aside")
+            inRoutine = false
+            // Music plays to the DAC directly. Its Playing must not start another take-back: on the
+            // coffee bench that looped every 11 s (and Music's pause didn't stop it, the play did).
+            resumeRetryAt = Date().addingTimeInterval(30)
+            log("setup failed; staying stepped aside, Music plays to the DAC directly; no take-back for 30 s")
             steppedAside = true
             _ = scripts.play()
             return
         }
-        // the rate this track needs: its newest decoder line (Music decoded it before pausing), else
-        // the local file's header; the DAC's current rate if neither says
+        resumeRetryAt = nil
+        // the rate this track needs: the rate decided for it if it's the track that was playing (the
+        // newest line can be the next track's pre-roll: Executor bench, Earth resumed on the next
+        // track's 48k line), else its newest decoder line (Music decoded it before pausing), else the
+        // local file's header; the DAC's current rate if none says
+        let pid = (info["PersistentID"] as? NSNumber)?.int64Value ?? (name.isEmpty ? nil : Int64(truncatingIfNeeded: name.hashValue))
         let recent = decoderRates.last.flatMap { Date().timeIntervalSince($0.date) < 30 ? $0.rate : nil }
-        let rate = recent ?? LocalTrack.currentStats(attempts: 2)?.sampleRate
+        let rate: Float64?
+        if pid != nil && pid == lastTrackID, let r = trackRate {
+            rate = r
+        } else if pid != nil && pid == lastTrackID {
+            rate = recent ?? LocalTrack.currentStats(attempts: 2)?.sampleRate
+        } else {
+            // Another track: its own line can come after the take-back's setup (pastor Mac: Badlands'
+            // 44.1k line 1.1 s after its Playing, after the rate was chosen; it played at the hymn's
+            // 96k). Take a line from its Playing on (or just before), waiting up to 2 s for one.
+            let since = at.addingTimeInterval(-2)
+            if decoderRates.last.map({ $0.date <= since }) ?? true {
+                let t0 = Date()
+                _ = wait(2) { self.decoderRates.last.map { $0.date > since } ?? false }
+                log("resume: \(decoderRates.last.map { $0.date > since } ?? false ? "decoder line after \(String(format: "%.2f", Date().timeIntervalSince(t0))) s" : "no decoder line within 2 s")")
+            }
+            let ownLine = decoderRates.last.flatMap { $0.date > since ? $0 : nil }
+            let own = ownLine?.rate
+            let fileStats = own == nil ? LocalTrack.currentStats(attempts: 2) : nil
+            let file = fileStats?.sampleRate
+            rate = own ?? file ?? recent
+            if let l = ownLine { RendererOutput.shared.set(sourceBits: l.bits, lossy: !l.lossless) }
+            else { RendererOutput.shared.set(sourceBits: fileStats?.sourceBits, lossy: fileStats?.lossy ?? false) }
+            log("resume: \(name) at \(rate.map { "\(Int($0)) Hz" } ?? "the DAC's rate") (\(own != nil ? "its decoder line" : file != nil ? "file header" : recent != nil ? "newest decoder line, may be another track's" : "nothing says"))")
+        }
         let target = rate.flatMap { neededRate($0) } ?? curRate
-        lastTrackID = (info["PersistentID"] as? NSNumber)?.int64Value ?? (name.isEmpty ? nil : Int64(truncatingIfNeeded: name.hashValue))
+        if pid != lastTrackID { trackRate = rate }
+        lastTrackID = pid
         lastNewTrackAt = at
+        inRoutine = false
         switchRate(target, name: name, tPlay: at, pausedAt: pausedAt)
     }
 
@@ -1019,6 +1165,8 @@ final class VirtualDeviceEngine {
         _ = scripts.setPosition(startPos)
         reclaimDefault() // never let Music start on whatever coreaudiod fell back to
         _ = scripts.play()
+        // the play re-creates this track's decoder: that line is its own, not a next track's
+        ownLinesUntil = max(ownLinesUntil ?? .distantPast, Date().addingTimeInterval(1))
         log("  rewound to \(String(format: "%.3f", startPos)) (was \(String(format: "%.3f", pos)), played ~\(String(format: "%.3f", played)) s), play; switch \(switches) done \(ms(t)) after the request")
     }
 
@@ -1039,7 +1187,7 @@ final class VirtualDeviceEngine {
             // play, wait longer than usual for its Playing, and forget the old lines.
             if armAt != nil || armedAt != nil || latchedAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("Music quit") }
             awaiting = nil; pendingUpgrade = nil; lossyTrackAt = nil
-            decoderRates = []; lastNewTrackAt = nil
+            decoderRates = []; lastNewTrackAt = nil; ownLinesUntil = nil; trackRate = nil
             if !gatePending { gatePending = true; gateMarkedAt = nil; gate.store(1, ordering: .releasing) }
             gateWaitsForMusic = true
             trimIdle.store(1, ordering: .releasing)
@@ -1114,6 +1262,7 @@ final class VirtualDeviceEngine {
 
     private func resetLock() {
         phase0 = nil; integ = 0; dacScalarEst = 0; refillAsked = false
+        scalarHistory.removeAll(); waitingSince = nil
         lockAfterCycles = (aCycles.load(ordering: .relaxed) + 8, bCycles.load(ordering: .relaxed) + 8)
     }
 
@@ -1126,11 +1275,38 @@ final class VirtualDeviceEngine {
         let h = Double(mach_absolute_time())
         let phase = (sA + (h - hA) / (tpf * lsScalar)) - (sB + (h - hB) / (tpf * rB))
         // After a switch the DAC's HAL scalar converges for seconds (1.00115 at 88.2k in trial s2, and
-        // seeding on it walked the phase to -285 frames). Until it is within 100 ppm the virtual
-        // device keeps its last scalar (same crystal) and nothing is locked.
-        if phase0 == nil && abs(rB - 1) > 100e-6 {
-            if !waitingForScalar { waitingForScalar = true; log("clock: DAC scalar \(String(format: "%.6f", rB)) not settled; waiting to lock") }
-            return
+        // seeding on it walked the phase to -285 frames), so the lock waits until it is steady: the
+        // means of the older and newer halves of the last 4 s within 20 ppm. Steady, not near 1: the
+        // DragonFly Black runs ~400 ppm fast at 44.1k and a 100 ppm gate never locked (the ring drained,
+        // ~12 ms dropout every 30 s). Replayed on the MT 48 recordings: passes 3.3-5 s after the old
+        // lock point, never fails once settled (worst 19 ppm at 192k). While waiting the virtual device
+        // follows the DAC's scalar so the ring doesn't drain; after 30 s it locks on the 4 s mean anyway.
+        if phase0 == nil {
+            let t = h / ticksPerSec
+            scalarHistory.append((t, rB))
+            scalarHistory.removeAll { t - $0.t > 4 }
+            var steady: Double?
+            if let first = scalarHistory.first, t - first.t >= 3.25 {
+                let mid = first.t + (t - first.t) / 2
+                let older = scalarHistory.filter { $0.t < mid }.map(\.r), newer = scalarHistory.filter { $0.t >= mid }.map(\.r)
+                let mo = older.reduce(0, +) / Double(older.count), mn = newer.reduce(0, +) / Double(newer.count)
+                if abs(mn - mo) < 20e-6 {
+                    steady = mn
+                } else if let w = waitingSince, t - w >= 30 {
+                    steady = mn
+                    if waitingForScalar { log("clock: DAC scalar still moving after 30 s (\(String(format: "%.6f", mo)) -> \(String(format: "%.6f", mn)) over 4 s); locking on it") }
+                }
+            }
+            guard let est = steady else {
+                if waitingSince == nil { waitingSince = t }
+                if !waitingForScalar { waitingForScalar = true; log("clock: DAC scalar \(String(format: "%.6f", rB)) not steady yet; following it until the lock") }
+                if CA.setScalar(ls, rB, Self.kRateScalar) == noErr { lsScalar = rB }
+                return
+            }
+            if waitingForScalar, let w = waitingSince {
+                log("clock: DAC scalar steady at \(String(format: "%.6f", est)) after \(String(format: "%.1f", t - w)) s")
+            }
+            dacScalarEst = est
         }
         waitingForScalar = false
         // The lock holds the phase it starts from, so it holds the ring's fill too. After the follow to
@@ -1619,6 +1795,12 @@ enum CA {
         AudioObjectGetPropertyData(d, &a, 0, nil, &z, &h); return h
     }
 
+    /// Some process (Music, stepped aside) still has IO running on the device.
+    static func runningSomewhere(_ d: AudioObjectID) -> Bool {
+        var v = UInt32(0); var a = addr(kAudioDevicePropertyDeviceIsRunningSomewhere); var z = UInt32(4)
+        return AudioObjectGetPropertyData(d, &a, 0, nil, &z, &v) == noErr && v != 0
+    }
+
     static func availablePhysicalFormats(_ s: AudioStreamID) -> [AudioStreamRangedDescription] {
         array(s, addr(kAudioStreamPropertyAvailablePhysicalFormats), AudioStreamRangedDescription.self)
     }
@@ -1693,10 +1875,12 @@ enum CA {
 /// forwarded to the DAC's own controls, so the stream to the DAC stays bit-perfect. The DAC's master
 /// element (0) if it has a volume there, else the stereo pair's channel elements (Babyface Pro:
 /// channels 1/2, no master, no mute).
-/// Mapping: the slider is linear in dB over a window below the top (defaults RendererVolumeTopDB 0,
-/// RendererVolumeRangeDB 64: 4 dB per key step, 1 dB per Option+Shift step); the bottom is the DAC's
-/// minimum. The DAC's own taper made one step 8-9.5 dB on the Babyface. A DAC without dB controls
-/// gets the slider's value as its scalar.
+/// Mapping: the slider is linear in dB from 0 dB down to -64 dB (4 dB per key step, 1 dB per
+/// Option+Shift step), the same mapping plug-in 1.1.3 reports, so the virtual device reads the DAC's
+/// own level and never above 0 dB; the bottom is the DAC's minimum. The DAC's own taper made one step
+/// 8-9.5 dB on the Babyface. A DAC without dB controls gets the slider's value as its scalar.
+/// A DAC with no settable volume: the virtual device is held at 0 dB, unmuted (nothing attenuates).
+/// Stop leaves it at 0 dB.
 /// A DAC without a mute is muted by setting its volume to the minimum; unmute and stop restore the
 /// level it had. A change made on the DAC itself (Audio MIDI Setup, TotalMix) moves the slider to
 /// match. Comparisons are in slider units, so the DAC's own rounding (0.5 dB on the RME) doesn't echo.
@@ -1714,7 +1898,12 @@ final class VolumeForwarder {
     private var volumeEls: [UInt32] = [], muteEls: [UInt32] = []
     private var emulatedMute = false
     private var mutedLevel: Float32 = 0 // DAC scalar before an emulated mute
-    private var topDB: Float32 = 0, rangeDB: Float32 = 64, useDB = false
+    private static let topDB: Float32 = 0, rangeDB: Float32 = 64 // LSOutput.driver's kVolume_MaxDB, -kVolume_MinDB
+    private var topDB: Float32 { Self.topDB }
+    private var rangeDB: Float32 { Self.rangeDB }
+    private var useDB = false
+    private var dbDirect = false // the DAC has a dB range but no dB -> scalar conversion (DragonFly Black): set its dB
+    private var pinned = false // the DAC has no volume: the virtual device stays at 0 dB, unmuted
     // engine thread
     private var listeners: [(AudioObjectID, AudioObjectPropertyAddress, AudioObjectPropertyListenerBlock)] = []
 
@@ -1728,28 +1917,28 @@ final class VolumeForwarder {
         queue.sync {
             self.ls = ls; self.dac = dac; self.dacUID = CA.string(dac, kAudioDevicePropertyDeviceUID)
             volumeEls = vols; muteEls = mutes; emulatedMute = false
+            pinned = vols.isEmpty
             guard !vols.isEmpty else {
-                log("volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity)")
+                log("volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity); virtual device held at 0 dB: \(Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, 1)), unmuted: \(Self.set(ls, kAudioDevicePropertyMute, 0, 0))")
+                active = true
                 return
             }
-            let d = UserDefaults.standard
-            let range = Self.dbRange(dac, vols[0])
-            topDB = min(Float32(d.object(forKey: "RendererVolumeTopDB") as? Double ?? 0), range?.max ?? 0)
-            rangeDB = max(Float32(d.object(forKey: "RendererVolumeRangeDB") as? Double ?? 64), 6)
-            useDB = range != nil && Self.dbToScalar(dac, vols[0], topDB) != nil
+            let hasRange = Self.dbRange(dac, vols[0]) != nil
+            dbDirect = hasRange && Self.dbToScalar(dac, vols[0], topDB) == nil && Self.settable(dac, kAudioDevicePropertyVolumeDecibels, vols[0])
+            useDB = hasRange && (dbDirect || Self.dbToScalar(dac, vols[0], topDB) != nil)
             // start from the DAC's level, so nothing jumps
             let level = currentSlider() ?? 1
             let muted = mutes.first.flatMap { Self.get(dac, kAudioDevicePropertyMute, $0) }.map { $0 != 0 } ?? false
             let st = Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, level)
             let mst = Self.set(ls, kAudioDevicePropertyMute, 0, muted ? 1 : 0)
-            let map = useDB ? "linear in dB, \(Int(topDB)) to \(Int(topDB - rangeDB)) dB (\(String(format: "%.1f", rangeDB / 16)) dB per key step)" : "DAC scalar (no dB controls)"
+            let map = useDB ? "linear in dB, \(Int(topDB)) to \(Int(topDB - rangeDB)) dB (\(String(format: "%.1f", rangeDB / 16)) dB per key step)\(dbDirect ? ", set in dB (no dB -> scalar on the DAC)" : "")" : "DAC scalar (no dB controls)"
             log("volume: forwarding to DAC element\(vols.count > 1 ? "s" : "") \(vols.map(String.init).joined(separator: ",")) (\(Self.db(dac, vols[0])) dB), \(map); mute \(mutes.isEmpty ? "emulated (DAC has none)" : "to element\(mutes.count > 1 ? "s" : "") \(mutes.map(String.init).joined(separator: ","))"); slider -> \(String(format: "%.4f", level)): \(st), mute -> \(muted ? 1 : 0): \(mst)")
             active = true
         }
-        guard !vols.isEmpty else { return }
         for sel in [kAudioDevicePropertyVolumeScalar, kAudioDevicePropertyMute] {
             listen(ls, AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: 0)) { $0.push() }
         }
+        guard !vols.isEmpty else { return }
         for e in vols {
             listen(dac, AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyVolumeScalar, mScope: kAudioObjectPropertyScopeOutput, mElement: e)) { $0.pull() }
         }
@@ -1767,6 +1956,9 @@ final class VolumeForwarder {
                 emulatedMute = false
                 UserDefaults.standard.removeObject(forKey: Self.mutedKey)
             }
+            // nothing drives it now: leave it reading unity, which is what it passes
+            _ = Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, 1); _ = Self.set(ls, kAudioDevicePropertyMute, 0, 0)
+            pinned = false
         }
     }
 
@@ -1806,6 +1998,13 @@ final class VolumeForwarder {
 
     /// Virtual device -> DAC (a volume key, the sound menu).
     private func push() {
+        if pinned {
+            // no DAC control to drive: put the virtual device back to 0 dB, unmuted
+            if (Self.get(ls, kAudioDevicePropertyVolumeScalar, 0) ?? 1) < 1 || (Self.get(ls, kAudioDevicePropertyMute, 0) ?? 0) != 0 {
+                log("volume: DAC has no volume control; virtual device back to 0 dB: \(Self.set(ls, kAudioDevicePropertyVolumeScalar, 0, 1)), unmuted: \(Self.set(ls, kAudioDevicePropertyMute, 0, 0))")
+            }
+            return
+        }
         guard let v = Self.get(ls, kAudioDevicePropertyVolumeScalar, 0) else { return }
         let m = (Self.get(ls, kAudioDevicePropertyMute, 0) ?? 0) != 0
         var did: [String] = []
@@ -1825,7 +2024,12 @@ final class VolumeForwarder {
             emulatedMute = m
         }
         if !(muteEls.isEmpty && m), let cur = currentSlider(), abs(cur - v) > Self.tolerance || did.contains("unmute") {
-            did.append("DAC \(setDACScalar(dacScalar(forSlider: v))) -> \(Self.db(dac, volumeEls[0])) dB")
+            if dbDirect {
+                let dB = v <= 0.001 ? (Self.dbRange(dac, volumeEls[0])?.min ?? topDB - rangeDB) : topDB - (1 - v) * rangeDB
+                did.append("DAC \(volumeEls.map { Self.set(dac, kAudioDevicePropertyVolumeDecibels, $0, dB) }) -> \(Self.db(dac, volumeEls[0])) dB")
+            } else {
+                did.append("DAC \(setDACScalar(dacScalar(forSlider: v))) -> \(Self.db(dac, volumeEls[0])) dB")
+            }
         }
         if !did.isEmpty { log("volume \(String(format: "%.4f", v))\(m ? " muted" : ""): " + did.joined(separator: ", ")) }
     }
@@ -1887,6 +2091,12 @@ final class VolumeForwarder {
         var a = AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: e)
         if sel == kAudioDevicePropertyMute { var u = UInt32(v != 0 ? 1 : 0); return AudioObjectSetPropertyData(d, &a, 0, nil, 4, &u) }
         var f = v; return AudioObjectSetPropertyData(d, &a, 0, nil, 4, &f)
+    }
+
+    private static func settable(_ d: AudioObjectID, _ sel: AudioObjectPropertySelector, _ e: UInt32) -> Bool {
+        var a = AudioObjectPropertyAddress(mSelector: sel, mScope: kAudioObjectPropertyScopeOutput, mElement: e)
+        var b: DarwinBoolean = false
+        return AudioObjectHasProperty(d, &a) && AudioObjectIsPropertySettable(d, &a, &b) == noErr && b.boolValue
     }
 
     private static func db(_ d: AudioObjectID, _ e: UInt32) -> String {
@@ -2040,9 +2250,24 @@ struct MusicSettingsView: View {
 final class RendererOutput: ObservableObject {
     static let shared = RendererOutput()
     @Published private(set) var dacName: String?
+    /// The playing track's source, as the engine decided it: its bit depth (nil: not known) and
+    /// whether it's lossy (AAC has no bit depth). The menu shows it while the engine holds a DAC.
+    @Published private(set) var sourceBits: Int?
+    @Published private(set) var sourceLossy = false
 
     /// Any thread.
     func set(dacName name: String?) {
         DispatchQueue.main.async { if self.dacName != name { self.dacName = name } }
     }
+
+    /// Any thread.
+    func set(sourceBits bits: Int?, lossy: Bool) {
+        DispatchQueue.main.async {
+            if self.sourceBits != bits { self.sourceBits = bits }
+            if self.sourceLossy != lossy { self.sourceLossy = lossy }
+        }
+    }
+
+    /// "24 bit", "lossy" or "? bit".
+    var sourceText: String { sourceLossy ? "lossy" : sourceBits.map { "\($0) bit" } ?? "? bit" }
 }
