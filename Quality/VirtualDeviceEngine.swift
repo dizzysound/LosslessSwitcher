@@ -221,7 +221,6 @@ final class VirtualDeviceEngine {
     private let fixedTarget: Int?
     private let targetFillA = Atomic<Int>(2048)
     private var targetFill: Int { targetFillA.load(ordering: .relaxed) }
-    private static let trailSeconds = 0.35
     // A's history of gaps (>= 10 ms of exact zeros): the ring position where each gap reached 10 ms
     private let gapHist = UnsafeMutablePointer<Int>.allocate(capacity: 32)
     private let gapCount = Atomic<Int>(0)
@@ -641,7 +640,8 @@ final class VirtualDeviceEngine {
             runUserScript(rate, bits: nil)
         }
         curRate = rate
-        targetFillA.store(fixedTarget ?? Int(rate * Self.trailSeconds), ordering: .releasing)
+        let margin = (SwitchGap(rawValue: UserDefaults.standard.string(forKey: Defaults.kSwitchMargin) ?? "") ?? .normal).margin
+        targetFillA.store(fixedTarget ?? Int(rate * margin), ordering: .releasing)
         gapLen.store(max(Int(0.01 * rate), 1), ordering: .releasing)
         setReportedLatency(targetFill)
         // the menu bar's rate: with Exclusive Mode on, OutputDevices' own detection is off and it only

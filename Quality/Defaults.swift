@@ -21,6 +21,7 @@ class Defaults: ObservableObject {
     static let kRendererReleaseWhenIdle = "RendererReleaseWhenIdle"
     static let kOvershootProtection = "OvershootProtection"
     static let kTPDFDither = "TPDFDither"
+    static let kSwitchMargin = "RendererSwitchMargin"
     
     private init() {
         UserDefaults.standard.register(defaults: [
@@ -42,6 +43,7 @@ class Defaults: ObservableObject {
         self.userPreferLocalFileDetection = UserDefaults.standard.bool(forKey: kUserPreferLocalFileDetection)
         self.userPreferPauseWhileSwitching = UserDefaults.standard.bool(forKey: kUserPreferPauseWhileSwitching)
         self.switchGap = SwitchGap(rawValue: UserDefaults.standard.string(forKey: kSwitchGap) ?? "") ?? .normal
+        self.switchMargin = SwitchGap(rawValue: UserDefaults.standard.string(forKey: Self.kSwitchMargin) ?? "") ?? .normal
         self.userPreferRendererEngine = UserDefaults.standard.bool(forKey: kUserPreferRendererEngine)
         self.rendererReleaseWhenIdle = UserDefaults.standard.bool(forKey: Self.kRendererReleaseWhenIdle)
         self.overshootProtection = UserDefaults.standard.bool(forKey: Self.kOvershootProtection)
@@ -78,6 +80,14 @@ class Defaults: ObservableObject {
     @Published var userPreferRendererEngine: Bool {
         willSet {
             UserDefaults.standard.set(newValue, forKey: kUserPreferRendererEngine)
+        }
+    }
+
+    /// Exclusive Mode: how far the DAC trails Music (SwitchGap.margin), so a late-reported skip is still
+    /// cut at the gap between the tracks. The engine reads the key at its next rate change or start.
+    @Published var switchMargin: SwitchGap {
+        willSet {
+            UserDefaults.standard.set(newValue.rawValue, forKey: Self.kSwitchMargin)
         }
     }
 

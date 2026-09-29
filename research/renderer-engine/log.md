@@ -972,3 +972,10 @@ hymn; before -> 96k: 99.5 % = the 16-bit tone, less its stop fade). No leak.
   the ring to leak); 1 was stale: Music notices queued during the ~5 min Microphone wait were handled
   after setup, one named a track no longer current (Music's rate lookup failed on the name, an old
   decoder line decided). Fix: drop queued Music notices before setUp (it reads Music's state itself).
+- Owner: make the trail an option. Advanced > Switch Margin (Exclusive Mode on): Short 0.35 s, Normal
+  0.5 s (default), Long 0.75 s; key RendererSwitchMargin, read at the next rate change or start
+  (resizing mid-play would insert or drop audio); the plug-in's reported latency follows.
+  Not the regular path's Gap After Switching (0/0.25/1 s wait, hidden in Exclusive Mode).
+- Owner asked about finding the sample rate from the samples like the depth: not possible (the rate
+  isn't in the sample values). An FFT bandwidth estimate could hint at upsampling (nothing above
+  ~22 kHz on a 96k track) but real hi-res recordings can look the same; not built.
