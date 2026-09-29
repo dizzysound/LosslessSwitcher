@@ -38,8 +38,9 @@ notarized, so:
 2. Right-click **LosslessSwitcher Dev** > **Open** the first time.
 3. Quit the regular LosslessSwitcher if it's running. The dev build has its own bundle id
    (`com.dizzysound.LosslessSwitcher.dev`) and settings, so both can be installed.
-4. In its menu (a music note in the menu bar): **Advanced > Virtual Output Device > Install…** (asks for an
-   administrator password; audio restarts for a moment), then turn on **Exclusive Mode**.
+4. In its menu (a music note in the menu bar): **Install Exclusive Mode Driver…** (asks for an
+   administrator password; audio restarts for a moment). Exclusive Mode turns on when it's done;
+   it can't be turned on without the driver.
 5. Allow **Microphone** (the engine reads the virtual device's input to play it to the DAC) and
    **Automation** for Music. Each new copy of an ad-hoc build asks again.
 

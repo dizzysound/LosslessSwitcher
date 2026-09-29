@@ -23,8 +23,9 @@ output, un-hogged.
 3. Quit the regular LosslessSwitcher if it runs:
    `osascript -e 'tell application id "com.vincent-neo.LosslessSwitcher" to quit'`
 4. Open the dev app. Its menu-bar item is a music note (on a notched MacBook it can hide under the
-   notch). Menu: Advanced > Virtual Output Device > Install... (admin password; audio restarts for a moment), then
-   Exclusive Mode (Experimental). Allow the Microphone and Automation (Music) prompts: the engine
+   notch). Menu: Install Exclusive Mode Driver... (admin password; audio restarts for a moment; it turns), then
+   Exclusive Mode on; the toggle is unavailable until the driver is installed). Allow the Microphone
+   and Automation (Music) prompts: the engine
    waits for the Microphone answer and leaves the output alone until then.
 Engine log: ~/Library/Logs/LosslessSwitcher-ExclusiveMode.log (recreated at each engine start).
 
