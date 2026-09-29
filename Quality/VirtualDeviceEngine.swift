@@ -98,8 +98,10 @@ final class VirtualDeviceEngine {
         UserDefaults.standard.removeObject(forKey: alertsMovedKey)
         func find(_ uid: String) -> AudioObjectID? { CA.devices().first { CA.string($0, kAudioDevicePropertyDeviceUID) == uid } }
         let cur = CA.systemOutput()
-        guard let to = find(moved[1]), cur == to else { return "alert sounds: left on \(CA.string(cur, kAudioObjectPropertyName)) (changed since the engine moved them)" }
         guard let back = find(moved[0]) else { return "alert sounds: \(moved[0]) is gone; left on \(CA.string(cur, kAudioObjectPropertyName))" }
+        // macOS itself moves them back once the DAC's hog is released (pastor Mac, Babyface)
+        if cur == back { return "alert sounds on \(CA.string(back, kAudioObjectPropertyName)) again (as before)" }
+        guard let to = find(moved[1]), cur == to else { return "alert sounds: left on \(CA.string(cur, kAudioObjectPropertyName)) (changed since the engine moved them)" }
         return "alert sounds back to \(CA.string(back, kAudioObjectPropertyName)): \(CA.setSystemOutput(back))"
     }
 
@@ -170,6 +172,7 @@ final class VirtualDeviceEngine {
     private var musicListWrong = false
     // Music only (plug-in 1.1.4): what 'LSmx' holds (0 = off), the other apps' player
     private var musicOnlyPID: pid_t = 0
+    private var alertsBefore = AudioObjectID(0) // the alert-sound device before this DAC was hogged
     private var musicOnlyMissingLogged = false
     private let others = OthersPlayer()
     private let othersFeed = Atomic<Int>(0) // 1: A writes loopback channels 3-4 into others.ring
@@ -514,6 +517,9 @@ final class VirtualDeviceEngine {
 
     /// Hog + non-mixable on the DAC, virtual device at the DAC's rate, IOProc B on the DAC.
     private func setUpDAC(_ d: AudioObjectID) -> Bool {
+        // before the hog: macOS moves alert sounds off a hogged device by itself (pastor Mac: to the
+        // speakers, and back on release), so what the user had is only visible now
+        alertsBefore = CA.systemOutput()
         dac = d
         dacUID = CA.string(d, kAudioDevicePropertyDeviceUID)
         UserDefaults.standard.set(dacUID, forKey: Self.dacUIDKey)
@@ -892,11 +898,16 @@ final class VirtualDeviceEngine {
     /// the restore and the unclean-exit recovery) unless an earlier move is still unrestored.
     private func moveAlerts(to sp: AudioObjectID) {
         let cur = CA.systemOutput()
-        guard cur != sp else { return }
-        if UserDefaults.standard.stringArray(forKey: Self.alertsMovedKey) == nil {
-            UserDefaults.standard.set([CA.string(cur, kAudioDevicePropertyDeviceUID), CA.string(sp, kAudioDevicePropertyDeviceUID)], forKey: Self.alertsMovedKey)
+        let before = alertsBefore != 0 ? alertsBefore : cur
+        let saved = UserDefaults.standard.stringArray(forKey: Self.alertsMovedKey) != nil
+        if before != sp, !saved {
+            UserDefaults.standard.set([CA.string(before, kAudioDevicePropertyDeviceUID), CA.string(sp, kAudioDevicePropertyDeviceUID)], forKey: Self.alertsMovedKey)
         }
-        log("alert sounds -> \(CA.string(sp, kAudioObjectPropertyName)) (were on \(CA.string(cur, kAudioObjectPropertyName))): \(CA.setSystemOutput(sp))")
+        if cur != sp {
+            log("alert sounds -> \(CA.string(sp, kAudioObjectPropertyName)) (were on \(CA.string(cur, kAudioObjectPropertyName))): \(CA.setSystemOutput(sp))")
+        } else if before != sp {
+            log("alert sounds on \(CA.string(sp, kAudioObjectPropertyName)) (macOS moved them off the hogged DAC; were on \(CA.string(before, kAudioObjectPropertyName)))")
+        }
     }
 
     // MARK: - Music events
