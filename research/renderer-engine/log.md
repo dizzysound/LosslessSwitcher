@@ -612,3 +612,47 @@ Data: data/2026-09-29-coffee-216e89f/ (repro-44k-engine.log, clockrate.txt); too
 - MT 48 instability (the owner asked): the first-launch "phase jumped ~47999 frames" re-locks on
   Executor come from the DAC restarting ("device keeps stopping (19 starts)"), not from this gate;
   the MT 48 at 44.1k waited 2 s on the old gate (0.999050) and then locked. Not expected to change.
+
+# Bench: 13c74f8 on coffee (DragonFly Black), 2026-09-29 06:00-06:27
+Data: data/2026-09-29-coffee-13c74f8/coffee-13c74f8-engine.log. PASS: 53 status lines (~26 min), every
+one "under 0", clock locked throughout.
+- 44.1k from launch: "not steady yet; following it" at 46.8, "steady at 0.998861 after 3.5 s", lock
+  at fill 1536. Then the scalar moved 0.99886 -> ~0.99958 within ~1 min and wandered 0.99957-0.99971;
+  the lock tracked it (virtual scalar within ~100 ppm of the DAC's), fill 1024-1536, 11 min.
+- 48k (Biko (Live), switch 1.5 s): steady at 0.998960 after 4.6 s; the scalar went to ~1.00000 within
+  ~1 min; correction peaked ~+120 ppm; under 0.
+- Back to 44.1k (the case that never locked before; "Everything" on shuffle, switch 1.36 s): steady at
+  0.998867 after 3.6 s; the same ~700 ppm move at +1 min, correction peaked +226 ppm (0.999779 vs
+  0.999553): the closest to the +-300 ppm clamp seen. 11 min, under 0.
+- A library "Intruder" (Peter Gabriel) is 44.1k lossy; the 48k one in the repro was another version.
+
+# Bench: 13c74f8 on the pastor Mac (MacBook Pro 18,3, macOS 27.0, Babyface Pro), 2026-09-29 06:23-
+Replaced build 24 (no commit stamp; kept at ~/lsbench/old-build24); the owner answered Microphone and
+updated the plug-in 1.1.2 -> 1.1.3 from the menu over Remote Desktop (the engine stopped and restarted
+cleanly for it). Music AppleScript over SSH timed out until then.
+- 44.1k at start: "not steady yet" at 2.2, "steady at 1.000005 after 3.5 s", lock at fill 2048. One
+  underrun of 512 frames before the first status line (31.7 s), none after (5 min flat). Not traced:
+  Music started 0.08 s after B was ready (the engine restarted with Music playing); following at
+  1.000005 for 3.5 s is < 1 frame of drift, so not the wait. It did not recur at the later switches.
+- 96k (Oh, Blest Is He That Came, switch 1.3 s): steady at 1.000005 after 3.5 s; 3 min, no new
+  underruns. Then Music stopped (single-track play), idle step-aside ("under 5120" counted at the
+  teardown, fill 0, clock stepped aside).
+- Back to 44.1k (The Right Rite, switch 1.34 s): steady at 1.000005 after 3.6 s.
+- Babyface scalar: 1.000003-1.000008 throughout; the gate adds ~3.5 s before each lock (the old one
+  locked at once), with no cost seen.
+
+## Found: a take-back to a different track uses the old rate (resumeFromIdle), pastor Mac 06:35
+- After the step-aside, `play` of Badlands (44.1k) while stepped aside: "playback began while stepped
+  aside (Badlands); taking the output back", setUp at 96k, then "switch 2: Badlands restarts at 96000
+  Hz (no rate change)". Music's decoder line for Badlands came at 620.619, ~1.1 s after its Playing
+  (619.489) and after resumeFromIdle had chosen the rate (switch 2 logged at 620.627, after the pause).
+  Music confirmed Badlands 44100. It played at 96k (resampled by Music, not bit-perfect) until the
+  next track.
+- Cause (traced, not reproduced twice): for a track other than lastTrackID, resumeFromIdle takes
+  decoderRates.last if < 30 s old (the last line was the hymn's 96k, 208 s old: nil), else
+  LocalTrack.currentStats, else curRate. It doesn't wait for the track's own line the way the
+  new-track path does (up to 3 s). Which of LocalTrack or curRate gave 96k isn't in the log.
+- Fix direction (not done): when the resumed track isn't lastTrackID, wait up to ~2 s for a decoder
+  line newer than its Playing (pumping), then fall back as now; log which source decided.
+- Also seen: "Born to Run" by database ID 82644 (96k) played a 44.1k entry of the same name (Music's
+  play resolved another track; Music's own log: 44.1k ALAC). The engine was right.
