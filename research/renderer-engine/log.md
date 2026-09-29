@@ -590,3 +590,25 @@ Data: data/2026-09-29-coffee-216e89f/ (repro-44k-engine.log, clockrate.txt); too
   gate on the scalar being steady (its change over a few seconds), not near 1; while waiting, follow
   the DAC's scalar rather than holding 1.0. Check the MT 48 / Babyface logs don't regress.
 - Coffee afterwards: app relaunched (216e89f, no prompt), hogged, Music playing; DAC -48 dB.
+
+# Fix: clock lock gated on a steady DAC scalar, following it while waiting (13c74f8, 2026-09-29)
+- Change (pll()): the lock waits until the DAC's HAL scalar is steady, not near 1: the means of the
+  older and newer halves of the last 4 s (pll ticks every 0.5 s) within 20 ppm; seeded on the newer
+  mean. Until then the virtual device's scalar is set to the DAC's latest scalar each tick (was: held,
+  1.0 after a switch), so the ring doesn't drain. After 30 s of waiting it locks on the 4 s mean anyway
+  (logged). The +-300 ppm P+I around dacScalarEst is unchanged. New log lines: "not steady yet;
+  following it until the lock", "steady at X after Y s", status "waiting (DAC scalar not steady,
+  following it)".
+- Why following is right: on the DragonFly the ring's drain tracked the HAL scalar, not nominal: in
+  repro-44k-engine.log the scalar sat at 0.998864 (-1136 ppm) for the first minute and the ring lost
+  ~1500 then ~1160 ppm; after it moved to ~0.99958 the loss was ~390 ppm. So the DAC consumes at the
+  rate the HAL scalar says, including the ~1100 ppm start-up offset.
+- Replay (tools/gatesim.py, over the music-tap-spike vdev clock.csv recordings: MT 48 16 ch r1-r7,
+  m1-m4, s1-s2, and the 2 ch runs a1, h1-h2, v1, s3): the gate first passes 3.3-5 s after the old lock
+  point (so each lock comes ~3-4 s later than before, while following); once settled it never failed
+  (worst half-mean difference 19 ppm, MT 48 at 192k, sd 7.7 ppm). s2 (88.2k, first scalar 1.001148,
+  the -285 frame walk): passes at +5.1 s, when the scalar is back within a few ppm of 1.0, so the
+  post-switch protection holds. Babyface recordings: none with clock.csv found; not replayed.
+- MT 48 instability (the owner asked): the first-launch "phase jumped ~47999 frames" re-locks on
+  Executor come from the DAC restarting ("device keeps stopping (19 starts)"), not from this gate;
+  the MT 48 at 44.1k waited 2 s on the old gate (0.999050) and then locked. Not expected to change.
