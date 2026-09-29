@@ -10,7 +10,7 @@ let package = Package(
         .package(url: "https://github.com/rnine/SimplyCoreAudio.git", revision: "343d463cffef1f30458d02ce2dc441138e9e0134"),
         .package(url: "https://github.com/JohnSundell/Sweep.git", exact: "0.4.0"),
         .package(url: "https://github.com/PrivateFrameworks/MediaRemote", exact: "0.1.0"),
-        .package(url: "https://github.com/ejbills/mediaremote-adapter", revision: "70bff25eb1e88ffcb993389f6a0eda2a3516565f"),
+        .package(url: "https://github.com/dizzysound/mediaremote-adapter", revision: "2e59752c337a66c532b5e70082427b09a8d63759"),
     ],
     targets: [
         .executableTarget(

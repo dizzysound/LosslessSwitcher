@@ -15,14 +15,16 @@ fileprivate let kMusicAppBundle = "com.apple.Music"
 class MediaRemoteController {
     
     private let controller: MediaController
-    
+    private var stopped = false
+    private var startedAt = Date()
+    private var quickRestarts = 0
+
     init(outputDevices: OutputDevices) {
-        
+
         Self.stopOrphanedHelpers()
         let controller = MediaController()
         self.controller = controller
-        controller.startListening()
-        
+
         controller.onTrackInfoReceived = { [weak outputDevices] trackInfo in
             print("track \(trackInfo.payload.uniqueIdentifier) \(trackInfo.payload.title ?? "nil")")
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -30,9 +32,14 @@ class MediaRemoteController {
                 outputDevices.trackDidChange(trackInfo)
             }
         }
-        
+        // main thread; the adapter reports only a helper that exited on its own, not stopListening()
+        controller.onListenerTerminated = { [weak self] in
+            self?.listenerTerminated()
+        }
+        controller.startListening()
+
     }
-    
+
     deinit {
         controller.stopListening()
     }
@@ -40,7 +47,22 @@ class MediaRemoteController {
     /// On quit (deinit never runs then): MediaRemoteAdapter's helper, `perl run.pl ... loop`, only
     /// writes to its pipe when a track changes, so it would run on after the app is gone.
     func stop() {
+        stopped = true
         controller.stopListening()
+    }
+
+    /// Without the helper no track changes arrive and switching stops until relaunch, so start it
+    /// again: after 1 s, doubling (to 60 s) while it keeps dying within 30 s of a start.
+    private func listenerTerminated() {
+        guard !stopped else { return }
+        quickRestarts = Date().timeIntervalSince(startedAt) < 30 ? quickRestarts + 1 : 0
+        let delay = min(pow(2, Double(max(quickRestarts - 1, 0))), 60)
+        print("[MediaRemoteController] MediaRemoteAdapter helper exited; restarting in \(Int(delay)) s")
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            guard let self, !self.stopped else { return }
+            self.startedAt = Date()
+            self.controller.startListening()
+        }
     }
 
     /// A crash or kill -9 leaves the helper behind, adopted by launchd. At launch, stop those: this
