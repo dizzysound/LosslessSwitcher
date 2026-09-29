@@ -1,0 +1,121 @@
+[  0.000] engine started (virtual device: LosslessSwitcher Output)
+[  0.085] debug recording to /Users/chrisgillespie/Developer/music-tap-spike/.claude/worktrees/friendly-easley-685c9c/vdev/data/m4.* (900 s)
+[  0.089] microphone permission: granted
+[  0.095] default output -> LosslessSwitcher Output: 0
+[  0.098] virtual device 253 @ 96000.0 Hz; scalar reset 0
+[  0.101] A: output streams off: 0
+[  0.110] start A: 0
+[  0.114] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 96000.0 Hz, hog owner -1, my pid 99169
+[  0.134] hog DAC: 0, hogged
+[  0.141] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[  0.146] B: DAC inputs off: 0
+[  0.317] start B: 0
+[  3.420] DAC ready after 3.090 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[  3.421] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[  3.421] format listeners: 0 0
+[  3.842] playerInfo: Stopped 
+[  3.854] decoder: 88200.0 Hz 24-bit (lossless)
+[  3.930] clock lock: phase0 269065.439, fill 1536, cycles A 716 B 191
+[  3.943] gate: output started at ring 367617; waiting for the track's rate
+[  4.090] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[  4.091] new track Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): : decoder 88200.0 Hz lossless (seen 0.240 s before Playing), DAC 96000 Hz -> switch to 88200
+[  4.101] switch 1: Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy):  needs 88200 Hz (DAC 96000); held at the gate; paused; boundary reached 0.010 s
+[  4.118] virtual device -> 88200: 0
+[  4.119] DAC format -> 88200.0 Hz 16 ch 32 bit flags 76: 0
+[  6.821]   DAC keeps stopping; restarting B
+[  9.109]   DAC ready after 4.990 s: phys 88200.0 Hz 16 ch 32 bit flags 76 / virt 88200.0 Hz 16 ch 32 bit flags 76
+[  9.109] B writes int32 in 4 bytes, channels 1/2 (virtual format 88200.0 Hz 16 ch 32 bit flags 76)
+[  9.109] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[  9.109] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[  9.109] playerInfo: Paused Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[  9.152]   rewound to 0.000 (was 0.173, played ~5.081 s), play; switch 1 done 5.061 s after the request
+[  9.165] playerInfo: Paused Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[  9.238] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[  9.663] clock lock: phase0 375304.575, fill 2048, cycles A 1676 B 421
+[ 13.792] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 13.842] playerInfo: Paused Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 18.804] playerInfo: Paused Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 18.804] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 30.889] decoder: 88200.0 Hz 24-bit (lossless)
+[ 31.099] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[ 31.100] new track Orlande de Lassus: Veni, dilecte mi: decoder 88200.0 Hz lossless (seen 0.218 s before Playing), DAC 88200 Hz
+[ 31.124] playerInfo: Playing Orlande de Lassus: Veni, dilecte mi
+[ 33.432] 88200 Hz fill 2048 scalar 0.999987626 under 0 over 0
+[ 43.000] decoder: 96000.0 Hz 24-bit (lossless)
+[ 43.017] next track needs 96000 Hz; 5.80 s left, arming the boundary latch in 4.30 s
+[ 47.330] boundary latch armed at in frame 4180480
+[ 49.019] latched at ring 3902651 (fill 2048)
+[ 49.218] playerInfo: Playing The Coming Storm
+[ 49.218] new track The Coming Storm: decoder 96000.0 Hz lossless (seen 6.228 s before Playing), DAC 88200 Hz -> switch to 96000
+[ 49.227] switch 2: The Coming Storm needs 96000 Hz (DAC 88200); latched at the old track's end; paused; boundary reached 0.009 s
+[ 49.242] virtual device -> 96000: 0
+[ 49.243] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[ 51.139]   DAC ready after 1.896 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[ 51.140] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[ 51.140] playerInfo: Playing The Coming Storm
+[ 51.140] playerInfo: Paused The Coming Storm
+[ 51.186]   rewound to 0.000 (was 0.147, played ~1.986 s), play; switch 2 done 1.967 s after the request
+[ 51.199] playerInfo: Paused The Coming Storm
+[ 51.199] playerInfo: Playing The Coming Storm
+[ 51.696] clock lock: phase0 119484.456, fill 1536, cycles A 8924 B 7439
+[ 59.235] playerInfo: Playing The Coming Storm
+[ 59.279] playerInfo: Paused The Coming Storm
+[ 62.301] playerInfo: Stopped 
+[ 62.350] playerInfo: Playing Age of Anxiety I
+[ 62.392] new track Age of Anxiety I: no decoder line for it yet; holding at the gate until one comes (3 s)
+[ 62.405] playerInfo: Playing Age of Anxiety I
+[ 62.675] decoder: 48000.0 Hz (lossy)
+[ 62.676] new track Age of Anxiety I: decoder 48000.0 Hz lossy (seen -0.336 s before Playing), DAC 96000 Hz -> switch to 48000
+[ 62.690] switch 3: Age of Anxiety I needs 48000 Hz (DAC 96000); not latched: cut at the play position; paused; boundary reached 0.015 s
+[ 62.705] virtual device -> 48000: 0
+[ 62.706] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[ 64.317]   DAC ready after 1.611 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[ 64.317] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[ 64.317] playerInfo: Playing Age of Anxiety I
+[ 64.317] playerInfo: Paused Age of Anxiety I
+[ 64.317] decoder: 48000.0 Hz (lossy)
+[ 64.317] decoder: 96000.0 Hz (lossless)
+[ 64.379]   rewound to 0.000 (was 0.948, played ~2.046 s), play; switch 3 done 1.703 s after the request
+[ 64.379] decoder: 48000.0 Hz (lossy)
+[ 64.380] 48000 Hz fill 1536 scalar 0.999996018 under 0 over 0
+[ 64.393] decoder: 96000.0 Hz (lossless)
+[ 64.393] playerInfo: Paused Age of Anxiety I
+[ 64.393] playerInfo: Playing Age of Anxiety I
+[ 64.394] lossless decoder at 96000.0 Hz after a lossy start; switching again
+[ 64.411] switch 4: (lossless upgrade) needs 96000 Hz (DAC 48000); not latched: cut at the play position; paused; boundary reached 0.017 s
+[ 64.426] virtual device -> 96000: 0
+[ 64.427] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[ 66.030]   DAC ready after 1.603 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[ 66.031] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[ 66.031] playerInfo: Playing Age of Anxiety I
+[ 66.031] decoder: 96000.0 Hz (lossless)
+[ 66.031] playerInfo: Paused Age of Anxiety I
+[ 66.031] playerInfo: Playing Age of Anxiety I
+[ 66.031] playerInfo: Paused Age of Anxiety I
+[ 66.082]   rewound to 0.000 (was 0.112, played ~1.695 s), play; switch 4 done 1.688 s after the request
+[ 66.094] decoder: 96000.0 Hz (lossless)
+[ 66.094] playerInfo: Paused Age of Anxiety I
+[ 66.095] clock lock: phase0 92087.689, fill 2048, cycles A 11419 B 9667
+[ 66.109] playerInfo: Playing Age of Anxiety I
+[ 87.254] playerInfo: Playing Age of Anxiety I
+[ 87.327] decoder: 96000.0 Hz (lossless)
+[ 87.353] playerInfo: Paused Age of Anxiety I
+[ 90.291] playerInfo: Stopped 
+[ 90.302] decoder: 96000.0 Hz 24-bit (lossless)
+[ 90.360] playerInfo: Playing Have a Cigar
+[ 90.361] new track Have a Cigar: decoder 96000.0 Hz lossless (seen 0.051 s before Playing), DAC 96000 Hz
+[ 90.556] playerInfo: Playing Have a Cigar
+[ 94.390] 96000 Hz fill 2048 scalar 0.999994496 under 0 over 0
+[113.508] playerInfo: Playing Wish You Were Here
+[113.587] new track Wish You Were Here (file header, no decoder line): decoder 96000.0 Hz lossless (seen 0.000 s before Playing), DAC 96000 Hz
+[113.599] playerInfo: Playing Wish You Were Here
+[124.400] 96000 Hz fill 2048 scalar 0.999994042 under 0 over 0
+[133.282] playerInfo: Playing Wish You Were Here
+[133.328] playerInfo: Paused Wish You Were Here
+[133.410] DAC mixable again: 0
+[133.414] hog released: 0, owner -1
+[133.415] virtual device scalar reset: 0
+[133.421] default output restored to MT 48: 0
+[133.485] coreaudiod put the virtual device back as the default; restoring again: 0
+[136.431] default output after 3 s: MT 48 (1 re-restores)
+[136.510] engine stopped

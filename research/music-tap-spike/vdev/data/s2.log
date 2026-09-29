@@ -1,0 +1,80 @@
+[  0.000] engine started (virtual device: LosslessSwitcher Output)
+[  0.087] debug recording to /Users/chrisgillespie/Developer/music-tap-spike/.claude/worktrees/friendly-easley-685c9c/vdev/data/s2.* (900 s)
+[  0.090] microphone permission: not determined; requesting (reading the virtual device's input needs it)
+[  0.113] default output -> LosslessSwitcher Output: 0
+[  0.116] virtual device 255 @ 44100.0 Hz; scalar reset 0
+[  1.475] microphone permission granted
+[  1.476] A: output streams off: 0
+[  1.562] start A: 0
+[  1.563] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 44100.0 Hz, hog owner -1, my pid 48021
+[  1.564] hog DAC: 0, hogged
+[  1.566] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[  1.579] B: DAC inputs off: 0
+[  1.844] start B: 0
+[  2.347] DAC ready after 0.502 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[  2.348] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[  2.348] format listeners: 0 0
+[  2.855] clock lock: phase0 10504.733, fill 1536, cycles A 112 B 44
+[  5.228] playerInfo: Stopped 
+[  5.241] decoder: 88200.0 Hz 24-bit (lossless)
+[  5.350] gate: output started at ring 166913; waiting for the track's rate
+[  5.515] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[  5.515] new track Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): : decoder 88200.0 Hz (seen 0.280 s before), DAC 44100 Hz -> switch to 88200
+[  5.528] switch 1: Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy):  needs 88200 Hz (DAC 44100); held at the gate; paused; boundary reached 0.013 s
+[  5.544] virtual device -> 88200: 0
+[  5.544] DAC format -> 88200.0 Hz 16 ch 32 bit flags 76: 0
+[  8.097]   DAC keeps stopping; restarting B
+[ 10.923]   DAC keeps stopping; restarting B
+[ 12.296]   DAC ready after 6.751 s: phys 88200.0 Hz 16 ch 32 bit flags 76 / virt 88200.0 Hz 16 ch 32 bit flags 76
+[ 12.296] B writes int32 in 4 bytes, channels 1/2 (virtual format 88200.0 Hz 16 ch 32 bit flags 76)
+[ 12.296] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 12.296] playerInfo: Paused Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 12.357]   rewound to 0.000 (was 0.203, played ~6.851 s), play; switch 1 done 6.841 s after the request
+[ 12.358] clock lock: phase0 532469.507, fill 2048, cycles A 1491 B 284
+[ 12.373] playerInfo: Paused Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 12.385] playerInfo: Playing Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 
+[ 15.369] decoder: 96000.0 Hz 24-bit (lossless)
+[ 15.384] next track needs 96000 Hz; 5.80 s left, arming the boundary latch in 4.30 s
+[ 19.697] boundary latch armed at in frame 1410560
+[ 21.407] latched at ring 1560265 (fill 1536)
+[ 21.803] playerInfo: Playing It Slipped My Mind
+[ 21.804] new track It Slipped My Mind: decoder 96000.0 Hz (seen 6.426 s before), DAC 88200 Hz -> switch to 96000
+[ 21.848] switch 2: It Slipped My Mind needs 96000 Hz (DAC 88200); latched at the old track's end; paused; boundary reached 0.044 s
+[ 21.864] virtual device -> 96000: 0
+[ 21.864] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[ 24.650]   DAC keeps stopping; restarting B
+[ 26.157]   DAC keeps stopping; restarting B
+[ 27.069]   DAC ready after 5.204 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[ 27.070] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[ 27.070] playerInfo: Playing It Slipped My Mind
+[ 27.070] playerInfo: Playing It Slipped My Mind
+[ 27.070] playerInfo: Paused It Slipped My Mind
+[ 27.111]   rewound to 0.000 (was 0.382, played ~5.338 s), play; switch 2 done 5.307 s after the request
+[ 27.124] playerInfo: Paused It Slipped My Mind
+[ 27.136] playerInfo: Playing It Slipped My Mind
+[ 27.618] clock lock: phase0 431825.339, fill 2048, cycles A 4177 B 2022
+[ 32.207] decoder: 192000.0 Hz 24-bit (lossless)
+[ 32.218] next track needs 192000 Hz; 5.81 s left, arming the boundary latch in 4.31 s
+[ 32.359] 96000 Hz fill 2048 scalar 0.999993786 under 0 over 0
+[ 36.531] boundary latch armed at in frame 2994176
+[ 36.544] latched at ring 2995136 (fill 2048)
+[ 38.663] playerInfo: Playing Columbine
+[ 38.664] new track Columbine: decoder 192000.0 Hz (seen 6.458 s before), DAC 96000 Hz -> switch to 192000
+[ 38.673] switch 3: Columbine needs 192000 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 0.009 s
+[ 38.688] virtual device -> 192000: 0
+[ 38.688] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[ 40.454]   DAC ready after 1.765 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[ 40.455] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[ 40.455] playerInfo: Playing Columbine
+[ 40.455] playerInfo: Paused Columbine
+[ 40.499]   rewound to 0.000 (was 0.358, played ~1.857 s), play; switch 3 done 1.835 s after the request
+[ 40.500] clock lock: phase0 213768.790, fill 2048, cycles A 6874 B 4112
+[ 40.514] playerInfo: Paused Columbine
+[ 40.527] playerInfo: Playing Columbine
+[ 48.824] playerInfo: Playing Columbine
+[ 48.862] playerInfo: Paused Columbine
+[ 48.934] DAC mixable again: 0
+[ 48.938] hog released: 0, owner -1
+[ 48.939] virtual device scalar reset: 0
+[ 48.961] default output restored to MT 48: 0
+[ 48.991] engine stopped

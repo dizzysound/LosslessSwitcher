@@ -1,0 +1,3 @@
+06:04:53 default before: MT 48 @ 96000.0
+06:05:01 default while running: LosslessSwitcher Output
+06:07:15 default after quit: MT 48 @ 96000.0

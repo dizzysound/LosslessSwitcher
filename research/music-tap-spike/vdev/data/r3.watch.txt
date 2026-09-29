@@ -1,0 +1,14 @@
+1790594597.146 8278D012518E9C13	44100	missing value	I Hear A Rhapsody	/Volumes/Extreme SSD/Music/Media.localized/Music/John Coltrane/Lush Life/05 I Hear A Rhapsody.m4a
+1790594597.496 8137B932B4C2DCB9	192000	0.326999992132	Columbine	/Volumes/Extreme SSD/Music/Media.localized/Music/The Modern Jazz Quartet/The Comedy/02 Columbine.m4a
+1790594613.660 63D7EE3A52D2B8CA	176400	0.52999997139	Ca Ira - Opera in Three Acts: The Commune de Paris	/Volumes/Extreme SSD/Music/Media.localized/Music/Roger Waters/Ca ira (English Version)/2-05 Ca Ira - Opera in Three Acts_ The Commune de Paris.m4a
+1790594630.560 19F459AAF2E317EC	192000	0.625	VI. Mishima / Closing	/Volumes/Extreme SSD/Music/Media.localized/Music/Modern Mandolin Quartet/Americana/15 VI. Mishima _ Closing.m4a
+1790594647.448 4A6285353EF91BAB	176400	0.690999984741	"Cuando Silva ei Viento" from La Segunda; catalog# M062A-HR 	/Volumes/Extreme SSD/Music/Media.localized/Music/Compilations/The MA Recordings Audiophiliac HiRez Music Sampler 2020/04 _Cuando Silva ei Viento_ from La Segunda; catalog# M062A-HR.m4a
+1790594676.210 440CEEAAEE670D06	88200	0.192000001669	Orlande de Lassus: Veni, dilecte mi	/Volumes/Extreme SSD/Music/Media.localized/Music/Stile Antico/Song of Songs/07 Orlande de Lassus_ Veni, dilecte mi.m4a
+1790594688.970 3787AAC715FC284B	88200	0.28900000453	Cantata, BWV 147: Chorale Prelude, "Jesu bleibet meine Freude" (arr. E. Ormandy): 	/Volumes/Extreme SSD/Music/Media.localized/Music/BBC Symphony Orchestra _ Leonard Slatkin, conductor/J.S. Bach_ The Conductors' Transcriptions/03 Cantata, BWV 147_ Chorale Prelude, _Jesu bleibet meine Freude_ (arr. E. Ormandy)_.m4a
+1790594705.863 A34A6EAF155ADF84	176400	0.228000000119	Ca Ira - Opera in Three Acts: "Flushed with Wine..."	/Volumes/Extreme SSD/Music/Media.localized/Music/Roger Waters/Ca ira (English Version)/1-18 Ca Ira - Opera in Three Acts_ _Flushed with Wine..._.m4a
+1790594722.282 2B8EC72AB52E42BC	96000	0.189999997616	The Coming Storm	/Volumes/Extreme SSD/Music/Media.localized/Music/John Williams/Jurassic Park - 20th Anniversary/19 The Coming Storm.m4a
+1790594739.142 26DFF3CCD934DC4F	48000	0.128999993205	Don't Give Up	/Volumes/Extreme SSD/Music/Media.localized/Music/Peter Gabriel/New Blood [Special Edition]/1-10 Don't Give Up.m4a
+1790594755.211 D2749AB46C9BB68E	48000	0.203999996185	May It Be (feat. Enya)	/Volumes/Extreme SSD/Music/Media.localized/Music/Howard Shore/The Lord of the Rings_ The Fellowship Of The Ring/36 May It Be (feat. Enya).m4a
+1790594772.950 0CC089329C77175A	192000	0.308999985456	Brain of J.	/Volumes/Extreme SSD/Music/Media.localized/Music/Pearl Jam/Yield/01 Brain of J..m4a
+1790594788.984 D5BEC2A6604FF550	44100	0.217999994755	Unsleep	/Volumes/Extreme SSD/Music/Media.localized/Music/Colin Edwin/Third Vessel (outakes)/03 Unsleep.m4a
+1790594805.368 7F1413091C9E8A0C	96000	0.037999998778	It Slipped My Mind	/Volumes/Extreme SSD/Music/Media.localized/Music/The Doors/Full Circle/8-08 It Slipped My Mind.m4a

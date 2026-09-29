@@ -1,0 +1,6 @@
+1790593186.037 2B8EC72AB52E42BC	96000	missing value	The Coming Storm	/Volumes/Extreme SSD/Music/Media.localized/Music/John Williams/Jurassic Park - 20th Anniversary/19 The Coming Storm.m4a
+1790593186.419 8137B932B4C2DCB9	192000	0.108000002801	Columbine	/Volumes/Extreme SSD/Music/Media.localized/Music/The Modern Jazz Quartet/The Comedy/02 Columbine.m4a
+1790593213.549 63D7EE3A52D2B8CA	176400	0.241999998689	Ca Ira - Opera in Three Acts: The Commune de Paris	/Volumes/Extreme SSD/Music/Media.localized/Music/Roger Waters/Ca ira (English Version)/2-05 Ca Ira - Opera in Three Acts_ The Commune de Paris.m4a
+1790593231.870 0CC089329C77175A	192000	0.326999992132	Brain of J.	/Volumes/Extreme SSD/Music/Media.localized/Music/Pearl Jam/Yield/01 Brain of J..m4a
+1790593245.120 77AC8F0632ECBA3F	44100	0.0	Age of Anxiety I	
+1790593277.107 FC3BD926B8276552	96000	0.250999987125	Have a Cigar	/Volumes/Extreme SSD/Music/Media.localized/Music/Pink Floyd/Wish You Were Here/03 Have a Cigar.m4a
