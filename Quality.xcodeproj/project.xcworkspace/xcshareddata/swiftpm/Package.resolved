@@ -13,10 +13,10 @@
     {
       "identity" : "mediaremote-adapter",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ejbills/mediaremote-adapter",
+      "location" : "https://github.com/dizzysound/mediaremote-adapter",
       "state" : {
-        "branch" : "master",
-        "revision" : "70bff25eb1e88ffcb993389f6a0eda2a3516565f"
+        "branch" : "lossless-switcher",
+        "revision" : "2e59752c337a66c532b5e70082427b09a8d63759"
       }
     },
     {
