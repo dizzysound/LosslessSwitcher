@@ -663,6 +663,20 @@ final class RendererScripts {
     private let stateScript = compile("tell application \"Music\" to get player state as string")
     private let eqScript = compile("tell application \"Music\" to get EQ enabled")
     private let trackRateScript = compile("tell application \"Music\" to get {name, sample rate} of current track")
+    private let trackSourceScript = compile("""
+        tell application "Music"
+            set t to current track
+            set c to ""
+            try
+                set c to cloud status of t as string
+            end try
+            set f to false
+            try
+                if class of t is file track and location of t is not missing value then set f to true
+            end try
+            return {name of t, kind of t, c, f}
+        end tell
+        """)
 
     private static func compile(_ source: String) -> NSAppleScript? {
         let s = NSAppleScript(source: source)
@@ -692,6 +706,12 @@ final class RendererScripts {
         guard let d = run(trackRateScript), d.numberOfItems >= 2 else { return nil }
         let r = d.atIndex(2).map { $0.doubleValue } ?? 0
         return (d.atIndex(1)?.stringValue ?? "", r > 0 ? r : nil)
+    }
+    /// The current track's name, kind ("AAC audio file", "Apple Lossless audio file", ...), cloud status
+    /// ("uploaded", "matched", "subscription", ... or "" when there's none) and whether it's a file on disk.
+    func trackSource() -> (name: String, kind: String, cloud: String, localFile: Bool)? {
+        guard let d = run(trackSourceScript), d.numberOfItems >= 4 else { return nil }
+        return (d.atIndex(1)?.stringValue ?? "", d.atIndex(2)?.stringValue ?? "", d.atIndex(3)?.stringValue ?? "", d.atIndex(4)?.booleanValue ?? false)
     }
     func setVolume(_ v: Int) -> Bool { run(Self.compile("tell application \"Music\" to set sound volume to \(v)")) != nil }
     func setPosition(_ p: Double) -> Bool { run(Self.compile("tell application \"Music\" to set player position to \(p)")) != nil }
