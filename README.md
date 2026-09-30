@@ -93,9 +93,9 @@ The Xcode build runs `HALPlugin/build.sh` to build the plug-in into the app's Re
 | Branch | What it is |
 |---|---|
 | `renderer-vdevice` (default) | Nativerate: Exclusive Mode, plus the research notes and bench tooling in `research/` |
-| `renderer-engine-pr` | The Exclusive Mode engine without `research/`, as offered to upstream |
-| `local-file-detection` | Local-file detection, as offered to upstream |
-| `bit-perfect-check` | Bit-Perfect Check, as offered to upstream |
+| `renderer-engine-pr` | The Exclusive Mode engine without `research/`, for anyone who wants to lift it into another project |
+| `local-file-detection` | Local-file detection, on its own branch |
+| `bit-perfect-check` | Bit-Perfect Check, on its own branch |
 | `main` | Upstream's `main`, unchanged |
 
 For testers: `research/renderer-engine/BENCH-BRIEF.md` lists what to test and what's already
