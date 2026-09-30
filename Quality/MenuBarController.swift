@@ -76,6 +76,7 @@ class MenuBarController {
         }
         if VirtualDeviceEngine.findDevice() != nil {
             virtualEngine.start()
+            DriverUpdatePrompt.shared.showIfOutdated()
             return
         }
         guard VirtualOutputPlugin.shared.isInstalledOnDisk else {
@@ -90,7 +91,7 @@ class MenuBarController {
             let found = VirtualDeviceEngine.findDevice() != nil
             DispatchQueue.main.async {
                 guard let self, Defaults.shared.userPreferRendererEngine else { return }
-                if found { self.virtualEngine.start() } else {
+                if found { self.virtualEngine.start(); DriverUpdatePrompt.shared.showIfOutdated() } else {
                     print("[Exclusive Mode] the virtual output device is installed but coreaudiod doesn't list it; Exclusive Mode stays off")
                     Defaults.shared.userPreferRendererEngine = false
                 }
