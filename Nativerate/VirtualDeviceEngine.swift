@@ -772,8 +772,8 @@ final class VirtualDeviceEngine {
         updateOutFormat()
     }
 
-    private func tearDownDAC() {
-        stopOthers()
+    private func tearDownDAC(keepOthers: Bool = false) {
+        if !keepOthers { stopOthers() }
         volume.stop()
         removeFormatListener()
         outFormat.store(0, ordering: .releasing)
@@ -876,7 +876,7 @@ final class VirtualDeviceEngine {
     /// of ours plays into the device, so every app goes to the speakers). Plug-in older than 1.1.4:
     /// other apps still mix into Music (logged once; the Bit-Perfect Check says so).
     private func syncMusicOnly() {
-        guard !steppedAside, ls != 0 else { return }
+        guard procA != nil, ls != 0 else { return }
         var a = CA.addr(Self.kMusicOnly)
         guard AudioObjectHasProperty(ls, &a) else {
             if !musicOnlyMissingLogged {
@@ -925,6 +925,11 @@ final class VirtualDeviceEngine {
         }
         let (target, note) = OtherAppsOutput.resolve(dac: dac)
         othersChoice = UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey)
+        if let t = target, t == othersDevice, others.isRunning {
+            othersFeed.store(1, ordering: .releasing)
+            moveAlerts(to: t)
+            return
+        }
         guard let sp = target else {
             log("other apps: MUTED (\(note)); Music alone reaches the DAC")
             RendererOutput.shared.set(othersRoute: "Other apps muted", ok: true)
@@ -950,7 +955,7 @@ final class VirtualDeviceEngine {
     /// Engine thread, each second: the Other Apps & Alerts choice changed, or the chosen device came
     /// back or went away: play other apps (and alerts) where it now says.
     private func followOthersChoice() {
-        guard procB != nil, !inRoutine else { return }
+        guard procB != nil || (steppedAside && procA != nil), !inRoutine else { return }
         var a = CA.addr(Self.kMusicOnly)
         guard ls != 0, AudioObjectHasProperty(ls, &a) else { return }
         let choice = UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey)
@@ -1355,18 +1360,37 @@ final class VirtualDeviceEngine {
         log("gate closed again after \(silent * 1000 / max(Int(curRate), 1)) ms of silence")
     }
 
-    /// Music idle for `after` seconds: give the DAC and the default output back, as a clean stop does
-    /// (hog released, mixable, emulated mute undone, the previous default restored, the virtual
-    /// device detached), and keep listening. Other apps then play to the DAC directly and the Sound
-    /// menu works (picking a hogged DAC there hangs Control Center).
+    /// Music idle for `after` seconds: release the DAC (hog released, mixable, emulated mute undone), so
+    /// it's free for other apps that pick it, and the Sound menu works (picking a hogged DAC there
+    /// hangs Control Center). The default output stays on the virtual device, A keeps reading it and
+    /// other apps keep playing where Other Apps & Alerts says. It used to give the default back too:
+    /// then a play started Music on that device until the take-back paused it (pastor Mac, 2026-09-30:
+    /// ~1 s of Music on the MacBook Pro speakers, the default from before). Now Music's first moments
+    /// go into the virtual device, where A drops them, and the take-back rewinds.
     private func stepAside(after: TimeInterval) {
         if armAt != nil || armedAt != nil || latchedAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("stepping aside") }
         lateArmAt = nil; awaiting = nil; pendingUpgrade = nil
-        log("Music idle \(Int(after)) s: stepping aside (DAC and default output given back)")
-        tearDown(restoreDefault: true, resumeMusic: false)
-        procA = nil
+        log("Music idle \(Int(after)) s: stepping aside (DAC released; the default output stays on the virtual device)")
+        dropInput.store(1, ordering: .releasing) // nothing reads the ring until the take-back
+        tearDownDAC(keepOthers: true)
+        if ls != 0 { log("virtual device scalar reset: \(CA.setScalar(ls, 1.0, Self.kRateScalar))"); lsScalar = 1 }
+        resetLock()
         steppedAside = true
         probeAfterStepAside()
+    }
+
+    /// The take-back after a release-only step-aside: A still runs and the default is still the virtual
+    /// device (unless the user picked another output meanwhile: that one becomes the DAC, as when the
+    /// engine runs). False if the DAC can't be set up.
+    private func takeBackDAC() -> Bool {
+        if !isAttached() { attach(true) }
+        let d0 = CA.defaultOutput()
+        let picked = d0 != ls && d0 != 0 ? d0 : nil
+        if let p = picked { defaultBefore = p; log("default output was set to \(CA.string(p, kAudioObjectPropertyName)) while stepped aside") }
+        let dacOK = dac != 0 && CA.string(dac, kAudioDevicePropertyDeviceUID) == dacUID
+        guard let d = selectedDAC() ?? picked ?? (dacOK ? dac : chooseDAC()) else { log("no output device to play to"); return false }
+        reclaimDefault()
+        return setUpDAC(d)
     }
 
     /// Coffee bench (DragonFly Black, data/2026-09-28-coffee-5d75e9a): the step-aside's config changes
@@ -1439,7 +1463,17 @@ final class VirtualDeviceEngine {
         // taken as a new track, and switched before the DAC was set up: NOT ready after 12 s).
         // switchRate below pauses, rewinds and plays anyway.
         steppedAside = false
-        guard setUp() else {
+        let aliveA = procA != nil && CA.string(ls, kAudioDevicePropertyDeviceUID) == Self.deviceUID
+        if !aliveA, procA != nil { log("virtual device gone while stepped aside; setting up again"); tearDown(restoreDefault: false, resumeMusic: false) }
+        let ok = aliveA ? takeBackDAC() : setUp()
+        if !ok, aliveA {
+            // Music would play into a virtual device nobody plays out: give everything back instead
+            log("taking the DAC back failed; giving the default output back as well")
+            tearDownDAC()
+            tearDown(restoreDefault: true, resumeMusic: false)
+        }
+        if !ok { procA = nil }
+        guard ok else {
             inRoutine = false
             // Music plays to the DAC directly. Its Playing must not start another take-back: on the
             // coffee bench that looped every 11 s (and Music's pause didn't stop it, the play did).
@@ -1612,6 +1646,22 @@ final class VirtualDeviceEngine {
         // the play re-creates this track's decoder: that line is its own, not a next track's
         ownLinesUntil = max(ownLinesUntil ?? .distantPast, Date().addingTimeInterval(1))
         log("  rewound to \(String(format: "%.3f", startPos)) (was \(String(format: "%.3f", pos)), played ~\(String(format: "%.3f", played)) s), play; switch \(switches) done \(ms(t)) after the request")
+        confirmPlaying()
+    }
+
+    /// Music can end up paused after the switch's play: its late notices from our own pause arrive after
+    /// the play (pastor Mac, 2026-09-30, a take-back: Paused 44 ms after the play; the owner had to
+    /// press play). Check Music's state 1 s later; play again, up to 3 times.
+    private func confirmPlaying() {
+        for attempt in 1...3 {
+            _ = wait(1)
+            let state = scripts.playerState() ?? "?"
+            if state == "playing" { return }
+            log("  Music is \(state) after the switch's play (check \(attempt)); play again")
+            _ = scripts.play()
+        }
+        _ = wait(1)
+        if scripts.playerState() != "playing" { log("  Music still isn't playing after 3 plays") }
     }
 
     // MARK: - Devices
