@@ -76,7 +76,7 @@ class Defaults: ObservableObject {
         }
     }
 
-    /// Experimental: RendererEngine owns rate switching and plays Music's audio through a process tap.
+    /// RendererEngine owns rate switching and plays Music's audio through a process tap.
     @Published var userPreferRendererEngine: Bool {
         willSet {
             UserDefaults.standard.set(newValue, forKey: kUserPreferRendererEngine)

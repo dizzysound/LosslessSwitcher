@@ -2,7 +2,7 @@
 //  RendererEngine.swift
 //  Nativerate
 //
-//  Experimental "Renderer" output engine. Music keeps decoding; a Core Audio process tap takes its
+//  The "Renderer" output engine. Music keeps decoding; a Core Audio process tap takes its
 //  audio off the output device (muting Music's own output) and plays it back to the same device
 //  inside a private aggregate on the device's clock, bit-exact, through a 200 ms delay line. Owning
 //  the output lets a rate switch happen without wrong-rate audio reaching the DAC and without

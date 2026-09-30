@@ -10,11 +10,11 @@ Nativerate has two modes:
 
 - **Switching** (upstream's approach, on by default): read Music's logs for the playing track's
   sample rate and set your output device to match.
-- **Exclusive Mode** (experimental, off by default): take over the output path, described next.
+- **Exclusive Mode** (off by default): take over the output path, described next.
 
-## Exclusive Mode (experimental)
+## Exclusive Mode
 
-Turn it on with "Exclusive Mode (Experimental)" in the menu. With it on:
+Turn it on with "Exclusive Mode" in the menu. With it on:
 
 - Music plays to a virtual output device, "Nativerate" (a HAL plug-in, `HALPlugin/`). The
   engine reads it and plays the audio **unchanged** to your DAC (the Selected Device, or your
@@ -81,7 +81,7 @@ The Xcode build runs `HALPlugin/build.sh` to build the plug-in into the app's Re
 
 ## Known issues
 
-- Experimental: one heap-corruption crash in about 45 switches on the MT 48, not reproduced under
+- Rare: one heap-corruption crash in about 45 switches on the MT 48, not reproduced under
   AddressSanitizer.
 - While the engine holds the DAC, choosing that DAC in the macOS Sound menu makes Control Center
   hang until the engine lets go. Use the app's **Selected Device** instead.

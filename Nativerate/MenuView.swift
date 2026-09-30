@@ -48,7 +48,7 @@ struct MenuView: View {
 
             // Exclusive Mode needs the driver (the virtual output device); until it's installed the
             // toggle is unavailable and the install is offered right here (it turns Exclusive Mode on)
-            Toggle("Exclusive Mode (Experimental)", isOn: $defaults.userPreferRendererEngine)
+            Toggle("Exclusive Mode", isOn: $defaults.userPreferRendererEngine)
                 .disabled(virtualOutput.state == .notInstalled && !defaults.userPreferRendererEngine)
             if virtualOutput.state == .notInstalled {
                 Button(virtualOutput.busy ? "Installing Exclusive Mode Driver…" : "Install Exclusive Mode Driver…") {
