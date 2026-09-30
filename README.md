@@ -41,11 +41,11 @@ MacBook Pro's speakers.
 
 ## Try it
 
-Download the latest pre-release from [Releases](https://github.com/dizzysound/Nativerate/releases).
+Download the latest release from [Releases](https://github.com/dizzysound/Nativerate/releases).
 It's ad-hoc signed and not notarized, so:
 
 1. Unzip it into `~/Applications` (not an iCloud-synced Desktop or Documents folder).
-2. Right-click **Nativerate Dev** > **Open** the first time.
+2. Right-click **Nativerate** > **Open** the first time.
 3. Quit the original LosslessSwitcher if it's running. Nativerate has its own bundle id
    (`com.dizzysound.Nativerate`; dev builds use `.dev`), so its settings start fresh and both apps can be installed.
 4. In its menu (a music note in the menu bar): **Install Exclusive Mode Driver…** (asks for an
@@ -69,7 +69,8 @@ Line Tools). The build is universal; it has only been run on Apple Silicon.
 ```bash
 git clone https://github.com/dizzysound/Nativerate.git
 cd Nativerate
-./scripts/typecheck/make_xcode_dev_app.sh          # writes ~/Desktop/Nativerate-Dev-<commit>.zip
+./scripts/typecheck/make_xcode_dev_app.sh          # bench build: ~/Desktop/Nativerate-Dev-<commit>.zip
+RELEASE=1 ./scripts/typecheck/make_xcode_dev_app.sh  # release build: ~/Desktop/Nativerate-<version>.zip
 ```
 
 The script runs `xcodebuild` with the dev bundle id, ad-hoc signing and the **hardened runtime
