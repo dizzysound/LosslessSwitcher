@@ -10,8 +10,10 @@
 //
 
 import AppKit
+import Combine
 import CoreAudio
 import Foundation
+import SwiftUI
 
 final class VirtualOutputPlugin: ObservableObject {
 
@@ -130,5 +132,89 @@ final class VirtualOutputPlugin: ObservableObject {
     /// Escaped for an AppleScript string literal.
     private static func escape(_ s: String) -> String {
         s.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"")
+    }
+}
+
+// MARK: - Out-of-date prompt
+
+/// Exclusive Mode started with an installed plug-in older than the one this app carries (Executor,
+/// 2026-09-30: a0863be ran all morning on 1.1.2 with other apps mixed into Music, and only the engine
+/// log said so). A window like the Music settings one says what the old plug-in lacks and offers the
+/// update (one administrator prompt, audio restarts for a moment). Once per launch; it closes itself
+/// when the update lands.
+final class DriverUpdatePrompt: ObservableObject {
+    static let shared = DriverUpdatePrompt()
+
+    private var window: NSWindow?
+    private var shown = false
+    private var stateSink: AnyCancellable?
+
+    /// Main thread.
+    func showIfOutdated() {
+        guard !shown, case .outdated = VirtualOutputPlugin.shared.state else { return }
+        shown = true
+        stateSink = VirtualOutputPlugin.shared.$state.receive(on: DispatchQueue.main).sink { [weak self] s in
+            if case .outdated = s { return }
+            self?.window?.close()
+        }
+        if window == nil {
+            let w = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 460, height: 260),
+                             styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
+            w.title = "Exclusive Mode driver is out of date"
+            w.isReleasedWhenClosed = false
+            w.contentViewController = NSHostingController(rootView: DriverUpdateView(plugin: VirtualOutputPlugin.shared, close: { [weak self] in self?.window?.close() }))
+            w.center()
+            window = w
+        }
+        NSApp.activate(ignoringOtherApps: true)
+        window?.makeKeyAndOrderFront(nil)
+    }
+
+    /// What an installed plug-in of this build lacks, newest last (builds: 1.1.4 = 6, 1.1.5 = 7, 1.1.6 = 8).
+    static func missing(installedBuild b: Int) -> [String] {
+        var m: [String] = []
+        if b < 6 { m.append("Other apps' sound is mixed into Music on the DAC, so playback isn't bit-perfect. Newer drivers send other apps and alert sounds to the Mac's speakers.") }
+        if b == 6 { m.append("Other apps can go silent on the speakers (fixed in 1.1.5).") }
+        if b < 8 { m.append("Video can run ahead of its sound: the driver doesn't report Exclusive Mode's delay (1.1.6).") }
+        return m
+    }
+}
+
+struct DriverUpdateView: View {
+    @ObservedObject var plugin: VirtualOutputPlugin
+    let close: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if case let .outdated(installed, bundled) = plugin.state {
+                Text("The installed Exclusive Mode driver is \(installed). This version of LosslessSwitcher carries \(bundled).")
+                    .fixedSize(horizontal: false, vertical: true)
+                let build = VirtualOutputPlugin.version(of: URL(fileURLWithPath: VirtualOutputPlugin.installPath))?.build ?? 0
+                ForEach(DriverUpdatePrompt.missing(installedBuild: build), id: \.self) { line in
+                    Text("• " + line).fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                Text("The Exclusive Mode driver is up to date.")
+            }
+            Text("Updating asks for your administrator password. Audio stops for a moment while macOS reloads its audio drivers.")
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            if let e = plugin.lastError {
+                Text("Update failed: \(e)").foregroundStyle(.red).fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+            HStack {
+                if plugin.busy { ProgressView().controlSize(.small); Text("Updating…").foregroundStyle(.secondary) }
+                Spacer()
+                Button("Not Now") { close() }
+                    .keyboardShortcut(.cancelAction)
+                    .disabled(plugin.busy)
+                Button("Update…") { MenuBarController.shared.changeVirtualDevice(install: true) }
+                    .keyboardShortcut(.defaultAction)
+                    .disabled(plugin.busy)
+            }
+        }
+        .padding(16)
+        .frame(minWidth: 420, minHeight: 200)
     }
 }
