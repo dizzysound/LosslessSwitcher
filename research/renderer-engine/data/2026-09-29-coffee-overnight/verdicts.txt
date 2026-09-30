@@ -1,0 +1,71 @@
+[ 27.206] new track Alt. Fast Track (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[ 29.238] source depth from the samples: 16 bit (all 89079 on the 16-bit grid)
+[ 76.832] new track On The Run (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.293 s before Playing), DAC 44100 Hz
+[ 78.953] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (85744 of 90112 samples): lossy)
+[302.226] new track Youre Still My Baby (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[304.257] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (82851 of 88064 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[522.972] new track Stars (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[525.005] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (85013 of 90112 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[696.030] new track How Deep Is the Ocean (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.451 s before Playing), DAC 44100 Hz
+[699.113] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (73830 of 90112 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[900.031] new track Little Martha (Music's rate for the track): decoder 44100.0 Hz lossless (seen 202.903 s before Playing), DAC 44100 Hz
+[902.314] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (55573 of 90106 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[1121.606] new track I Wish You Would (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[1123.987] source depth from the samples: 24 bit (87686 of 88064 samples off the 16-bit grid, all on the 24-bit grid)
+[1329.221] new track Today (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.280 s before Playing), DAC 44100 Hz
+[1331.593] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (87998 of 89088 samples): lossy)
+[1531.520] new track Moon Dreams (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[1533.549] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (84165 of 89088 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[1732.155] new track Hand Covers Bruise, Reprise (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[1734.446] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (87878 of 89088 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[1844.604] new track 07 March of the Rotten Vegetables (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[1846.879] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (89423 of 90112 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[2048.588] new track ...In That Quiet Earth (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[2050.935] source depth from the samples: 16 bit (all 89079 on the 16-bit grid)
+[2051.984] new track As Long As I Live (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.144 s before Playing), DAC 44100 Hz
+[2054.052] new track They Bent Me (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.223 s before Playing), DAC 44100 Hz
+[2056.087] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (72829 of 88064 samples): lossy)
+[2399.897] new track Wet Ribbon (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[2401.924] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (81706 of 89088 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[2828.384] new track Magnet (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[2830.685] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (75439 of 90112 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[3021.997] new track An Gleann (Music's rate for the track): decoder 44100.0 Hz lossy (seen 12.604 s before Playing), DAC 44100 Hz
+[3024.153] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (67092 of 72704 samples): lossy)
+[3312.939] new track Veneno Para Las Hadas (Music's rate for the track): decoder 44100.0 Hz lossy (seen 8.703 s before Playing), DAC 44100 Hz
+[3315.138] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (86536 of 89088 samples): lossy)
+[3730.260] new track Swallowed Whole (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.389 s before Playing), DAC 44100 Hz
+[3733.290] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (82527 of 88064 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[3963.226] new track Wrecking Ball (Music's rate for the track): decoder 44100.0 Hz lossless (seen 231.588 s before Playing), DAC 44100 Hz
+[3965.255] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (37733 of 90112 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[4252.039] new track Codex (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.265 s before Playing), DAC 44100 Hz
+[4254.308] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (88413 of 89088 samples): lossy)
+[4539.664] new track The Coke Dares Theme One (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[4541.987] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (78065 of 90112 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[4569.972] new track Same Mistakes (Music's rate for the track): decoder 44100.0 Hz lossless (seen 0.300 s before Playing), DAC 44100 Hz
+[4572.004] source depth from the samples: 16 bit (all 89075 on the 16-bit grid); Music's log said 24 bit
+[4758.350] new track Tom Devil (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.233 s before Playing), DAC 44100 Hz
+[4760.475] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (87490 of 90112 samples): lossy)
+[5078.833] new track Maxwell's Silver Hammer (Music's rate for the track): decoder 44100.0 Hz lossless (seen 0.280 s before Playing), DAC 44100 Hz
+[5080.901] source depth from the samples: 24 bit (87721 of 88064 samples off the 16-bit grid, all on the 24-bit grid)
+[5288.270] new track Time to Kill (Steven Wilson 2021 Remix) (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.426 s before Playing), DAC 44100 Hz
+[5290.304] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (68647 of 68736 samples): lossy)
+[5601.950] new track What A Difference A Day Made (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[5604.182] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (83621 of 88064 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[5910.733] new track Bravest Face (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[5912.912] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (73443 of 90112 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[6221.512] new track Patience [alt. ver.] (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[6223.762] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (68137 of 89088 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[6448.372] new track Ava Adore (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.381 s before Playing), DAC 44100 Hz
+[6451.202] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (87464 of 89088 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[6710.911] new track Across The Universe (Music's rate for the track): decoder 44100.0 Hz lossless (seen 261.419 s before Playing), DAC 44100 Hz
+[6712.940] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (38169 of 89088 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[7546.859] new track Imaginary Song [alt. ver.] (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.264 s before Playing), DAC 44100 Hz
+[7549.086] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (68459 of 89088 samples): lossy)
+[7715.640] new track Bidin' My Time (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[7717.673] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (85792 of 90112 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[7878.957] new track Animal Arithmetic (Music's rate for the track): decoder 44100.0 Hz lossless (seen 0.382 s before Playing), DAC 44100 Hz
+[7881.200] source depth from the samples: 16 bit (all 88905 on the 16-bit grid)
+[8083.201] new track Sun Blows Up Today (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[8085.746] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (63640 of 72704 samples): lossy)
+[8273.373] new track Flower Punk (Music's rate for the track): decoder 44100.0 Hz lossy (seen 189.094 s before Playing), DAC 44100 Hz
+[8275.519] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (82080 of 89088 samples): lossy)

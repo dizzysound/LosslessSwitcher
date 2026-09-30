@@ -1043,3 +1043,36 @@ tap would be silence with nothing in the log.
   silence costs one rebuild and a replay of that silence, not a rebuild every 8 s.
 - Not covered: an IOProc that stops calling back (frames stop, so the silent time stops growing).
 - Not reproduced: the dead-tap quirk itself hasn't been seen here. Built (Debug) only; no bench.
+
+# Overnight on coffee (f74d213, DragonFly Black, 2026-09-29 19:56-22:15): false "Music changes them"
+Owner listened ~2 h 19 min; logs exported 22:15. Data: data/2026-09-29-coffee-overnight/ (engine log,
+Music's decoder lines, the grid verdicts, and each track's kind/bit rate/cloud status from Music's
+library, looked up by name).
+- Playback clean: clock locked throughout, under 0 over 0 on every status line; one coreaudiod overload
+  at engine start only; 60 s idle step-aside and the 21:59 take-back worked (rewound 0.28 s). Hog-mode
+  control errors ("does not own hog mode", 6x) only in the first 2 s of the engine start.
+- Other apps played on the Air's speakers from ~20:33 to the end (~-11 dBFS steady); which app is
+  not in the logs.
+- The false alarm: 18 tracks got "neither 16 nor 24 bit: Music changes them" (the Bit-Perfect Check's
+  "Music is changing the samples"). The library says otherwise:
+  - 12 were 256 kbps iTunes Match uploads (AAC). Music logged no decoder line for them, and the
+    Music's-rate path took a track without its own line as lossless (`own?.lossless ?? true`).
+  - 3 were Apple Music streams starting on qaac and upgrading to qlac 24 bit ~1 s later (How Deep Is
+    the Ocean, Swallowed Whole, Ava Adore). The upgrade reset the grid at the ALAC line, but Music
+    plays its buffered AAC start for a while longer, and that went into the fresh count.
+  - 3 took the previous track's lossless upgrade line (203-261 s old) as their own "24 bit" (Little
+    Martha, Wrecking Ball, Across The Universe): the Music's-rate path didn't exclude the previous
+    track's own window as the decoder-line path does. 42-62% of samples off the grid there.
+  - Every track lossless start to end was clean: 24 bit (I Wish You Would, Maxwell's Silver Hammer),
+    16 bit (In That Quiet Earth, Same Mistakes, Animal Arithmetic, Alt. Fast Track; the last while
+    the volume keys went -4 -> -28 dB: the DAC's volume doesn't touch the samples).
+- Fix (fix/grid-false-alarm): `sourceKnown` false when no line of the track's own (or file header)
+  says what it is; off-grid then logs "no decoder line of its own, so lossy or changed by Music" and
+  doesn't raise the Bit-Perfect Check item. The Music's-rate path skips lines up to the previous
+  track's `ownLinesUntil`. After a lossless upgrade, grid windows are skipped until one is on the
+  24-bit grid (at most 5 s, then measured anyway, so a real change still shows).
+- Desk-checked against this log's timestamps only (Little Martha's line 20:08:23.47 is inside How
+  Deep's window to 20:08:24.5; Wrecking Ball's and Across The Universe's likewise). Built; not benched.
+- Aside: several "matched" tracks with lossless-size bit rates (Flower Punk 785 kbps, Sun Blows Up
+  Today, An Gleann) were decoded from AAC streams (paac/aac lines), not local files; coffee's disk is
+  99% full, so probably not downloaded (not checked).
