@@ -2,8 +2,8 @@
 # Live test of Pause While Switching: run the dev build, play local tracks at different rates,
 # record app log, Music notifications and the device's nominal rate over time.
 set -u
-BIN="${BIN:-../typecheck/.build/LosslessSwitcher Dev.app/Contents/MacOS/LosslessSwitcher}"; AC=../local-file-resampling/audioctl; DEV="${DEV:-MT 48}"
-defaults write com.dizzysound.LosslessSwitcher.dev PreferPauseWhileSwitching -bool true
+BIN="${BIN:-../typecheck/.build/Nativerate Dev.app/Contents/MacOS/Nativerate}"; AC=../local-file-resampling/audioctl; DEV="${DEV:-MT 48}"
+defaults write com.dizzysound.Nativerate.dev PreferPauseWhileSwitching -bool true
 script -q -F app.log "$BIN" >/dev/null 2>&1 & APP=$!
 ./listen 75 > notifications.log & LIS=$!
 [ "${NO_RATES:-0}" = 1 ] && RAT=$$ || ( t0=$(date +%s.%N 2>/dev/null || python3 -c 'import time;print(time.time())'); end=$(( $(date +%s) + 73 ))

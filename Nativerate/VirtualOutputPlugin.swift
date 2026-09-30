@@ -1,0 +1,224 @@
+//
+//  VirtualOutputPlugin.swift
+//  Nativerate
+//
+//  Install, update and remove Exclusive Mode's virtual output device: the HAL plug-in
+//  LSOutput.driver (source: HALPlugin/), shipped in the app's Resources and installed to
+//  /Library/Audio/Plug-Ins/HAL. Both need an administrator password (one prompt) and restart
+//  coreaudiod, which interrupts all audio for a moment. The caller stops the engine first so the
+//  DAC and the default output are handed back before the device goes away.
+//
+
+import AppKit
+import Combine
+import CoreAudio
+import Foundation
+import SwiftUI
+
+final class VirtualOutputPlugin: ObservableObject {
+
+    static let shared = VirtualOutputPlugin()
+
+    static let installPath = "/Library/Audio/Plug-Ins/HAL/LSOutput.driver"
+
+    enum State: Equatable {
+        case notInstalled
+        case installed(version: String)
+        case outdated(installed: String, bundled: String)
+    }
+
+    @Published private(set) var state: State = .notInstalled
+    @Published private(set) var busy = false
+    /// The last install/remove failure, for the menu.
+    @Published private(set) var lastError: String?
+
+    private var listener: AudioObjectPropertyListenerBlock?
+
+    private init() {
+        refresh()
+        // the device list changes when coreaudiod restarts or the plug-in loads
+        var a = AudioObjectPropertyAddress(mSelector: kAudioHardwarePropertyDevices, mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+        let block: AudioObjectPropertyListenerBlock = { [weak self] _, _ in self?.refresh() }
+        listener = block
+        AudioObjectAddPropertyListenerBlock(AudioObjectID(kAudioObjectSystemObject), &a, .main, block)
+    }
+
+    /// The plug-in's bundle is in /Library/Audio/Plug-Ins/HAL (readable), whatever its version.
+    var isInstalledOnDisk: Bool { Self.version(of: URL(fileURLWithPath: Self.installPath)) != nil }
+
+    var bundledURL: URL? { Bundle.main.url(forResource: "LSOutput", withExtension: "driver") }
+
+    /// CFBundleShortVersionString (CFBundleVersion) of a plug-in bundle.
+    static func version(of url: URL) -> (short: String, build: Int)? {
+        guard let info = NSDictionary(contentsOf: url.appendingPathComponent("Contents/Info.plist")) else { return nil }
+        let short = info["CFBundleShortVersionString"] as? String ?? "?"
+        let build = Int(info["CFBundleVersion"] as? String ?? "") ?? 0
+        return (short, build)
+    }
+
+    func refresh() {
+        let installed = Self.version(of: URL(fileURLWithPath: Self.installPath))
+        let bundled = bundledURL.flatMap { Self.version(of: $0) }
+        let new: State
+        if let i = installed {
+            if let b = bundled, b.build > i.build {
+                new = .outdated(installed: i.short, bundled: b.short)
+            } else {
+                new = .installed(version: i.short)
+            }
+        } else {
+            new = .notInstalled
+        }
+        if Thread.isMainThread { state = new } else { DispatchQueue.main.async { self.state = new } }
+    }
+
+    /// Installs (or replaces) the bundled plug-in. Runs `done` on the main thread with success.
+    func install(done: @escaping (Bool) -> Void) {
+        guard let src = bundledURL else {
+            lastError = "This build has no LSOutput.driver in its Resources."
+            done(false)
+            return
+        }
+        let dst = Self.installPath
+        // coreaudiod loads plug-ins as _coreaudiod: everything must be world-readable (a build made
+        // under umask 027 shipped Info.plist 0640, and the device never appeared)
+        run(shell: "rm -rf \(q(dst)) && /usr/bin/ditto \(q(src.path)) \(q(dst)) && /usr/sbin/chown -R root:wheel \(q(dst)) && /bin/chmod -R a+rX \(q(dst)) && /usr/bin/killall coreaudiod",
+            prompt: "Nativerate wants to install its virtual output device. Audio restarts for a moment.",
+            done: done)
+    }
+
+    func remove(done: @escaping (Bool) -> Void) {
+        run(shell: "rm -rf \(q(Self.installPath)) && /usr/bin/killall coreaudiod",
+            prompt: "Nativerate wants to remove its virtual output device. Audio restarts for a moment.",
+            done: done)
+    }
+
+    /// One administrator prompt; then waits for coreaudiod to be back (up to 10 s).
+    private func run(shell: String, prompt: String, done: @escaping (Bool) -> Void) {
+        busy = true
+        lastError = nil
+        DispatchQueue.global(qos: .userInitiated).async {
+            let source = "do shell script \"\(Self.escape(shell))\" with administrator privileges with prompt \"\(Self.escape(prompt))\""
+            var err: NSDictionary?
+            let ok = NSAppleScript(source: source)?.executeAndReturnError(&err) != nil
+            if ok {
+                // coreaudiod restarts under launchd; wait until it lists devices again
+                let end = Date().addingTimeInterval(10)
+                Thread.sleep(forTimeInterval: 1)
+                while Date() < end, !Self.halResponds() { Thread.sleep(forTimeInterval: 0.2) }
+                Thread.sleep(forTimeInterval: 0.5)
+            }
+            let message = err.map { ($0[NSAppleScript.errorMessage] as? String) ?? "\($0)" }
+            DispatchQueue.main.async {
+                self.busy = false
+                // -128: the user cancelled the password prompt
+                if !ok, (err?[NSAppleScript.errorNumber] as? Int) != -128 { self.lastError = message }
+                self.refresh()
+                print("[VirtualOutputPlugin] \(ok ? "done" : "failed: \(message ?? "?")")")
+                done(ok)
+            }
+        }
+    }
+
+    private static func halResponds() -> Bool {
+        var a = AudioObjectPropertyAddress(mSelector: kAudioHardwarePropertyDevices, mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+        var size: UInt32 = 0
+        return AudioObjectGetPropertyDataSize(AudioObjectID(kAudioObjectSystemObject), &a, 0, nil, &size) == noErr && size > 0
+    }
+
+    /// Single-quoted for the shell.
+    private func q(_ s: String) -> String { "'" + s.replacingOccurrences(of: "'", with: "'\\''") + "'" }
+
+    /// Escaped for an AppleScript string literal.
+    private static func escape(_ s: String) -> String {
+        s.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"")
+    }
+}
+
+// MARK: - Out-of-date prompt
+
+/// Exclusive Mode started with an installed plug-in older than the one this app carries (Executor,
+/// 2026-09-30: a0863be ran all morning on 1.1.2 with other apps mixed into Music, and only the engine
+/// log said so). A window like the Music settings one says what the old plug-in lacks and offers the
+/// update (one administrator prompt, audio restarts for a moment). Once per launch; it closes itself
+/// when the update lands.
+final class DriverUpdatePrompt: ObservableObject {
+    static let shared = DriverUpdatePrompt()
+
+    private var window: NSWindow?
+    private var shown = false
+    private var stateSink: AnyCancellable?
+
+    /// Main thread.
+    func showIfOutdated() {
+        guard !shown, case .outdated = VirtualOutputPlugin.shared.state else { return }
+        shown = true
+        stateSink = VirtualOutputPlugin.shared.$state.receive(on: DispatchQueue.main).sink { [weak self] s in
+            if case .outdated = s { return }
+            self?.window?.close()
+        }
+        if window == nil {
+            // sized by the view (a fixed 460 x 260 clipped the wrapped text and the buttons on Executor)
+            let host = NSHostingController(rootView: DriverUpdateView(plugin: VirtualOutputPlugin.shared, close: { [weak self] in self?.window?.close() }))
+            host.sizingOptions = [.preferredContentSize]
+            let w = NSWindow(contentViewController: host)
+            w.styleMask = [.titled, .closable]
+            w.title = "Exclusive Mode driver is out of date"
+            w.isReleasedWhenClosed = false
+            w.setContentSize(host.view.fittingSize) // before center(): unshown, the window is 1 x 32
+            w.center()
+            window = w
+        }
+        NSApp.activate(ignoringOtherApps: true)
+        window?.makeKeyAndOrderFront(nil)
+    }
+
+    /// What an installed plug-in of this build lacks, newest last (builds: 1.1.4 = 6, 1.1.5 = 7, 1.1.6 = 8, 1.2.0 = 9).
+    static func missing(installedBuild b: Int) -> [String] {
+        var m: [String] = []
+        if b < 6 { m.append("Other apps' sound is mixed into Music on the DAC, so playback isn't bit-perfect. Newer drivers send other apps and alert sounds to the Mac's speakers.") }
+        if b == 6 { m.append("Other apps can go silent on the speakers (fixed in 1.1.5).") }
+        if b < 8 { m.append("Video can run ahead of its sound: the driver doesn't report Exclusive Mode's delay (1.1.6).") }
+        if b < 9 { m.append("The device still appears as \"LosslessSwitcher\" in Sound settings; newer drivers name it Nativerate (1.2.0).") }
+        return m
+    }
+}
+
+struct DriverUpdateView: View {
+    @ObservedObject var plugin: VirtualOutputPlugin
+    let close: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if case let .outdated(installed, bundled) = plugin.state {
+                Text("The installed Exclusive Mode driver is \(installed). This version of Nativerate carries \(bundled).")
+                    .fixedSize(horizontal: false, vertical: true)
+                let build = VirtualOutputPlugin.version(of: URL(fileURLWithPath: VirtualOutputPlugin.installPath))?.build ?? 0
+                ForEach(DriverUpdatePrompt.missing(installedBuild: build), id: \.self) { line in
+                    Text("• " + line).fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                Text("The Exclusive Mode driver is up to date.")
+            }
+            Text("Updating asks for your administrator password. Audio stops for a moment while macOS reloads its audio drivers.")
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            if let e = plugin.lastError {
+                Text("Update failed: \(e)").foregroundStyle(.red).fixedSize(horizontal: false, vertical: true)
+            }
+            HStack {
+                if plugin.busy { ProgressView().controlSize(.small); Text("Updating…").foregroundStyle(.secondary) }
+                Spacer()
+                Button("Not Now") { close() }
+                    .keyboardShortcut(.cancelAction)
+                    .disabled(plugin.busy)
+                Button("Update…") { MenuBarController.shared.changeVirtualDevice(install: true) }
+                    .keyboardShortcut(.defaultAction)
+                    .disabled(plugin.busy)
+            }
+        }
+        .padding(16)
+        .frame(width: 460)
+        .fixedSize(horizontal: false, vertical: true) // height = the wrapped text + buttons
+    }
+}

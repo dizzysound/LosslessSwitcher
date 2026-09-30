@@ -1,7 +1,7 @@
 # LSOutput.driver: Exclusive Mode's virtual output device
 
 An AudioServerPlugIn (HAL plug-in) based on Apple's NullAudio sample (MIT, LICENSE-NullAudio.txt).
-It shows up as **LosslessSwitcher** in Audio MIDI Setup: a 2-channel output whose mix is looped
+It shows up as **Nativerate** in Audio MIDI Setup: a 2-channel output whose mix is looped
 back to its input, at 44.1-192 kHz, with a clock the renderer steers to the DAC. The input has 4
 channels (1.1.4): 1-2 the mix (Music alone while `'LSmx'` is set), 3-4 every other app's output.
 
