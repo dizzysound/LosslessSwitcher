@@ -1,6 +1,6 @@
 // swift-tools-version:5.9
 // Compile-only check of the app's Swift sources without Xcode. Pins match Package.resolved.
-// Run: cd research/typecheck && ./check.sh
+// Run: cd scripts/typecheck && ./check.sh
 import PackageDescription
 
 let package = Package(

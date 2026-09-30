@@ -7,7 +7,7 @@
 //
 //  Discussion #74 removed this because Music used to resample local files to the device
 //  rate captured at launch. That no longer reproduces on macOS 26.6.2; see
-//  research/local-file-resampling/log.md.
+//  local-file-resampling/log.md in the private Nativerate-research repo.
 //
 
 import AVFoundation

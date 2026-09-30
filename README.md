@@ -67,9 +67,9 @@ Requirements: macOS 15 or later, Xcode 27 (the SwiftUI macros need Xcode, not ju
 Line Tools). The build is universal; it has only been run on Apple Silicon.
 
 ```bash
-git clone -b renderer-vdevice https://github.com/dizzysound/Nativerate.git
+git clone https://github.com/dizzysound/Nativerate.git
 cd Nativerate
-./research/typecheck/make_xcode_dev_app.sh          # writes ~/Desktop/Nativerate-Dev-<commit>.zip
+./scripts/typecheck/make_xcode_dev_app.sh          # writes ~/Desktop/Nativerate-Dev-<commit>.zip
 ```
 
 The script runs `xcodebuild` with the dev bundle id, ad-hoc signing and the **hardened runtime
@@ -86,19 +86,6 @@ The Xcode build runs `HALPlugin/build.sh` to build the plug-in into the app's Re
   hang until the engine lets go. Use the app's **Selected Device** instead.
 - About 70-80 ms of latency at 44.1 kHz.
 - Music's AutoMix blends tracks, so a clean switch isn't possible; turn it off.
-
-## Branches
-
-| Branch | What it is |
-|---|---|
-| `renderer-vdevice` (default) | Nativerate: Exclusive Mode, plus the research notes and bench tooling in `research/` |
-| `renderer-engine-pr` | The Exclusive Mode engine without `research/`, for anyone who wants to lift it into another project |
-| `local-file-detection` | Local-file detection, on its own branch |
-| `bit-perfect-check` | Bit-Perfect Check, on its own branch |
-| `main` | Upstream's `main`, unchanged |
-
-For testers: `research/renderer-engine/BENCH-BRIEF.md` lists what to test and what's already
-known; `research/renderer-engine/log.md` is the full test history.
 
 ## License and credits
 
@@ -122,9 +109,9 @@ if you'd rather not edit the README.
 
 | Mac | macOS | Audio device | Nativerate version | Mode | Result |
 |---|---|---|---|---|---|
-| Mac with M5 Pro | 26-27 | Neumann MT 48 | `renderer-vdevice` | Exclusive | Works; see Known issues |
-| Mac with M1 Pro | 26-27 | RME Babyface Pro | `renderer-vdevice` | Exclusive | Works |
-| MacBook Air (M2) | 26-27 | AudioQuest DragonFly Black | `renderer-vdevice` | Exclusive | Works |
+| Mac with M5 Pro | 26-27 | Neumann MT 48 | pre-release, Sep 2026 | Exclusive | Works; see Known issues |
+| Mac with M1 Pro | 26-27 | RME Babyface Pro | pre-release, Sep 2026 | Exclusive | Works |
+| MacBook Air (M2) | 26-27 | AudioQuest DragonFly Black | pre-release, Sep 2026 | Exclusive | Works |
 
 If something goes wrong, **attach your logs**: in the app's menu, open **About** and choose
 **Export Logs…**. It writes one zip with the engine logs of the last three runs, every audio

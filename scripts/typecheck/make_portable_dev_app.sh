@@ -26,7 +26,7 @@ echo "Exclusive Mode (Experimental). Quit the regular Nativerate first if it is 
 SH
 chmod +x "$DEST/Set Up (run once).command"
 cat > "$DEST/README.txt" <<TXT
-Nativerate Dev (branch renderer-vdevice of dizzysound/Nativerate, $(git -C ../.. rev-parse --short HEAD), built $(date '+%Y-%m-%d %H:%M')).
+Nativerate Dev (branch main of dizzysound/Nativerate, $(git -C ../.. rev-parse --short HEAD), built $(date '+%Y-%m-%d %H:%M')).
 Apple Silicon only. Ad-hoc signed: each copy asks again for Microphone and Automation (Music).
 
 1. Copy this folder anywhere on the test Mac (the app must stay next to nothing in particular).

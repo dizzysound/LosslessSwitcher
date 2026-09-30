@@ -32,9 +32,11 @@ Universal (Apple Silicon and Intel). Ad-hoc signed: each copy asks again for Mic
    Exclusive Mode on). Allow Microphone and Automation.
 Engine log: ~/Library/Logs/Nativerate-ExclusiveMode.log
 Remove: menu Advanced > Virtual Output Device > Remove..., then delete the app.
-What to test, the rules and what's already known: BENCH-BRIEF.md.
+If something goes wrong: menu About > Export Logs..., and send the zip with what you did.
 TXT
-cp research/renderer-engine/BENCH-BRIEF.md "$OUT/BENCH-BRIEF.md"
+# the tester's brief lives in the private research repo, if it is checked out beside this one
+BRIEF="${BENCH_BRIEF:-../Nativerate-research/renderer-engine/BENCH-BRIEF.md}"
+if [ -f "$BRIEF" ]; then cp "$BRIEF" "$OUT/BENCH-BRIEF.md"; echo "What to test, the rules and what's already known: BENCH-BRIEF.md." >> "$OUT/README.txt"; fi
 rm -f "$DEST"
 (cd "$OUT" && ditto -c -k --sequesterRsrc . "$DEST")
 rm -rf "$DD"

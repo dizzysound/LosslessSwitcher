@@ -275,7 +275,7 @@ enum DeviceFormat {
         return rate
     }
 
-    // Measured on a Neumann MT 48 (research/track-boundary-switch/log.md): nominal rate and physical
+    // Measured on a Neumann MT 48 (track-boundary-switch/log.md in the private Nativerate-research repo): nominal rate and physical
     // format change ~60 ms after the switch, but the device stops, restarts (sometimes several
     // times) 1.1-1.7 s later, and the measured clock can start 6% off and converge over seconds.
     static let steadyRunning: TimeInterval = 0.5
