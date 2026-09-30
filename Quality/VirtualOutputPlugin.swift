@@ -158,11 +158,14 @@ final class DriverUpdatePrompt: ObservableObject {
             self?.window?.close()
         }
         if window == nil {
-            let w = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 460, height: 260),
-                             styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
+            // sized by the view (a fixed 460 x 260 clipped the wrapped text and the buttons on Executor)
+            let host = NSHostingController(rootView: DriverUpdateView(plugin: VirtualOutputPlugin.shared, close: { [weak self] in self?.window?.close() }))
+            host.sizingOptions = [.preferredContentSize]
+            let w = NSWindow(contentViewController: host)
+            w.styleMask = [.titled, .closable]
             w.title = "Exclusive Mode driver is out of date"
             w.isReleasedWhenClosed = false
-            w.contentViewController = NSHostingController(rootView: DriverUpdateView(plugin: VirtualOutputPlugin.shared, close: { [weak self] in self?.window?.close() }))
+            w.setContentSize(host.view.fittingSize) // before center(): unshown, the window is 1 x 32
             w.center()
             window = w
         }
@@ -202,7 +205,6 @@ struct DriverUpdateView: View {
             if let e = plugin.lastError {
                 Text("Update failed: \(e)").foregroundStyle(.red).fixedSize(horizontal: false, vertical: true)
             }
-            Spacer(minLength: 0)
             HStack {
                 if plugin.busy { ProgressView().controlSize(.small); Text("Updating…").foregroundStyle(.secondary) }
                 Spacer()
@@ -215,6 +217,7 @@ struct DriverUpdateView: View {
             }
         }
         .padding(16)
-        .frame(minWidth: 420, minHeight: 200)
+        .frame(width: 460)
+        .fixedSize(horizontal: false, vertical: true) // height = the wrapped text + buttons
     }
 }
