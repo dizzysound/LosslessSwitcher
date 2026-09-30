@@ -1961,6 +1961,9 @@ final class VirtualDeviceEngine {
             if m >= 0 && ring.readPos >= m { atBoundary.store(1, ordering: .releasing) }
         } else {
             scratch.update(repeating: 0, count: n * 2)
+            // not playing: nothing past the marker can reach the DAC, so B is at it (a take-back after the
+            // release-only step-aside waited out the switch's 1 s for this: "boundary NOT reached")
+            if m >= 0 && ring.readPos >= m { atBoundary.store(1, ordering: .releasing) }
         }
         if muted {
             for b in outs { if let d = b.mData { memset(d, 0, Int(b.mDataByteSize)) } }
