@@ -1,0 +1,760 @@
+[  0.000] log started 2026-09-30 06:08:42.858 -05:00; LosslessSwitcher 2.0 (build 24, commit a0863be), com.dizzysound.LosslessSwitcher.dev; macOS Version 26.6.2 (Build 25G83), Mac17,8
+[  0.001] engine started (virtual device)
+[  0.115] microphone permission: not determined; asking, and leaving the output alone until it is answered
+[  0.960] microphone permission granted
+[  0.999] attached (pid 84177): 0
+[  0.999] virtual device has no 'LSmx' (plug-in older than 1.1.4): other apps mix into Music; update it from the menu
+[  1.005] default output -> virtual device: 0
+[  1.010] virtual device 157 @ 44100.0 Hz; scalar reset 0
+[  1.037] A: output streams off: 0
+[  1.054] start A: 0
+[  1.059] DAC MT 48 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2) @ 44100.0 Hz, hog owner -1, my pid 84177
+[  1.266] hog DAC: 0, hogged
+[  1.276] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[  1.285] B: DAC inputs off: 0
+[  1.335] start B: 0
+[  2.322] DAC ready after 0.987 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[  2.323] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[  2.323] format listeners: 0 0
+[  2.339] volume: DAC has no settable output volume; the volume keys change nothing (audio stays at unity); virtual device held at 0 dB: 0, unmuted: 0
+[  2.844] clock: DAC scalar 1.000050 not steady yet; following it until the lock
+[  6.907] clock: DAC scalar steady at 0.999993 after 4.1 s
+[  6.907] clock lock: phase0 34440.369, fill 22050, cycles A 505 B 450
+[ 12.685] playerInfo: Stopped 
+[ 12.696] decoder: 88200.0 Hz 24-bit (lossless)
+[ 13.083] gate: output started at ring 530757; waiting for the track's rate
+[ 13.701] playerInfo: Playing Se A Cabo
+[ 13.772] new track Se A Cabo (Music's rate for the track): decoder 88200.0 Hz lossless (seen 0.999 s before Playing), DAC 44100 Hz -> switch to 88200
+[ 13.797] switch 1: Se A Cabo (Music's rate for the track) needs 88200 Hz (DAC 44100); held at the gate; paused; boundary reached 0.025 s
+[ 13.912] virtual device -> 88200: 0
+[ 13.913] DAC format -> 88200.0 Hz 16 ch 32 bit flags 76: 0
+[ 21.668]   DAC ready after 7.755 s: phys 88200.0 Hz 16 ch 32 bit flags 76 / virt 88200.0 Hz 16 ch 32 bit flags 76
+[ 21.672] B writes int32 in 4 bytes, channels 1/2 (virtual format 88200.0 Hz 16 ch 32 bit flags 76)
+[ 21.672] playerInfo: Playing Se A Cabo
+[ 21.672] playerInfo: Paused Se A Cabo
+[ 21.703]   rewound to 0.000 (was 0.995, played ~0.738 s), play; switch 1 done 7.932 s after the request
+[ 21.741] playerInfo: Paused Se A Cabo
+[ 21.753] playerInfo: Playing Se A Cabo
+[ 22.211] clock: DAC scalar 1.000068 not steady yet; following it until the lock
+[ 24.226] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (112605 of 178169 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[ 26.762] clock: DAC scalar steady at 0.999993 after 4.6 s
+[ 26.763] clock lock: phase0 623208.869, fill 44544, cycles A 3289 B 2443
+[ 32.344] 88200 Hz fill 44032 scalar 0.999993830 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:09:15.202 -05:00
+[ 62.352] 88200 Hz fill 44544 scalar 0.999997434 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:09:45.210 -05:00
+[ 92.360] 88200 Hz fill 44544 scalar 0.999996608 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:10:15.218 -05:00
+[102.011] volume: DAC has no volume control; virtual device back to 0 dB: 0, unmuted: 0
+[122.368] 88200 Hz fill 44032 scalar 0.999993557 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:10:45.226 -05:00
+[152.370] 88200 Hz fill 44032 scalar 0.999995778 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 06:11:15.229 -05:00
+[182.371] 88200 Hz fill 44032 scalar 0.999988951 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:11:45.229 -05:00
+[212.371] 88200 Hz fill 44032 scalar 0.999995336 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:12:15.230 -05:00
+[238.478] decoder: 44100.0 Hz 16-bit (lossless)
+[238.491] next track needs 44100 Hz; 11.27 s left, arming the boundary latch in 9.77 s
+[242.372] 88200 Hz fill 44032 scalar 0.999992551 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:12:45.230 -05:00
+[248.262] boundary latch armed at in frame 21219840
+[249.797] latched at ring 20681145 (fill 44032)
+[249.967] playerInfo: Playing Tell Me What You See [1965 Stereo Mix]
+[250.041] new track Tell Me What You See [1965 Stereo Mix] (Music's rate for the track): decoder 44100.0 Hz lossless (seen 11.489 s before Playing), DAC 88200 Hz -> switch to 44100
+[250.058] playerInfo: Playing Tell Me What You See [1965 Stereo Mix]
+[250.129] playerInfo: Paused Tell Me What You See [1965 Stereo Mix]
+[250.293] switch 2: Tell Me What You See [1965 Stereo Mix] (Music's rate for the track) needs 44100 Hz (DAC 88200); latched at the old track's end; paused; boundary reached 0.251 s
+[250.406] virtual device -> 44100: 0
+[250.407] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[252.188]   DAC ready after 1.780 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[252.188] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[252.239]   rewound to 0.000 (was 0.205, played ~0.129 s), play; switch 2 done 2.198 s after the request
+[252.285] playerInfo: Paused Tell Me What You See [1965 Stereo Mix]
+[252.285] playerInfo: Playing Tell Me What You See [1965 Stereo Mix]
+[252.748] clock: DAC scalar 1.000006 not steady yet; following it until the lock
+[254.269] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (31740 of 45029 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[256.285] clock: DAC scalar steady at 1.000000 after 3.5 s
+[256.285] clock lock: phase0 48820.936, fill 22016, cycles A 42303 B 41401
+[272.380] 44100 Hz fill 22528 scalar 0.999990280 under 0 over 0; clock locked, DAC scalar 0.999982; 2026-09-30 06:13:15.238 -05:00
+[302.382] 44100 Hz fill 22528 scalar 0.999986661 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 06:13:45.241 -05:00
+[332.386] 44100 Hz fill 22528 scalar 0.999990555 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 06:14:15.245 -05:00
+[362.395] 44100 Hz fill 22528 scalar 0.999993636 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:14:45.253 -05:00
+[392.403] 44100 Hz fill 22016 scalar 0.999996423 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:15:15.261 -05:00
+[413.369] playerInfo: Playing Lucky Ball & Chain
+[413.401] new track Lucky Ball & Chain (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[415.778] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (53322 of 90108 samples): no decoder line of its own, so lossy or changed by Music)
+[422.413] 44100 Hz fill 22528 scalar 0.999997046 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 06:15:45.271 -05:00
+[452.417] 44100 Hz fill 22528 scalar 0.999995442 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:16:15.275 -05:00
+[482.426] 44100 Hz fill 22016 scalar 0.999995309 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:16:45.284 -05:00
+[512.428] 44100 Hz fill 22016 scalar 0.999999846 under 0 over 0; clock locked, DAC scalar 0.999999; 2026-09-30 06:17:15.286 -05:00
+[542.440] 44100 Hz fill 22016 scalar 0.999992341 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:17:45.298 -05:00
+[572.442] 44100 Hz fill 22528 scalar 1.000001518 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 06:18:15.300 -05:00
+[579.874] playerInfo: Playing Scene Seven: Part II. One Last Time
+[579.909] new track Scene Seven: Part II. One Last Time (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[582.224] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (55492 of 89083 samples): no decoder line of its own, so lossy or changed by Music)
+[602.443] 44100 Hz fill 22528 scalar 0.999993571 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:18:45.302 -05:00
+[632.449] 44100 Hz fill 22528 scalar 0.999991389 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:19:15.307 -05:00
+[662.458] 44100 Hz fill 22528 scalar 0.999996460 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:19:45.316 -05:00
+[692.465] 44100 Hz fill 22016 scalar 0.999992533 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:20:15.323 -05:00
+[722.470] 44100 Hz fill 22528 scalar 0.999991121 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:20:45.328 -05:00
+[752.477] 44100 Hz fill 22528 scalar 0.999995598 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:21:15.336 -05:00
+[782.479] 44100 Hz fill 22016 scalar 0.999989285 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:21:45.337 -05:00
+[806.616] playerInfo: Playing You Are the Sunshine of My Life
+[806.637] new track You Are the Sunshine of My Life (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[808.897] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (53734 of 89082 samples): no decoder line of its own, so lossy or changed by Music)
+[812.483] 44100 Hz fill 22528 scalar 0.999985624 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 06:22:15.341 -05:00
+[842.494] 44100 Hz fill 22528 scalar 0.999996852 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:22:45.352 -05:00
+[872.502] 44100 Hz fill 22528 scalar 0.999994656 under 0 over 0; clock locked, DAC scalar 0.999988; 2026-09-30 06:23:15.361 -05:00
+[902.510] 44100 Hz fill 22528 scalar 0.999989132 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 06:23:45.368 -05:00
+[932.520] 44100 Hz fill 22528 scalar 0.999998294 under 0 over 0; clock locked, DAC scalar 0.999988; 2026-09-30 06:24:15.378 -05:00
+[962.526] 44100 Hz fill 22528 scalar 0.999991114 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:24:45.384 -05:00
+[967.077] decoder: 48000.0 Hz 24-bit (lossless)
+[967.084] next track needs 48000 Hz; 10.04 s left, arming the boundary latch in 8.54 s
+[975.636] boundary latch armed at in frame 53382144
+[977.176] latched at ring 52696337 (fill 22528)
+[977.378] playerInfo: Playing Lightbulb Sun
+[977.486] new track Lightbulb Sun (Music's rate for the track): decoder 48000.0 Hz lossless (seen 10.305 s before Playing), DAC 44100 Hz -> switch to 48000
+[977.499] playerInfo: Playing Lightbulb Sun
+[977.559] playerInfo: Paused Lightbulb Sun
+[977.682] switch 3: Lightbulb Sun (Music's rate for the track) needs 48000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.196 s
+[977.800] virtual device -> 48000: 0
+[977.801] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[980.100]   DAC ready after 2.297 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[980.100] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[980.153]   rewound to 0.000 (was 0.259, played ~0.159 s), play; switch 3 done 2.667 s after the request
+[980.189] playerInfo: Paused Lightbulb Sun
+[980.199] playerInfo: Playing Lightbulb Sun
+[980.660] clock: DAC scalar 0.999991 not steady yet; following it until the lock
+[983.694] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (56499 of 89545 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[984.199] clock: DAC scalar steady at 0.999996 after 3.5 s
+[984.199] clock lock: phase0 48679.547, fill 23488, cycles A 105021 B 104040
+[992.533] 48000 Hz fill 23488 scalar 0.999993847 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:25:15.392 -05:00
+[1022.534] 48000 Hz fill 24000 scalar 0.999994809 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:25:45.393 -05:00
+[1052.535] 48000 Hz fill 23488 scalar 0.999998288 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 06:26:15.394 -05:00
+[1082.541] 48000 Hz fill 23488 scalar 0.999993383 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:26:45.399 -05:00
+[1112.551] 48000 Hz fill 24000 scalar 0.999996318 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 06:27:15.409 -05:00
+[1142.559] 48000 Hz fill 23488 scalar 0.999991618 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:27:45.417 -05:00
+[1172.569] 48000 Hz fill 24000 scalar 0.999997127 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 06:28:15.428 -05:00
+[1202.578] 48000 Hz fill 24000 scalar 0.999995421 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:28:45.436 -05:00
+[1232.588] 48000 Hz fill 23488 scalar 0.999992660 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:29:15.446 -05:00
+[1262.591] 48000 Hz fill 24000 scalar 0.999996009 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:29:45.449 -05:00
+[1292.598] 48000 Hz fill 23488 scalar 0.999993812 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:30:15.456 -05:00
+[1300.265] decoder: 44100.0 Hz 16-bit (lossless)
+[1300.278] next track needs 44100 Hz; 10.69 s left, arming the boundary latch in 9.19 s
+[1309.467] boundary latch armed at in frame 69383680
+[1311.015] latched at ring 68602464 (fill 24000)
+[1311.163] playerInfo: Playing The Coast No Man Can Tell
+[1311.272] new track The Coast No Man Can Tell (Music's rate for the track): decoder 44100.0 Hz lossless (seen 10.906 s before Playing), DAC 48000 Hz -> switch to 44100
+[1311.293] playerInfo: Playing The Coast No Man Can Tell
+[1311.336] playerInfo: Paused The Coast No Man Can Tell
+[1311.513] switch 4: The Coast No Man Can Tell (Music's rate for the track) needs 44100 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.241 s
+[1311.730] virtual device -> 44100: 0
+[1311.731] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[1314.276]   DAC ready after 2.544 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[1314.276] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[1314.317]   rewound to 0.000 (was 0.200, played ~0.161 s), play; switch 4 done 3.045 s after the request
+[1314.362] playerInfo: Paused The Coast No Man Can Tell
+[1314.362] playerInfo: Playing The Coast No Man Can Tell
+[1314.819] clock: DAC scalar 0.998822 not steady yet; following it until the lock
+[1316.338] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (28054 of 45027 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[1321.908] clock: DAC scalar steady at 0.999972 after 7.1 s
+[1321.908] clock lock: phase0 44527.882, fill 22528, cycles A 136578 B 135527
+[1322.605] 44100 Hz fill 22016 scalar 0.999987526 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:30:45.464 -05:00
+[1352.616] 44100 Hz fill 22528 scalar 0.999991693 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:31:15.475 -05:00
+[1382.620] 44100 Hz fill 22016 scalar 0.999994828 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:31:45.479 -05:00
+[1412.629] 44100 Hz fill 22528 scalar 0.999990580 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 06:32:15.488 -05:00
+[1442.634] 44100 Hz fill 22016 scalar 1.000005636 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:32:45.493 -05:00
+[1472.642] 44100 Hz fill 22528 scalar 0.999995882 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 06:33:15.500 -05:00
+[1501.259] playerInfo: Playing Marie Antoinette (Alternate Take)
+[1501.286] new track Marie Antoinette (Alternate Take) (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[1502.649] 44100 Hz fill 22528 scalar 0.999996209 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 06:33:45.508 -05:00
+[1503.521] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (54755 of 88047 samples): no decoder line of its own, so lossy or changed by Music)
+[1532.649] 44100 Hz fill 22528 scalar 0.999996136 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 06:34:15.508 -05:00
+[1562.654] 44100 Hz fill 22528 scalar 0.999998885 under 0 over 0; clock locked, DAC scalar 0.999987; 2026-09-30 06:34:45.512 -05:00
+[1592.655] 44100 Hz fill 22528 scalar 0.999986689 under 0 over 0; clock locked, DAC scalar 0.999987; 2026-09-30 06:35:15.513 -05:00
+[1622.665] 44100 Hz fill 22528 scalar 0.999996172 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 06:35:45.524 -05:00
+[1652.668] 44100 Hz fill 22528 scalar 0.999995067 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 06:36:15.526 -05:00
+[1682.675] 44100 Hz fill 22528 scalar 0.999997032 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 06:36:45.531 -05:00
+[1712.673] 44100 Hz fill 22528 scalar 0.999992917 under 0 over 0; clock locked, DAC scalar 0.999999; 2026-09-30 06:37:15.532 -05:00
+[1742.682] 44100 Hz fill 22528 scalar 0.999995406 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:37:45.540 -05:00
+[1772.693] 44100 Hz fill 22016 scalar 0.999998481 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 06:38:15.551 -05:00
+[1802.695] 44100 Hz fill 22528 scalar 0.999997036 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 06:38:45.553 -05:00
+[1832.703] 44100 Hz fill 22016 scalar 0.999997226 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 06:39:15.561 -05:00
+[1862.712] 44100 Hz fill 22528 scalar 0.999990260 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 06:39:45.570 -05:00
+[1876.876] playerInfo: Playing Danse Carribe
+[1876.970] new track Danse Carribe (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[1878.986] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (51304 of 88037 samples): no decoder line of its own, so lossy or changed by Music)
+[1892.716] 44100 Hz fill 22016 scalar 0.999993866 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:40:15.574 -05:00
+[1922.727] 44100 Hz fill 22016 scalar 0.999993761 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 06:40:45.585 -05:00
+[1952.734] 44100 Hz fill 22528 scalar 0.999989651 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 06:41:15.592 -05:00
+[1982.746] 44100 Hz fill 22528 scalar 0.999994310 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:41:45.604 -05:00
+[2012.746] 44100 Hz fill 22528 scalar 0.999988135 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:42:15.604 -05:00
+[2042.747] 44100 Hz fill 22528 scalar 0.999993514 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 06:42:45.605 -05:00
+[2072.748] 44100 Hz fill 22528 scalar 0.999996256 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:43:15.606 -05:00
+[2102.761] 44100 Hz fill 22528 scalar 0.999997023 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 06:43:45.619 -05:00
+[2132.762] 44100 Hz fill 22528 scalar 0.999990103 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:44:15.620 -05:00
+[2162.771] 44100 Hz fill 22016 scalar 0.999992082 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:44:45.629 -05:00
+[2184.512] decoder: 192000.0 Hz 24-bit (lossless)
+[2184.520] next track needs 192000 Hz; 11.28 s left, arming the boundary latch in 9.78 s
+[2192.778] 44100 Hz fill 22528 scalar 0.999984868 under 0 over 0; clock locked, DAC scalar 0.999988; 2026-09-30 06:45:15.636 -05:00
+[2194.300] boundary latch armed at in frame 108399616
+[2195.848] latched at ring 107502521 (fill 22016)
+[2196.323] playerInfo: Playing Hail, Hail
+[2196.350] new track Hail, Hail (Music's rate for the track): decoder 192000.0 Hz lossless (seen 11.809 s before Playing), DAC 44100 Hz -> switch to 192000
+[2196.370] switch 5: Hail, Hail (Music's rate for the track) needs 192000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.020 s
+[2196.582] virtual device -> 192000: 0
+[2196.583] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[2198.873]   DAC ready after 2.288 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[2198.874] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[2198.874] playerInfo: Playing Hail, Hail
+[2198.874] playerInfo: Paused Hail, Hail
+[2198.914]   rewound to 0.000 (was 0.431, played ~0.079 s), play; switch 5 done 2.565 s after the request
+[2198.916] clock: DAC scalar 0.999993 not steady yet; following it until the lock
+[2198.951] playerInfo: Paused Hail, Hail
+[2198.962] playerInfo: Playing Hail, Hail
+[2200.936] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (117073 of 192512 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[2202.449] clock: DAC scalar steady at 0.999989 after 3.5 s
+[2202.449] clock lock: phase0 288598.388, fill 96256, cycles A 214009 B 212488
+[2222.779] 192000 Hz fill 96256 scalar 0.999999306 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:45:45.637 -05:00
+[2252.791] 192000 Hz fill 96256 scalar 0.999992743 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:46:15.650 -05:00
+[2282.800] 192000 Hz fill 96256 scalar 0.999988717 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:46:45.658 -05:00
+[2312.807] 192000 Hz fill 96256 scalar 0.999990641 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:47:15.666 -05:00
+[2342.817] 192000 Hz fill 96256 scalar 0.999986594 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 06:47:45.672 -05:00
+[2372.821] 192000 Hz fill 96256 scalar 0.999997364 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:48:15.679 -05:00
+[2402.828] 192000 Hz fill 96256 scalar 0.999987389 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 06:48:45.685 -05:00
+[2407.962] decoder: 44100.0 Hz 16-bit (lossless)
+[2407.972] next track needs 44100 Hz; 12.21 s left, arming the boundary latch in 10.71 s
+[2418.678] boundary latch armed at in frame 151087616
+[2420.208] latched at ring 150018025 (fill 96256)
+[2420.447] playerInfo: Playing Dreaming While You Sleep
+[2420.494] new track Dreaming While You Sleep (Music's rate for the track): decoder 44100.0 Hz lossless (seen 12.484 s before Playing), DAC 192000 Hz -> switch to 44100
+[2420.507] playerInfo: Playing Dreaming While You Sleep
+[2420.566] playerInfo: Paused Dreaming While You Sleep
+[2420.700] switch 6: Dreaming While You Sleep (Music's rate for the track) needs 44100 Hz (DAC 192000); latched at the old track's end; paused; boundary reached 0.206 s
+[2420.920] virtual device -> 44100: 0
+[2420.920] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[2423.463]   DAC ready after 2.542 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[2423.464] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[2423.515]   rewound to 0.000 (was 0.250, played ~0.107 s), play; switch 6 done 3.022 s after the request
+[2423.572] playerInfo: Paused Dreaming While You Sleep
+[2423.572] playerInfo: Playing Dreaming While You Sleep
+[2424.020] clock: DAC scalar 0.999193 not steady yet; following it until the lock
+[2425.543] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (28626 of 45019 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[2432.117] clock: DAC scalar steady at 0.999986 after 8.1 s
+[2432.117] clock lock: phase0 44475.963, fill 22528, cycles A 296869 B 295342
+[2432.834] 44100 Hz fill 22528 scalar 0.999993790 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:49:15.693 -05:00
+[2462.846] 44100 Hz fill 22528 scalar 0.999994284 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 06:49:45.704 -05:00
+[2492.855] 44100 Hz fill 22016 scalar 0.999997790 under 0 over 0; clock locked, DAC scalar 0.999988; 2026-09-30 06:50:15.713 -05:00
+[2522.863] 44100 Hz fill 22528 scalar 0.999995655 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 06:50:45.722 -05:00
+[2552.874] 44100 Hz fill 22528 scalar 1.000000286 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 06:51:15.733 -05:00
+[2582.880] 44100 Hz fill 22016 scalar 1.000001110 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:51:45.739 -05:00
+[2612.884] 44100 Hz fill 22528 scalar 0.999990320 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:52:15.740 -05:00
+[2642.887] 44100 Hz fill 22528 scalar 0.999994624 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:52:45.745 -05:00
+[2672.888] 44100 Hz fill 22528 scalar 0.999993397 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:53:15.746 -05:00
+[2702.888] 44100 Hz fill 22528 scalar 0.999987445 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 06:53:45.747 -05:00
+[2732.891] 44100 Hz fill 22528 scalar 0.999997289 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:54:15.749 -05:00
+[2762.891] 44100 Hz fill 22528 scalar 0.999996123 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 06:54:45.750 -05:00
+[2792.906] 44100 Hz fill 22528 scalar 0.999989386 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 06:55:15.765 -05:00
+[2822.908] 44100 Hz fill 22528 scalar 0.999998305 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:55:45.766 -05:00
+[2847.685] decoder: 44100.0 Hz 24-bit (lossless)
+[2852.914] 44100 Hz fill 22528 scalar 0.999995319 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 06:56:15.773 -05:00
+[2860.592] playerInfo: Playing Baby's In Black
+[2860.627] new track Baby's In Black (Music's rate for the track): decoder 44100.0 Hz lossless (seen 12.905 s before Playing), DAC 44100 Hz
+[2862.721] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (56064 of 89088 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[2882.925] 44100 Hz fill 22528 scalar 0.999992995 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 06:56:45.783 -05:00
+[2912.929] 44100 Hz fill 22528 scalar 0.999990504 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:57:15.787 -05:00
+[2942.937] 44100 Hz fill 22528 scalar 0.999991206 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:57:45.795 -05:00
+[2972.218] decoder: 44100.0 Hz (lossy)
+[2972.943] 44100 Hz fill 22528 scalar 0.999997367 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 06:58:15.802 -05:00
+[2985.208] playerInfo: Playing Whiskey River (Alternate)
+[2985.253] new track Whiskey River (Alternate) (Music's rate for the track): decoder 44100.0 Hz lossy (seen 12.988 s before Playing), DAC 44100 Hz
+[2987.318] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (53745 of 90085 samples): lossy)
+[3002.949] 44100 Hz fill 22528 scalar 0.999993857 under 0 over 0; clock locked, DAC scalar 0.999988; 2026-09-30 06:58:45.807 -05:00
+[3032.960] 44100 Hz fill 22528 scalar 0.999989901 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 06:59:15.818 -05:00
+[3062.961] 44100 Hz fill 22528 scalar 0.999993626 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 06:59:45.819 -05:00
+[3092.964] 44100 Hz fill 22528 scalar 0.999999686 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:00:15.822 -05:00
+[3122.971] 44100 Hz fill 22528 scalar 0.999992772 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:00:45.829 -05:00
+[3152.984] 44100 Hz fill 22528 scalar 0.999992526 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:01:15.841 -05:00
+[3182.990] 44100 Hz fill 22528 scalar 0.999988797 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:01:45.849 -05:00
+[3212.991] 44100 Hz fill 22528 scalar 0.999993956 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 07:02:15.849 -05:00
+[3233.500] decoder: 48000.0 Hz 24-bit (lossless)
+[3233.513] next track needs 48000 Hz; 10.70 s left, arming the boundary latch in 9.20 s
+[3242.720] boundary latch armed at in frame 187743744
+[3242.998] 44100 Hz fill 22528 scalar 0.999989858 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 07:02:45.855 -05:00
+[3243.784] latched at ring 186288946 (fill 22528)
+[3244.295] playerInfo: Playing The Kon Tiki Expedition
+[3244.341] new track The Kon Tiki Expedition (Music's rate for the track): decoder 48000.0 Hz lossless (seen 10.801 s before Playing), DAC 44100 Hz -> switch to 48000
+[3244.348] switch 7: The Kon Tiki Expedition (Music's rate for the track) needs 48000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.007 s
+[3244.571] virtual device -> 48000: 0
+[3244.572] DAC format -> 48000.0 Hz 16 ch 32 bit flags 76: 0
+[3246.910]   DAC ready after 2.337 s: phys 48000.0 Hz 16 ch 32 bit flags 76 / virt 48000.0 Hz 16 ch 32 bit flags 76
+[3246.911] B writes int32 in 4 bytes, channels 1/2 (virtual format 48000.0 Hz 16 ch 32 bit flags 76)
+[3246.911] playerInfo: Playing The Kon Tiki Expedition
+[3246.911] playerInfo: Paused The Kon Tiki Expedition
+[3246.966]   rewound to 0.000 (was 0.111, played ~0.099 s), play; switch 7 done 2.625 s after the request
+[3247.003] playerInfo: Paused The Kon Tiki Expedition
+[3247.016] playerInfo: Playing The Kon Tiki Expedition
+[3247.470] clock: DAC scalar 0.999991 not steady yet; following it until the lock
+[3248.988] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (30227 of 48125 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[3251.015] clock: DAC scalar steady at 0.999988 after 3.5 s
+[3251.015] clock lock: phase0 50280.777, fill 24064, cycles A 367422 B 365814
+[3273.002] 48000 Hz fill 24064 scalar 0.999992556 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 07:03:15.861 -05:00
+[3303.014] 48000 Hz fill 23552 scalar 0.999993329 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:03:45.872 -05:00
+[3333.026] 48000 Hz fill 24064 scalar 0.999994319 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:04:15.885 -05:00
+[3363.035] 48000 Hz fill 24064 scalar 0.999994720 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:04:45.894 -05:00
+[3393.036] 48000 Hz fill 24064 scalar 0.999995218 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:05:15.894 -05:00
+[3423.043] 48000 Hz fill 24064 scalar 0.999992825 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:05:45.901 -05:00
+[3453.048] 48000 Hz fill 24064 scalar 0.999994428 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:06:15.906 -05:00
+[3483.058] 48000 Hz fill 24064 scalar 0.999991000 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:06:45.916 -05:00
+[3513.062] 48000 Hz fill 24064 scalar 0.999991495 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:07:15.920 -05:00
+[3520.503] decoder: 44100.0 Hz (lossy)
+[3520.511] next track needs 44100 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[3520.511] boundary latch armed at in frame 201055744
+[3520.525] latched at ring 199447008 (fill 24064)
+[3520.670] playerInfo: Playing Like Spinning Plates
+[3520.720] new track Like Spinning Plates (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.163 s before Playing), DAC 48000 Hz -> switch to 44100
+[3520.728] playerInfo: Playing Like Spinning Plates
+[3520.821] playerInfo: Paused Like Spinning Plates
+[3521.017] switch 8: Like Spinning Plates (Music's rate for the track) needs 44100 Hz (DAC 48000); latched at the old track's end; paused; boundary reached 0.297 s
+[3521.226] virtual device -> 44100: 0
+[3521.227] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[3524.006]   DAC ready after 2.777 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[3524.007] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[3524.065]   rewound to 0.000 (was 0.159, played ~0.110 s), play; switch 8 done 3.345 s after the request
+[3524.115] decoder: 44100.0 Hz (lossy)
+[3524.115] playerInfo: Paused Like Spinning Plates
+[3524.115] playerInfo: Playing Like Spinning Plates
+[3524.566] clock: DAC scalar 0.998964 not steady yet; following it until the lock
+[3529.635] source depth: no window on the 24-bit grid within 5 s of the lossless decoder; measuring anyway
+[3530.141] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (44694 of 45056 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[3531.668] clock: DAC scalar steady at 0.999978 after 7.1 s
+[3531.668] clock lock: phase0 43789.032, fill 22016, cycles A 393628 B 391952
+[3543.067] 44100 Hz fill 22016 scalar 0.999996787 under 0 over 0; clock locked, DAC scalar 0.999979; 2026-09-30 07:07:45.925 -05:00
+[3573.074] 44100 Hz fill 22528 scalar 0.999991516 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:08:15.932 -05:00
+[3603.082] 44100 Hz fill 22016 scalar 0.999993462 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:08:45.940 -05:00
+[3633.094] 44100 Hz fill 22016 scalar 0.999990152 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:09:15.952 -05:00
+[3663.095] 44100 Hz fill 22016 scalar 1.000000474 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:09:45.953 -05:00
+[3693.102] 44100 Hz fill 22016 scalar 1.000001793 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 07:10:15.960 -05:00
+[3723.107] 44100 Hz fill 22016 scalar 1.000004464 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:10:45.966 -05:00
+[3753.113] 44100 Hz fill 22528 scalar 0.999991600 under 0 over 0; clock locked, DAC scalar 0.999988; 2026-09-30 07:11:15.972 -05:00
+[3761.704] decoder: 44100.0 Hz 16-bit (lossless)
+[3761.878] playerInfo: Playing Physical Fascination
+[3761.957] new track Physical Fascination (Music's rate for the track): decoder 44100.0 Hz lossless (seen 0.176 s before Playing), DAC 44100 Hz
+[3764.383] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (55058 of 90101 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[3783.124] 44100 Hz fill 22016 scalar 0.999989030 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 07:11:45.982 -05:00
+[3813.129] 44100 Hz fill 35328 scalar 0.999991201 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 07:12:15.987 -05:00
+[3813.443] clock: phase jumped 12810367 frames (a device restarted?); re-locking
+[3813.946] clock: DAC scalar 0.999968 not steady yet; following it until the lock
+[3817.501] clock: DAC scalar steady at 0.999994 after 3.6 s
+[3817.501] clock lock: phase0 12854153.161, fill 35840, cycles A 418248 B 416545
+[3843.132] 44100 Hz fill 35328 scalar 0.999996806 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 07:12:45.990 -05:00
+[3873.140] 44100 Hz fill 48128 scalar 0.999988985 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 07:13:15.998 -05:00
+[3873.659] clock: phase jumped 2653390 frames (a device restarted?); re-locking
+[3874.167] clock: DAC scalar 0.999952 not steady yet; following it until the lock
+[3877.700] clock: DAC scalar steady at 0.999981 after 3.5 s
+[3877.700] clock lock: phase0 15507547.135, fill 49152, cycles A 423433 B 421704
+[3903.146] 44100 Hz fill 49152 scalar 0.999999946 under 0 over 0; clock locked, DAC scalar 1.000006; 2026-09-30 07:13:46.004 -05:00
+[3933.158] 44100 Hz fill 49152 scalar 0.999992783 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:14:16.016 -05:00
+[3957.262] decoder: 96000.0 Hz 24-bit (lossless)
+[3957.272] next track needs 96000 Hz; 12.10 s left, arming the boundary latch in 10.60 s
+[3963.159] 44100 Hz fill 49152 scalar 0.999997548 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:14:46.017 -05:00
+[3967.876] boundary latch armed at in frame 220774400
+[3969.405] latched at ring 219111954 (fill 49152)
+[3969.800] playerInfo: Playing Goodbye
+[3969.832] new track Goodbye (Music's rate for the track): decoder 96000.0 Hz lossless (seen 12.532 s before Playing), DAC 44100 Hz -> switch to 96000
+[3969.845] playerInfo: Playing Goodbye
+[3969.914] playerInfo: Paused Goodbye
+[3970.512] switch 9: Goodbye (Music's rate for the track) needs 96000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.679 s
+[3970.736] virtual device -> 96000: 0
+[3970.737] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[3973.050]   DAC ready after 2.313 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[3973.051] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[3973.100]   rewound to 0.000 (was 0.330, played ~0.095 s), play; switch 9 done 3.268 s after the request
+[3973.102] clock: DAC scalar 1.000000 not steady yet; following it until the lock
+[3973.138] playerInfo: Paused Goodbye
+[3973.149] playerInfo: Playing Goodbye
+[3975.131] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (59143 of 96256 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[3976.650] clock: DAC scalar steady at 0.999992 after 3.5 s
+[3976.650] clock lock: phase0 99305.454, fill 47616, cycles A 432500 B 430591
+[3993.163] 96000 Hz fill 47616 scalar 0.999992838 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:15:16.021 -05:00
+[4023.173] 96000 Hz fill 47616 scalar 0.999994910 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:15:46.032 -05:00
+[4053.176] 96000 Hz fill 47616 scalar 0.999993999 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:16:16.034 -05:00
+[4083.179] 96000 Hz fill 48128 scalar 0.999993992 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:16:46.037 -05:00
+[4113.180] 96000 Hz fill 47616 scalar 0.999994577 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:17:16.038 -05:00
+[4143.181] 96000 Hz fill 47616 scalar 0.999993114 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:17:46.039 -05:00
+[4173.185] 96000 Hz fill 48128 scalar 0.999993308 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:18:16.043 -05:00
+[4203.185] 96000 Hz fill 48128 scalar 0.999993221 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:18:46.044 -05:00
+[4233.187] 96000 Hz fill 47616 scalar 0.999994019 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:19:16.045 -05:00
+[4263.190] 96000 Hz fill 48128 scalar 0.999996575 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:19:46.048 -05:00
+[4293.200] 96000 Hz fill 47616 scalar 0.999996129 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:20:16.058 -05:00
+[4321.425] decoder: 44100.0 Hz 16-bit (lossless)
+[4321.433] next track needs 44100 Hz; 11.07 s left, arming the boundary latch in 9.57 s
+[4323.201] 96000 Hz fill 48128 scalar 0.999994641 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:20:46.060 -05:00
+[4331.015] boundary latch armed at in frame 255458304
+[4331.027] latched at ring 253525952 (fill 48128)
+[4332.815] playerInfo: Playing Bullet Proof..I Wish I Was
+[4332.933] new track Bullet Proof..I Wish I Was (Music's rate for the track): decoder 44100.0 Hz lossless (seen 11.393 s before Playing), DAC 96000 Hz -> switch to 44100
+[4332.969] switch 10: Bullet Proof..I Wish I Was (Music's rate for the track) needs 44100 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 0.036 s
+[4333.186] virtual device -> 44100: 0
+[4333.186] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[4335.792]   DAC ready after 2.605 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[4335.793] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[4335.793] playerInfo: Playing Bullet Proof..I Wish I Was
+[4335.793] playerInfo: Paused Bullet Proof..I Wish I Was
+[4335.844]   rewound to 0.000 (was 0.368, played ~0.174 s), play; switch 10 done 2.910 s after the request
+[4335.885] playerInfo: Paused Bullet Proof..I Wish I Was
+[4335.885] playerInfo: Playing Bullet Proof..I Wish I Was
+[4336.346] clock: DAC scalar 0.999236 not steady yet; following it until the lock
+[4337.869] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (27835 of 44488 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[4343.928] clock: DAC scalar steady at 0.999983 after 7.6 s
+[4343.928] clock lock: phase0 46292.658, fill 22050, cycles A 500246 B 498285
+[4353.212] 44100 Hz fill 22050 scalar 0.999988067 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 07:21:16.070 -05:00
+[4383.213] 44100 Hz fill 21538 scalar 0.999994127 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:21:46.071 -05:00
+[4413.214] 44100 Hz fill 22050 scalar 0.999990416 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:22:16.072 -05:00
+[4443.226] 44100 Hz fill 22050 scalar 0.999991606 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 07:22:46.084 -05:00
+[4473.233] 44100 Hz fill 22050 scalar 0.999996167 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:23:16.092 -05:00
+[4503.237] 44100 Hz fill 22050 scalar 0.999991856 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:23:46.095 -05:00
+[4533.241] 44100 Hz fill 22050 scalar 0.999991826 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 07:24:16.099 -05:00
+[4534.024] decoder: 96000.0 Hz 24-bit (lossless)
+[4534.040] next track needs 96000 Hz; 10.61 s left, arming the boundary latch in 9.11 s
+[4543.154] boundary latch armed at in frame 264911360
+[4544.119] latched at ring 262899207 (fill 22050)
+[4545.023] playerInfo: Playing Nothin'
+[4545.116] new track Nothin' (Music's rate for the track): decoder 96000.0 Hz lossless (seen 10.996 s before Playing), DAC 44100 Hz -> switch to 96000
+[4545.140] switch 11: Nothin' (Music's rate for the track) needs 96000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.024 s
+[4545.355] virtual device -> 96000: 0
+[4545.356] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[4548.144]   DAC ready after 2.787 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[4548.144] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[4548.144] playerInfo: Playing Nothin'
+[4548.144] playerInfo: Paused Nothin'
+[4548.183]   rewound to 0.000 (was 0.351, played ~0.147 s), play; switch 11 done 3.067 s after the request
+[4548.229] playerInfo: Paused Nothin'
+[4548.229] playerInfo: Playing Nothin'
+[4548.687] clock: DAC scalar 0.999986 not steady yet; following it until the lock
+[4550.214] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (57245 of 96253 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[4552.235] clock: DAC scalar steady at 0.999994 after 3.5 s
+[4552.235] clock lock: phase0 192528.961, fill 48128, cycles A 518832 B 516588
+[4563.252] 96000 Hz fill 48128 scalar 0.999992361 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:24:46.111 -05:00
+[4593.254] 96000 Hz fill 48128 scalar 0.999992756 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:25:16.112 -05:00
+[4623.260] 96000 Hz fill 48128 scalar 0.999993525 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:25:46.118 -05:00
+[4653.264] 96000 Hz fill 48128 scalar 0.999994028 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:26:16.123 -05:00
+[4683.277] 96000 Hz fill 48128 scalar 0.999992540 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:26:46.135 -05:00
+[4713.281] 96000 Hz fill 48128 scalar 0.999992678 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:27:16.140 -05:00
+[4743.287] 96000 Hz fill 48128 scalar 0.999992792 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:27:46.145 -05:00
+[4773.295] 96000 Hz fill 48128 scalar 0.999994818 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:28:16.153 -05:00
+[4803.307] 96000 Hz fill 48128 scalar 0.999992961 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:28:46.165 -05:00
+[4833.320] 96000 Hz fill 48128 scalar 0.999992642 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:29:16.178 -05:00
+[4863.320] 96000 Hz fill 48128 scalar 0.999992701 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:29:46.178 -05:00
+[4871.924] decoder: 44100.0 Hz 16-bit (lossless)
+[4871.938] next track needs 44100 Hz; 11.33 s left, arming the boundary latch in 9.83 s
+[4881.776] boundary latch armed at in frame 297277440
+[4883.299] latched at ring 295118479 (fill 48128)
+[4883.392] playerInfo: Playing Astronomy Domine
+[4883.427] new track Astronomy Domine (Music's rate for the track): decoder 44100.0 Hz lossless (seen 11.461 s before Playing), DAC 96000 Hz -> switch to 44100
+[4883.451] playerInfo: Playing Astronomy Domine
+[4883.507] playerInfo: Paused Astronomy Domine
+[4883.799] switch 12: Astronomy Domine (Music's rate for the track) needs 44100 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 0.372 s
+[4884.019] virtual device -> 44100: 0
+[4884.019] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[4886.531]   DAC ready after 2.512 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[4886.532] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[4886.581]   rewound to 0.000 (was 0.093, played ~0.093 s), play; switch 12 done 3.154 s after the request
+[4886.636] playerInfo: Paused Astronomy Domine
+[4886.636] playerInfo: Playing Astronomy Domine
+[4887.081] clock: DAC scalar 0.999149 not steady yet; following it until the lock
+[4890.119] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (58853 of 82499 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[4893.330] 44100 Hz fill 34338 scalar 1.000000000 under 0 over 0; clock waiting (DAC scalar not steady, following it), DAC scalar 1.000000; 2026-09-30 07:30:16.188 -05:00
+[4896.199] clock: DAC scalar steady at 1.000024 after 9.1 s
+[4896.202] clock lock: phase0 378565.193, fill 34850, cycles A 582063 B 579748
+[4923.334] 44100 Hz fill 34850 scalar 0.999984263 under 0 over 0; clock locked, DAC scalar 0.999983; 2026-09-30 07:30:46.192 -05:00
+[4953.335] 44100 Hz fill 34850 scalar 0.999993305 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 07:31:16.193 -05:00
+[4983.343] 44100 Hz fill 34850 scalar 0.999996520 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:31:46.201 -05:00
+[5013.353] 44100 Hz fill 34850 scalar 0.999991175 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 07:32:16.211 -05:00
+[5043.355] 44100 Hz fill 34850 scalar 0.999987505 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:32:46.213 -05:00
+[5073.363] 44100 Hz fill 34338 scalar 0.999993836 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:33:16.221 -05:00
+[5103.371] 44100 Hz fill 34850 scalar 0.999992115 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 07:33:46.229 -05:00
+[5133.376] 44100 Hz fill 34338 scalar 0.999994146 under 0 over 0; clock locked, DAC scalar 0.999989; 2026-09-30 07:34:16.234 -05:00
+[5139.514] decoder: 44100.0 Hz (lossy)
+[5139.717] playerInfo: Playing Men of Wood (Remastered)
+[5139.802] new track Men of Wood (Remastered) (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.199 s before Playing), DAC 44100 Hz
+[5141.910] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (85313 of 89088 samples): lossy)
+[5163.386] 44100 Hz fill 34850 scalar 0.999997160 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:34:46.244 -05:00
+[5193.395] 44100 Hz fill 34850 scalar 0.999990510 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:35:16.253 -05:00
+[5223.400] 44100 Hz fill 34338 scalar 0.999987693 under 0 over 0; clock locked, DAC scalar 0.999988; 2026-09-30 07:35:46.258 -05:00
+[5253.414] 44100 Hz fill 34850 scalar 0.999989586 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 07:36:16.272 -05:00
+[5283.414] 44100 Hz fill 34850 scalar 0.999993339 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:36:46.273 -05:00
+[5313.424] 44100 Hz fill 34338 scalar 0.999996462 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:37:16.282 -05:00
+[5343.427] 44100 Hz fill 34850 scalar 0.999994545 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 07:37:46.285 -05:00
+[5354.530] decoder: 44100.0 Hz 16-bit (lossless)
+[5354.779] playerInfo: Playing Dusty Pages
+[5354.818] new track Dusty Pages (Music's rate for the track): decoder 44100.0 Hz lossless (seen 0.251 s before Playing), DAC 44100 Hz
+[5357.294] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (59910 of 88905 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[5373.436] 44100 Hz fill 34338 scalar 1.000000348 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:38:16.294 -05:00
+[5403.444] 44100 Hz fill 34850 scalar 0.999993726 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:38:46.302 -05:00
+[5433.448] 44100 Hz fill 34338 scalar 0.999992755 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:39:16.306 -05:00
+[5463.452] 44100 Hz fill 34850 scalar 0.999990416 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:39:46.311 -05:00
+[5493.460] 44100 Hz fill 34338 scalar 0.999989221 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 07:40:16.318 -05:00
+[5523.469] 44100 Hz fill 34850 scalar 0.999998814 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:40:46.327 -05:00
+[5553.469] 44100 Hz fill 34850 scalar 0.999989020 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 07:41:16.328 -05:00
+[5583.472] 44100 Hz fill 34338 scalar 0.999996485 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:41:46.330 -05:00
+[5613.484] 44100 Hz fill 34338 scalar 0.999987063 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:42:16.343 -05:00
+[5643.491] 44100 Hz fill 34850 scalar 0.999994464 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 07:42:46.350 -05:00
+[5644.379] playerInfo: Playing Nightspots (Early Version)
+[5644.418] new track Nightspots (Early Version) (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[5646.654] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (55797 of 89006 samples): no decoder line of its own, so lossy or changed by Music)
+[5673.506] 44100 Hz fill 34850 scalar 0.999998292 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 07:43:16.364 -05:00
+[5703.508] 44100 Hz fill 34338 scalar 0.999993251 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:43:46.367 -05:00
+[5733.512] 44100 Hz fill 34850 scalar 0.999992019 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:44:16.370 -05:00
+[5763.516] 44100 Hz fill 34850 scalar 0.999992968 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 07:44:46.375 -05:00
+[5793.519] 44100 Hz fill 34338 scalar 0.999997430 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:45:16.377 -05:00
+[5823.521] 44100 Hz fill 34338 scalar 0.999989807 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:45:46.379 -05:00
+[5833.405] playerInfo: Playing Pedestal
+[5833.470] new track Pedestal (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[5835.731] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (51060 of 90103 samples): no decoder line of its own, so lossy or changed by Music)
+[5853.526] 44100 Hz fill 34850 scalar 0.999997953 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 07:46:16.384 -05:00
+[5883.537] 44100 Hz fill 34850 scalar 1.000003423 under 0 over 0; clock locked, DAC scalar 0.999988; 2026-09-30 07:46:46.395 -05:00
+[5913.545] 44100 Hz fill 34338 scalar 0.999991424 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:47:16.403 -05:00
+[5943.548] 44100 Hz fill 34850 scalar 0.999986398 under 0 over 0; clock locked, DAC scalar 0.999987; 2026-09-30 07:47:46.407 -05:00
+[5973.560] 44100 Hz fill 34850 scalar 0.999990987 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 07:48:16.418 -05:00
+[6003.567] 44100 Hz fill 34338 scalar 0.999991854 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:48:46.425 -05:00
+[6033.576] 44100 Hz fill 34850 scalar 0.999997714 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:49:16.434 -05:00
+[6054.484] playerInfo: Playing Point
+[6054.597] new track Point (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[6056.681] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (55958 of 87956 samples): no decoder line of its own, so lossy or changed by Music)
+[6063.584] 44100 Hz fill 34850 scalar 1.000001405 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 07:49:46.442 -05:00
+[6093.590] 44100 Hz fill 34850 scalar 0.999996618 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 07:50:16.449 -05:00
+[6123.593] 44100 Hz fill 34338 scalar 0.999999766 under 0 over 0; clock locked, DAC scalar 0.999999; 2026-09-30 07:50:46.451 -05:00
+[6153.594] 44100 Hz fill 34850 scalar 0.999994301 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:51:16.452 -05:00
+[6183.599] 44100 Hz fill 34850 scalar 0.999992907 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:51:46.457 -05:00
+[6213.607] 44100 Hz fill 34850 scalar 0.999994133 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:52:16.466 -05:00
+[6243.620] 44100 Hz fill 34850 scalar 0.999992769 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:52:46.478 -05:00
+[6248.886] playerInfo: Playing You Are Too Beautiful
+[6248.965] new track You Are Too Beautiful (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[6251.290] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (56798 of 91089 samples): no decoder line of its own, so lossy or changed by Music)
+[6273.622] 44100 Hz fill 34850 scalar 1.000005622 under 0 over 0; clock locked, DAC scalar 1.000003; 2026-09-30 07:53:16.481 -05:00
+[6303.630] 44100 Hz fill 34850 scalar 0.999991114 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 07:53:46.488 -05:00
+[6333.633] 44100 Hz fill 34850 scalar 1.000002037 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:54:16.491 -05:00
+[6363.639] 44100 Hz fill 34850 scalar 0.999990732 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 07:54:46.497 -05:00
+[6393.642] 44100 Hz fill 34338 scalar 0.999998809 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 07:55:16.500 -05:00
+[6423.648] 44100 Hz fill 34850 scalar 0.999994179 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:55:46.506 -05:00
+[6453.652] 44100 Hz fill 34338 scalar 0.999988973 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 07:56:16.510 -05:00
+[6483.666] 44100 Hz fill 34338 scalar 0.999997204 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 07:56:46.524 -05:00
+[6513.673] 44100 Hz fill 34850 scalar 0.999994430 under 0 over 0; clock locked, DAC scalar 0.999990; 2026-09-30 07:57:16.532 -05:00
+[6543.675] 44100 Hz fill 34850 scalar 0.999993390 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:57:46.534 -05:00
+[6573.681] 44100 Hz fill 34850 scalar 0.999990857 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:58:16.540 -05:00
+[6574.305] decoder: 96000.0 Hz 24-bit (lossless)
+[6574.315] next track needs 96000 Hz; 10.71 s left, arming the boundary latch in 9.21 s
+[6583.523] boundary latch armed at in frame 372428288
+[6583.535] latched at ring 370005433 (fill 34338)
+[6585.286] playerInfo: Playing 10 Ribs & All/Carrot Pod Pod (Pod) (Reference Mix)
+[6585.371] new track 10 Ribs & All/Carrot Pod Pod (Pod) (Reference Mix) (Music's rate for the track): decoder 96000.0 Hz lossless (seen 10.985 s before Playing), DAC 44100 Hz -> switch to 96000
+[6585.388] switch 13: 10 Ribs & All/Carrot Pod Pod (Pod) (Reference Mix) (Music's rate for the track) needs 96000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.017 s
+[6585.610] virtual device -> 96000: 0
+[6585.611] DAC format -> 96000.0 Hz 16 ch 32 bit flags 76: 0
+[6587.897]   DAC ready after 2.285 s: phys 96000.0 Hz 16 ch 32 bit flags 76 / virt 96000.0 Hz 16 ch 32 bit flags 76
+[6587.898] B writes int32 in 4 bytes, channels 1/2 (virtual format 96000.0 Hz 16 ch 32 bit flags 76)
+[6587.898] playerInfo: Playing 10 Ribs & All/Carrot Pod Pod (Pod) (Reference Mix)
+[6587.898] playerInfo: Paused 10 Ribs & All/Carrot Pod Pod (Pod) (Reference Mix)
+[6587.953]   rewound to 0.000 (was 0.251, played ~0.138 s), play; switch 13 done 2.581 s after the request
+[6587.954] clock: DAC scalar 1.000000 not steady yet; following it until the lock
+[6587.999] playerInfo: Paused 10 Ribs & All/Carrot Pod Pod (Pod) (Reference Mix)
+[6587.999] playerInfo: Playing 10 Ribs & All/Carrot Pod Pod (Pod) (Reference Mix)
+[6589.985] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (61882 of 98304 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[6591.506] clock: DAC scalar steady at 0.999991 after 3.6 s
+[6591.506] clock lock: phase0 95977.565, fill 47616, cycles A 728629 B 726141
+[6603.694] 96000 Hz fill 47616 scalar 0.999996120 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 07:58:46.552 -05:00
+[6633.702] 96000 Hz fill 47616 scalar 0.999995247 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:59:16.560 -05:00
+[6663.713] 96000 Hz fill 47616 scalar 0.999995417 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 07:59:46.571 -05:00
+[6693.715] 96000 Hz fill 47616 scalar 0.999995634 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 08:00:16.574 -05:00
+[6723.726] 96000 Hz fill 47616 scalar 0.999998050 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 08:00:46.584 -05:00
+[6753.735] 96000 Hz fill 48128 scalar 0.999996805 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 08:01:16.594 -05:00
+[6783.742] 96000 Hz fill 47616 scalar 0.999996348 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 08:01:46.600 -05:00
+[6813.753] 96000 Hz fill 47616 scalar 0.999998625 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 08:02:16.611 -05:00
+[6843.759] 96000 Hz fill 47616 scalar 0.999996636 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 08:02:46.617 -05:00
+[6873.766] 96000 Hz fill 47616 scalar 0.999995689 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 08:03:16.624 -05:00
+[6903.776] 96000 Hz fill 47616 scalar 0.999996027 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 08:03:46.634 -05:00
+[6933.781] 96000 Hz fill 47616 scalar 0.999995343 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 08:04:16.639 -05:00
+[6963.792] 96000 Hz fill 47616 scalar 0.999997112 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 08:04:46.651 -05:00
+[6993.798] 96000 Hz fill 47616 scalar 1.000001791 under 0 over 0; clock locked, DAC scalar 1.000001; 2026-09-30 08:05:16.656 -05:00
+[6996.926] decoder: 44100.0 Hz (lossy)
+[6996.943] next track needs 44100 Hz; 0.00 s left, arming the boundary latch in 0.00 s
+[6996.944] boundary latch armed at in frame 411980800
+[6996.955] latched at ring 409356736 (fill 47616)
+[6997.133] playerInfo: Playing All or Nothing at All
+[6997.219] new track All or Nothing at All (Music's rate for the track): decoder 44100.0 Hz lossy (seen 0.197 s before Playing), DAC 96000 Hz -> switch to 44100
+[6997.254] playerInfo: Playing All or Nothing at All
+[6997.346] playerInfo: Paused All or Nothing at All
+[6997.450] switch 14: All or Nothing at All (Music's rate for the track) needs 44100 Hz (DAC 96000); latched at the old track's end; paused; boundary reached 0.230 s
+[6997.670] virtual device -> 44100: 0
+[6997.671] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[7000.200]   DAC ready after 2.529 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[7000.201] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[7000.292]   rewound to 0.000 (was 0.260, played ~0.146 s), play; switch 14 done 3.072 s after the request
+[7000.345] decoder: 44100.0 Hz (lossy)
+[7000.345] playerInfo: Paused All or Nothing at All
+[7000.345] playerInfo: Playing All or Nothing at All
+[7000.798] clock: DAC scalar 0.999215 not steady yet; following it until the lock
+[7001.156] decoder: 44100.0 Hz (lossless)
+[7006.357] source depth: no window on the 24-bit grid within 5 s of the lossless decoder; measuring anyway
+[7007.368] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (86866 of 89088 samples): Music changes them (volume, Sound Check, EQ) or the source is float)
+[7008.380] clock: DAC scalar steady at 0.999987 after 7.6 s
+[7008.380] clock lock: phase0 43472.600, fill 22528, cycles A 805680 B 803148
+[7023.810] 44100 Hz fill 22528 scalar 0.999997691 under 0 over 0; clock locked, DAC scalar 1.000004; 2026-09-30 08:05:46.668 -05:00
+[7053.813] 44100 Hz fill 22528 scalar 0.999992567 under 0 over 0; clock locked, DAC scalar 1.000004; 2026-09-30 08:06:16.672 -05:00
+[7083.825] 44100 Hz fill 22528 scalar 0.999993574 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 08:06:46.684 -05:00
+[7113.834] 44100 Hz fill 22528 scalar 0.999999644 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 08:07:16.689 -05:00
+[7143.846] 44100 Hz fill 22528 scalar 0.999990260 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 08:07:46.704 -05:00
+[7173.854] 44100 Hz fill 22528 scalar 1.000005420 under 0 over 0; clock locked, DAC scalar 0.999999; 2026-09-30 08:08:16.712 -05:00
+[7184.681] decoder: 44100.0 Hz 16-bit (lossless)
+[7184.860] playerInfo: Playing Wish You Were Here
+[7184.896] new track Wish You Were Here (Music's rate for the track): decoder 44100.0 Hz lossless (seen 0.186 s before Playing), DAC 44100 Hz
+[7187.272] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (55366 of 88037 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[7203.867] 44100 Hz fill 22016 scalar 1.000002230 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 08:08:46.725 -05:00
+[7233.873] 44100 Hz fill 22528 scalar 0.999994384 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 08:09:16.731 -05:00
+[7263.879] 44100 Hz fill 22016 scalar 0.999991361 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 08:09:46.737 -05:00
+[7293.885] 44100 Hz fill 22528 scalar 0.999997519 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 08:10:16.743 -05:00
+[7323.893] 44100 Hz fill 22528 scalar 0.999996522 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 08:10:46.751 -05:00
+[7353.902] 44100 Hz fill 22016 scalar 0.999998573 under 0 over 0; clock locked, DAC scalar 1.000003; 2026-09-30 08:11:16.760 -05:00
+[7383.913] 44100 Hz fill 22528 scalar 0.999998259 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 08:11:46.771 -05:00
+[7413.922] 44100 Hz fill 22528 scalar 0.999999206 under 0 over 0; clock locked, DAC scalar 0.999999; 2026-09-30 08:12:16.781 -05:00
+[7443.937] 44100 Hz fill 22528 scalar 0.999996829 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 08:12:46.795 -05:00
+[7473.938] 44100 Hz fill 22016 scalar 1.000000475 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 08:13:16.796 -05:00
+[7503.941] 44100 Hz fill 22528 scalar 0.999999061 under 0 over 0; clock locked, DAC scalar 1.000004; 2026-09-30 08:13:46.799 -05:00
+[7533.944] 44100 Hz fill 22528 scalar 0.999997913 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 08:14:16.802 -05:00
+[7563.950] 44100 Hz fill 22528 scalar 0.999999498 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 08:14:46.809 -05:00
+[7568.679] decoder: 192000.0 Hz 24-bit (lossless)
+[7568.697] next track needs 192000 Hz; 11.33 s left, arming the boundary latch in 9.83 s
+[7578.534] boundary latch armed at in frame 437651456
+[7580.049] latched at ring 434975022 (fill 22528)
+[7580.475] playerInfo: Playing Boplicity
+[7580.551] new track Boplicity (Music's rate for the track): decoder 192000.0 Hz lossless (seen 11.798 s before Playing), DAC 44100 Hz -> switch to 192000
+[7580.566] switch 15: Boplicity (Music's rate for the track) needs 192000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.015 s
+[7580.781] virtual device -> 192000: 0
+[7580.782] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[7583.073]   DAC ready after 2.290 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[7583.074] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[7583.074] playerInfo: Playing Boplicity
+[7583.074] playerInfo: Paused Boplicity
+[7583.142]   rewound to 0.000 (was 0.399, played ~0.127 s), play; switch 15 done 2.591 s after the request
+[7583.144] clock: DAC scalar 0.999994 not steady yet; following it until the lock
+[7583.183] playerInfo: Paused Boplicity
+[7583.183] playerInfo: Playing Boplicity
+[7584.680] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (110259 of 196608 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[7586.722] clock: DAC scalar steady at 0.999991 after 3.6 s
+[7586.722] clock lock: phase0 287381.379, fill 95744, cycles A 857100 B 854101
+[7593.956] 192000 Hz fill 96256 scalar 0.999991289 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 08:15:16.814 -05:00
+[7623.970] 192000 Hz fill 95744 scalar 0.999996671 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 08:15:46.828 -05:00
+[7653.977] 192000 Hz fill 96256 scalar 0.999994207 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 08:16:16.836 -05:00
+[7683.979] 192000 Hz fill 95744 scalar 1.000000635 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 08:16:46.838 -05:00
+[7713.983] 192000 Hz fill 96256 scalar 0.999999085 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 08:17:16.842 -05:00
+[7743.993] 192000 Hz fill 95744 scalar 0.999991957 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 08:17:46.851 -05:00
+[7755.414] decoder: 44100.0 Hz 16-bit (lossless)
+[7755.431] next track needs 44100 Hz; 9.84 s left, arming the boundary latch in 8.34 s
+[7763.782] boundary latch armed at in frame 472830464
+[7765.293] latched at ring 469982237 (fill 95744)
+[7765.446] playerInfo: Playing Cave Bop
+[7765.547] new track Cave Bop (Music's rate for the track): decoder 44100.0 Hz lossless (seen 10.022 s before Playing), DAC 192000 Hz -> switch to 44100
+[7765.572] playerInfo: Playing Cave Bop
+[7765.608] playerInfo: Paused Cave Bop
+[7765.796] switch 16: Cave Bop (Music's rate for the track) needs 44100 Hz (DAC 192000); latched at the old track's end; paused; boundary reached 0.249 s
+[7766.020] virtual device -> 44100: 0
+[7766.020] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[7768.560]   DAC ready after 2.539 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[7768.561] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[7768.617]   rewound to 0.000 (was 0.216, played ~0.161 s), play; switch 16 done 3.070 s after the request
+[7768.668] playerInfo: Paused Cave Bop
+[7768.669] playerInfo: Playing Cave Bop
+[7769.121] clock: DAC scalar 0.999263 not steady yet; following it until the lock
+[7771.159] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (53415 of 89078 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[7773.994] 44100 Hz fill 22528 scalar 0.999960291 under 0 over 0; clock waiting (DAC scalar not steady, following it), DAC scalar 0.999972; 2026-09-30 08:18:16.853 -05:00
+[7776.238] clock: DAC scalar steady at 0.999983 after 7.1 s
+[7776.238] clock lock: phase0 43960.172, fill 22528, cycles A 925184 B 922182
+[7803.998] 44100 Hz fill 22016 scalar 0.999995970 under 0 over 0; clock locked, DAC scalar 0.999999; 2026-09-30 08:18:46.857 -05:00
+[7834.011] 44100 Hz fill 22016 scalar 0.999990084 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 08:19:16.869 -05:00
+[7864.014] 44100 Hz fill 22528 scalar 0.999992414 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 08:19:46.872 -05:00
+[7894.023] 44100 Hz fill 22016 scalar 0.999994621 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 08:20:16.881 -05:00
+[7924.024] 44100 Hz fill 22528 scalar 1.000000478 under 0 over 0; clock locked, DAC scalar 0.999999; 2026-09-30 08:20:46.883 -05:00
+[7954.031] 44100 Hz fill 22528 scalar 0.999998661 under 0 over 0; clock locked, DAC scalar 1.000003; 2026-09-30 08:21:16.889 -05:00
+[7969.453] playerInfo: Playing Somedays
+[7969.491] new track Somedays (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[7971.838] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (55574 of 89053 samples): no decoder line of its own, so lossy or changed by Music)
+[7984.037] 44100 Hz fill 22016 scalar 1.000002976 under 0 over 0; clock locked, DAC scalar 1.000002; 2026-09-30 08:21:46.895 -05:00
+[8014.050] 44100 Hz fill 22528 scalar 0.999991791 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 08:22:16.909 -05:00
+[8044.062] 44100 Hz fill 22528 scalar 0.999998530 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 08:22:46.920 -05:00
+[8074.072] 44100 Hz fill 22016 scalar 0.999994310 under 0 over 0; clock locked, DAC scalar 1.000002; 2026-09-30 08:23:16.930 -05:00
+[8104.073] 44100 Hz fill 22528 scalar 0.999995648 under 0 over 0; clock locked, DAC scalar 1.000001; 2026-09-30 08:23:46.931 -05:00
+[8134.081] 44100 Hz fill 22528 scalar 0.999994471 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 08:24:16.939 -05:00
+[8164.082] 44100 Hz fill 22528 scalar 1.000001231 under 0 over 0; clock locked, DAC scalar 0.999995; 2026-09-30 08:24:46.940 -05:00
+[8171.086] playerInfo: Playing Waist
+[8171.153] new track Waist (Music's rate for the track; no decoder line at it yet): decoder 44100.0 Hz lossless (seen 0.000 s before Playing), DAC 44100 Hz
+[8173.558] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (61390 of 88991 samples): no decoder line of its own, so lossy or changed by Music)
+[8194.090] 44100 Hz fill 22528 scalar 0.999996670 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 08:25:16.948 -05:00
+[8224.095] 44100 Hz fill 22016 scalar 1.000000448 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 08:25:46.954 -05:00
+[8254.101] 44100 Hz fill 22528 scalar 0.999991131 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 08:26:16.959 -05:00
+[8284.109] 44100 Hz fill 22528 scalar 0.999997384 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 08:26:46.968 -05:00
+[8314.112] 44100 Hz fill 22528 scalar 1.000000813 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 08:27:16.971 -05:00
+[8329.194] decoder: 192000.0 Hz 24-bit (lossless)
+[8329.201] next track needs 192000 Hz; 10.93 s left, arming the boundary latch in 9.43 s
+[8338.641] boundary latch armed at in frame 498496000
+[8340.162] latched at ring 495286713 (fill 22528)
+[8340.549] playerInfo: Playing Mister Spain
+[8340.642] new track Mister Spain (Music's rate for the track): decoder 192000.0 Hz lossless (seen 11.350 s before Playing), DAC 44100 Hz -> switch to 192000
+[8340.656] playerInfo: Playing Mister Spain
+[8340.673] switch 17: Mister Spain (Music's rate for the track) needs 192000 Hz (DAC 44100); latched at the old track's end; paused; boundary reached 0.030 s
+[8340.890] virtual device -> 192000: 0
+[8340.891] DAC format -> 192000.0 Hz 16 ch 32 bit flags 76: 0
+[8344.704]   DAC ready after 3.812 s: phys 192000.0 Hz 16 ch 32 bit flags 76 / virt 192000.0 Hz 16 ch 32 bit flags 76
+[8344.704] B writes int32 in 4 bytes, channels 1/2 (virtual format 192000.0 Hz 16 ch 32 bit flags 76)
+[8344.704] playerInfo: Paused Mister Spain
+[8344.752]   rewound to 0.000 (was 0.400, played ~0.157 s), play; switch 17 done 4.110 s after the request
+[8344.754] clock: DAC scalar 0.999993 not steady yet; following it until the lock
+[8344.790] 192000 Hz fill 14848 scalar 0.999993125 under 0 over 0; clock waiting (DAC scalar not steady, following it), DAC scalar 0.999993; 2026-09-30 08:27:47.611 -05:00
+[8344.802] playerInfo: Paused Mister Spain
+[8344.802] playerInfo: Playing Mister Spain
+[8346.782] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (118723 of 195584 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 24 bit
+[8348.294] clock: DAC scalar steady at 0.999989 after 3.5 s
+[8348.294] clock lock: phase0 581050.794, fill 96256, cycles A 976488 B 972673
+[8374.761] 192000 Hz fill 96256 scalar 1.000008962 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 08:28:17.619 -05:00
+[8404.762] 192000 Hz fill 95744 scalar 0.999988265 under 0 over 0; clock locked, DAC scalar 0.999991; 2026-09-30 08:28:47.620 -05:00
+[8434.762] 192000 Hz fill 96256 scalar 1.000007634 under 0 over 0; clock locked, DAC scalar 1.000003; 2026-09-30 08:29:17.621 -05:00
+[8464.765] 192000 Hz fill 96256 scalar 0.999991703 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 08:29:47.623 -05:00
+[8494.777] 192000 Hz fill 96256 scalar 1.000003886 under 0 over 0; clock locked, DAC scalar 1.000000; 2026-09-30 08:30:17.635 -05:00
+[8524.779] 192000 Hz fill 96256 scalar 0.999990642 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 08:30:47.638 -05:00
+[8554.783] 192000 Hz fill 96256 scalar 0.999993621 under 0 over 0; clock locked, DAC scalar 0.999994; 2026-09-30 08:31:17.641 -05:00
+[8584.786] 192000 Hz fill 96256 scalar 1.000009162 under 0 over 0; clock locked, DAC scalar 1.000002; 2026-09-30 08:31:47.645 -05:00
+[8614.799] 192000 Hz fill 96256 scalar 0.999989458 under 0 over 0; clock locked, DAC scalar 0.999992; 2026-09-30 08:32:17.657 -05:00
+[8644.807] 192000 Hz fill 96256 scalar 0.999995993 under 0 over 0; clock locked, DAC scalar 0.999996; 2026-09-30 08:32:47.665 -05:00
+[8674.808] 192000 Hz fill 96256 scalar 1.000010004 under 0 over 0; clock locked, DAC scalar 1.000005; 2026-09-30 08:33:17.666 -05:00
+[8704.817] 192000 Hz fill 96256 scalar 0.999990283 under 0 over 0; clock locked, DAC scalar 0.999993; 2026-09-30 08:33:47.675 -05:00
+[8734.833] 192000 Hz fill 96256 scalar 0.999999452 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 08:34:17.689 -05:00
+[8738.252] decoder: 44100.0 Hz 16-bit (lossless)
+[8738.273] next track needs 44100 Hz; 11.99 s left, arming the boundary latch in 10.49 s
+[8748.766] boundary latch armed at in frame 576851456
+[8750.294] latched at ring 573178216 (fill 95744)
+[8750.477] playerInfo: Playing Someday Never Comes
+[8750.533] new track Someday Never Comes (Music's rate for the track): decoder 44100.0 Hz lossless (seen 12.228 s before Playing), DAC 192000 Hz -> switch to 44100
+[8750.568] playerInfo: Playing Someday Never Comes
+[8750.655] playerInfo: Paused Someday Never Comes
+[8750.788] switch 18: Someday Never Comes (Music's rate for the track) needs 44100 Hz (DAC 192000); latched at the old track's end; paused; boundary reached 0.254 s
+[8751.014] virtual device -> 44100: 0
+[8751.015] DAC format -> 44100.0 Hz 16 ch 32 bit flags 76: 0
+[8753.566]   DAC ready after 2.551 s: phys 44100.0 Hz 16 ch 32 bit flags 76 / virt 44100.0 Hz 16 ch 32 bit flags 76
+[8753.567] B writes int32 in 4 bytes, channels 1/2 (virtual format 44100.0 Hz 16 ch 32 bit flags 76)
+[8753.635]   rewound to 0.000 (was 0.215, played ~0.107 s), play; switch 18 done 3.102 s after the request
+[8753.683] playerInfo: Paused Someday Never Comes
+[8753.683] playerInfo: Playing Someday Never Comes
+[8754.147] clock: DAC scalar 0.999231 not steady yet; following it until the lock
+[8756.179] source depth from the samples: neither 16 nor 24 bit (on neither the 16- nor the 24-bit grid (54660 of 89061 samples): Music changes them (volume, Sound Check, EQ) or the source is float); Music's log said 16 bit
+[8762.298] clock: DAC scalar steady at 0.999993 after 8.2 s
+[8762.298] clock lock: phase0 43826.018, fill 22528, cycles A 1128445 B 1124629
+[8764.838] 44100 Hz fill 22016 scalar 0.999993762 under 0 over 0; clock locked, DAC scalar 0.999981; 2026-09-30 08:34:47.696 -05:00
+[8794.846] 44100 Hz fill 22016 scalar 1.000003786 under 0 over 0; clock locked, DAC scalar 0.999998; 2026-09-30 08:35:17.704 -05:00
+[8806.227] playerInfo: Paused Someday Never Comes
+[8806.240] gate: output started at ring 575596544; waiting for the track's rate
+[8807.748] gate released (no Playing within 1.5 s) 1507 ms after the output started
+[8807.760] gate closed again after 1530 ms of silence
+[8824.855] 44100 Hz fill 22050 scalar 1.000000249 under 0 over 0; clock locked, DAC scalar 1.000004; 2026-09-30 08:35:47.713 -05:00
+[8854.863] 44100 Hz fill 22050 scalar 0.999996822 under 0 over 0; clock locked, DAC scalar 0.999997; 2026-09-30 08:36:17.722 -05:00
+[8866.228] Music idle 60 s: stepping aside (DAC and default output given back)
+[8866.257] DAC mixable again: 0
+[8866.623] hog released: 0, owner -1
+[8866.624] virtual device scalar reset: 0
+[8866.639] default output restored to MT 48: 0
+[8869.642] default output after 3 s: MT 48
+[8869.643] detached (pid 0): 0
+[8869.714] DAC probe: start 0 after 0.052 s
+[8884.872] 44100 Hz fill 21026 scalar 0.999997890 under 0 over 0; clock stepped aside, DAC scalar 0.999996; 2026-09-30 08:36:47.730 -05:00

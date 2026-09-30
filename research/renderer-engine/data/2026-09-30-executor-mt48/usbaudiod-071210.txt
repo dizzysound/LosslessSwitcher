@@ -1,0 +1,78 @@
+2026-09-30 07:12:15.307 E  usbaudiod[44288:6204dfb] [:ioio]    [0xf]:AUAStream_safeguardAgainstDelays timeDiff 261, threshold 64
+2026-09-30 07:12:15.307 Df usbaudiod[44288:6204dfb] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange safeguardAgainstDelays(numTransferBlocks:curTimeNS:lastIOTimeNS:device:), AUASDCore/Stream.swift - 756
+2026-09-30 07:12:15.307 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:12:15.308 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.308 E  usbaudiod[44288:6204dfb] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.308 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053088, blockStartingUSBFrame 344052945
+2026-09-30 07:12:15.308 E  usbaudiod[44288:6204dfb] [:ioio]    [0xf]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053088, blockStartingUSBFrame 344052881
+2026-09-30 07:12:15.308 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.308 Df usbaudiod[44288:6204dfb] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.308 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_safeguardAgainstDelays timeDiff 263, threshold 256
+2026-09-30 07:12:15.308 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange safeguardAgainstDelays(numTransferBlocks:curTimeNS:lastIOTimeNS:device:), AUASDCore/Stream.swift - 756
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6204dfb] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6204dfb] [:ioio]    [0xf]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053088, blockStartingUSBFrame 344052889
+2026-09-30 07:12:15.309 Df usbaudiod[44288:6204dfb] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053088, blockStartingUSBFrame 344052953
+2026-09-30 07:12:15.309 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053088, blockStartingUSBFrame 344052961
+2026-09-30 07:12:15.309 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053089, blockStartingUSBFrame 344052969
+2026-09-30 07:12:15.309 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053089, blockStartingUSBFrame 344052977
+2026-09-30 07:12:15.309 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053089, blockStartingUSBFrame 344052985
+2026-09-30 07:12:15.309 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053089, blockStartingUSBFrame 344052993
+2026-09-30 07:12:15.309 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.309 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053089, blockStartingUSBFrame 344053001
+2026-09-30 07:12:15.309 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053089, blockStartingUSBFrame 344053009
+2026-09-30 07:12:15.310 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053089, blockStartingUSBFrame 344053017
+2026-09-30 07:12:15.310 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053089, blockStartingUSBFrame 344053025
+2026-09-30 07:12:15.310 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053089, blockStartingUSBFrame 344053033
+2026-09-30 07:12:15.310 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053090, blockStartingUSBFrame 344053041
+2026-09-30 07:12:15.310 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053090, blockStartingUSBFrame 344053049
+2026-09-30 07:12:15.310 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053090, blockStartingUSBFrame 344053057
+2026-09-30 07:12:15.310 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] (IOUSBHost) Error:Unable to enqueue IO. with reason: (null)
+2026-09-30 07:12:15.310 E  usbaudiod[44288:6207064] [:ioio]    [0x10]:AUAStream_enqueueNextTransfer_error error 0xe00002ee, curFrame 344053090, blockStartingUSBFrame 344053065
+2026-09-30 07:12:15.310 Df usbaudiod[44288:6207064] [:ioio]    [0xe]:AUAAudioDevice_requestConfigurationChange enqueueNextDataTransfer(), AUASDCore/Stream.swift - 469
+2026-09-30 07:12:15.511 Df coreaudiod[44272:6203545] (CoreAudio)        HALS_IOEngine2.cpp:2293   HALS_IOEngine2::StopIO: stopping IO on device <private>
+2026-09-30 07:12:15.511 Df coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]               HALS_IOEngine2.cpp:2687  HALS_IOEngine2::_StopIO(181) called on Context 6278  current state: Prewarm: 0 Play: 1 State: Running
+2026-09-30 07:12:15.511 Df usbaudiod[44288:6207064] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 07:12:15.518 Df usbaudiod[44288:6207064] [:ioio] <- [0xe]:performStopIO [7255 us]
+2026-09-30 07:12:15.519 Df coreaudiod[44272:6203545] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 12774912 frames.
+2026-09-30 07:12:15.519 Df coreaudiod[44272:6203545] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2): stopping with error 0
+2026-09-30 07:12:15.528 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:12:15.528 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:12:15.532 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 07:12:15.534 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:12:15.556 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:12:15.761 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:12:15.761 Df coreaudiod[44272:620a2a4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:1720   HALS_IOContext_Legacy_Impl::IOWorkLoopInit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2): starting
+2026-09-30 07:12:15.762 Df coreaudiod[44272:620a2a4] (CoreAudio)        HALS_IOEngine2.cpp:2259   HALS_IOEngine2::StartIO: starting IO on device <private>
+2026-09-30 07:12:15.763 Df usbaudiod[44288:6204dfb] [:ioio] -> [0xe]:performStartIO startIO
+2026-09-30 07:12:15.768 Df usbaudiod[44288:6204dfb] [:ioio]     [0xe]:AUAAudioDevice_performStartIO USBFrameTimeConverter start: lowestLatencyEnabled true
+2026-09-30 07:12:15.768 Df usbaudiod[44288:6204dfb] [:ioio]     [0xe]:AUAAudioDevice_performStartIO lockDelayMS 24, feedbackDelayMS 0, startingUSBDataFrame 344053577, startingFrameAlignment 0
+2026-09-30 07:12:15.771 Df usbaudiod[44288:6204dfb] [:ioio] <- [0xe]:performStartIO [8165 us]
+2026-09-30 07:12:15.771 Df coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]               HALS_IOEngine2.cpp:2625  		HALS_IOEngine2::_StartIO(181) succeeded on Context 6278  new state: Prewarm: 0 Play: 1 State: Running
