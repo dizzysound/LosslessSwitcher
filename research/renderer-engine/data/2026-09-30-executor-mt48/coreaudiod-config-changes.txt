@@ -1,0 +1,649 @@
+2026-09-30 06:08:44.076 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:08:44.288 Df coreaudiod[44272:61a4043] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 6656 frames.
+2026-09-30 06:08:44.288 Df coreaudiod[44272:61a4043] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:08:44.294 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:08:44.296 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:08:44.302 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:08:44.355 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:08:44.575 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:08:56.598 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:08:56.700 Df coreaudiod[44272:61a430f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 50176 frames.
+2026-09-30 06:08:56.700 Df coreaudiod[44272:61a430f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:08:56.702 Df coreaudiod[44272:61a4014] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 567296 frames.
+2026-09-30 06:08:56.702 Df coreaudiod[44272:61a4014] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:08:56.708 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:08:56.708 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:08:56.710 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:08:56.713 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:08:56.780 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:08:56.889 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:08:56.928 Df coreaudiod[44272:61a4076] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 542720 frames.
+2026-09-30 06:08:56.928 Df coreaudiod[44272:61a4076] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:08:56.932 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:08:56.934 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:08:56.950 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:08:57.009 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:08:57.225 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:08:57.975 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:08:58.188 Df coreaudiod[44272:61a43b8] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:08:58.188 Df coreaudiod[44272:61a43b8] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:08:58.196 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:08:58.196 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:08:58.199 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:08:58.201 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:08:58.227 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:08:58.431 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:08:58.479 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:08:58.692 Df coreaudiod[44272:61a43f2] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:08:58.692 Df coreaudiod[44272:61a43f2] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:08:58.699 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:08:58.699 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:08:58.702 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:08:58.704 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:08:58.725 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:08:58.930 Df coreaudiod[44272:61a4007] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:08:58.949 Df coreaudiod[44272:61a4392] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 181760 frames.
+2026-09-30 06:08:58.949 Df coreaudiod[44272:61a4392] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:08:58.975 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:08:59.187 Df coreaudiod[44272:61a4405] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:08:59.187 Df coreaudiod[44272:61a4405] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:08:59.194 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:08:59.194 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:08:59.197 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:08:59.199 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:08:59.221 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:08:59.426 Df coreaudiod[44272:61a3d03] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:08:59.471 Df coreaudiod[44272:61a4317] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:08:59.684 Df coreaudiod[44272:61a442a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:08:59.684 Df coreaudiod[44272:61a442a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:08:59.693 Df coreaudiod[44272:61a4317] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:08:59.693 Df coreaudiod[44272:61a4317] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:08:59.696 Df coreaudiod[44272:61a4317] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:08:59.698 Df coreaudiod[44272:61a4317] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:08:59.720 Df coreaudiod[44272:61a4317] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:08:59.924 Df coreaudiod[44272:61a4317] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:08:59.971 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:09:00.184 Df coreaudiod[44272:61a4449] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:09:00.184 Df coreaudiod[44272:61a4449] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:09:00.192 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:09:00.192 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:09:00.195 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:09:00.197 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:09:00.218 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:09:00.424 Df coreaudiod[44272:61a372e] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:09:00.471 Df coreaudiod[44272:61a437b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:09:00.684 Df coreaudiod[44272:61a4460] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:09:00.684 Df coreaudiod[44272:61a4460] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:09:00.691 Df coreaudiod[44272:61a437b] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:09:00.691 Df coreaudiod[44272:61a437b] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:09:00.693 Df coreaudiod[44272:61a437b] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:09:00.695 Df coreaudiod[44272:61a437b] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:09:00.715 Df coreaudiod[44272:61a437b] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:09:00.921 Df coreaudiod[44272:61a437b] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:09:00.967 Df coreaudiod[44272:61a4000] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:09:01.179 Df coreaudiod[44272:61a447f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:09:01.179 Df coreaudiod[44272:61a447f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:09:01.186 Df coreaudiod[44272:61a4000] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:09:01.186 Df coreaudiod[44272:61a4000] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:09:01.189 Df coreaudiod[44272:61a4000] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:09:01.191 Df coreaudiod[44272:61a4000] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:09:01.213 Df coreaudiod[44272:61a4000] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:09:01.418 Df coreaudiod[44272:61a4000] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:09:01.463 Df coreaudiod[44272:61a4008] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:09:01.676 Df coreaudiod[44272:61a4487] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:09:01.676 Df coreaudiod[44272:61a4487] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:09:01.684 Df coreaudiod[44272:61a4008] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:09:01.684 Df coreaudiod[44272:61a4008] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:09:01.687 Df coreaudiod[44272:61a4008] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:09:01.689 Df coreaudiod[44272:61a4008] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:09:01.711 Df coreaudiod[44272:61a4008] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:09:01.916 Df coreaudiod[44272:61a4008] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:09:01.963 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:09:02.176 Df coreaudiod[44272:61a44a4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:09:02.176 Df coreaudiod[44272:61a44a4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:09:02.183 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:09:02.183 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:09:02.187 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:09:02.189 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:09:02.214 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:09:02.418 Df coreaudiod[44272:61a4314] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:09:02.463 Df coreaudiod[44272:61a3fef] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:09:02.676 Df coreaudiod[44272:61a44ac] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:09:02.676 Df coreaudiod[44272:61a44ac] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:09:02.684 Df coreaudiod[44272:61a3fef] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:09:02.684 Df coreaudiod[44272:61a3fef] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:09:02.688 Df coreaudiod[44272:61a3fef] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:09:02.690 Df coreaudiod[44272:61a3fef] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:09:02.712 Df coreaudiod[44272:61a3fef] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:09:02.917 Df coreaudiod[44272:61a3fef] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:09:02.963 Df coreaudiod[44272:61a437a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:09:03.176 Df coreaudiod[44272:61a44d1] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:09:03.176 Df coreaudiod[44272:61a44d1] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:09:03.183 Df coreaudiod[44272:61a437a] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:09:03.183 Df coreaudiod[44272:61a437a] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:09:03.187 Df coreaudiod[44272:61a437a] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:09:03.189 Df coreaudiod[44272:61a437a] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:09:03.210 Df coreaudiod[44272:61a437a] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:09:03.415 Df coreaudiod[44272:61a437a] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:09:03.463 Df coreaudiod[44272:61a3fe7] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:09:03.676 Df coreaudiod[44272:61a44d6] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 17920 frames.
+2026-09-30 06:09:03.676 Df coreaudiod[44272:61a44d6] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:09:03.682 Df coreaudiod[44272:61a3fe7] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:09:03.682 Df coreaudiod[44272:61a3fe7] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:09:03.685 Df coreaudiod[44272:61a3fe7] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:09:03.687 Df coreaudiod[44272:61a3fe7] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:09:03.710 Df coreaudiod[44272:61a3fe7] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:09:03.914 Df coreaudiod[44272:61a3fe7] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:12:53.089 Df coreaudiod[44272:61a768f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:12:53.192 Df coreaudiod[44272:61a4523] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 20165120 frames.
+2026-09-30 06:12:53.192 Df coreaudiod[44272:61a4523] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:12:53.195 Df coreaudiod[44272:61a4395] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 20841984 frames.
+2026-09-30 06:12:53.195 Df coreaudiod[44272:61a4395] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:12:53.198 Df coreaudiod[44272:61a768f] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:12:53.198 Df coreaudiod[44272:61a768f] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:12:53.201 Df coreaudiod[44272:61a768f] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:12:53.203 Df coreaudiod[44272:61a652e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:12:53.264 Df coreaudiod[44272:61a768f] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:12:53.374 Df coreaudiod[44272:61a768f] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:12:53.417 Df coreaudiod[44272:61a44f3] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 20237824 frames.
+2026-09-30 06:12:53.417 Df coreaudiod[44272:61a44f3] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:12:53.421 Df coreaudiod[44272:61a652e] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:12:53.423 Df coreaudiod[44272:61a652e] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:12:53.439 Df coreaudiod[44272:61a652e] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:12:53.501 Df coreaudiod[44272:61a652e] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:12:53.717 Df coreaudiod[44272:61a652e] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:15:34.319 Df coreaudiod[44272:61a825a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4082 after 6861952 frames.
+2026-09-30 06:15:34.319 Df coreaudiod[44272:61a825a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4082 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:15:36.077 Df coreaudiod[44272:61aa769] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4082 after 25088 frames.
+2026-09-30 06:15:36.077 Df coreaudiod[44272:61aa769] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4082 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:19:22.685 Df coreaudiod[44272:61b11a4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:19:22.685 Df coreaudiod[44272:61b11a4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:21:05.161 Df coreaudiod[44272:61b5477] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:21:05.161 Df coreaudiod[44272:61b5477] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:22:43.017 Df coreaudiod[44272:61b9a05] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:22:43.017 Df coreaudiod[44272:61b9a05] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:24:48.418 Df coreaudiod[44272:61bdd71] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:24:48.418 Df coreaudiod[44272:61bdd71] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:25:00.465 Df coreaudiod[44272:61b321b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:25:00.569 Df coreaudiod[44272:61a8050] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 32069632 frames.
+2026-09-30 06:25:00.569 Df coreaudiod[44272:61a8050] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:25:00.572 Df coreaudiod[44272:61a8056] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 32069632 frames.
+2026-09-30 06:25:00.572 Df coreaudiod[44272:61a8056] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:25:00.578 Df coreaudiod[44272:61b321b] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:25:00.578 Df coreaudiod[44272:61b321b] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:25:00.583 Df coreaudiod[44272:61badbb] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:25:00.586 Df coreaudiod[44272:61b321b] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:25:00.650 Df coreaudiod[44272:61b321b] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:25:00.798 Df coreaudiod[44272:61a8081] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 32030720 frames.
+2026-09-30 06:25:00.798 Df coreaudiod[44272:61a8081] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:25:00.804 Df coreaudiod[44272:61badbb] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:25:00.808 Df coreaudiod[44272:61badbb] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:25:00.830 Df coreaudiod[44272:61badbb] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:25:00.856 Df coreaudiod[44272:61b321b] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:25:00.891 Df coreaudiod[44272:61badbb] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:25:01.112 Df coreaudiod[44272:61badbb] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:25:02.640 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 06:25:02.825 Df coreaudiod[44272:61be215] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 94720 frames.
+2026-09-30 06:25:02.825 Df coreaudiod[44272:61be215] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:27:28.883 Df coreaudiod[44272:61c0b27] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:27:28.883 Df coreaudiod[44272:61c0b27] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:30:07.127 Df coreaudiod[44272:61c46d0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:30:07.127 Df coreaudiod[44272:61c46d0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:30:10.241 Df coreaudiod[44272:61c481e] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:30:10.241 Df coreaudiod[44272:61c481e] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:30:34.290 Df coreaudiod[44272:61c46d3] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:30:34.493 Df coreaudiod[44272:61be2ca] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 15911936 frames.
+2026-09-30 06:30:34.493 Df coreaudiod[44272:61be2ca] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:30:34.496 Df coreaudiod[44272:61be21c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 16014848 frames.
+2026-09-30 06:30:34.496 Df coreaudiod[44272:61be21c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:30:34.500 Df coreaudiod[44272:61c46d3] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:30:34.500 Df coreaudiod[44272:61c46d3] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:30:34.506 Df coreaudiod[44272:61c46d3] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:30:34.506 Df coreaudiod[44272:61c29da] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:30:34.574 Df coreaudiod[44272:61c46d3] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:30:34.725 Df coreaudiod[44272:61be246] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 15928832 frames.
+2026-09-30 06:30:34.725 Df coreaudiod[44272:61be246] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:30:34.731 Df coreaudiod[44272:61c29da] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:30:34.733 Df coreaudiod[44272:61c29da] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:30:34.756 Df coreaudiod[44272:61c29da] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:30:34.781 Df coreaudiod[44272:61c46d3] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:30:34.827 Df coreaudiod[44272:61c29da] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:30:35.038 Df coreaudiod[44272:61c29da] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:30:36.297 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 06:30:36.747 Df coreaudiod[44272:61c4f7c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 87040 frames.
+2026-09-30 06:30:36.747 Df coreaudiod[44272:61c4f7c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:40:42.907 Df coreaudiod[44272:61dcafe] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:40:42.907 Df coreaudiod[44272:61dcafe] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:41:12.568 Df coreaudiod[44272:61dde28] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:41:12.568 Df coreaudiod[44272:61dde28] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:41:21.152 Df coreaudiod[44272:61de543] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:41:21.152 Df coreaudiod[44272:61de543] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:42:04.110 Df coreaudiod[44272:61dfd84] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:42:04.110 Df coreaudiod[44272:61dfd84] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:45:19.218 Df coreaudiod[44272:61dfd90] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:45:19.422 Df coreaudiod[44272:61c4f82] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 39008768 frames.
+2026-09-30 06:45:19.422 Df coreaudiod[44272:61c4f82] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:45:19.424 Df coreaudiod[44272:61c507c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 38904320 frames.
+2026-09-30 06:45:19.424 Df coreaudiod[44272:61c507c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:45:19.429 Df coreaudiod[44272:61dfd90] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:45:19.429 Df coreaudiod[44272:61dfd90] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:45:19.431 Df coreaudiod[44272:61e4a0a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:45:19.436 Df coreaudiod[44272:61dfd90] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:45:19.498 Df coreaudiod[44272:61dfd90] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:45:19.643 Df coreaudiod[44272:61c4fa1] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 38951424 frames.
+2026-09-30 06:45:19.643 Df coreaudiod[44272:61c4fa1] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:45:19.648 Df coreaudiod[44272:61e4a0a] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:45:19.650 Df coreaudiod[44272:61e4a0a] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:45:19.667 Df coreaudiod[44272:61e4a0a] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:45:19.704 Df coreaudiod[44272:61dfd90] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:45:19.741 Df coreaudiod[44272:61e4a0a] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:45:19.949 Df coreaudiod[44272:61e4a0a] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:45:20.701 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:45:20.918 Df coreaudiod[44272:61e4a5f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 39424 frames.
+2026-09-30 06:45:20.918 Df coreaudiod[44272:61e4a5f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:45:20.929 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:45:20.929 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:45:20.934 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 06:45:20.936 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:45:20.959 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:45:21.164 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:45:21.663 Df coreaudiod[44272:61e4a30] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 375808 frames.
+2026-09-30 06:45:21.663 Df coreaudiod[44272:61e4a30] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:49:03.544 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:49:03.748 Df coreaudiod[44272:61e4af0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 42601984 frames.
+2026-09-30 06:49:03.748 Df coreaudiod[44272:61e4af0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:49:03.751 Df coreaudiod[44272:61e4a33] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 43016192 frames.
+2026-09-30 06:49:03.751 Df coreaudiod[44272:61e4a33] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:49:03.757 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:49:03.757 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:49:03.763 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:49:03.763 Df coreaudiod[44272:61deaff] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 06:49:03.829 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:49:03.983 Df coreaudiod[44272:61e4ac7] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 42769408 frames.
+2026-09-30 06:49:03.983 Df coreaudiod[44272:61e4ac7] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 06:49:03.990 Df coreaudiod[44272:61deaff] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 06:49:03.993 Df coreaudiod[44272:61deaff] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 06:49:04.014 Df coreaudiod[44272:61deaff] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 06:49:04.036 Df coreaudiod[44272:61dff8d] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:49:04.093 Df coreaudiod[44272:61deaff] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 06:49:04.302 Df coreaudiod[44272:61deaff] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 06:49:05.558 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 06:49:06.002 Df coreaudiod[44272:61ec8f0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 87040 frames.
+2026-09-30 06:49:06.002 Df coreaudiod[44272:61ec8f0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 06:52:03.789 Df coreaudiod[44272:61eff13] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:52:03.789 Df coreaudiod[44272:61eff13] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 06:56:58.680 Df coreaudiod[44272:61f5e86] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 06:56:58.680 Df coreaudiod[44272:61f5e86] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:02:47.175 Df coreaudiod[44272:61f9d8c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:02:47.380 Df coreaudiod[44272:61ec8f8] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 36309504 frames.
+2026-09-30 07:02:47.380 Df coreaudiod[44272:61ec8f8] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:02:47.384 Df coreaudiod[44272:61ec99b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 36205056 frames.
+2026-09-30 07:02:47.384 Df coreaudiod[44272:61ec99b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:02:47.391 Df coreaudiod[44272:61f9d8c] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:02:47.391 Df coreaudiod[44272:61f9d8c] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:02:47.398 Df coreaudiod[44272:61fc8b2] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:02:47.400 Df coreaudiod[44272:61f9d8c] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:02:47.463 Df coreaudiod[44272:61f9d8c] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:02:47.614 Df coreaudiod[44272:61ec92f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 36252672 frames.
+2026-09-30 07:02:47.614 Df coreaudiod[44272:61ec92f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:02:47.620 Df coreaudiod[44272:61fc8b2] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:02:47.624 Df coreaudiod[44272:61fc8b2] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:02:47.644 Df coreaudiod[44272:61fc8b2] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:02:47.674 Df coreaudiod[44272:61f9d8c] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:02:47.719 Df coreaudiod[44272:61fc8b2] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:02:47.926 Df coreaudiod[44272:61fc8b2] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:02:49.488 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 07:02:49.631 Df coreaudiod[44272:61fd9b4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 94208 frames.
+2026-09-30 07:02:49.631 Df coreaudiod[44272:61fd9b4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:03:19.024 Df coreaudiod[44272:61fed42] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 07:03:19.024 Df coreaudiod[44272:61fed42] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:07:23.842 Df coreaudiod[44272:62018a7] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:07:24.045 Df coreaudiod[44272:61fd9bd] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 13265920 frames.
+2026-09-30 07:07:24.045 Df coreaudiod[44272:61fd9bd] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:07:24.047 Df coreaudiod[44272:61fdc06] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 13161472 frames.
+2026-09-30 07:07:24.047 Df coreaudiod[44272:61fdc06] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:07:24.051 Df coreaudiod[44272:62018a7] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:07:24.051 Df coreaudiod[44272:62018a7] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:07:24.051 Df coreaudiod[44272:6202145] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:07:24.058 Df coreaudiod[44272:62018a7] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:07:24.126 Df coreaudiod[44272:62018a7] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:07:24.266 Df coreaudiod[44272:61fda1a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 13177856 frames.
+2026-09-30 07:07:24.266 Df coreaudiod[44272:61fda1a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:07:24.271 Df coreaudiod[44272:6202145] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:07:24.273 Df coreaudiod[44272:6202145] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:07:24.293 Df coreaudiod[44272:6202145] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:07:24.333 Df coreaudiod[44272:62018a7] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:07:24.356 Df coreaudiod[44272:6202145] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:07:24.574 Df coreaudiod[44272:6202145] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:07:25.696 Df coreaudiod[44272:6203520] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 60416 frames.
+2026-09-30 07:07:25.696 Df coreaudiod[44272:6203520] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:07:25.835 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 07:07:26.389 Df coreaudiod[44272:62033ed] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 07:07:26.389 Df coreaudiod[44272:62033ed] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:07:44.623 Df coreaudiod[44272:6203a69] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 07:07:44.623 Df coreaudiod[44272:6203a69] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:08:09.078 Df coreaudiod[44272:6204150] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 07:08:09.078 Df coreaudiod[44272:6204150] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:08:43.831 Df coreaudiod[44272:620491a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 07:08:43.831 Df coreaudiod[44272:620491a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:10:10.802 Df coreaudiod[44272:6205fee] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 07:10:10.802 Df coreaudiod[44272:6205fee] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:10:14.484 Df coreaudiod[44272:62060f4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 07:10:14.484 Df coreaudiod[44272:62060f4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:12:15.307 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:12:15.519 Df coreaudiod[44272:6203545] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 12774912 frames.
+2026-09-30 07:12:15.519 Df coreaudiod[44272:6203545] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:12:15.528 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:12:15.528 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:12:15.532 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 07:12:15.534 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:12:15.556 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:12:15.761 Df coreaudiod[44272:620198c] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:13:15.474 Df coreaudiod[44272:620a205] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:13:15.687 Df coreaudiod[44272:620a2a4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 2640384 frames.
+2026-09-30 07:13:15.687 Df coreaudiod[44272:620a2a4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:13:15.696 Df coreaudiod[44272:620a205] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:13:15.696 Df coreaudiod[44272:620a205] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:13:15.700 Df coreaudiod[44272:620a205] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 07:13:15.702 Df coreaudiod[44272:620a205] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:13:15.721 Df coreaudiod[44272:620a205] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:13:15.927 Df coreaudiod[44272:620a205] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:14:53.329 Df coreaudiod[44272:620eff8] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:14:53.533 Df coreaudiod[44272:6203524] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 19809792 frames.
+2026-09-30 07:14:53.533 Df coreaudiod[44272:6203524] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:14:53.538 Df coreaudiod[44272:62035c9] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 19694080 frames.
+2026-09-30 07:14:53.538 Df coreaudiod[44272:62035c9] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:14:53.546 Df coreaudiod[44272:620eff8] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:14:53.546 Df coreaudiod[44272:620eff8] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:14:53.552 Df coreaudiod[44272:620eff8] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:14:53.553 Df coreaudiod[44272:620e57f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:14:53.619 Df coreaudiod[44272:620eff8] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:14:53.769 Df coreaudiod[44272:620c65e] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 4312576 frames.
+2026-09-30 07:14:53.769 Df coreaudiod[44272:620c65e] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:14:53.775 Df coreaudiod[44272:620e57f] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:14:53.781 Df coreaudiod[44272:620e57f] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:14:53.800 Df coreaudiod[44272:620e57f] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:14:53.825 Df coreaudiod[44272:620eff8] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:14:53.875 Df coreaudiod[44272:620e57f] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:14:54.085 Df coreaudiod[44272:620e57f] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:14:55.622 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 07:14:55.786 Df coreaudiod[44272:620f99f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 187904 frames.
+2026-09-30 07:14:55.786 Df coreaudiod[44272:620f99f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:19:14.672 Df coreaudiod[44272:6216492] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 07:19:14.672 Df coreaudiod[44272:6216492] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:20:55.778 Df coreaudiod[44272:6216495] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:20:55.981 Df coreaudiod[44272:620f9ff] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 34559488 frames.
+2026-09-30 07:20:55.981 Df coreaudiod[44272:620f9ff] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:20:55.985 Df coreaudiod[44272:620f9a4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 34766848 frames.
+2026-09-30 07:20:55.985 Df coreaudiod[44272:620f9a4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:20:55.992 Df coreaudiod[44272:6216495] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:20:55.992 Df coreaudiod[44272:6216495] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:20:55.995 Df coreaudiod[44272:6217cac] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:20:55.999 Df coreaudiod[44272:6216495] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:20:56.065 Df coreaudiod[44272:6216495] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:20:56.273 Df coreaudiod[44272:620f9be] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 34592768 frames.
+2026-09-30 07:20:56.273 Df coreaudiod[44272:620f9be] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:20:56.277 Df coreaudiod[44272:6216495] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:20:56.286 Df coreaudiod[44272:6217cac] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:20:56.290 Df coreaudiod[44272:6217cac] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:20:56.318 Df coreaudiod[44272:6217cac] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:20:56.386 Df coreaudiod[44272:6217cac] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:20:56.595 Df coreaudiod[44272:6217cac] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:20:57.848 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 07:20:58.240 Df coreaudiod[44272:6217ccc] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 86528 frames.
+2026-09-30 07:20:58.240 Df coreaudiod[44272:6217ccc] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:24:27.945 Df coreaudiod[44272:621acb9] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:24:28.149 Df coreaudiod[44272:6217cd0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 9342976 frames.
+2026-09-30 07:24:28.149 Df coreaudiod[44272:6217cd0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:24:28.151 Df coreaudiod[44272:6217d91] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 9236480 frames.
+2026-09-30 07:24:28.151 Df coreaudiod[44272:6217d91] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:24:28.153 Df coreaudiod[44272:621acb9] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:24:28.153 Df coreaudiod[44272:621acb9] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:24:28.159 Df coreaudiod[44272:621acb9] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:24:28.160 Df coreaudiod[44272:621acbd] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:24:28.216 Df coreaudiod[44272:621acb9] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:24:28.378 Df coreaudiod[44272:6217cea] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 9284096 frames.
+2026-09-30 07:24:28.378 Df coreaudiod[44272:6217cea] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:24:28.383 Df coreaudiod[44272:621acbd] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:24:28.387 Df coreaudiod[44272:621acbd] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:24:28.407 Df coreaudiod[44272:621acbd] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:24:28.427 Df coreaudiod[44272:621acb9] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:24:28.471 Df coreaudiod[44272:621acbd] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:24:28.688 Df coreaudiod[44272:621acbd] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:24:29.468 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:24:29.681 Df coreaudiod[44272:621b791] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 19456 frames.
+2026-09-30 07:24:29.682 Df coreaudiod[44272:621b791] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:24:29.685 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:24:29.685 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:24:29.687 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 07:24:29.689 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:24:29.703 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:24:29.908 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:24:29.952 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:24:30.166 Df coreaudiod[44272:621b7e8] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 19456 frames.
+2026-09-30 07:24:30.166 Df coreaudiod[44272:621b7e8] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:24:30.170 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:24:30.170 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:24:30.172 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 07:24:30.173 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:24:30.186 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:24:30.384 Df coreaudiod[44272:621b76a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 187904 frames.
+2026-09-30 07:24:30.384 Df coreaudiod[44272:621b76a] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:24:30.391 Df coreaudiod[44272:6219c4f] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:29:47.147 Df coreaudiod[44272:6225433] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 289280 frames.
+2026-09-30 07:29:47.147 Df coreaudiod[44272:6225433] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 07:30:06.598 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:30:06.804 Df coreaudiod[44272:621b76f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 32483840 frames.
+2026-09-30 07:30:06.804 Df coreaudiod[44272:621b76f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:30:06.806 Df coreaudiod[44272:621b860] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 32231936 frames.
+2026-09-30 07:30:06.806 Df coreaudiod[44272:621b860] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:30:06.811 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:30:06.811 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:30:06.816 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:30:06.817 Df coreaudiod[44272:621e3ca] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:30:06.881 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:30:07.038 Df coreaudiod[44272:621b814] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 32312832 frames.
+2026-09-30 07:30:07.038 Df coreaudiod[44272:621b814] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:30:07.044 Df coreaudiod[44272:621e3ca] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:30:07.046 Df coreaudiod[44272:621e3ca] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:30:07.068 Df coreaudiod[44272:621e3ca] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:30:07.091 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:30:07.129 Df coreaudiod[44272:621e3ca] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:30:07.350 Df coreaudiod[44272:621e3ca] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:30:08.594 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 07:30:09.058 Df coreaudiod[44272:62261e7] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 87040 frames.
+2026-09-30 07:30:09.058 Df coreaudiod[44272:62261e7] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:30:15.182 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:30:15.397 Df coreaudiod[44272:622621d] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 299520 frames.
+2026-09-30 07:30:15.397 Df coreaudiod[44272:622621d] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:30:15.401 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:30:15.401 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:30:15.403 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 07:30:15.404 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:30:15.418 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:30:15.626 Df coreaudiod[44272:621e3c9] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:58:28.236 Df coreaudiod[44272:6241633] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:58:28.439 Df coreaudiod[44272:62261ef] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 75028992 frames.
+2026-09-30 07:58:28.440 Df coreaudiod[44272:62261ef] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:58:28.443 Df coreaudiod[44272:622630b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 74926080 frames.
+2026-09-30 07:58:28.443 Df coreaudiod[44272:622630b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:58:28.450 Df coreaudiod[44272:6241633] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:58:28.451 Df coreaudiod[44272:6241633] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:58:28.457 Df coreaudiod[44272:6241633] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:58:28.458 Df coreaudiod[44272:6241635] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 07:58:28.525 Df coreaudiod[44272:6241633] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:58:28.680 Df coreaudiod[44272:6226c34] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 74660864 frames.
+2026-09-30 07:58:28.680 Df coreaudiod[44272:6226c34] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 07:58:28.688 Df coreaudiod[44272:6241635] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 07:58:28.693 Df coreaudiod[44272:6241635] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 07:58:28.722 Df coreaudiod[44272:6241635] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 07:58:28.732 Df coreaudiod[44272:6241633] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:58:28.799 Df coreaudiod[44272:6241635] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 07:58:29.009 Df coreaudiod[44272:6241635] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 07:58:30.496 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 07:58:30.684 Df coreaudiod[44272:6242d9e] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 186368 frames.
+2026-09-30 07:58:30.684 Df coreaudiod[44272:6242d9e] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 07:59:24.362 Df coreaudiod[44272:624422e] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 333 after 131584 frames.
+2026-09-30 07:59:24.362 Df coreaudiod[44272:624422e] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 333 BuiltInSpeakerDevice (BuiltInSpeakerDevice): stopping with error 0
+2026-09-30 08:05:20.303 Df coreaudiod[44272:6247efa] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:05:20.508 Df coreaudiod[44272:6242d9d] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 39529472 frames.
+2026-09-30 08:05:20.508 Df coreaudiod[44272:6242d9d] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:05:20.511 Df coreaudiod[44272:6242ebe] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 39325696 frames.
+2026-09-30 08:05:20.511 Df coreaudiod[44272:6242ebe] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:05:20.515 Df coreaudiod[44272:6247efa] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:05:20.515 Df coreaudiod[44272:6247efa] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:05:20.522 Df coreaudiod[44272:6247efa] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:05:20.523 Df coreaudiod[44272:6244292] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:05:20.599 Df coreaudiod[44272:6247efa] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:05:20.743 Df coreaudiod[44272:6242dcf] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 39359488 frames.
+2026-09-30 08:05:20.743 Df coreaudiod[44272:6242dcf] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:05:20.748 Df coreaudiod[44272:6244292] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:05:20.752 Df coreaudiod[44272:6244292] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:05:20.773 Df coreaudiod[44272:6244292] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:05:20.810 Df coreaudiod[44272:6247efa] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:05:20.848 Df coreaudiod[44272:6244292] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:05:21.066 Df coreaudiod[44272:6244292] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:05:22.248 Df coreaudiod[44272:6250206] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 63488 frames.
+2026-09-30 08:05:22.248 Df coreaudiod[44272:6250206] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:05:22.310 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 08:15:03.416 Df coreaudiod[44272:6257c16] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:15:03.621 Df coreaudiod[44272:625020f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 25701888 frames.
+2026-09-30 08:15:03.621 Df coreaudiod[44272:625020f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:15:03.623 Df coreaudiod[44272:62504c0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 25595392 frames.
+2026-09-30 08:15:03.623 Df coreaudiod[44272:62504c0] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:15:03.625 Df coreaudiod[44272:6257c16] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:15:03.625 Df coreaudiod[44272:6257c16] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:15:03.631 Df coreaudiod[44272:625a77e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:15:03.633 Df coreaudiod[44272:6257c16] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:15:03.699 Df coreaudiod[44272:6257c16] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:15:03.846 Df coreaudiod[44272:6250264] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 25645568 frames.
+2026-09-30 08:15:03.846 Df coreaudiod[44272:6250264] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:15:03.852 Df coreaudiod[44272:625a77e] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:15:03.856 Df coreaudiod[44272:625a77e] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:15:03.885 Df coreaudiod[44272:625a77e] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:15:03.912 Df coreaudiod[44272:6257c16] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:15:03.953 Df coreaudiod[44272:625a77e] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:15:04.175 Df coreaudiod[44272:625a77e] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:15:04.905 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:15:05.123 Df coreaudiod[44272:6261e32] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 39424 frames.
+2026-09-30 08:15:05.123 Df coreaudiod[44272:6261e32] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:15:05.131 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:15:05.131 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:15:05.134 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 08:15:05.136 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:15:05.158 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:15:05.369 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:15:05.865 Df coreaudiod[44272:6261e17] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 373760 frames.
+2026-09-30 08:15:05.865 Df coreaudiod[44272:6261e17] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:18:08.645 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:18:08.849 Df coreaudiod[44272:6261e1b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 35506688 frames.
+2026-09-30 08:18:08.849 Df coreaudiod[44272:6261e1b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:18:08.852 Df coreaudiod[44272:6261e78] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 35091968 frames.
+2026-09-30 08:18:08.852 Df coreaudiod[44272:6261e78] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:18:08.861 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:18:08.861 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:18:08.866 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:18:08.868 Df coreaudiod[44272:6267768] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:18:08.932 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:18:09.089 Df coreaudiod[44272:6261e5b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 35262464 frames.
+2026-09-30 08:18:09.089 Df coreaudiod[44272:6261e5b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:18:09.095 Df coreaudiod[44272:6267768] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:18:09.098 Df coreaudiod[44272:6267768] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:18:09.122 Df coreaudiod[44272:6267768] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:18:09.142 Df coreaudiod[44272:6261d91] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:18:09.186 Df coreaudiod[44272:6267768] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:18:09.407 Df coreaudiod[44272:6267768] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:18:10.656 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 08:18:11.104 Df coreaudiod[44272:62677de] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 86528 frames.
+2026-09-30 08:18:11.104 Df coreaudiod[44272:62677de] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:27:43.518 Df coreaudiod[44272:62742b5] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:27:43.726 Df coreaudiod[44272:62677e4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 25338880 frames.
+2026-09-30 08:27:43.726 Df coreaudiod[44272:62677e4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:27:43.727 Df coreaudiod[44272:6267872] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 25233920 frames.
+2026-09-30 08:27:43.727 Df coreaudiod[44272:6267872] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:27:43.731 Df coreaudiod[44272:62742b5] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:27:43.731 Df coreaudiod[44272:62742b5] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:27:43.735 Df coreaudiod[44272:627a08e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:27:43.737 Df coreaudiod[44272:62742b5] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:27:43.801 Df coreaudiod[44272:62742b5] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:27:43.950 Df coreaudiod[44272:6267807] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 25282048 frames.
+2026-09-30 08:27:43.950 Df coreaudiod[44272:6267807] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:27:43.956 Df coreaudiod[44272:627a08e] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:27:43.960 Df coreaudiod[44272:627a08e] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:27:43.982 Df coreaudiod[44272:627a08e] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:27:44.011 Df coreaudiod[44272:62742b5] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:27:44.048 Df coreaudiod[44272:627a08e] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:27:44.260 Df coreaudiod[44272:627a08e] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:27:45.041 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:27:45.254 Df coreaudiod[44272:627a123] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 39424 frames.
+2026-09-30 08:27:45.254 Df coreaudiod[44272:627a123] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:27:45.261 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:27:45.261 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:27:45.264 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 08:27:45.266 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:27:45.288 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:27:45.494 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:27:45.541 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:27:45.758 Df coreaudiod[44272:627a14f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 39424 frames.
+2026-09-30 08:27:45.758 Df coreaudiod[44272:627a14f] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:27:45.765 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:27:45.765 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:27:45.768 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 08:27:45.770 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:27:45.791 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:27:45.971 Df coreaudiod[44272:627a0f3] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 375296 frames.
+2026-09-30 08:27:45.971 Df coreaudiod[44272:627a0f3] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:27:45.998 Df coreaudiod[44272:62742b4] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:27:46.045 Df coreaudiod[44272:6277fa1] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:27:46.262 Df coreaudiod[44272:627a162] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 39936 frames.
+2026-09-30 08:27:46.262 Df coreaudiod[44272:627a162] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:27:46.268 Df coreaudiod[44272:6277fa1] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:27:46.268 Df coreaudiod[44272:6277fa1] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:27:46.271 Df coreaudiod[44272:6277fa1] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 08:27:46.273 Df coreaudiod[44272:6277fa1] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:27:46.295 Df coreaudiod[44272:6277fa1] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:27:46.500 Df coreaudiod[44272:6277fa1] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:27:46.545 Df coreaudiod[44272:627a08f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:27:46.758 Df coreaudiod[44272:627a248] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 38912 frames.
+2026-09-30 08:27:46.758 Df coreaudiod[44272:627a248] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:27:46.765 Df coreaudiod[44272:627a08f] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:27:46.765 Df coreaudiod[44272:627a08f] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:27:46.768 Df coreaudiod[44272:627a08f] (CoreAudio)     HALS_PlugInDevice.cpp:2587   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  but nothing changed
+2026-09-30 08:27:46.770 Df coreaudiod[44272:627a08f] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:27:46.791 Df coreaudiod[44272:627a08f] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:27:46.998 Df coreaudiod[44272:627a08f] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:34:33.628 Df coreaudiod[44272:6283e7d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:34:33.834 Df coreaudiod[44272:627a103] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 78685184 frames.
+2026-09-30 08:34:33.834 Df coreaudiod[44272:627a103] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:34:33.838 Df coreaudiod[44272:627a36b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 77981696 frames.
+2026-09-30 08:34:33.838 Df coreaudiod[44272:627a36b] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:34:33.844 Df coreaudiod[44272:6283e7d] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:34:33.844 Df coreaudiod[44272:6283e7d] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:34:33.852 Df coreaudiod[44272:6283e7d] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:34:33.853 Df coreaudiod[44272:6285035] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:34:33.935 Df coreaudiod[44272:6283e7d] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:34:34.075 Df coreaudiod[44272:627a35c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 78148096 frames.
+2026-09-30 08:34:34.075 Df coreaudiod[44272:627a35c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:34:34.080 Df coreaudiod[44272:6285035] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:34:34.082 Df coreaudiod[44272:6285035] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:34:34.102 Df coreaudiod[44272:6285035] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:34:34.146 Df coreaudiod[44272:6283e7d] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:34:34.187 Df coreaudiod[44272:6285035] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:34:34.397 Df coreaudiod[44272:6285035] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:34:35.653 E  coreaudiod[44272:58e2df5] [com.apple.coreaudio:AMCP]         HALS_OverloadMessage.cpp:254   HALS_OverloadMessage: Overload possibly due to safety violation.
+2026-09-30 08:34:36.114 Df coreaudiod[44272:628729c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 87040 frames.
+2026-09-30 08:34:36.114 Df coreaudiod[44272:628729c] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:35:36.488 Df coreaudiod[44272:62872fa] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 4055 after 2644480 frames.
+2026-09-30 08:35:36.488 Df coreaudiod[44272:62872fa] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 4055 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:36:29.068 Df coreaudiod[44272:62872b4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6280 after 5067776 frames.
+2026-09-30 08:36:29.068 Df coreaudiod[44272:62872b4] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6280 LSOutput_UID (LSOutput_UID): stopping with error 0
+2026-09-30 08:36:29.090 Df coreaudiod[44272:62872c9] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 5002240 frames.
+2026-09-30 08:36:29.090 Df coreaudiod[44272:62872c9] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):
+2026-09-30 08:36:29.095 Df coreaudiod[44272:6288325] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 08:36:29.301 Df coreaudiod[44272:6288325] (CoreAudio)     HALS_PlugInDevice.cpp:2484   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- calling driver
+2026-09-30 08:36:29.303 Df coreaudiod[44272:6288325] (CoreAudio)     HALS_PlugInDevice.cpp:2502   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- driver returned
+2026-09-30 08:36:29.308 Df coreaudiod[44272:6288325] (CoreAudio)     HALS_PlugInDevice.cpp:2615   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- sending notifications
+2026-09-30 08:36:29.330 Df coreaudiod[44272:6288325] (CoreAudio)     HALS_PlugInDevice.cpp:2660   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --- restarting IO
+2026-09-30 08:36:29.537 Df coreaudiod[44272:6288325] (CoreAudio)     HALS_PlugInDevice.cpp:2681   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  <---
+2026-09-30 08:36:32.549 Df coreaudiod[44272:628b358] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2056   IO Stopped Context 6278 after 512 frames.
+2026-09-30 08:36:32.549 Df coreaudiod[44272:628b358] (CoreAudio) HALS_IOContext_Legacy_Impl.cpp:2081   HALS_IOContext_Legacy_Impl::IOWorkLoopDeinit: 6278 AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2 (AppleUSBAudioEngine:Neumann:Neumann MT48:010085:1,2):

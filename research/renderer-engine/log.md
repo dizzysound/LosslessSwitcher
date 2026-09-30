@@ -1076,3 +1076,25 @@ library, looked up by name).
 - Aside: several "matched" tracks with lossless-size bit rates (Flower Punk 785 kbps, Sun Blows Up
   Today, An Gleann) were decoded from AAC streams (paac/aac lines), not local files; coffee's disk is
   99% full, so probably not downloaded (not checked).
+
+# MT48 dropouts during work (Executor, a0863be, plug-in 1.1.2), 2026-09-30 06:08-08:36
+Owner: "dropouts during work". Data: data/2026-09-30-executor-mt48/ (engine log, coreaudiod config
+changes and IO stops, usbaudiod lines around each dropout; the full system-log windows are not
+committed: they name other devices and hosts).
+- Engine clean: under 0 over 0 on every status line (18 rate switches). The 12 coreaudiod overloads
+  all fall ~2 s after a DAC format change, before "DAC ready": inside switches, output already muted.
+- Three mid-track dropouts, 07:12:15, 07:13:15, 07:30:15: the MT48's IO context stopped and restarted
+  (~0.25 s). The engine logged nothing then and saw them after the fact ("phase jumped ... a device
+  restarted?"; at 07:13 the ring fill rose 12800 frames, the gap played later, nothing lost).
+- Cause, from usbaudiod (Apple's user-space USB audio driver on macOS 26): "AUAStream_safeguardAgainstDelays
+  timeDiff 261 / 413 / 114, threshold 64", then "Unable to enqueue IO ... error 0xe00002ee" (transfers
+  past their USB frame), then AUAAudioDevice_requestConfigurationChange -> coreaudiod stops and restarts
+  the MT48's IO. So usbaudiod's own IO thread ran late and the driver restarted the stream itself.
+- Why it ran late: not found. Nothing from the kernel, power or thermal in the 0.5 s before; Spotlight
+  (mds_stores) logged heavily in all three windows (165-396 lines in 1.5 s), NeumannMT48Agent logged
+  once a second throughout. Hypothesis only.
+- No baseline: usbaudiod's retained log starts 2026-09-29 16:45, and Music played through the MT48
+  only ~04:00-05:00 that day. Whether Exclusive Mode (hog, integer, 16 ch 32 bit) makes the MT48's
+  stream more fragile is open; a run without Exclusive Mode under the same load would say.
+- Also: this Mac's app sat on a TCC prompt at launch after each reinstall (engine not started, no log)
+  until answered; and plug-in 1.1.2 is still installed here -> DriverUpdatePrompt (this branch).
