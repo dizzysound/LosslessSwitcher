@@ -2792,11 +2792,15 @@ final class MusicSettingsCheck: ObservableObject {
     /// Main thread.
     private func showWindow() {
         if window == nil {
-            let w = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 460, height: 300),
-                             styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
+            // sized by the view, and resized as problems come and go (a fixed 460 x 300 would clip
+            // four or five of them, as the driver update window's 260 did on Executor)
+            let host = NSHostingController(rootView: MusicSettingsView(check: self))
+            host.sizingOptions = [.preferredContentSize]
+            let w = NSWindow(contentViewController: host)
+            w.styleMask = [.titled, .closable]
             w.title = "Music settings for bit-perfect playback"
             w.isReleasedWhenClosed = false
-            w.contentViewController = NSHostingController(rootView: MusicSettingsView(check: self))
+            w.setContentSize(host.view.fittingSize) // before center(): unshown, the window is 1 x 32
             w.center()
             window = w
         }
@@ -2822,7 +2826,6 @@ struct MusicSettingsView: View {
                 }
             }
             if check.problems.isEmpty { Text("All set.") }
-            Spacer(minLength: 0)
             HStack {
                 Button("Check Again") { check.checkAgain() }
                 if let t = check.checkedAt {
@@ -2833,7 +2836,8 @@ struct MusicSettingsView: View {
             }
         }
         .padding(16)
-        .frame(minWidth: 420, minHeight: 220)
+        .frame(width: 460)
+        .fixedSize(horizontal: false, vertical: true) // height = the problems listed + the buttons
     }
 }
 
