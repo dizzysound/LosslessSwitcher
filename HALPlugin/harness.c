@@ -321,7 +321,7 @@ int main(int argc, char** argv)
         AudioObjectPropertyAddress na = { kAudioObjectPropertyName, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMain };
         CFStringRef nm = NULL; UInt32 nsz = sizeof nm; char nb[256] = "";
         I->GetPropertyData(drv, kDev, 0, &na, 0, NULL, nsz, &nsz, &nm); if(nm) CFStringGetCString(nm, nb, sizeof nb, kCFStringEncodingUTF8);
-        CHECK(strcmp(nb, "LosslessSwitcher") == 0, "device name is LosslessSwitcher (%s)", nb);
+        CHECK(strcmp(nb, "Nativerate") == 0, "device name is Nativerate (%s)", nb);
         na.mSelector = kAudioObjectPropertyElementName; na.mElement = 1; nm = NULL; nsz = sizeof nm; nb[0] = 0;
         I->GetPropertyData(drv, kDev, 0, &na, 0, NULL, nsz, &nsz, &nm); if(nm) CFStringGetCString(nm, nb, sizeof nb, kCFStringEncodingUTF8);
         CHECK(strcmp(nb, "Left") == 0, "channel 1 is Left (%s)", nb);

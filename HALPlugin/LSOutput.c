@@ -162,7 +162,7 @@ static Float64								gDevice_AnchorSampleTime		= 0.0;
 static UInt64								gDevice_AnchorHostTime			= 0;
 
 //	LSOutput additions.
-//	Rates: the ones LosslessSwitcher switches a DAC between.
+//	Rates: the ones Nativerate switches a DAC between.
 static const Float64						kLS_Rates[]						= { 44100.0, 48000.0, 88200.0, 96000.0, 176400.0, 192000.0 };
 #define										kLS_NumRates					6
 //	Clock: host(S) = gClock_AnchorHost + (S - gClock_AnchorSample) * gDevice_HostTicksPerFrame, where
@@ -589,7 +589,7 @@ static OSStatus	NullAudio_Initialize(AudioServerPlugInDriverRef inDriver, AudioS
 	//	set the box name directly as a last resort
 	if(gBox_Name == NULL)
 	{
-		gBox_Name = CFSTR("LosslessSwitcher");
+		gBox_Name = CFSTR("Nativerate");
 	}
 	
 	//	calculate the host ticks per frame
@@ -1390,7 +1390,7 @@ static OSStatus	NullAudio_GetPlugInPropertyData(AudioServerPlugInDriverRef inDri
 		case kAudioObjectPropertyManufacturer:
 			//	This is the human readable name of the maker of the plug-in.
 			FailWithAction(inDataSize < sizeof(CFStringRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "NullAudio_GetPlugInPropertyData: not enough space for the return value of kAudioObjectPropertyManufacturer for the plug-in");
-			*((CFStringRef*)outData) = CFSTR("LosslessSwitcher");
+			*((CFStringRef*)outData) = CFSTR("Nativerate");
 			*outDataSize = sizeof(CFStringRef);
 			break;
 			
@@ -1865,7 +1865,7 @@ static OSStatus	NullAudio_GetBoxPropertyData(AudioServerPlugInDriverRef inDriver
 		case kAudioObjectPropertyManufacturer:
 			//	This is the human readable name of the maker of the box.
 			FailWithAction(inDataSize < sizeof(CFStringRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "NullAudio_GetBoxPropertyData: not enough space for the return value of kAudioObjectPropertyManufacturer for the box");
-			*((CFStringRef*)outData) = CFSTR("LosslessSwitcher");
+			*((CFStringRef*)outData) = CFSTR("Nativerate");
 			*outDataSize = sizeof(CFStringRef);
 			break;
 			
@@ -2445,14 +2445,14 @@ static OSStatus	NullAudio_GetDevicePropertyData(AudioServerPlugInDriverRef inDri
 		case kAudioObjectPropertyName:
 			//	This is the human readable name of the device.
 			FailWithAction(inDataSize < sizeof(CFStringRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "NullAudio_GetDevicePropertyData: not enough space for the return value of kAudioObjectPropertyName for the device");
-			*((CFStringRef*)outData) = CFSTR("LosslessSwitcher");
+			*((CFStringRef*)outData) = CFSTR("Nativerate");
 			*outDataSize = sizeof(CFStringRef);
 			break;
 			
 		case kAudioObjectPropertyManufacturer:
 			//	This is the human readable name of the maker of the plug-in.
 			FailWithAction(inDataSize < sizeof(CFStringRef), theAnswer = kAudioHardwareBadPropertySizeError, Done, "NullAudio_GetDevicePropertyData: not enough space for the return value of kAudioObjectPropertyManufacturer for the device");
-			*((CFStringRef*)outData) = CFSTR("LosslessSwitcher");
+			*((CFStringRef*)outData) = CFSTR("Nativerate");
 			*outDataSize = sizeof(CFStringRef);
 			break;
 			
