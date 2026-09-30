@@ -166,8 +166,15 @@ final class VirtualDeviceEngine {
     private var lastInfoAt = Date.distantPast
     private var gridSince: Date?
     private var gridVerdict: Int? // 16, 24, or 0 = on neither grid
+    // after a lossless upgrade: skip windows until one is on the 24-bit grid (Music still plays the
+    // buffered lossy start for a second or two after the ALAC line), at most until this time
+    private var gridAwaitClean: Date?
     private var logBits: Int?     // the depth Music's log gave for the track
     private var sourceLossy = false // armAt is for a skip (the gap already went through A)
+    // false: no decoder line of the track's own or file header said what the source is (coffee,
+    // 2026-09-29: 12 iTunes Match AAC uploads logged none, were taken as lossless, and the Bit-Perfect
+    // Check blamed Music for their off-grid samples)
+    private var sourceKnown = true
     private var latchedAt: Date?
     private var gatePending = false
     private var lastNewTrackAt: Date?
@@ -397,6 +404,7 @@ final class VirtualDeviceEngine {
                 pendingUpgrade = nil
                 trackRate = up.rate
                 resetGrid()
+                gridAwaitClean = Date().addingTimeInterval(5)
                 setSource(up.bits, lossy: false)
                 if let r = neededRate(up.rate) {
                     log("lossless decoder at \(up.rate) Hz after a lossy start; switching again")
@@ -1070,10 +1078,13 @@ final class VirtualDeviceEngine {
         // was right at once for every track; once "missing value" right at the change.
         if let r = musicTrackRate(name: name) {
             let newest = decoderRates.last(where: { prev == nil || $0.date > prev! })
-            let own = decoderRates.last(where: { (prev == nil || $0.date > prev!) && $0.rate == r })
+            // not a line from the previous track's own window: that's its setup or lossless upgrade
+            // (coffee: Little Martha took the line of the track before, 203 s old, as its own 24 bit)
+            let own = decoderRates.last(where: { (prev == nil || $0.date > prev!) && (prevOwnUntil == nil || $0.date > prevOwnUntil!) && $0.rate == r })
             if let n = newest, n.rate != r { log("new track \(name): the newest decoder line says \(Int(n.rate)) Hz, Music says \(Int(r)) Hz for the track; Music's decides") }
             decide(r, bits: own?.bits, lossless: own?.lossless ?? true, seenAgo: own.map { at.timeIntervalSince($0.date) } ?? 0,
-                   name: name + (own == nil ? " (Music's rate for the track; no decoder line at it yet)" : " (Music's rate for the track)"), tPlay: at)
+                   name: name + (own == nil ? " (Music's rate for the track; no decoder line at it yet)" : " (Music's rate for the track)"), tPlay: at,
+                   sourceKnown: own != nil)
             return
         }
         guard let line = decoderRates.last(where: { prev == nil || $0.date > prev! }) else {
@@ -1119,22 +1130,23 @@ final class VirtualDeviceEngine {
     }
 
     /// The menu's source depth: measured from the samples once known, else Music's log.
-    private func setSource(_ bits: Int?, lossy: Bool) {
-        logBits = bits; sourceLossy = lossy
+    private func setSource(_ bits: Int?, lossy: Bool, known: Bool = true) {
+        logBits = bits; sourceLossy = lossy; sourceKnown = known
         publishSource()
     }
 
     private func publishSource() {
         let shown = gridVerdict.flatMap { $0 == 0 ? nil : $0 } ?? logBits
         RendererOutput.shared.set(sourceBits: sourceLossy ? nil : shown, lossy: sourceLossy)
-        RendererOutput.shared.set(offGrid: !sourceLossy && gridVerdict == 0)
+        // only a source known to be lossless on no grid means Music changes the samples
+        RendererOutput.shared.set(offGrid: !sourceLossy && sourceKnown && gridVerdict == 0)
     }
 
     /// A new track (or decoder): measure its depth from here.
     private func resetGrid() {
         gridLast = (gridNZ.load(ordering: .acquiring), gridOff16.load(ordering: .acquiring), gridOff24.load(ordering: .acquiring))
         gridTotal = (0, 0, 0); gridPending = nil
-        gridSince = Date(); gridVerdict = nil
+        gridSince = Date(); gridVerdict = nil; gridAwaitClean = nil
         RendererOutput.shared.set(offGrid: false)
     }
 
@@ -1149,6 +1161,18 @@ final class VirtualDeviceEngine {
         guard let since = gridSince else { return }
         let now = Date()
         let clean = playing && !inRoutine && now.timeIntervalSince(lastInfoAt) > 1 && now.timeIntervalSince(since) >= 1
+        if let until = gridAwaitClean {
+            if clean && win.0 > 0 && win.2 == 0 {
+                gridAwaitClean = nil
+                log("source depth: on the 24-bit grid \(String(format: "%.1f", now.timeIntervalSince(since))) s after the lossless decoder; measuring")
+            } else if now < until {
+                gridPending = nil
+                return
+            } else {
+                gridAwaitClean = nil
+                log("source depth: no window on the 24-bit grid within 5 s of the lossless decoder; measuring anyway")
+            }
+        }
         if clean {
             if let p = gridPending { gridTotal = (gridTotal.0 + p.0, gridTotal.1 + p.1, gridTotal.2 + p.2) }
             gridPending = win
@@ -1161,16 +1185,16 @@ final class VirtualDeviceEngine {
         let v = o24 > 0 ? 0 : o16 > 0 ? 24 : 16
         guard v != gridVerdict, gridVerdict.map({ $0 != 0 && (v == 0 || v > $0) }) ?? true else { return }
         gridVerdict = v
-        let why = v == 0 ? "on neither the 16- nor the 24-bit grid (\(o24) of \(nz) samples): \(sourceLossy ? "lossy" : "Music changes them (volume, Sound Check, EQ) or the source is float")"
+        let why = v == 0 ? "on neither the 16- nor the 24-bit grid (\(o24) of \(nz) samples): \(sourceLossy ? "lossy" : !sourceKnown ? "no decoder line of its own, so lossy or changed by Music" : "Music changes them (volume, Sound Check, EQ) or the source is float")"
             : v == 24 ? "\(o16) of \(nz) samples off the 16-bit grid, all on the 24-bit grid" : "all \(nz) on the 16-bit grid"
         log("source depth from the samples: \(v == 0 ? "neither 16 nor 24 bit" : "\(v) bit") (\(why))\(logBits.map { $0 != v ? "; Music's log said \($0) bit" : "" } ?? "")")
         publishSource()
     }
 
-    private func decide(_ rate: Float64, bits: Int?, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date) {
+    private func decide(_ rate: Float64, bits: Int?, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date, sourceKnown: Bool = true) {
         resetGrid()
         trackRate = rate
-        setSource(bits, lossy: !lossless)
+        setSource(bits, lossy: !lossless, known: sourceKnown)
         if !lossless { lossyTrackAt = Date() }
         let need = neededRate(rate)
         log("new track \(name): decoder \(rate) Hz \(lossless ? "lossless" : "lossy") (seen \(String(format: "%.3f", seenAgo)) s before Playing), DAC \(Int(curRate)) Hz\(need.map { " -> switch to \(Int($0))" } ?? "")")
@@ -1239,7 +1263,7 @@ final class VirtualDeviceEngine {
                 decide(f.rate, bits: f.bits, lossless: f.lossless, seenAgo: aw.tPlay.timeIntervalSince(f.date), name: aw.name, tPlay: aw.tPlay)
             } else {
                 log("no decoder line for \(aw.name) within 3 s; playing at \(Int(curRate)) Hz")
-                setSource(nil, lossy: false)
+                setSource(nil, lossy: false, known: false)
                 if latchedAt != nil || armAt != nil || latchZeros.load(ordering: .acquiring) > 0 { disarm("no rate") }
                 releaseGate("no decoder line")
             }
@@ -1425,7 +1449,7 @@ final class VirtualDeviceEngine {
             rate = own ?? file ?? recent
             resetGrid()
             if let l = ownLine { setSource(l.bits, lossy: !l.lossless) }
-            else { setSource(fileStats?.sourceBits, lossy: fileStats?.lossy ?? false) }
+            else { setSource(fileStats?.sourceBits, lossy: fileStats?.lossy ?? false, known: fileStats != nil) }
             log("resume: \(name) at \(rate.map { "\(Int($0)) Hz" } ?? "the DAC's rate") (\(own != nil ? "its decoder line" : file != nil ? "file header" : recent != nil ? "newest decoder line, may be another track's" : "nothing says"))")
         }
         let target = rate.flatMap { neededRate($0) } ?? curRate
