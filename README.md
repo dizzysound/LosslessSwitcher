@@ -122,6 +122,9 @@ if you'd rather not edit the README.
 
 | Mac | macOS | Audio device | Nativerate version | Mode | Result |
 |---|---|---|---|---|---|
+| Mac with M5 Pro | 26-27 | Neumann MT 48 | `renderer-vdevice` | Exclusive | Works; see Known issues |
+| Mac with M1 Pro | 26-27 | RME Babyface Pro | `renderer-vdevice` | Exclusive | Works |
+| MacBook Air (M2) | 26-27 | AudioQuest DragonFly Black | `renderer-vdevice` | Exclusive | Works |
 
 If something goes wrong, **attach your logs**: in the app's menu, open **About** and choose
 **Export Logs…**. It writes one zip with the engine logs of the last three runs, every audio
