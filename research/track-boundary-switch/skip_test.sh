@@ -1,7 +1,7 @@
 #!/bin/bash
 # Skip forward N times with the dev app running; log what Music plays after each skip.
 set -u
-BIN="../typecheck/.build/LosslessSwitcher Dev.app/Contents/MacOS/LosslessSwitcher"; AC=../local-file-resampling/audioctl
+BIN="../typecheck/.build/Nativerate Dev.app/Contents/MacOS/Nativerate"; AC=../local-file-resampling/audioctl
 script -q -F app_skip.log "$BIN" >/dev/null 2>&1 & APP=$!
 ./listen 70 > notifications_skip.log & LIS=$!
 sleep 12

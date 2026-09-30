@@ -1,18 +1,30 @@
-> **This is a fork** of [vincentneo/LosslessSwitcher](https://github.com/vincentneo/LosslessSwitcher)
-> that adds an experimental **Exclusive Mode** for bit-perfect sample-rate switching. The
-> upstream README follows the fork notes below. For the original app, use upstream's releases.
+# Nativerate
 
-## This fork: Exclusive Mode (experimental)
+Nativerate plays Apple Music **bit-perfect on your DAC at each track's native sample rate**, with
+no resampling and no wrong-rate audio at the start of a track. It lives in the menu bar.
 
-Exclusive Mode is off by default ("Exclusive Mode (Experimental)" in the menu). With it on:
+It started as a fork of [vincentneo/LosslessSwitcher](https://github.com/vincentneo/LosslessSwitcher)
+and has grown into a separate app. It keeps upstream's sample-rate switching and adds Exclusive Mode.
+Upstream's README is kept at the bottom, under [Background](#background-losslessswitcher).
 
-- Music plays to a virtual output device, "LosslessSwitcher" (a HAL plug-in, `HALPlugin/`). The
+Nativerate has two modes:
+
+- **Switching** (upstream's approach, on by default): read Music's logs for the playing track's
+  sample rate and set your output device to match.
+- **Exclusive Mode** (experimental, off by default): take over the output path, described next.
+
+## Exclusive Mode (experimental)
+
+Turn it on with "Exclusive Mode (Experimental)" in the menu. With it on:
+
+- Music plays to a virtual output device, "Nativerate" (a HAL plug-in, `HALPlugin/`). The
   engine reads it and plays the audio **unchanged** to your DAC (the Selected Device, or your
   default output), with the DAC hogged and in its non-mixable integer format when it has one. The
   virtual device's clock follows the DAC's, so nothing is resampled.
 - At a sample-rate change it catches the end of the old track, pauses Music, switches the DAC,
   rewinds and plays, so no track starts at the wrong rate. Local files and Apple Music streams both
   work. Same-rate and gapless changes pass through untouched.
+- Other apps and alert sounds go elsewhere (the Mac's built-in speakers by default, your choice under Advanced), so they never mix into the DAC's stream.
 - The volume keys drive the DAC's own volume and mute (4 dB per step); the audio stays at unity.
 - After 60 s without playback it gives the DAC and the default output back ("Advanced > Release DAC When
   Music Is Idle"), and takes them again when Music plays (about 2 s from play to sound on the
@@ -23,48 +35,51 @@ Exclusive Mode is off by default ("Exclusive Mode (Experimental)" in the menu). 
 - A window points out Music settings that defeat bit-perfect playback (AutoMix/Crossfade, Sound
   Check, EQ, volume below 100).
 
-Status: draft pull request [#229](https://github.com/vincentneo/LosslessSwitcher/pull/229)
-upstream, built on [#227](https://github.com/vincentneo/LosslessSwitcher/pull/227) and
-[#228](https://github.com/vincentneo/LosslessSwitcher/pull/228). Tested on macOS 26 and 27 with a
-Neumann MT 48, an RME Babyface Pro and a MacBook Pro's speakers.
+The **Bit-Perfect Check** menu item reports whether your current path is bit-perfect and, if not, why.
 
-### Try it
+Tested on macOS 26 and 27 with a Neumann MT 48, an RME Babyface Pro, an AudioQuest DragonFly and a
+MacBook Pro's speakers.
 
-Download the latest pre-release from this fork's
-[Releases](https://github.com/dizzysound/LosslessSwitcher/releases). It's ad-hoc signed and not
-notarized, so:
+## Try it
+
+Download the latest pre-release from [Releases](https://github.com/dizzysound/Nativerate/releases).
+It's ad-hoc signed and not notarized, so:
 
 1. Unzip it into `~/Applications` (not an iCloud-synced Desktop or Documents folder).
-2. Right-click **LosslessSwitcher Dev** > **Open** the first time.
-3. Quit the regular LosslessSwitcher if it's running. The dev build has its own bundle id
-   (`com.dizzysound.LosslessSwitcher.dev`) and settings, so both can be installed.
+2. Right-click **Nativerate Dev** > **Open** the first time.
+3. Quit the original LosslessSwitcher if it's running. Nativerate has its own bundle id
+   (`com.dizzysound.Nativerate`; dev builds use `.dev`), so its settings start fresh and both apps can be installed.
 4. In its menu (a music note in the menu bar): **Install Exclusive Mode Driver…** (asks for an
    administrator password; audio restarts for a moment). Exclusive Mode turns on when it's done;
    it can't be turned on without the driver.
 5. Allow **Microphone** (the engine reads the virtual device's input to play it to the DAC) and
    **Automation** for Music. Each new copy of an ad-hoc build asks again.
 
-To remove it: **Advanced > Virtual Output Device > Remove…**, then delete the app. The engine log is
-`~/Library/Logs/LosslessSwitcher-ExclusiveMode.log`.
+**Coming from LosslessSwitcher or an earlier fork build?** The driver's device was called
+"LosslessSwitcher" before plug-in 1.2.0. Nativerate offers the driver update on launch; accept it and
+the device appears as "Nativerate" in Sound settings.
 
-### Build it
+To remove it: **Advanced > Virtual Output Device > Remove…**, then delete the app. The engine log is
+`~/Library/Logs/Nativerate-ExclusiveMode.log`.
+
+## Build it
 
 Requirements: macOS 15 or later, Xcode 27 (the SwiftUI macros need Xcode, not just the Command
 Line Tools). The build is universal; it has only been run on Apple Silicon.
 
 ```bash
-git clone -b renderer-vdevice https://github.com/dizzysound/LosslessSwitcher.git
-cd LosslessSwitcher
-./research/typecheck/make_xcode_dev_app.sh          # writes ~/Desktop/LosslessSwitcher-Dev-<commit>.zip
+git clone -b renderer-vdevice https://github.com/dizzysound/Nativerate.git
+cd Nativerate
+./research/typecheck/make_xcode_dev_app.sh          # writes ~/Desktop/Nativerate-Dev-<commit>.zip
 ```
 
 The script runs `xcodebuild` with the dev bundle id, ad-hoc signing and the **hardened runtime
 off**: with it on, library validation refuses the embedded ad-hoc `MediaRemoteAdapter.framework` at
-launch. A signed, notarized build needs a Developer ID (the project's team setting is upstream's).
+launch. A signed, notarized build needs a Developer ID (the project's team setting is still upstream's).
 The Xcode build runs `HALPlugin/build.sh` to build the plug-in into the app's Resources; see
 [`HALPlugin/README.md`](HALPlugin/README.md) for building, testing and installing it by hand.
 
-### Known issues
+## Known issues
 
 - Experimental: one heap-corruption crash in about 45 switches on the MT 48, not reproduced under
   AddressSanitizer.
@@ -73,27 +88,33 @@ The Xcode build runs `HALPlugin/build.sh` to build the plug-in into the app's Re
 - About 70-80 ms of latency at 44.1 kHz.
 - Music's AutoMix blends tracks, so a clean switch isn't possible; turn it off.
 
-### Branches
+## Branches
 
 | Branch | What it is |
 |---|---|
-| `renderer-vdevice` (default) | Exclusive Mode, plus the research notes and bench tooling in `research/` |
-| `renderer-engine-pr` | The same engine without `research/`, for upstream PR #229 |
-| `local-file-detection` | Upstream PR #227 |
-| `bit-perfect-check` | Upstream PR #228 |
+| `renderer-vdevice` (default) | Nativerate: Exclusive Mode, plus the research notes and bench tooling in `research/` |
+| `renderer-engine-pr` | The Exclusive Mode engine without `research/`, as offered to upstream |
+| `local-file-detection` | Local-file detection, as offered to upstream |
+| `bit-perfect-check` | Bit-Perfect Check, as offered to upstream |
 | `main` | Upstream's `main`, unchanged |
 
 For testers: `research/renderer-engine/BENCH-BRIEF.md` lists what to test and what's already
 known; `research/renderer-engine/log.md` is the full test history.
 
+## License and credits
+
+Nativerate is licensed under GPL-3.0 (see `LICENSE`), as is the project it came from. The original
+LosslessSwitcher is Copyright Vincent Neo and contributors; see
+[upstream](https://github.com/vincentneo/LosslessSwitcher), and consider
+[sponsoring its author](https://github.com/sponsors/vincentneo).
+
 ---
 
-<p align="center">
-  <img width="550" alt="header image with app icon" src="https://user-images.githubusercontent.com/23420208/164895903-1c95fe89-6198-433a-9100-8d9af32ca24f.png">
+## Background: LosslessSwitcher
 
-</p>
+The rest of this file is upstream's README, unchanged, and describes the original app. Its
+install links point to upstream's releases, and its tested-devices tables cover the original app.
 
-#  
 
 LosslessSwitcher switches your current audio device's sample rate to match the currently playing lossless song on your Apple Music app, automatically.
 

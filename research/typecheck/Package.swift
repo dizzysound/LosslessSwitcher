@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "LosslessSwitcherTypecheck",
+    name: "NativerateTypecheck",
     platforms: [.macOS("15.0")], // the app target is 15.0; RendererEngine needs process taps (14.2)
     dependencies: [
         .package(url: "https://github.com/rnine/SimplyCoreAudio.git", revision: "343d463cffef1f30458d02ce2dc441138e9e0134"),
@@ -14,13 +14,13 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "LosslessSwitcher",
+            name: "Nativerate",
             dependencies: [
                 "SimplyCoreAudio", "Sweep",
                 .product(name: "PrivateMediaRemote", package: "MediaRemote"),
                 .product(name: "MediaRemoteAdapter", package: "mediaremote-adapter"),
             ],
-            path: "Sources/LosslessSwitcher",
+            path: "Sources/Nativerate",
             linkerSettings: [.unsafeFlags(["-F", "/System/Library/PrivateFrameworks", "-framework", "MediaRemote"])]
         ),
     ]

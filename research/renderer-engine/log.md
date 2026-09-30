@@ -1098,3 +1098,20 @@ committed: they name other devices and hosts).
   stream more fragile is open; a run without Exclusive Mode under the same load would say.
 - Also: this Mac's app sat on a TCC prompt at launch after each reinstall (engine not started, no log)
   until answered; and plug-in 1.1.2 is still installed here -> DriverUpdatePrompt (this branch).
+
+## 2026-09-30: the fork became Nativerate
+
+Renamed from LosslessSwitcher. Older entries above keep the old names (LosslessSwitcher, `Quality/`,
+`com.vincent-neo.LosslessSwitcher`); they are history, so they were not rewritten.
+
+- Xcode project `Nativerate.xcodeproj`, source directory `Nativerate/`, scheme and target `Nativerate`.
+- Bundle id `com.dizzysound.Nativerate` (dev builds `.dev`). The defaults domain changes with it, so
+  settings start fresh and TCC (Microphone, Automation) asks again.
+- Driver 1.2.0 (build 9): the virtual device is named "Nativerate" (was "LosslessSwitcher"). File
+  name `LSOutput.driver`, UID `LSOutput_UID` and the four-char property codes are unchanged, so an
+  installed older driver keeps working; the app's driver-update prompt offers 1.2.0. The app still
+  hides an older driver's "LosslessSwitcher" device from its device menus.
+- Engine logs are now `~/Library/Logs/Nativerate-ExclusiveMode*.log`; log exports `Nativerate-Logs-*.zip`.
+- Removed upstream's `.github/FUNDING.yml` (it sponsored upstream's author) and its tracked Xcode
+  user data. `DEVELOPMENT_TEAM` in the project is still upstream's; set it when a Developer ID exists.
+- Verified: Xcode Debug build succeeds; the driver harness passes ("all passed").

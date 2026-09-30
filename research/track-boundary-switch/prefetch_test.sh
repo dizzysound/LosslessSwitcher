@@ -3,8 +3,8 @@
 # next-item prefetch, to check that no rate change happens mid-track.
 set -u
 AC=../local-file-resampling/audioctl; DEV="${DEV:-MT 48}"; SECS=${SECS:-200}
-osascript -e 'tell application id "com.vincent-neo.LosslessSwitcher" to quit' 2>/dev/null; sleep 1
-script -q -F app_prefetch.log /Applications/LosslessSwitcher.app/Contents/MacOS/LosslessSwitcher >/dev/null 2>&1 & APP=$!
+osascript -e 'tell application id "com.dizzysound.Nativerate" to quit' 2>/dev/null; sleep 1
+script -q -F app_prefetch.log /Applications/Nativerate.app/Contents/MacOS/Nativerate >/dev/null 2>&1 & APP=$!
 end=$(( $(date +%s) + SECS )); last=""
 while [ $(date +%s) -lt $end ]; do
   s="$(osascript -e 'tell application "Music" to get name of current track' 2>/dev/null) | $($AC rate "$DEV")"
@@ -12,4 +12,4 @@ while [ $(date +%s) -lt $end ]; do
   sleep 0.5
 done > prefetch_monitor.log
 kill $APP; wait $APP 2>/dev/null
-open /Applications/LosslessSwitcher.app
+open /Applications/Nativerate.app

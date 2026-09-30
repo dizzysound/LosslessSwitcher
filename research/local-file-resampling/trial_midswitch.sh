@@ -1,6 +1,6 @@
 #!/bin/bash
 # trial_midswitch.sh <track_pid> <out.wav>
-# LosslessSwitcher's real sequence: Music launched at 44.1k, track starts at 44.1k, device -> 96k mid-track.
+# Nativerate's real sequence: Music launched at 44.1k, track starts at 44.1k, device -> 96k mid-track.
 set -u
 D="Loopback Audio"; PID=$1; OUT=$2
 osascript -e 'tell application "Music" to quit' >/dev/null; while pgrep -x Music >/dev/null; do sleep 0.5; done
