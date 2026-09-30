@@ -1,0 +1,317 @@
+Filtering the log data using "(process == "usbaudiod" AND (composedMessage CONTAINS "safeguardAgainstDelays timeDiff" OR composedMessage CONTAINS "performStopIO stopIO")) OR (process == "coreaudiod" AND composedMessage CONTAINS "RequestConfigChange: <private>  --->")"
+Timestamp               Ty Process[PID:TID]
+2026-09-30 09:52:49.663 Df coreaudiod[52935:631a0aa] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:49.677 Df coreaudiod[52935:631a0a8] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:49.681 Df usbaudiod[52944:631dfc8] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 09:52:50.726 Df coreaudiod[52935:631bf30] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:50.728 Df usbaudiod[52944:631d45b] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 09:52:50.829 Df coreaudiod[52935:631dfd8] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:50.830 Df usbaudiod[52944:631d45b] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 09:52:50.909 Df coreaudiod[52935:631dfbb] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:50.911 Df usbaudiod[52944:631b43e] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 09:52:50.997 Df coreaudiod[52935:631dfb4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:50.999 Df usbaudiod[52944:631d45b] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 09:52:51.085 Df coreaudiod[52935:631dfb4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:51.086 Df usbaudiod[52944:631d45b] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 09:52:51.165 Df coreaudiod[52935:631dfd9] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:51.166 Df usbaudiod[52944:631b43e] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 09:52:51.245 Df coreaudiod[52935:631dfd9] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:51.247 Df usbaudiod[52944:631d45b] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 09:52:51.333 Df coreaudiod[52935:631dfbd] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:52:51.335 Df usbaudiod[52944:631b43e] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 09:58:01.140 Df coreaudiod[52935:632165f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:58:01.153 Df coreaudiod[52935:6322350] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 09:58:01.156 Df usbaudiod[52944:6322580] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:04:04.499 Df coreaudiod[52935:6322704] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:04:04.507 Df coreaudiod[52935:63226e2] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:04:04.509 Df usbaudiod[52944:6328c8e] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:04:05.591 Df coreaudiod[52935:6329357] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:04:05.594 Df usbaudiod[52944:63289a5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:04:05.707 Df coreaudiod[52935:6329353] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:04:05.709 Df usbaudiod[52944:63291cb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:04:05.807 Df coreaudiod[52935:6329380] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:04:05.809 Df usbaudiod[52944:63291cb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:14:57.995 Df coreaudiod[52935:632b37d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:14:58.010 Df coreaudiod[52935:632d88f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:14:58.017 Df usbaudiod[52944:6332929] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:14.682 Df coreaudiod[52935:633e807] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:14.698 Df coreaudiod[52935:633c8e4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:14.703 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:17.321 Df coreaudiod[52935:633a62c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:17.337 Df coreaudiod[52935:6334eda] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:17.343 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:18.460 Df coreaudiod[52935:633e808] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:18.462 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:18.556 Df coreaudiod[52935:633a629] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:18.558 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:18.644 Df coreaudiod[52935:633e808] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:18.646 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:18.732 Df coreaudiod[52935:633e80e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:18.734 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:18.820 Df coreaudiod[52935:633e80e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:18.822 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:18.908 Df coreaudiod[52935:633a62c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:18.911 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:18.992 Df coreaudiod[52935:633e859] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:18.994 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.080 Df coreaudiod[52935:633e89a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.082 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.168 Df coreaudiod[52935:633e89a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.170 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.252 Df coreaudiod[52935:633e89a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.254 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.336 Df coreaudiod[52935:633e89a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.338 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.420 Df coreaudiod[52935:633e85d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.422 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.504 Df coreaudiod[52935:633e808] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.506 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.592 Df coreaudiod[52935:633dce4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.594 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.680 Df coreaudiod[52935:633c8e4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.682 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.760 Df coreaudiod[52935:633e89a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.762 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.844 Df coreaudiod[52935:633b6ba] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.846 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:19.932 Df coreaudiod[52935:633a62e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:19.935 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.020 Df coreaudiod[52935:633e85b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.022 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.108 Df coreaudiod[52935:633dce4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.110 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.196 Df coreaudiod[52935:633e85d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.199 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.284 Df coreaudiod[52935:633e85d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.286 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.372 Df coreaudiod[52935:633e85d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.374 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.456 Df coreaudiod[52935:633e807] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.458 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.544 Df coreaudiod[52935:633e89a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.546 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.632 Df coreaudiod[52935:633dce4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.634 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.716 Df coreaudiod[52935:633e89a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.719 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.800 Df coreaudiod[52935:633e80e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.802 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.884 Df coreaudiod[52935:633e808] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.886 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:20.968 Df coreaudiod[52935:633e808] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:20.970 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.056 Df coreaudiod[52935:633e808] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.058 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.144 Df coreaudiod[52935:633e89a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.146 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.224 Df coreaudiod[52935:633e89a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.227 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.312 Df coreaudiod[52935:633e8a0] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.314 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.396 Df coreaudiod[52935:633e85d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.398 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.484 Df coreaudiod[52935:633e858] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.487 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.572 Df coreaudiod[52935:633e80e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.574 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.660 Df coreaudiod[52935:633a629] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.662 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.744 Df coreaudiod[52935:6334eda] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.746 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.832 Df coreaudiod[52935:633dce3] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.834 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:21.920 Df coreaudiod[52935:633dce3] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:21.922 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.004 Df coreaudiod[52935:633e8a0] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.006 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.088 Df coreaudiod[52935:633e80f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.090 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.172 Df coreaudiod[52935:6334eda] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.174 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.260 Df coreaudiod[52935:633e89b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.262 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.344 Df coreaudiod[52935:633a62e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.347 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.428 Df coreaudiod[52935:633e8a0] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.430 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.516 Df coreaudiod[52935:633e80f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.518 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.604 Df coreaudiod[52935:633e8a0] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.607 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.688 Df coreaudiod[52935:633e80f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.690 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.776 Df coreaudiod[52935:633e80f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.778 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.860 Df coreaudiod[52935:633e85d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.862 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:22.944 Df coreaudiod[52935:633e85a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:22.946 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.032 Df coreaudiod[52935:633e89b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.034 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.120 Df coreaudiod[52935:633e8a0] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.122 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.204 Df coreaudiod[52935:633e8a0] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.206 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.288 Df coreaudiod[52935:633e85b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.290 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.372 Df coreaudiod[52935:633a629] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.374 Df usbaudiod[52944:633d957] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.456 Df coreaudiod[52935:633e85a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.459 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.540 Df coreaudiod[52935:633e85a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.542 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.620 Df coreaudiod[52935:633a629] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.623 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.708 Df coreaudiod[52935:633a629] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.710 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.800 Df coreaudiod[52935:633a62e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.802 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.892 Df coreaudiod[52935:633e8a0] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.895 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:23.980 Df coreaudiod[52935:633e85d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:23.983 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.072 Df coreaudiod[52935:633a62b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.075 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.160 Df coreaudiod[52935:633e859] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.162 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.248 Df coreaudiod[52935:633e80f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.250 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.336 Df coreaudiod[52935:633e85a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.338 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.420 Df coreaudiod[52935:633e95c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.421 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.500 Df coreaudiod[52935:633dce4] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.502 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.592 Df coreaudiod[52935:633a62c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.594 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.684 Df coreaudiod[52935:633a629] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.687 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.772 Df coreaudiod[52935:633e80f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.774 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.864 Df coreaudiod[52935:6334eda] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.866 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:24.952 Df coreaudiod[52935:6334eda] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:24.954 Df usbaudiod[52944:633e325] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:25.044 Df coreaudiod[52935:633e859] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:25.046 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:25.132 Df coreaudiod[52935:633e859] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:25.134 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:25.216 Df coreaudiod[52935:633e85b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:25.218 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:25.308 Df coreaudiod[52935:633e85b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:25.312 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:25.396 Df coreaudiod[52935:633e95c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:25.399 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:25.484 Df coreaudiod[52935:633e89b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:25.487 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:25.572 Df coreaudiod[52935:633e85b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:25.574 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:32:25.660 Df coreaudiod[52935:633a62e] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:32:25.662 Df usbaudiod[52944:633e71a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:36:29.785 Df coreaudiod[52935:633f98b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:36:29.800 Df coreaudiod[52935:633e89b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:36:29.803 Df usbaudiod[52944:633f9c0] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:44:32.877 Df coreaudiod[52935:63453cd] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:44:32.886 Df coreaudiod[52935:6346931] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:44:32.887 Df usbaudiod[52944:6345b6e] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:51:00.631 Df coreaudiod[52935:6348c83] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:51:00.640 Df coreaudiod[52935:634a29d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:51:00.641 Df usbaudiod[52944:6348ec8] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:56:46.518 Df coreaudiod[52935:634cc6a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:56:46.533 Df coreaudiod[52935:634d866] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:56:46.538 Df usbaudiod[52944:634cead] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:56:47.628 Df coreaudiod[52935:634d866] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:56:47.631 Df usbaudiod[52944:634de9a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:56:47.744 Df coreaudiod[52935:634d866] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:56:47.746 Df usbaudiod[52944:634cead] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:56:47.839 Df coreaudiod[52935:634e207] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:56:47.841 Df usbaudiod[52944:634de9a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:56:47.927 Df coreaudiod[52935:634e207] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:56:47.930 Df usbaudiod[52944:634de9a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:56:48.019 Df coreaudiod[52935:634bb86] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:56:48.021 Df usbaudiod[52944:634de9a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:57:22.412 Df usbaudiod[52944:634de9a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:57:22.426 Df coreaudiod[52935:634e92f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:57:24.939 Df usbaudiod[52944:634e9c5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:57:29.469 Df coreaudiod[52935:634bb86] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:57:29.591 Df coreaudiod[52935:634e92c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:57:29.594 Df usbaudiod[52944:634de9a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:57:29.699 Df coreaudiod[52935:634e92f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:57:29.701 Df usbaudiod[52944:634de9a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:57:29.791 Df coreaudiod[52935:634e9ad] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:57:29.793 Df usbaudiod[52944:634de9a] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:57:29.875 Df coreaudiod[52935:634e92c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:57:29.878 Df usbaudiod[52944:634e9c5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:57:29.963 Df coreaudiod[52935:634e92c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:57:29.965 Df usbaudiod[52944:634e9c5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 10:57:30.055 Df coreaudiod[52935:634e92b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 10:57:30.058 Df usbaudiod[52944:634e9c5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:06:59.684 Df coreaudiod[52935:6358503] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:06:59.702 Df coreaudiod[52935:63542c5] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:06:59.707 Df usbaudiod[52944:6358739] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:44.606 Df coreaudiod[52935:6374755] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:44.628 Df coreaudiod[52935:636e6bd] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:44.633 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:47.774 Df coreaudiod[52935:63758cb] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:47.789 Df coreaudiod[52935:636e6bd] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:47.795 Df usbaudiod[52944:63751dc] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:48.902 Df coreaudiod[52935:63761ef] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:48.904 Df usbaudiod[52944:63762f5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.010 Df coreaudiod[52935:63761ed] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.012 Df usbaudiod[52944:63762f5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.098 Df coreaudiod[52935:6376200] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.099 Df usbaudiod[52944:63751dc] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.182 Df coreaudiod[52935:63761ef] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.184 Df usbaudiod[52944:63762f5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.274 Df coreaudiod[52935:636e6bd] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.276 Df usbaudiod[52944:63751dc] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.358 Df coreaudiod[52935:63761ce] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.359 Df usbaudiod[52944:63751dc] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.442 Df coreaudiod[52935:63761ed] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.444 Df usbaudiod[52944:63762f5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.530 Df coreaudiod[52935:6376202] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.532 Df usbaudiod[52944:63751dc] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.618 Df coreaudiod[52935:63758cb] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.619 Df usbaudiod[52944:63751dc] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.702 Df coreaudiod[52935:63761ed] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.704 Df usbaudiod[52944:63751dc] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.790 Df coreaudiod[52935:637512c] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.792 Df usbaudiod[52944:63751dc] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.878 Df coreaudiod[52935:63761ed] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.880 Df usbaudiod[52944:63762f5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:49.970 Df coreaudiod[52935:63761ed] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:49.972 Df usbaudiod[52944:63762f5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:50.058 Df coreaudiod[52935:63761ed] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:50.060 Df usbaudiod[52944:63762f5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:28:50.146 Df coreaudiod[52935:63761cc] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:28:50.147 Df usbaudiod[52944:63762f5] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:32:56.790 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:32:56.807 Df coreaudiod[52935:637af63] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:03.682 Df coreaudiod[52935:637a54a] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:03.805 Df coreaudiod[52935:6378ff6] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:03.807 Df usbaudiod[52944:637947c] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:03.901 Df coreaudiod[52935:637b080] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:03.902 Df usbaudiod[52944:637947c] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:03.985 Df coreaudiod[52935:637735d] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:03.986 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:04.069 Df coreaudiod[52935:637b07f] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:04.071 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:04.149 Df coreaudiod[52935:637b0f7] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:04.151 Df usbaudiod[52944:637947c] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:04.233 Df coreaudiod[52935:6378ff8] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:04.235 Df usbaudiod[52944:637947c] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:04.317 Df coreaudiod[52935:637b080] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:04.319 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:04.401 Df coreaudiod[52935:637b075] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:04.403 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:04.489 Df coreaudiod[52935:637ac91] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:04.492 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:04.581 Df coreaudiod[52935:637b0f6] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:04.583 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:04.669 Df coreaudiod[52935:637a54b] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:04.670 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:33:04.761 Df coreaudiod[52935:637b080] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:33:04.764 Df usbaudiod[52944:6373aeb] [:ioio] -> [0xe]:performStopIO stopIO
+2026-09-30 11:37:38.436 Df coreaudiod[52935:637c9aa] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:37:38.451 Df coreaudiod[52935:637dd81] (CoreAudio)     HALS_PlugInDevice.cpp:2441   HALS_PlugInDevice::HandlePlugIn_RequestConfigChange: <private>  --->
+2026-09-30 11:37:38.454 Df usbaudiod[52944:637f390] [:ioio] -> [0xe]:performStopIO stopIO

@@ -1115,3 +1115,16 @@ Renamed from LosslessSwitcher. Older entries above keep the old names (LosslessS
 - Removed upstream's `.github/FUNDING.yml` (it sponsored upstream's author) and its tracked Xcode
   user data. `DEVELOPMENT_TEAM` in the project is still upstream's; set it when a Developer ID exists.
 - Verified: Xcode Debug build succeeds; the driver harness passes ("all passed").
+
+# MT48 on driver 1.1.6: no stalls (Executor, a0863be-dirty -> 865a0e5 -> e324b41), 2026-09-30 09:45-11:38
+After the morning's dropouts on 1.1.2 (three usbaudiod stalls in 20 min), the owner updated the driver
+to 1.1.6 from the new prompt and played for testing through a normal work session. Recorded:
+data/2026-09-30-executor-mt48/watch-1.1.6.txt (usbaudiod safeguard lines and stream stops, coreaudiod
+config-change requests).
+- usbaudiod "safeguardAgainstDelays" stalls: 0 in ~1 h 45 min (09:52-11:37).
+- 150 MT48 stream stops, every one inside a rate switch or an app reinstall (matched to the engine log
+  within -3/+6 s); no mid-track restarts. Pastor played the same builds through the morning, no
+  reports of trouble (owner).
+- Consistent with the owner's reading that other apps' audio (mixed into Music by 1.1.2) was involved;
+  not proven: the morning's stalls were usbaudiod's own IO thread running late, and one quiet session
+  doesn't rule that out.
