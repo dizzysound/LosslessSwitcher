@@ -1390,6 +1390,11 @@ final class VirtualDeviceEngine {
         let dacOK = dac != 0 && CA.string(dac, kAudioDevicePropertyDeviceUID) == dacUID
         guard let d = selectedDAC() ?? picked ?? (dacOK ? dac : chooseDAC()) else { log("no output device to play to"); return false }
         reclaimDefault()
+        // a gate or latch from before the step-aside can't be reached (A dropped everything since):
+        // the switch would wait 1 s for it (pastor, 2026-09-30: "boundary NOT reached 1.009 s")
+        gatePending = false; gateMarkedAt = nil
+        gate.store(0, ordering: .releasing); latchZeros.store(0, ordering: .releasing)
+        marker.store(-1, ordering: .releasing); atBoundary.store(0, ordering: .releasing)
         return setUpDAC(d)
     }
 
@@ -1500,20 +1505,23 @@ final class VirtualDeviceEngine {
             // 44.1k line 1.1 s after its Playing, after the rate was chosen; it played at the hymn's
             // 96k). Take a line from its Playing on (or just before), waiting up to 2 s for one.
             let since = at.addingTimeInterval(-2)
-            if decoderRates.last.map({ $0.date <= since }) ?? true {
+            // Music's own rate for the track answers at once (as for a new track); the decoder-line
+            // wait below cost 2 s on a take-back where Music logged none (pastor, 2026-09-30)
+            let musicRate = musicTrackRate(name: name)
+            if musicRate == nil, decoderRates.last.map({ $0.date <= since }) ?? true {
                 let t0 = Date()
                 _ = wait(2) { self.decoderRates.last.map { $0.date > since } ?? false }
                 log("resume: \(decoderRates.last.map { $0.date > since } ?? false ? "decoder line after \(String(format: "%.2f", Date().timeIntervalSince(t0))) s" : "no decoder line within 2 s")")
             }
             let ownLine = decoderRates.last.flatMap { $0.date > since ? $0 : nil }
             let own = ownLine?.rate
-            let fileStats = own == nil ? LocalTrack.currentStats(attempts: 2) : nil
+            let fileStats = own == nil && musicRate == nil ? LocalTrack.currentStats(attempts: 2) : nil
             let file = fileStats?.sampleRate
-            rate = own ?? file ?? recent
+            rate = musicRate ?? own ?? file ?? recent
             resetGrid()
             if let l = ownLine { setSource(l.bits, lossy: !l.lossless) }
             else { setSource(fileStats?.sourceBits, lossy: fileStats?.lossy ?? false, known: fileStats != nil) }
-            log("resume: \(name) at \(rate.map { "\(Int($0)) Hz" } ?? "the DAC's rate") (\(own != nil ? "its decoder line" : file != nil ? "file header" : recent != nil ? "newest decoder line, may be another track's" : "nothing says"))")
+            log("resume: \(name) at \(rate.map { "\(Int($0)) Hz" } ?? "the DAC's rate") (\(musicRate != nil ? "Music's rate for the track" : own != nil ? "its decoder line" : file != nil ? "file header" : recent != nil ? "newest decoder line, may be another track's" : "nothing says"))")
         }
         let target = rate.flatMap { neededRate($0) } ?? curRate
         if pid != lastTrackID { trackRate = rate }
