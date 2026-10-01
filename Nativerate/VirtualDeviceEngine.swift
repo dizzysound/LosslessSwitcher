@@ -957,7 +957,7 @@ final class VirtualDeviceEngine {
     /// Engine thread, each second: the Other Apps & Alerts choice changed, or the chosen device came
     /// back or went away: play other apps (and alerts) where it now says.
     private func followOthersChoice() {
-        guard procB != nil || (steppedAside && procA != nil), !inRoutine else { return }
+        guard procB != nil, !inRoutine else { return }
         var a = CA.addr(Self.kMusicOnly)
         guard ls != 0, AudioObjectHasProperty(ls, &a) else { return }
         let choice = UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey)
@@ -1403,6 +1403,30 @@ final class VirtualDeviceEngine {
         resetLock()
         steppedAside = true
         probeAfterStepAside()
+        othersToDACWhileIdle()
+    }
+
+    /// While stepped aside the DAC is free and Music is idle: other apps play on it (shared, mixable),
+    /// as before the release-only step-aside (owner, coffee 2026-10-01: YouTube while Music is idle
+    /// belongs on the DAC). "Mute Other Apps" stays muted. The take-back moves them off it first.
+    private func othersToDACWhileIdle() {
+        guard dac != 0, CA.string(dac, kAudioDevicePropertyDeviceUID) == dacUID,
+              UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey) != OtherAppsOutput.mute else { return }
+        var a = CA.addr(Self.kMusicOnly)
+        guard ls != 0, AudioObjectHasProperty(ls, &a) else { return }
+        let name = CA.string(dac, kAudioObjectPropertyName)
+        othersFeed.store(0, ordering: .releasing)
+        othersDevice = dac
+        othersRestartAt = Date()
+        if others.start(device: dac, rate: curRate, log: { [unowned self] in self.log($0) }) {
+            othersFeed.store(1, ordering: .releasing)
+            OtherAppsOutput.shared.setActive(dac)
+            RendererOutput.shared.set(othersRoute: "Other apps play on \(name) (Music idle)", ok: true)
+            log("other apps -> \(name) while Music is idle")
+        } else {
+            log("other apps: couldn't play on \(name) while idle; staying where they were")
+            othersDevice = 0
+        }
     }
 
     /// The take-back after a release-only step-aside: A still runs and the default is still the virtual
@@ -1416,6 +1440,9 @@ final class VirtualDeviceEngine {
         let dacOK = dac != 0 && CA.string(dac, kAudioDevicePropertyDeviceUID) == dacUID
         guard let d = selectedDAC() ?? picked ?? (dacOK ? dac : chooseDAC()) else { log("no output device to play to"); return false }
         reclaimDefault()
+        // other apps were on the DAC while idle: off it before it's taken (setUpDAC refuses a DAC
+        // another client still plays to); setUpDAC puts them back where Other Apps & Alerts says
+        if othersDevice == d || othersDevice == dac { stopOthers() }
         // a gate or latch from before the step-aside can't be reached (A dropped everything since):
         // the switch would wait 1 s for it (pastor, 2026-09-30: "boundary NOT reached 1.009 s")
         gatePending = false; gateMarkedAt = nil

@@ -390,6 +390,21 @@ int main(int argc, char** argv)
         pid = 4242; n = CFNumberCreate(NULL, kCFNumberSInt32Type, &pid); I->SetPropertyData(drv, kDev, 0, &aa, 0, NULL, sizeof n, &n); CFRelease(n);
         pid = 0; n = CFNumberCreate(NULL, kCFNumberSInt32Type, &pid); I->SetPropertyData(drv, kDev, 0, &aa, 0, NULL, sizeof n, &n); CFRelease(n);
         CHECK(CANBE(kAudioObjectPropertyScopeOutput) == 0, "detach (0) clears it");
+        {   // 1.2.1: a clean detach with another app still on the device withdraws it for a moment
+            AudioServerPlugInClientInfo browser = { 21, 777, false, NULL }, rend = { 22, 4242, false, NULL };
+            I->AddDeviceClient(drv, kDev, &browser); I->AddDeviceClient(drv, kDev, &rend);
+            pid = 4242; n = CFNumberCreate(NULL, kCFNumberSInt32Type, &pid); I->SetPropertyData(drv, kDev, 0, &aa, 0, NULL, sizeof n, &n); CFRelease(n);
+            pid = 0; n = CFNumberCreate(NULL, kCFNumberSInt32Type, &pid); I->SetPropertyData(drv, kDev, 0, &aa, 0, NULL, sizeof n, &n); CFRelease(n);
+            UInt32 bz2 = 9; I->GetPropertyDataSize(drv, kAudioObjectPlugInObject, 0, &bl, 0, NULL, &bz2);
+            CHECK(bz2 == 0, "clean detach with another client: device withdrawn (device list size %u)", bz2);
+            sleep(3); bz2 = 0; I->GetPropertyDataSize(drv, kAudioObjectPlugInObject, 0, &bl, 0, NULL, &bz2);
+            CHECK(bz2 == sizeof(AudioObjectID), "and back 2 s later (device list size %u)", bz2);
+            I->RemoveDeviceClient(drv, kDev, &browser); I->RemoveDeviceClient(drv, kDev, &rend);
+            pid = 4242; n = CFNumberCreate(NULL, kCFNumberSInt32Type, &pid); I->SetPropertyData(drv, kDev, 0, &aa, 0, NULL, sizeof n, &n); CFRelease(n);
+            pid = 0; n = CFNumberCreate(NULL, kCFNumberSInt32Type, &pid); I->SetPropertyData(drv, kDev, 0, &aa, 0, NULL, sizeof n, &n); CFRelease(n);
+            bz2 = 9; I->GetPropertyDataSize(drv, kAudioObjectPlugInObject, 0, &bl, 0, NULL, &bz2);
+            CHECK(bz2 == sizeof(AudioObjectID), "clean detach with no other client: device stays (device list size %u)", bz2);
+        }
     }
 
     CHECK(I->StopIO(drv, kDev, 1) == 0, "StopIO");
