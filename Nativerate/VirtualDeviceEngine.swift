@@ -179,6 +179,8 @@ final class VirtualDeviceEngine {
     // 2026-09-29: 12 iTunes Match AAC uploads logged none, were taken as lossless, and the Bit-Perfect
     // Check blamed Music for their off-grid samples)
     private var sourceKnown = true
+    private var trackStartedLossy = false // this track had a lossy decoder of its own (a stream's start)
+    private var gridInferredLossy = false // off every grid with nothing in Music changing samples: lossy
     private var latchedAt: Date?
     private var gatePending = false
     private var lastNewTrackAt: Date?
@@ -955,7 +957,7 @@ final class VirtualDeviceEngine {
     /// Engine thread, each second: the Other Apps & Alerts choice changed, or the chosen device came
     /// back or went away: play other apps (and alerts) where it now says.
     private func followOthersChoice() {
-        guard procB != nil || (steppedAside && procA != nil), !inRoutine else { return }
+        guard procB != nil, !inRoutine else { return }
         var a = CA.addr(Self.kMusicOnly)
         guard ls != 0, AudioObjectHasProperty(ls, &a) else { return }
         let choice = UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey)
@@ -1142,14 +1144,16 @@ final class VirtualDeviceEngine {
     /// The menu's source depth: measured from the samples once known, else Music's log.
     private func setSource(_ bits: Int?, lossy: Bool, known: Bool = true) {
         logBits = bits; sourceLossy = lossy; sourceKnown = known
+        if lossy { trackStartedLossy = true }
         publishSource()
     }
 
     private func publishSource() {
         let shown = gridVerdict.flatMap { $0 == 0 ? nil : $0 } ?? logBits
-        RendererOutput.shared.set(sourceBits: sourceLossy ? nil : shown, lossy: sourceLossy)
+        let lossy = sourceLossy || (gridVerdict == 0 && gridInferredLossy)
+        RendererOutput.shared.set(sourceBits: lossy ? nil : shown, lossy: lossy)
         // only a source known to be lossless on no grid means Music changes the samples
-        RendererOutput.shared.set(offGrid: !sourceLossy && sourceKnown && gridVerdict == 0)
+        RendererOutput.shared.set(offGrid: !lossy && sourceKnown && gridVerdict == 0)
         RendererOutput.shared.set(nearGrid: !sourceLossy && gridVerdict == 16 && gridNear)
     }
 
@@ -1161,7 +1165,7 @@ final class VirtualDeviceEngine {
     private func resetGrid() {
         gridLast = gridCounters()
         gridTotal = (0, 0, 0, 0); gridPending = nil
-        gridSince = Date(); gridVerdict = nil; gridNear = false; gridAwaitClean = nil
+        gridSince = Date(); gridVerdict = nil; gridNear = false; gridAwaitClean = nil; gridInferredLossy = false
         RendererOutput.shared.set(offGrid: false)
         RendererOutput.shared.set(nearGrid: false)
     }
@@ -1217,15 +1221,37 @@ final class VirtualDeviceEngine {
         let rank = { (v: Int, n: Bool) in v == 16 ? (n ? 1 : 0) : v == 24 ? 2 : 3 }
         if let g = gridVerdict, rank(v, near) <= rank(g, gridNear) { return }
         gridVerdict = v; gridNear = near
-        let why = v == 0 ? "on neither the 16- nor the 24-bit grid (\(o24) of \(nz) samples): \(sourceLossy ? "lossy" : !sourceKnown ? "no decoder line of its own, so lossy or changed by Music" : "Music changes them (volume, Sound Check, EQ) or the source is float")"
+        // Off every grid, and it's not known to be lossless: lossy if the track started on a lossy
+        // decoder (it can stay on it after a lossless line: coffee, "Me and My Nothin'"), or if nothing
+        // readable in Music changes samples (Music reuses a decoder across same-format tracks and logs
+        // no line: coffee, "Get Behind the Mule" on Another Day's AAC decoder; showed "? bit").
+        if v == 0, !sourceLossy {
+            gridInferredLossy = trackStartedLossy || (!sourceKnown && musicLeavesSamplesAlone())
+        }
+        let why = v == 0 ? "on neither the 16- nor the 24-bit grid (\(o24) of \(nz) samples): \(sourceLossy ? "lossy" : gridInferredLossy ? (trackStartedLossy ? "lossy (it started on a lossy decoder)" : "lossy (no decoder line of its own; Music's volume 100, Sound Check and Sound Enhancer off)") : !sourceKnown ? "no decoder line of its own, so lossy or changed by Music" : "Music changes them (volume, Sound Check, EQ) or the source is float")"
             : near ? "\(o24) of \(nz) samples within 1/64 of a 16-bit step but not on it: rounded in the playback path, not bit-exact"
             : v == 24 ? "\(o16) of \(nz) samples off the 16-bit grid, all on the 24-bit grid" : "all \(nz) on the 16-bit grid"
         log("source depth from the samples: \(v == 0 ? "neither 16 nor 24 bit" : "\(v) bit") (\(why))\(logBits.map { $0 != v ? "; Music's log said \($0) bit" : "" } ?? "")")
         publishSource()
     }
 
+    /// Music's readable settings that change samples are all off: volume 100, Sound Check and Sound
+    /// Enhancer off (EQ can't be read; the Bit-Perfect Check asks to check it).
+    private func musicLeavesSamplesAlone() -> Bool {
+        let app = "com.apple.Music" as CFString
+        CFPreferencesAppSynchronize(app)
+        // 0 or false when off (macOS 27 on coffee stores a Bool), absent when on
+        let sc = CFPreferencesCopyAppValue("optimizeSongVolume" as CFString, app) as? NSNumber
+        let en = CFPreferencesCopyAppValue("soundEnhancerEnabled" as CFString, app) as? NSNumber
+        let vol = scripts.volume()
+        let alone = sc?.intValue == 0 && (en?.intValue ?? 0) == 0 && vol == 100
+        log("source depth: Music's settings: Sound Check \(sc.map { "\($0)" } ?? "absent (on)"), Sound Enhancer \(en.map { "\($0)" } ?? "absent (off)"), volume \(vol.map(String.init) ?? "?"): \(alone ? "nothing readable changes the samples" : "may change them")")
+        return alone
+    }
+
     private func decide(_ rate: Float64, bits: Int?, lossless: Bool, seenAgo: TimeInterval, name: String, tPlay: Date, sourceKnown: Bool = true) {
         resetGrid()
+        trackStartedLossy = false
         trackRate = rate
         setSource(bits, lossy: !lossless, known: sourceKnown)
         if !lossless { lossyTrackAt = Date() }
@@ -1377,6 +1403,30 @@ final class VirtualDeviceEngine {
         resetLock()
         steppedAside = true
         probeAfterStepAside()
+        othersToDACWhileIdle()
+    }
+
+    /// While stepped aside the DAC is free and Music is idle: other apps play on it (shared, mixable),
+    /// as before the release-only step-aside (owner, coffee 2026-10-01: YouTube while Music is idle
+    /// belongs on the DAC). "Mute Other Apps" stays muted. The take-back moves them off it first.
+    private func othersToDACWhileIdle() {
+        guard dac != 0, CA.string(dac, kAudioDevicePropertyDeviceUID) == dacUID,
+              UserDefaults.standard.string(forKey: OtherAppsOutput.choiceKey) != OtherAppsOutput.mute else { return }
+        var a = CA.addr(Self.kMusicOnly)
+        guard ls != 0, AudioObjectHasProperty(ls, &a) else { return }
+        let name = CA.string(dac, kAudioObjectPropertyName)
+        othersFeed.store(0, ordering: .releasing)
+        othersDevice = dac
+        othersRestartAt = Date()
+        if others.start(device: dac, rate: curRate, log: { [unowned self] in self.log($0) }) {
+            othersFeed.store(1, ordering: .releasing)
+            OtherAppsOutput.shared.setActive(dac)
+            RendererOutput.shared.set(othersRoute: "Other apps play on \(name) (Music idle)", ok: true)
+            log("other apps -> \(name) while Music is idle")
+        } else {
+            log("other apps: couldn't play on \(name) while idle; staying where they were")
+            othersDevice = 0
+        }
     }
 
     /// The take-back after a release-only step-aside: A still runs and the default is still the virtual
@@ -1390,6 +1440,9 @@ final class VirtualDeviceEngine {
         let dacOK = dac != 0 && CA.string(dac, kAudioDevicePropertyDeviceUID) == dacUID
         guard let d = selectedDAC() ?? picked ?? (dacOK ? dac : chooseDAC()) else { log("no output device to play to"); return false }
         reclaimDefault()
+        // other apps were on the DAC while idle: off it before it's taken (setUpDAC refuses a DAC
+        // another client still plays to); setUpDAC puts them back where Other Apps & Alerts says
+        if othersDevice == d || othersDevice == dac { stopOthers() }
         // a gate or latch from before the step-aside can't be reached (A dropped everything since):
         // the switch would wait 1 s for it (pastor, 2026-09-30: "boundary NOT reached 1.009 s")
         gatePending = false; gateMarkedAt = nil
@@ -1519,6 +1572,7 @@ final class VirtualDeviceEngine {
             let file = fileStats?.sampleRate
             rate = musicRate ?? own ?? file ?? recent
             resetGrid()
+            trackStartedLossy = false
             if let l = ownLine { setSource(l.bits, lossy: !l.lossless) }
             else { setSource(fileStats?.sourceBits, lossy: fileStats?.lossy ?? false, known: fileStats != nil) }
             log("resume: \(name) at \(rate.map { "\(Int($0)) Hz" } ?? "the DAC's rate") (\(musicRate != nil ? "Music's rate for the track" : own != nil ? "its decoder line" : file != nil ? "file header" : recent != nil ? "newest decoder line, may be another track's" : "nothing says"))")

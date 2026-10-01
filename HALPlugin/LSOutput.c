@@ -3024,7 +3024,19 @@ static OSStatus	NullAudio_SetDevicePropertyData(AudioServerPlugInDriverRef inDri
 				CFNumberGetValue((CFNumberRef)theValue, kCFNumberSInt32Type, &thePID);
 				FailWithAction(thePID < 0, theAnswer = kAudioHardwareIllegalOperationError, Done, "LSOutput: bad pid");
 				os_log(gLog, "LSOutput: attached renderer pid %d (was %d)", thePID, gAttached_PID);
+				pid_t theWas = gAttached_PID;
 				LS_SetAttached(thePID);
+				//	A clean detach (the renderer stops): apps still on this device (a browser that started
+				//	while it was the default) don't follow the new default by themselves; they stay here,
+				//	silent, as nobody plays it out (coffee, 2026-10-01: YouTube after quitting). Withdraw it
+				//	for a moment, as after a crash, so coreaudiod moves them to the default output (1.2.1).
+				if(thePID == 0 && theWas != 0)
+				{
+					pthread_mutex_lock(&gClient_Mutex);
+					UInt32 theOthers = gClient_Count - LS_ClientsOf(theWas);
+					pthread_mutex_unlock(&gClient_Mutex);
+					if(theOthers > 0) LS_BlinkDevice();
+				}
 				if(thePID != 0)
 				{
 					pthread_mutex_lock(&gClient_Mutex);
