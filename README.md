@@ -1,3 +1,5 @@
+<p align="center"><img src="Nativerate/Assets.xcassets/AppIcon.appiconset/icon_512x512@2x-256.png" width="128" height="128" alt="Nativerate icon"></p>
+
 # Nativerate
 
 Nativerate plays Apple Music **bit-perfect on your DAC at each track's native sample rate**, with
@@ -5,6 +7,8 @@ no resampling and no wrong-rate audio at the start of a track. It lives in the m
 
 It started as a fork of [vincentneo/LosslessSwitcher](https://github.com/vincentneo/LosslessSwitcher)
 and has grown into a separate app. It keeps upstream's sample-rate switching and adds Exclusive Mode.
+
+<p align="center"><img src="docs/signal-path.svg" width="900" alt="Apple Music on its own: the macOS mixer resamples a 96 kHz track to the device rate and mixes in alerts, so the DAC plays it at 48 kHz. With Nativerate Exclusive Mode: Music plays into the Nativerate device, the engine passes the samples unchanged, and the DAC plays at 96 kHz; other apps and alerts go to the built-in speakers."></p>
 
 Nativerate has two modes:
 
