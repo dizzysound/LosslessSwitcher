@@ -1,0 +1,54 @@
+name: Bug report
+description: Something plays wrong, at the wrong rate, or not at all.
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Nativerate version
+      description: About > Version in the menu.
+      placeholder: "0.1.2"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version and Mac
+      placeholder: "macOS 26.1, MacBook Pro M3"
+    validations:
+      required: true
+  - type: input
+    id: dac
+    attributes:
+      label: DAC or audio interface
+      placeholder: "RME Babyface Pro, USB"
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      options:
+        - Exclusive Mode
+        - Switching (Exclusive Mode off)
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected
+      description: Include the track's format if it matters (for example "24-bit/96 kHz, Apple Music stream" or "local ALAC file").
+    validations:
+      required: true
+  - type: textarea
+    id: check
+    attributes:
+      label: Bit-Perfect Check
+      description: Paste what the Bit-Perfect Check menu item reports.
+      render: text
+  - type: markdown
+    attributes:
+      value: |
+        **Logs help most.** Choose **About > Export Logs…** in the menu and attach the zip here.
+        It holds the engine logs, your output devices' formats, and the app's and Music's settings;
+        look it over first if any of that is private.

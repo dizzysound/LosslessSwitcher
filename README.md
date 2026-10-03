@@ -38,6 +38,8 @@ The **Bit-Perfect Check** menu item reports whether your current path is bit-per
 
 Tested on macOS 26 and 27 with a Neumann MT 48, an RME Babyface Pro, an AudioQuest DragonFly and a
 MacBook Pro's speakers.
+Using something else? A [hardware report](https://github.com/dizzysound/Nativerate/issues/new?template=hardware_report.yml)
+takes a minute and helps the next person with the same DAC.
 
 ## Try it
 
