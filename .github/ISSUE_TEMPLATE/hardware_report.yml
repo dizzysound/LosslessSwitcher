@@ -1,0 +1,36 @@
+name: Hardware report
+description: Tell us Nativerate works (or doesn't) with your DAC.
+labels: [hardware]
+body:
+  - type: markdown
+    attributes:
+      value: Reports like this build the list of tested hardware in the README. Short is fine.
+  - type: input
+    id: dac
+    attributes:
+      label: DAC or audio interface
+      placeholder: "Topping E50, USB"
+    validations:
+      required: true
+  - type: input
+    id: setup
+    attributes:
+      label: Nativerate version, macOS version, Mac
+      placeholder: "0.1.2, macOS 26.1, Mac mini M4"
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - Works, Bit-Perfect Check passes
+        - Works with problems (describe below)
+        - Does not work
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Sample rates you tried, Exclusive Mode or Switching, anything odd.
